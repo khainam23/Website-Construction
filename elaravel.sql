@@ -22,6 +22,8 @@ SET time_zone = "+00:00";
 -- Cơ sở dữ liệu: `elaravel`
 --
 
+CREATE DATABASE elaravel;
+
 -- --------------------------------------------------------
 
 --
