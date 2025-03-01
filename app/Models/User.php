@@ -9,7 +9,34 @@ class User extends Authenticatable
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'email', 'password', 'role'];
+    protected $fillable = [
+        'first_name',
+        'last_name',
+        'email',
+        'password',
+        'role',
+        'verification_token',
+        'phone',
+        'address',
+        'date_of_birth',
+        'gender',
+        'avatar',
+        'is_active'
+    ];
+
+    protected $hidden = [
+        'password',
+        'remember_token',
+        'verification_token'
+    ];
+
+    protected $casts = [
+        'email_verified_at' => 'datetime',
+        'password' => 'hashed',
+        'date_of_birth' => 'date',
+        'is_active' => 'boolean',
+        'last_login_at' => 'datetime'
+    ];
 
     public function sales()
     {
@@ -19,5 +46,11 @@ class User extends Authenticatable
     public function rentals()
     {
         return $this->hasMany(Rental::class);
+    }
+
+    // Add accessor for full name
+    public function getFullNameAttribute()
+    {
+        return "{$this->first_name} {$this->last_name}";
     }
 }

@@ -21,6 +21,6 @@ class VerificationEmail extends Mailable
     public function build()
     {
         return $this->view('emails.verification')
-                    ->subject('Please verify your email address');
+                    ->subject('Xác thực email của bạn');
     }
 }

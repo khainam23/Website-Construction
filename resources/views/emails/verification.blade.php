@@ -1,19 +1,13 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Email Verification</title>
+    <title>Xác thực email</title>
 </head>
 <body>
-    <h2>Hello {{ $user->name }},</h2>
-    <p>Please click the button below to verify your email address:</p>
-    
-    <a href="{{ url('api/verify-email/' . $user->verification_token) }}" 
-       style="background-color: #4CAF50; color: white; padding: 14px 20px; text-decoration: none; border-radius: 4px;">
-        Verify Email Address
+    <h2>Xin chào {{ $user->name }}</h2>
+    <p>Vui lòng click vào link bên dưới để xác thực email của bạn:</p>
+    <a href="{{ url('/api/verify-email/' . $user->verification_token) }}">
+        Xác thực email
     </a>
-
-    <p>If you did not create an account, no further action is required.</p>
-
-    <p>Regards,<br>Your Application Team</p>
 </body>
 </html>
