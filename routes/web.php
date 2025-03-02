@@ -10,7 +10,7 @@ use App\Http\Controllers\ReportController;
 
 // Trang chủ
 Route::get('/', function () {
-    return view('welcome');
+    return view('index');
 });
 
 // Group các route cần quyền admin
