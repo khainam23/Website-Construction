@@ -121,20 +121,36 @@
 				<div class="col-sm-4 col-sm-offset-1">
 					<div class="login-form">
 						<h2>Truy cập vào tài khoản của bạn</h2>
-						<form action="{{ url('/api/login') }}" method="POST">
+						<form id="loginForm">
 							@csrf
-							<input type="email" name="email" placeholder="Email Address" required />
-							<input type="password" name="password" placeholder="Password" required />
+							<input type="email" name="email" id="email" placeholder="Email Address" required />
+							<input type="password" name="password" id="password" placeholder="Password" required />
 							<span>
-								<input type="checkbox" name="remember" class="checkbox">
-								Giữ tôi đăng nhập
+								<input type="checkbox" name="remember" id="remember" class="checkbox"> Giữ tôi đăng nhập
 							</span>
 							<button type="submit" class="btn btn-default">Truy cập</button>
 						</form>
 
-						@if(session('error'))
-							<p style="color: red;">{{ session('error') }}</p>
-						@endif
+						<!-- Bootstrap Modal -->
+						<div class="modal fade" id="errorPopup" tabindex="-1" aria-labelledby="errorPopupLabel"
+							aria-hidden="true">
+							<div class="modal-dialog">
+								<div class="modal-content">
+									<div class="modal-header bg-danger text-white">
+										<h5 class="modal-title" id="errorPopupLabel">Lỗi</h5>
+										<button type="button" class="btn-close" data-bs-dismiss="modal"
+											aria-label="Đóng"></button>
+									</div>
+									<div class="modal-body">
+										<p id="errorMessage"></p>
+									</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-secondary"
+											data-bs-dismiss="modal">Đóng</button>
+									</div>
+								</div>
+							</div>
+						</div>
 					</div>
 				</div>
 				<div class="col-sm-1">
@@ -143,7 +159,7 @@
 				<div class="col-sm-4">
 					<div class="signup-form"><!--sign up form-->
 						<h2>Người đăng nhập mới!</h2>
-						<form action="{{ url('/api/register') }}" method="POST">
+						<form id="register-form" action="{{ url('/api/register') }}" method="POST">
 							@csrf
 							<input type="text" name="first_name" placeholder="Tên" required />
 							<input type="text" name="last_name" placeholder="Họ" required />
@@ -155,7 +171,7 @@
 							<input type="text" name="address" placeholder="Địa chỉ" />
 							<input type="date" name="date_of_birth" placeholder="Ngày sinh" />
 
-							<select name="Giới tính">
+							<select name="gender">
 								<option value="male">Đàn ông</option>
 								<option value="female">Phụ nữ</option>
 								<option value="other">Khác</option>
@@ -163,6 +179,27 @@
 
 							<button type="submit" class="btn btn-default" style="margin-top: 15px;">Đăng ký</button>
 						</form>
+
+						<!-- Bootstrap Modal for Error Popup -->
+						<div class="modal fade" id="errorPopup" tabindex="-1" aria-labelledby="errorPopupLabel"
+							aria-hidden="true">
+							<div class="modal-dialog">
+								<div class="modal-content">
+									<div class="modal-header bg-danger text-white">
+										<h5 class="modal-title" id="errorPopupLabel">Lỗi</h5>
+										<button type="button" class="btn-close" data-bs-dismiss="modal"
+											aria-label="Đóng"></button>
+									</div>
+									<div class="modal-body">
+										<p id="errorMessage"></p>
+									</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-secondary"
+											data-bs-dismiss="modal">Đóng</button>
+									</div>
+								</div>
+							</div>
+						</div>
 
 					</div><!--/sign up form-->
 				</div>
@@ -334,14 +371,71 @@
 
 	</footer><!--/Footer-->
 
-
-
 	<script src="js/jquery.js"></script>
 	<script src="js/price-range.js"></script>
 	<script src="js/jquery.scrollUp.min.js"></script>
 	<script src="js/bootstrap.min.js"></script>
 	<script src="js/jquery.prettyPhoto.js"></script>
 	<script src="js/main.js"></script>
+
+	<script>
+		function showErrorPopup(message) {
+			document.getElementById("errorMessage").textContent = message;
+			var errorModal = new bootstrap.Modal(document.getElementById("errorPopup"));
+			errorModal.show();
+		}
+
+		// login
+		document.getElementById("loginForm").addEventListener("submit", function (event) {
+			event.preventDefault(); // Ngăn chặn gửi form theo cách truyền thống
+
+			let formData = new FormData(this);
+
+			fetch("{{ url('/api/login') }}", {
+				method: "POST",
+				body: formData,
+				headers: {
+					"X-CSRF-TOKEN": document.querySelector('input[name="_token"]').value
+				}
+			})
+				.then(response => response.json())
+				.then(data => {
+					if (data.success) {
+						window.location.href = "/"; // Chuyển hướng khi đăng nhập thành công
+					} else {
+						showErrorPopup(data.message);
+					}
+				})
+				.catch(error => showErrorPopup("Đã xảy ra lỗi, vui lòng thử lại!"));
+		});
+
+		// register
+		document.getElementById("register-form").addEventListener("submit", function (event) {
+			event.preventDefault(); // Ngăn form submit mặc định
+
+			let formData = new FormData(this);
+
+			fetch(this.action, {
+				method: "POST",
+				body: formData,
+				headers: {
+					"X-Requested-With": "XMLHttpRequest"
+				}
+			})
+				.then(response => response.json())
+				.then(data => {
+					if (data.errors) { // Kiểm tra nếu có lỗi
+						let errorMessages = Object.values(data.errors).map(err => err.join("<br>")).join("<br>");
+						showErrorPopup(errorMessages);
+					} else {
+						alert("Đăng ký thành công!");
+						window.location.href = "/login"; // Điều hướng nếu cần
+					}
+				})
+				.catch(error => showErrorPopup("Đã xảy ra lỗi, vui lòng thử lại!"));
+		});
+	</script>
+
 </body>
 
 </html>

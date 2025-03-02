@@ -11,6 +11,7 @@ use Illuminate\Support\Str;
 use App\Mail\VerificationEmail;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Password;
+use Illuminate\Support\Facades\Validator;
 
 /**
  * @OA\Info(
@@ -47,7 +48,8 @@ class AuthController extends Controller
      *             @OA\Property(property="phone", type="string", example="+84123456789"),
      *             @OA\Property(property="address", type="string", example="123 Street, City"),
      *             @OA\Property(property="date_of_birth", type="string", format="date", example="2000-01-01"),
-     *             @OA\Property(property="gender", type="string", enum={"male","female","other"}, example="male")
+     *             @OA\Property(property="gender", type="string", enum={"male","female","other"}, example="male"),
+     *             @OA\Property(property="avatar", type="string", format="binary")
      *         )
      *     ),
      *     @OA\Response(
@@ -58,14 +60,28 @@ class AuthController extends Controller
      *             @OA\Property(property="user", type="object")
      *         )
      *     ),
-     *     @OA\Response(response=400, description="Validation error"),
-     *     @OA\Response(response=500, description="Internal server error")
+     *     @OA\Response(
+     *         response=422,
+     *         description="Validation error",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Thông tin không hợp lệ."),
+     *             @OA\Property(property="errors", type="object", example={"email": {"The email field is required."}})
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Internal server error",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Có lỗi xảy ra khi đăng ký. Vui lòng thử lại sau!"),
+     *             @OA\Property(property="error", type="string", example="Database connection failed.")
+     *         )
+     *     )
      * )
      */
     public function register(Request $request)
     {
         try {
-            $request->validate([
+            $validator = Validator::make($request->all(), [
                 'first_name' => 'required|string|max:255',
                 'last_name' => 'required|string|max:255',
                 'email' => 'required|string|email|max:255|unique:users',
@@ -76,6 +92,13 @@ class AuthController extends Controller
                 'gender' => 'nullable|in:male,female,other',
                 'avatar' => 'nullable|image|mimes:jpeg,png,jpg|max:2048'
             ]);
+
+            if ($validator->fails()) {
+                return response()->json([
+                    'message' => 'Thông tin không hợp lệ.',
+                    'errors' => $validator->errors()
+                ], 422);
+            }
 
             $userData = [
                 'first_name' => trim($request->first_name),
@@ -105,20 +128,20 @@ class AuthController extends Controller
             } catch (\Exception $e) {
                 \Log::error('Email sending failed: ' . $e->getMessage());
                 return response()->json([
-                    'message' => 'Registration successful but verification email could not be sent.',
+                    'message' => 'Đăng ký thành công nhưng không thể gửi email xác nhận.',
                     'user' => $user,
                     'error' => 'Email sending failed'
                 ], 201);
             }
 
             return response()->json([
-                'message' => 'Registration successful! Please check your email for verification.',
+                'message' => 'Đăng ký thành công! Vui lòng kiểm tra email để xác nhận.',
                 'user' => $user
             ], 201);
         } catch (\Exception $e) {
             \Log::error('Registration failed: ' . $e->getMessage());
             return response()->json([
-                'message' => 'Registration failed',
+                'message' => 'Có lỗi xảy ra khi đăng ký. Vui lòng thử lại sau!',
                 'error' => $e->getMessage()
             ], 500);
         }
@@ -199,16 +222,23 @@ class AuthController extends Controller
      */
     public function login(Request $request)
     {
-        $request->validate([
-            'email' => 'required|email',
-            'password' => 'required|min:6'
-        ]);
+        $credentials = $request->only('email', 'password');
+        $remember = $request->has('remember');
 
-        if (Auth::attempt($request->only('email', 'password'), $request->has('remember'))) {
-            return redirect()->route('index'); // Điều hướng về trang home
+        if (Auth::attempt($credentials, $remember)) {
+            $request->session()->regenerate(); // Lưu session nếu đăng nhập thành công
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Đăng nhập thành công!',
+                'redirect' => url('/dashboard')
+            ]);
         }
 
-        return back()->with('error', 'Email hoặc mật khẩu không đúng.');
+        return response()->json([
+            'success' => false,
+            'message' => 'Sai email hoặc mật khẩu!'
+        ], 401);
     }
 
     /**
