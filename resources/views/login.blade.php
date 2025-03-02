@@ -3,6 +3,7 @@
 
 <head>
 	<meta charset="utf-8">
+	<meta name="csrf-token" content="{{ csrf_token() }}">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta name="description" content="">
 	<meta name="author" content="">
@@ -121,7 +122,7 @@
 				<div class="col-sm-4 col-sm-offset-1">
 					<div class="login-form">
 						<h2>Truy cập vào tài khoản của bạn</h2>
-						<form id="loginForm">
+						<form id="loginForm" action="{{ url('/api/login') }}" method="POST">
 							@csrf
 							<input type="email" name="email" id="email" placeholder="Email Address" required />
 							<input type="password" name="password" id="password" placeholder="Password" required />
@@ -130,27 +131,6 @@
 							</span>
 							<button type="submit" class="btn btn-default">Truy cập</button>
 						</form>
-
-						<!-- Bootstrap Modal -->
-						<div class="modal fade" id="errorPopup" tabindex="-1" aria-labelledby="errorPopupLabel"
-							aria-hidden="true">
-							<div class="modal-dialog">
-								<div class="modal-content">
-									<div class="modal-header bg-danger text-white">
-										<h5 class="modal-title" id="errorPopupLabel">Lỗi</h5>
-										<button type="button" class="btn-close" data-bs-dismiss="modal"
-											aria-label="Đóng"></button>
-									</div>
-									<div class="modal-body">
-										<p id="errorMessage"></p>
-									</div>
-									<div class="modal-footer">
-										<button type="button" class="btn btn-secondary"
-											data-bs-dismiss="modal">Đóng</button>
-									</div>
-								</div>
-							</div>
-						</div>
 					</div>
 				</div>
 				<div class="col-sm-1">
@@ -179,27 +159,6 @@
 
 							<button type="submit" class="btn btn-default" style="margin-top: 15px;">Đăng ký</button>
 						</form>
-
-						<!-- Bootstrap Modal for Error Popup -->
-						<div class="modal fade" id="errorPopup" tabindex="-1" aria-labelledby="errorPopupLabel"
-							aria-hidden="true">
-							<div class="modal-dialog">
-								<div class="modal-content">
-									<div class="modal-header bg-danger text-white">
-										<h5 class="modal-title" id="errorPopupLabel">Lỗi</h5>
-										<button type="button" class="btn-close" data-bs-dismiss="modal"
-											aria-label="Đóng"></button>
-									</div>
-									<div class="modal-body">
-										<p id="errorMessage"></p>
-									</div>
-									<div class="modal-footer">
-										<button type="button" class="btn btn-secondary"
-											data-bs-dismiss="modal">Đóng</button>
-									</div>
-								</div>
-							</div>
-						</div>
 
 					</div><!--/sign up form-->
 				</div>
@@ -379,60 +338,70 @@
 	<script src="js/main.js"></script>
 
 	<script>
-		function showErrorPopup(message) {
-			document.getElementById("errorMessage").textContent = message;
-			var errorModal = new bootstrap.Modal(document.getElementById("errorPopup"));
-			errorModal.show();
-		}
+		// Đăng nhập bằng jQuery AJAX
+		$(document).ready(function () {
+			$("#loginForm").submit(function (event) {
+				event.preventDefault(); // Ngăn chặn form gửi đi theo cách mặc định
 
-		// login
-		document.getElementById("loginForm").addEventListener("submit", function (event) {
-			event.preventDefault(); // Ngăn chặn gửi form theo cách truyền thống
+				var formData = {
+					email: $("#email").val(),
+					password: $("#password").val(),
+					remember: $("#remember").is(":checked") ? 1 : 0,
+					_token: $('meta[name="csrf-token"]').attr("content") // Lấy CSRF token từ meta
+				};
 
-			let formData = new FormData(this);
-
-			fetch("{{ url('/api/login') }}", {
-				method: "POST",
-				body: formData,
-				headers: {
-					"X-CSRF-TOKEN": document.querySelector('input[name="_token"]').value
-				}
-			})
-				.then(response => response.json())
-				.then(data => {
-					if (data.success) {
-						window.location.href = "/"; // Chuyển hướng khi đăng nhập thành công
-					} else {
-						showErrorPopup(data.message);
+				$.ajax({
+					url: "{{ url('/api/login') }}",
+					type: "POST",
+					data: formData,
+					dataType: "json",
+					xhrFields: {
+						withCredentials: true // Bắt buộc để cookie session hoạt động
+					},
+					success: function (response) {
+						if (response.success) {
+							alert("Đăng nhập thành công!");
+							setTimeout(function () {
+								window.location.href = "{{ url('/') }}";
+							}, 500); // Delay 0.5 giây để đảm bảo session được lưu
+						} else {
+							alert("Đăng nhập thất bại!");
+						}
+					},
+					error: function (xhr) {
+						alert("Đăng nhập thất bại!");
 					}
-				})
-				.catch(error => showErrorPopup("Đã xảy ra lỗi, vui lòng thử lại!"));
+				});
+			});
 		});
 
-		// register
-		document.getElementById("register-form").addEventListener("submit", function (event) {
-			event.preventDefault(); // Ngăn form submit mặc định
 
-			let formData = new FormData(this);
+		// Đăng ký bằng jQuery AJAX
+		$("#register-form").on("submit", function (event) {
+			event.preventDefault();
 
-			fetch(this.action, {
+			$.ajax({
+				url: this.action,
 				method: "POST",
-				body: formData,
+				data: new FormData(this),
+				contentType: false,
+				processData: false,
 				headers: {
 					"X-Requested-With": "XMLHttpRequest"
-				}
-			})
-				.then(response => response.json())
-				.then(data => {
-					if (data.errors) { // Kiểm tra nếu có lỗi
-						let errorMessages = Object.values(data.errors).map(err => err.join("<br>")).join("<br>");
+				},
+				success: function (response) {
+					if (response.errors) {
+						let errorMessages = Object.values(response.errors).map(err => err.join("<br>")).join("<br>");
 						showErrorPopup(errorMessages);
 					} else {
 						alert("Đăng ký thành công!");
-						window.location.href = "/login"; // Điều hướng nếu cần
+						window.location.href = "/login";
 					}
-				})
-				.catch(error => showErrorPopup("Đã xảy ra lỗi, vui lòng thử lại!"));
+				},
+				error: function () {
+					showErrorPopup("Đã xảy ra lỗi, vui lòng thử lại!");
+				}
+			});
 		});
 	</script>
 

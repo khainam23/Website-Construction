@@ -226,12 +226,24 @@ class AuthController extends Controller
         $remember = $request->has('remember');
 
         if (Auth::attempt($credentials, $remember)) {
-            $request->session()->regenerate(); // Lưu session nếu đăng nhập thành công
+            // Lưu session nếu đăng nhập thành công
+            // Lấy user từ Auth
+            $user = Auth::user();
+
+            $user = User::where('email', $credentials['email'])->first();
+
+            // Lưu session với thông tin cần thiết
+            session()->put('user', [
+                'id' => $user->id,
+                'email' => $user->email
+            ]);
+            session()->save();
+            session()->regenerate();
 
             return response()->json([
                 'success' => true,
                 'message' => 'Đăng nhập thành công!',
-                'redirect' => url('/dashboard')
+                'redirect' => url('/')
             ]);
         }
 
@@ -262,7 +274,9 @@ class AuthController extends Controller
     public function logout()
     {
         Auth::logout();
-        return response()->json(['message' => 'Bạn đã đăng xuất.'], 200);
+        session()->forget('user');
+        session()->flush();
+        return redirect('/');
     }
 
     /**

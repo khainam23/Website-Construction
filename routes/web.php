@@ -7,6 +7,7 @@ use App\Http\Controllers\RentalController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\InventoryController;
 use App\Http\Controllers\ReportController;
+use App\Http\Controllers\API\AuthController;
 
 // Liên kết các trang 
 Route::view('/', 'index')->name('index');
@@ -20,6 +21,10 @@ Route::view('/product-details', 'product-details')->name('product-details');
 Route::view('/shop', 'shop')->name('shop');
 Route::view('/wishlist', 'wishlist')->name('wishlist');
 Route::view('/404', '404')->name('404');
+
+// Login
+Route::post('/api/login', [AuthController::class, 'login'])->name('api.login');
+Route::get("/api/logout", [AuthController::class, 'logout'])->name('api.logout');
 
 // Group các route cần quyền admin
 Route::middleware(['role:admin'])->group(function () {

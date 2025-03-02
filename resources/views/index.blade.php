@@ -6,7 +6,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta name="description" content="">
 	<meta name="author" content="">
-	<title>Nhà  | INGOUDINGOUDE-Shopper</title>
+	<title>Nhà | INGOUDINGOUDE-Shopper</title>
 	<link href="css/bootstrap.min.css" rel="stylesheet">
 	<link href="css/font-awesome.min.css" rel="stylesheet">
 	<link href="css/prettyPhoto.css" rel="stylesheet">
@@ -58,17 +58,24 @@
 				<div class="row">
 					<div class="col-sm-4">
 						<div class="logo pull-left">
-							<a href="/"><img src="images/home/logo.png" style="height: 80px; width: 80px;"
-									alt="" /></a>
+							<a href="/"><img src="images/home/logo.png" style="height: 80px; width: 80px;" alt="" /></a>
 						</div>
 					</div>
 					<div class="col-sm-8">
 						<div class="shop-menu pull-right">
 							<ul class="nav navbar-nav">
-								<li><a href="#"><i class="fa fa-user"></i>Account</a></li>
 								<li><a href="checkout"><i class="fa fa-crosshairs"></i> Hóa đơn</a></li>
 								<li><a href="cart"><i class="fa fa-shopping-cart"></i> Giỏ hàng</a></li>
-								<li><a href="login"><i class="fa fa-lock"></i> Truy cập</a></li>
+
+								@if(session()->has('user'))
+									@php $user = session('user'); @endphp
+									<li><a href="#"><i class="fa fa-user"></i>
+											{{ optional($user)['email'] ?? 'Người dùng' }}</a></li>
+									<li><a href="/api/logout"><i class="fa fa-sign-out"></i> Đăng xuất</a></li>
+								@else
+									<li><a href="login"><i class="fa fa-lock"></i> Truy cập</a></li>
+								@endif
+
 							</ul>
 						</div>
 					</div>
@@ -100,7 +107,7 @@
 										<li><a href="login">Truy cập</a></li>
 									</ul>
 								</li>
-								
+
 								<li><a href="contact-us">Liên hệ</a></li>
 							</ul>
 						</div>
@@ -905,7 +912,8 @@
 					<div class="col-sm-2">
 						<div class="companyinfo">
 							<h2><span>INGOUDE</span>-shopper</h2>
-							<p>INGOUDINGOUDE-Shopper là nền tảng cung cấp máy móc, thiết bị công trình chất lượng cao, giúp
+							<p>INGOUDINGOUDE-Shopper là nền tảng cung cấp máy móc, thiết bị công trình chất lượng cao,
+								giúp
 								khách hàng dễ dàng tìm kiếm và lựa chọn sản phẩm phù hợp. Với đa dạng thương hiệu uy
 								tín, dịch vụ tư vấn chuyên sâu và chính sách bảo hành minh bạch, chúng tôi cam kết mang
 								đến trải nghiệm mua sắm tối ưu cho doanh nghiệp và cá nhân trong ngành xây dựng.</p>
@@ -1053,8 +1061,7 @@
 			<div class="container">
 				<div class="row">
 					<p class="pull-left">Copyright © 2025 INGOUDINGOUDE-Shopper Inc. All rights reserved.</p>
-					<p class="pull-right">Designed by <span><a target="_blank"
-								href="#">PND</a></span></p>
+					<p class="pull-right">Designed by <span><a target="_blank" href="#">PND</a></span></p>
 				</div>
 			</div>
 		</div>

@@ -12,7 +12,6 @@ use App\Http\Controllers\InvoiceController;
 
 // Auth Routes
 Route::post('register', [AuthController::class, 'register'])->name('api.register');
-Route::post('login', [AuthController::class, 'login'])->name('api.login');
 Route::post('forgot-password', [AuthController::class, 'forget'])->name('api.forgot-password');
 Route::get('verify-email/{token}', [AuthController::class, 'verifyEmail'])->name('api.verify-email');
 

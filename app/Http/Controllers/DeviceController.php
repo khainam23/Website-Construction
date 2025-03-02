@@ -149,7 +149,7 @@ class DeviceController extends Controller
      */
     public function update(Request $request, Device $device)
     {
-        $this->authorize('update', $device);
+        $this-> authorize('update', $device);
 
         $validated = $request->validate([
             'name' => 'required|string|max:255',
