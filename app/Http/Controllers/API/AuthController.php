@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use App\Mail\VerificationEmail;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Password;
 
 /**
  * @OA\Info(
@@ -210,9 +211,67 @@ class AuthController extends Controller
         return back()->with('error', 'Email hoặc mật khẩu không đúng.');
     }
 
+    /**
+     * @OA\Post(
+     *     path="/api/logout",
+     *     summary="Đăng xuất người dùng",
+     *     description="Đăng xuất người dùng hiện tại và xóa session.",
+     *     operationId="logout",
+     *     tags={"Authentication"},
+     *     security={{ "bearerAuth":{} }},
+     *     @OA\Response(
+     *         response=200,
+     *         description="Đăng xuất thành công",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Bạn đã đăng xuất.")
+     *         )
+     *     ),
+     *     @OA\Response(response=401, description="Chưa xác thực")
+     * )
+     */
     public function logout()
     {
         Auth::logout();
-        return redirect()->route('home')->with('message', 'Bạn đã đăng xuất.');
+        return response()->json(['message' => 'Bạn đã đăng xuất.'], 200);
+    }
+
+    /**
+     * @OA\Post(
+     *     path="/api/forgot-password",
+     *     summary="Yêu cầu quên mật khẩu",
+     *     description="Gửi email chứa link đặt lại mật khẩu nếu email tồn tại.",
+     *     operationId="forgotPassword",
+     *     tags={"Authentication"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"email"},
+     *             @OA\Property(property="email", type="string", format="email", example="user@example.com")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Link đặt lại mật khẩu đã được gửi",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Vui lòng kiểm tra email để đặt lại mật khẩu!")
+     *         )
+     *     ),
+     *     @OA\Response(response=400, description="Email không tồn tại hoặc không hợp lệ"),
+     *     @OA\Response(response=500, description="Lỗi hệ thống")
+     * )
+     */
+    public function forget(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email|exists:users,email'
+        ]);
+
+        $status = Password::sendResetLink($request->only('email'));
+
+        if ($status === Password::RESET_LINK_SENT) {
+            return response()->json(['message' => 'Vui lòng kiểm tra email để đặt lại mật khẩu!'], 200);
+        }
+
+        return response()->json(['error' => 'Không thể gửi email!'], 500);
     }
 }

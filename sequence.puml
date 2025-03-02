@@ -1,0 +1,13 @@
+@startuml
+participant User
+participant Controller
+participant Model
+participant Database
+
+User -> Controller : Gửi request
+Controller -> Model : Gọi phương thức model
+Model -> Database : Truy vấn dữ liệu
+Database -> Model : Trả kết quả
+Model -> Controller : Trả dữ liệu
+Controller -> User : Trả response
+@enduml

@@ -142,13 +142,28 @@
 				</div>
 				<div class="col-sm-4">
 					<div class="signup-form"><!--sign up form-->
-						<h2>New User Signup!</h2>
-						<form action="#">
-							<input type="text" placeholder="Name" />
-							<input type="email" placeholder="Email Address" />
-							<input type="password" placeholder="Password" />
-							<button type="submit" class="btn btn-default">Signup</button>
+						<h2>Người đăng nhập mới!</h2>
+						<form action="{{ url('/api/register') }}" method="POST">
+							@csrf
+							<input type="text" name="first_name" placeholder="Tên" required />
+							<input type="text" name="last_name" placeholder="Họ" required />
+							<input type="email" name="email" placeholder="Email" required />
+							<input type="password" name="password" placeholder="Mật khẩu" required />
+							<input type="password" name="password_confirmation" placeholder="Nhập lại mật khẩu"
+								required />
+							<input type="text" name="phone" placeholder="Số điện thoại" />
+							<input type="text" name="address" placeholder="Địa chỉ" />
+							<input type="date" name="date_of_birth" placeholder="Ngày sinh" />
+
+							<select name="Giới tính">
+								<option value="male">Đàn ông</option>
+								<option value="female">Phụ nữ</option>
+								<option value="other">Khác</option>
+							</select>
+
+							<button type="submit" class="btn btn-default" style="margin-top: 15px;">Đăng ký</button>
 						</form>
+
 					</div><!--/sign up form-->
 				</div>
 			</div>
