@@ -58,7 +58,7 @@
 				<div class="row">
 					<div class="col-sm-4">
 						<div class="logo pull-left">
-							<a href="index.html"><img src="images/home/logo.png" style="height: 80px; width: 80px;"
+							<a href="/"><img src="images/home/logo.png" style="height: 80px; width: 80px;"
 									alt="" /></a>
 						</div>
 					</div>
@@ -66,9 +66,9 @@
 						<div class="shop-menu pull-right">
 							<ul class="nav navbar-nav">
 								<li><a href="#"><i class="fa fa-user"></i>Account</a></li>
-								<li><a href="checkout.html"><i class="fa fa-crosshairs"></i> Hóa đơn</a></li>
-								<li><a href="cart.html"><i class="fa fa-shopping-cart"></i> Giỏ hàng</a></li>
-								<li><a href="login.html"><i class="fa fa-lock"></i> Truy cập</a></li>
+								<li><a href="checkout"><i class="fa fa-crosshairs"></i> Hóa đơn</a></li>
+								<li><a href="cart"><i class="fa fa-shopping-cart"></i> Giỏ hàng</a></li>
+								<li><a href="login"><i class="fa fa-lock"></i> Truy cập</a></li>
 							</ul>
 						</div>
 					</div>
@@ -91,18 +91,17 @@
 						</div>
 						<div class="mainmenu pull-left">
 							<ul class="nav navbar-nav collapse navbar-collapse">
-								<li><a href="index.html" class="active">Nhà </a></li>
+								<li><a href="/" class="active">Nhà </a></li>
 								<li class="dropdown"><a href="#">Cửa hàng<i class="fa fa-angle-down"></i></a>
 									<ul role="menu" class="sub-menu">
-										<li><a href="shop.html">Products</a></li>
-										
-										<li><a href="checkout.html">Hóa đơn</a></li>
-										<li><a href="cart.html">Giỏ hàng</a></li>
-										<li><a href="login.html">Truy cập</a></li>
+										<li><a href="shop">Products</a></li>
+										<li><a href="checkout">Hóa đơn</a></li>
+										<li><a href="cart">Giỏ hàng</a></li>
+										<li><a href="login">Truy cập</a></li>
 									</ul>
 								</li>
 								
-								<li><a href="contact-us.html">Liên hệ</a></li>
+								<li><a href="contact-us">Liên hệ</a></li>
 							</ul>
 						</div>
 					</div>

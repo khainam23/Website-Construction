@@ -8,10 +8,18 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\InventoryController;
 use App\Http\Controllers\ReportController;
 
-// Trang chủ
-Route::get('/', function () {
-    return view('index');
-});
+// Liên kết các trang 
+Route::view('/', 'index')->name('index');
+Route::view('/login', 'login')->name('login');
+Route::view('/about', 'about')->name('about');
+Route::view('/contact', 'contact')->name('contact');
+Route::view('/checkout', 'checkout')->name('checkout');
+Route::view('/cart', 'cart')->name('cart');
+Route::view('/product', 'product')->name('product');
+Route::view('/product-details', 'product-details')->name('product-details');
+Route::view('/shop', 'shop')->name('shop');
+Route::view('/wishlist', 'wishlist')->name('wishlist');
+Route::view('/404', '404')->name('404');
 
 // Group các route cần quyền admin
 Route::middleware(['role:admin'])->group(function () {
