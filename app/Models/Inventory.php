@@ -8,10 +8,15 @@ class Inventory extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['location', 'total_devices'];
+    protected $fillable = [
+        'device_id', 
+        'quantity', 
+        'status',
+        'location'
+    ];
 
-    public function devices()
+    public function device()
     {
-        return $this->hasMany(Device::class);
+        return $this->belongsTo(Device::class);
     }
 }

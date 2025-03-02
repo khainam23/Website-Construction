@@ -1,24 +1,19 @@
 <?php
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Rental extends Model
+class OrderItem extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'user_id',
-        'device_id',
-        'rental_date',
-        'return_date',
-        'rental_fee'
-    ];
+    protected $fillable = ['order_id', 'device_id', 'quantity', 'unit_price', 'subtotal'];
 
-    public function user()
+    public function order()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(Order::class);
     }
 
     public function device()
