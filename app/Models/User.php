@@ -21,7 +21,9 @@ class User extends Authenticatable
         'date_of_birth',
         'gender',
         'avatar',
-        'is_active'
+        'is_active',
+        'status',
+        'last_login_at'
     ];
 
     protected $hidden = [
