@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use App\Mail\VerificationEmail;
+use Illuminate\Support\Facades\Auth;
 
 /**
  * @OA\Info(
@@ -159,5 +160,59 @@ class AuthController extends Controller
         $user->save();
 
         return response()->json(['message' => 'Email verified successfully']);
+    }
+
+    /**
+     * @OA\Post(
+     *     path="/api/login",
+     *     summary="Đăng nhập người dùng",
+     *     tags={"Authentication"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"email", "password"},
+     *             @OA\Property(property="email", type="string", format="email", example="user@example.com"),
+     *             @OA\Property(property="password", type="string", format="password", example="password123")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Đăng nhập thành công",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Đăng nhập thành công"),
+     *             @OA\Property(property="user", type="object",
+     *                 @OA\Property(property="id", type="integer", example=1),
+     *                 @OA\Property(property="name", type="string", example="John Doe"),
+     *                 @OA\Property(property="email", type="string", example="user@example.com")
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Thông tin đăng nhập không chính xác",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="error", type="string", example="Thông tin đăng nhập không chính xác")
+     *         )
+     *     )
+     * )
+     */
+    public function login(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required|min:6'
+        ]);
+
+        if (Auth::attempt($request->only('email', 'password'), $request->has('remember'))) {
+            return redirect()->route('index'); // Điều hướng về trang home
+        }
+
+        return back()->with('error', 'Email hoặc mật khẩu không đúng.');
+    }
+
+    public function logout()
+    {
+        Auth::logout();
+        return redirect()->route('home')->with('message', 'Bạn đã đăng xuất.');
     }
 }

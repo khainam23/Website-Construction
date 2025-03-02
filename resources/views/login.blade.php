@@ -1,27 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <title>Truy cập | INGOUDE-Shopper</title>
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link href="css/font-awesome.min.css" rel="stylesheet">
-    <link href="css/prettyPhoto.css" rel="stylesheet">
-    <link href="css/price-range.css" rel="stylesheet">
-    <link href="css/animate.css" rel="stylesheet">
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<title>Truy cập | INGOUDE-Shopper</title>
+	<link href="css/bootstrap.min.css" rel="stylesheet">
+	<link href="css/font-awesome.min.css" rel="stylesheet">
+	<link href="css/prettyPhoto.css" rel="stylesheet">
+	<link href="css/price-range.css" rel="stylesheet">
+	<link href="css/animate.css" rel="stylesheet">
 	<link href="css/main.css" rel="stylesheet">
 	<link href="css/responsive.css" rel="stylesheet">
-    <!--[if lt IE 9]>
+	<!--[if lt IE 9]>
     <script src="js/html5shiv.js"></script>
     <script src="js/respond.min.js"></script>
-    <![endif]-->       
-    <link rel="shortcut icon" href="images/ico/favicon.ico">
-    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="images/ico/apple-touch-icon-144-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="images/ico/apple-touch-icon-114-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="images/ico/apple-touch-icon-72-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" href="images/ico/apple-touch-icon-57-precomposed.png">
+    <![endif]-->
+	<link rel="shortcut icon" href="images/ico/favicon.ico">
+	<link rel="apple-touch-icon-precomposed" sizes="144x144" href="images/ico/apple-touch-icon-144-precomposed.png">
+	<link rel="apple-touch-icon-precomposed" sizes="114x114" href="images/ico/apple-touch-icon-114-precomposed.png">
+	<link rel="apple-touch-icon-precomposed" sizes="72x72" href="images/ico/apple-touch-icon-72-precomposed.png">
+	<link rel="apple-touch-icon-precomposed" href="images/ico/apple-touch-icon-57-precomposed.png">
 </head><!--/head-->
 
 <body>
@@ -57,8 +58,7 @@
 				<div class="row">
 					<div class="col-sm-4">
 						<div class="logo pull-left">
-							<a href="/"><img src="images/home/logo.png" style="height: 80px; width: 80px;"
-									alt="" /></a>
+							<a href="/"><img src="images/home/logo.png" style="height: 80px; width: 80px;" alt="" /></a>
 						</div>
 					</div>
 					<div class="col-sm-8">
@@ -94,13 +94,13 @@
 								<li class="dropdown"><a href="#">Cửa hàng<i class="fa fa-angle-down"></i></a>
 									<ul role="menu" class="sub-menu">
 										<li><a href="shop">Products</a></li>
-										
+
 										<li><a href="checkout">Hóa đơn</a></li>
 										<li><a href="cart">Giỏ hàng</a></li>
 										<li><a href="login">Truy cập</a></li>
 									</ul>
 								</li>
-								
+
 								<li><a href="contact-us">Liên hệ</a></li>
 							</ul>
 						</div>
@@ -114,23 +114,28 @@
 			</div>
 		</div><!--/header-bottom-->
 	</header><!--/header-->
-	
+
 	<section id="form"><!--form-->
 		<div class="container">
 			<div class="row">
 				<div class="col-sm-4 col-sm-offset-1">
-					<div class="login-form"><!--login form-->
-						<h2>Truy cập to your account</h2>
-						<form action="#">
-							<input type="text" placeholder="Name" />
-							<input type="email" placeholder="Email Address" />
+					<div class="login-form">
+						<h2>Truy cập vào tài khoản của bạn</h2>
+						<form action="{{ url('/api/login') }}" method="POST">
+							@csrf
+							<input type="email" name="email" placeholder="Email Address" required />
+							<input type="password" name="password" placeholder="Password" required />
 							<span>
-								<input type="checkbox" class="checkbox"> 
-								Keep me signed in
+								<input type="checkbox" name="remember" class="checkbox">
+								Giữ tôi đăng nhập
 							</span>
 							<button type="submit" class="btn btn-default">Truy cập</button>
 						</form>
-					</div><!--/login form-->
+
+						@if(session('error'))
+							<p style="color: red;">{{ session('error') }}</p>
+						@endif
+					</div>
 				</div>
 				<div class="col-sm-1">
 					<h2 class="or">OR</h2>
@@ -139,9 +144,9 @@
 					<div class="signup-form"><!--sign up form-->
 						<h2>New User Signup!</h2>
 						<form action="#">
-							<input type="text" placeholder="Name"/>
-							<input type="email" placeholder="Email Address"/>
-							<input type="password" placeholder="Password"/>
+							<input type="text" placeholder="Name" />
+							<input type="email" placeholder="Email Address" />
+							<input type="password" placeholder="Password" />
 							<button type="submit" class="btn btn-default">Signup</button>
 						</form>
 					</div><!--/sign up form-->
@@ -149,8 +154,8 @@
 			</div>
 		</div>
 	</section><!--/form-->
-	
-	
+
+
 	<footer id="footer"><!--Footer-->
 		<div class="footer-top">
 			<div class="container">
@@ -158,7 +163,8 @@
 					<div class="col-sm-2">
 						<div class="companyinfo">
 							<h2><span>INGOUDE</span>-shopper</h2>
-							<p>INGOUDINGOUDE-Shopper là nền tảng cung cấp máy móc, thiết bị công trình chất lượng cao, giúp
+							<p>INGOUDINGOUDE-Shopper là nền tảng cung cấp máy móc, thiết bị công trình chất lượng cao,
+								giúp
 								khách hàng dễ dàng tìm kiếm và lựa chọn sản phẩm phù hợp. Với đa dạng thương hiệu uy
 								tín, dịch vụ tư vấn chuyên sâu và chính sách bảo hành minh bạch, chúng tôi cam kết mang
 								đến trải nghiệm mua sắm tối ưu cho doanh nghiệp và cá nhân trong ngành xây dựng.</p>
@@ -306,21 +312,21 @@
 			<div class="container">
 				<div class="row">
 					<p class="pull-left">Copyright © 2025 INGOUDINGOUDE-Shopper Inc. All rights reserved.</p>
-					<p class="pull-right">Designed by <span><a target="_blank"
-								href="#">PND</a></span></p>
+					<p class="pull-right">Designed by <span><a target="_blank" href="#">PND</a></span></p>
 				</div>
 			</div>
 		</div>
 
 	</footer><!--/Footer-->
-	
 
-  
-    <script src="js/jquery.js"></script>
+
+
+	<script src="js/jquery.js"></script>
 	<script src="js/price-range.js"></script>
-    <script src="js/jquery.scrollUp.min.js"></script>
+	<script src="js/jquery.scrollUp.min.js"></script>
 	<script src="js/bootstrap.min.js"></script>
-    <script src="js/jquery.prettyPhoto.js"></script>
-    <script src="js/main.js"></script>
+	<script src="js/jquery.prettyPhoto.js"></script>
+	<script src="js/main.js"></script>
 </body>
+
 </html>

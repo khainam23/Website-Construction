@@ -10,9 +10,9 @@ use App\Http\Controllers\ReportController;
 use App\Http\Controllers\SaleController;
 
 // Auth Routes
-Route::post('register', [AuthController::class, 'register']);
-Route::post('login', [AuthController::class, 'login']);
-Route::get('verify-email/{token}', [AuthController::class, 'verifyEmail']);
+Route::post('register', [AuthController::class, 'register'])->name('api.register');
+Route::post('login', [AuthController::class, 'login'])->name('api.login');
+Route::get('verify-email/{token}', [AuthController::class, 'verifyEmail'])->name('api.verify-email');
 
 // Protected Routes
 Route::middleware('auth:sanctum')->group(function () {
