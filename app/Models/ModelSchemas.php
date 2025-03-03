@@ -107,6 +107,49 @@ namespace App\Models;
  *     @OA\Property(property="created_at", type="string", format="datetime"),
  *     @OA\Property(property="updated_at", type="string", format="datetime")
  * )
+ *
+ * @OA\Schema(
+ *     schema="Category",
+ *     required={"name", "slug"},
+ *     @OA\Property(property="id", type="integer", format="int64"),
+ *     @OA\Property(property="name", type="string"),
+ *     @OA\Property(property="slug", type="string"),
+ *     @OA\Property(property="description", type="string", nullable=true),
+ *     @OA\Property(property="image", type="string", nullable=true),
+ *     @OA\Property(property="is_active", type="boolean", default=true),
+ *     @OA\Property(property="parent_id", type="integer", nullable=true),
+ *     @OA\Property(property="order", type="integer", default=0),
+ *     @OA\Property(
+ *         property="children",
+ *         type="array",
+ *         @OA\Items(ref="#/components/schemas/Category")
+ *     ),
+ *     @OA\Property(
+ *         property="devices",
+ *         type="array",
+ *         @OA\Items(ref="#/components/schemas/Device")
+ *     ),
+ *     @OA\Property(property="created_at", type="string", format="datetime"),
+ *     @OA\Property(property="updated_at", type="string", format="datetime")
+ * )
+ *
+ * @OA\Schema(
+ *     schema="Device",
+ *     required={"name", "category_id", "price", "stock"},
+ *     @OA\Property(property="id", type="integer", format="int64"),
+ *     @OA\Property(property="name", type="string"),
+ *     @OA\Property(property="category_id", type="integer"),
+ *     @OA\Property(
+ *         property="category",
+ *         ref="#/components/schemas/Category"
+ *     ),
+ *     @OA\Property(property="description", type="string", nullable=true),
+ *     @OA\Property(property="price", type="number", format="float"),
+ *     @OA\Property(property="stock", type="integer"),
+ *     @OA\Property(property="image", type="string", nullable=true, description="Path to device image"),
+ *     @OA\Property(property="created_at", type="string", format="datetime"),
+ *     @OA\Property(property="updated_at", type="string", format="datetime")
+ * )
  */
 class ModelSchemas
 {

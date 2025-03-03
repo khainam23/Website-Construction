@@ -1,5 +1,4 @@
-﻿
-/*************************
+﻿/*************************
 *******Typography******
 **************************/
 @import url(http://fonts.googleapis.com/css?family=Roboto:400,300,400italic,500,700,100);
@@ -268,6 +267,32 @@ a#scrollUp i{
   background-position: 130px;
 }
 
+.search_box {
+    display: flex;
+    align-items: center;
+    margin: 10px 0;
+}
+
+.search_box input[type="text"] {
+    width: 80%;
+    padding: 8px;
+    border: 1px solid #E6E4DF;
+    border-right: none;
+    outline: none;
+}
+
+.search_box button {
+    width: 20%;
+    padding: 8px;
+    background: #FE980F;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.search_box button:hover {
+    background: #e88a0c;
+}
 
 /*  Dropdown menu*/
 
@@ -899,7 +924,7 @@ h2.title {
   transition: height 500ms ease 0s;
   width: 100%;
   display: block;
-  opacity:;
+  opacity:
 }
 
 .single-products:hover .product-overlay {
@@ -2518,6 +2543,286 @@ h2.title {
 
 .contact-info .social-networks ul li a:hover{
   color: #FE980F;
+}
+
+/* Product Card Enhancements */
+.product-image-wrapper {
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    margin-bottom: 30px;
+    background: #fff;
+}
+
+.product-image-wrapper:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+.productinfo img {
+    border-radius: 8px 8px 0 0;
+    height: 250px;
+    object-fit: cover;
+    width: 100%;
+}
+
+.productinfo h2 {
+    font-size: 22px;
+    color: #FE980F;
+    margin: 15px 0;
+    font-weight: 600;
+}
+
+.productinfo p {
+    color: #555;
+    font-size: 15px;
+    min-height: 40px;
+}
+
+/* Search Box Improvements */
+.search_box {
+    position: relative;
+    margin: 15px 0;
+    width: 100%;
+}
+
+.search_box input[type="text"] {
+    width: 100%;
+    padding: 10px 45px 10px 15px;
+    border: 2px solid #FE980F;
+    border-radius: 25px;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    outline: none;
+}
+
+.search_box input[type="text"]:focus {
+    border-color: #e88a0c;
+    box-shadow: 0 0 8px rgba(254, 152, 15, 0.4);
+}
+
+/* Loading animation */
+.search_box.loading::after {
+    content: '';
+    position: absolute;
+    right: 55px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 15px;
+    height: 15px;
+    border: 2px solid #FE980F;
+    border-top-color: transparent;
+    border-radius: 50%;
+    animation: search-loading 0.6s linear infinite;
+}
+
+@keyframes search-loading {
+    to {
+        transform: translateY(-50%) rotate(360deg);
+    }
+}
+
+/* Highlight matching text */
+.search-highlight {
+    background-color: rgba(254, 152, 15, 0.2);
+    padding: 0 2px;
+    border-radius: 2px;
+}
+
+/* Category Sidebar Enhancement */
+.left-sidebar {
+    background: #fff;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.panel-default {
+    border: none;
+    margin-bottom: 10px;
+}
+
+.panel-default .panel-heading {
+    background: #fff;
+    border: none;
+    padding: 0;
+}
+
+.panel-title a {
+    display: block;
+    padding: 10px 15px;
+    color: #555;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+}
+
+.panel-title a:hover {
+    background: #FE980F;
+    color: #fff;
+}
+
+/* Pagination Styling */
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin: 30px 0;
+}
+
+.pagination li a {
+    margin: 0 5px;
+    border-radius: 5px;
+    color: #555;
+    background: #f4f4f4;
+    transition: all 0.3s ease;
+}
+
+.pagination li a:hover,
+.pagination li.active a {
+    background: #FE980F;
+    color: #fff;
+    border-color: #FE980F;
+}
+
+/* Product Overlay Enhancement */
+.product-overlay {
+    background: rgba(254, 152, 15, 0.9);
+    transition: all 0.4s ease;
+}
+
+.product-overlay .overlay-content {
+    padding: 20px;
+}
+
+.product-overlay h2 {
+    color: #fff;
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+.product-overlay p {
+    color: #fff;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+/* Add to Cart Button */
+.add-to-cart {
+    padding: 8px 20px;
+    border-radius: 25px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.add-to-cart:hover {
+    background: #FE980F;
+    color: #fff;
+    transform: scale(1.05);
+}
+
+/* Choose Options */
+.choose ul li a {
+    padding: 8px 12px;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+}
+
+.choose ul li a:hover {
+    background: #f4f4f4;
+    color: #FE980F;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .productinfo img {
+        height: 200px;
+    }
+    
+    .search_box {
+        margin: 10px 0;
+    }
+    
+    .left-sidebar {
+        margin-bottom: 20px;
+    }
+}
+
+/* Enhanced Search Box Styling */
+.search_box {
+    position: relative;
+    margin: 15px 0;
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.search_box input[type="text"] {
+    width: calc(100% - 45px);
+    height: 40px;
+    padding: 10px 15px;
+    border: 2px solid #FE980F;
+    border-right: none;
+    border-radius: 25px 0 0 25px;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    outline: none;
+    color: #333;
+    background: #fff;
+}
+
+.search_box input[type="text"]:focus {
+    border-color: #e88a0c;
+    box-shadow: 0 0 5px rgba(254, 152, 15, 0.3);
+}
+
+.search_box input[type="text"]::placeholder {
+    color: #999;
+    font-style: italic;
+}
+
+.search_box button {
+    width: 45px;
+    height: 40px;
+    background: #FE980F;
+    border: 2px solid #FE980F;
+    border-left: none;
+    border-radius: 0 25px 25px 0;
+    color: #fff;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.search_box button i {
+    font-size: 16px;
+}
+
+.search_box button:hover {
+    background: #e88a0c;
+    border-color: #e88a0c;
+}
+
+.search_box:hover input[type="text"],
+.search_box:hover button {
+    border-color: #e88a0c;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .search_box {
+        margin: 10px 0;
+    }
+    
+    .search_box input[type="text"] {
+        height: 36px;
+        font-size: 13px;
+    }
+    
+    .search_box button {
+        height: 36px;
+        width: 40px;
+    }
 }
 
 

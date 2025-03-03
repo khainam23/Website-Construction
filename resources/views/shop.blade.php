@@ -106,12 +106,20 @@
 						</div>
 					</div>
 					<div class="col-sm-3">
-						<div class="search_box pull-right">
-							<input type="text" placeholder="Search" />
-						</div>
+						<form action="{{ route('shop.index') }}" method="GET" class="search_box">
+							<input type="text" 
+								   name="search" 
+								   value="{{ request('search') }}" 
+								   placeholder="Tìm kiếm thiết bị..."
+							/>
+							<button type="submit">
+								<i class="fa fa-search"></i>
+							</button>
+						</form>
 					</div>
 				</div>
 			</div>
+		</div><!--/header-bottom-->
 		</div><!--/header-bottom-->
 	</header><!--/header-->
 	
@@ -252,326 +260,48 @@
 				</div>
 				
 				<div class="col-sm-9 padding-right">
-					<div class="features_items"><!--features_items-->
-						<h2 class="title text-center">Features Items</h2>
-						<div class="col-sm-4">
-							<div class="product-image-wrapper">
-								<div class="single-products">
-									<div class="productinfo text-center">
-										<img src="images/shop/product12.png" alt="" />
-										<h2>$100000</h2>
-										<p>Lấy sản phẩm</p>
-										<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Thêm vào giỏ hàng</a>
-									</div>
-									<div class="product-overlay">
-										<div class="overlay-content">
-											<h2>$100000</h2>
-											<p>Lấy sản phẩm</p>
-											<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Thêm vào giỏ hàng</a>
-										</div>
-									</div>
-								</div>
-								<div class="choose">
-									<ul class="nav nav-pills nav-justified">
-										<li><a href=""><i class="fa fa-plus-square"></i>Yêu thích</a></li>
-										<li><a href=""><i class="fa fa-plus-square"></i>Thuê </a></li>
-									</ul>
-								</div>
-							</div>
-						</div>
-						<div class="col-sm-4">
-							<div class="product-image-wrapper">
-								<div class="single-products">
-									<div class="productinfo text-center">
-										<img src="images/shop/product11.png" alt="" />
-										<h2>$100000</h2>
-										<p>Lấy sản phẩm</p>
-										<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Thêm vào giỏ hàng</a>
-									</div>
-									<div class="product-overlay">
-										<div class="overlay-content">
-											<h2>$100000</h2>
-											<p>Lấy sản phẩm</p>
-											<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Thêm vào giỏ hàng</a>
-										</div>
-									</div>
-								</div>
-								<div class="choose">
-									<ul class="nav nav-pills nav-justified">
-										<li><a href=""><i class="fa fa-plus-square"></i>Yêu thích</a></li>
-										<li><a href=""><i class="fa fa-plus-square"></i>Thuê </a></li>
-									</ul>
-								</div>
-							</div>
-						</div>
-						<div class="col-sm-4">
-							<div class="product-image-wrapper">
-								<div class="single-products">
-									<div class="productinfo text-center">
-										<img src="images/shop/product10.png" alt="" />
-										<h2>$100000</h2>
-										<p>Lấy sản phẩm</p>
-										<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Thêm vào giỏ hàng</a>
-									</div>
-									<div class="product-overlay">
-										<div class="overlay-content">
-											<h2>$100000</h2>
-											<p>Lấy sản phẩm</p>
-											<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Thêm vào giỏ hàng</a>
-										</div>
-									</div>
-								</div>
-								<div class="choose">
-									<ul class="nav nav-pills nav-justified">
-										<li><a href=""><i class="fa fa-plus-square"></i>Yêu thích</a></li>
-										<li><a href=""><i class="fa fa-plus-square"></i>Thuê </a></li>
-									</ul>
-								</div>
-							</div>
-						</div>
-						<div class="col-sm-4">
-							<div class="product-image-wrapper">
-								<div class="single-products">
-									<div class="productinfo text-center">
-										<img src="images/shop/product9.png" alt="" />
-										<h2>$100000</h2>
-										<p>Lấy sản phẩm</p>
-										<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Thêm vào giỏ hàng</a>
-									</div>
-									<div class="product-overlay">
-										<div class="overlay-content">
-											<h2>$100000</h2>
-											<p>Lấy sản phẩm</p>
-											<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Thêm vào giỏ hàng</a>
-										</div>
-									</div>
-									<img src="images/home/new.png" class="new" alt="" />
-								</div>
-								<div class="choose">
-									<ul class="nav nav-pills nav-justified">
-										<li><a href=""><i class="fa fa-plus-square"></i>Yêu thích</a></li>
-										<li><a href=""><i class="fa fa-plus-square"></i>Thuê </a></li>
-									</ul>
-								</div>
-							</div>
-						</div>
-						<div class="col-sm-4">
-							<div class="product-image-wrapper">
-								<div class="single-products">
-									<div class="productinfo text-center">
-										<img src="images/shop/product8.png" alt="" />
-										<h2>$100000</h2>
-										<p>Lấy sản phẩm</p>
-										<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Thêm vào giỏ hàng</a>
-									</div>
-									<div class="product-overlay">
-										<div class="overlay-content">
-											<h2>$100000</h2>
-											<p>Lấy sản phẩm</p>
-											<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Thêm vào giỏ hàng</a>
-										</div>
-									</div>
-									<img src="images/home/sale.png" class="new" alt="" />
-								</div>
-								<div class="choose">
-									<ul class="nav nav-pills nav-justified">
-										<li><a href=""><i class="fa fa-plus-square"></i>Yêu thích</a></li>
-										<li><a href=""><i class="fa fa-plus-square"></i>Thuê </a></li>
-									</ul>
-								</div>
-							</div>
-						</div>
-						<div class="col-sm-4">
-							<div class="product-image-wrapper">
-								<div class="single-products">
-									<div class="productinfo text-center">
-										<img src="images/shop/product7.png" alt="" />
-										<h2>$100000</h2>
-										<p>Lấy sản phẩm</p>
-										<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Thêm vào giỏ hàng</a>
-									</div>
-									<div class="product-overlay">
-										<div class="overlay-content">
-											<h2>$100000</h2>
-											<p>Lấy sản phẩm</p>
-											<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Thêm vào giỏ hàng</a>
-										</div>
-									</div>
-								</div>
-								<div class="choose">
-									<ul class="nav nav-pills nav-justified">
-										<li><a href=""><i class="fa fa-plus-square"></i>Yêu thích</a></li>
-										<li><a href=""><i class="fa fa-plus-square"></i>Thuê </a></li>
-									</ul>
-								</div>
-							</div>
-						</div>
-						
-						<div class="col-sm-4">
-							<div class="product-image-wrapper">
-								<div class="single-products">
-									<div class="productinfo text-center">
-										<img src="images/home/product6.png" alt="" />
-										<h2>$100000</h2>
-										<p>Lấy sản phẩm</p>
-										<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Thêm vào giỏ hàng</a>
-									</div>
-									<div class="product-overlay">
-										<div class="overlay-content">
-											<h2>$100000</h2>
-											<p>Lấy sản phẩm</p>
-											<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Thêm vào giỏ hàng</a>
-										</div>
-									</div>
-								</div>
-								<div class="choose">
-									<ul class="nav nav-pills nav-justified">
-										<li><a href=""><i class="fa fa-plus-square"></i>Yêu thích</a></li>
-										<li><a href=""><i class="fa fa-plus-square"></i>Thuê </a></li>
-									</ul>
-								</div>
-							</div>
-						</div>
-						
-						<div class="col-sm-4">
-							<div class="product-image-wrapper">
-								<div class="single-products">
-									<div class="productinfo text-center">
-										<img src="images/home/product5.png" alt="" />
-										<h2>$100000</h2>
-										<p>Lấy sản phẩm</p>
-										<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Thêm vào giỏ hàng</a>
-									</div>
-									<div class="product-overlay">
-										<div class="overlay-content">
-											<h2>$100000</h2>
-											<p>Lấy sản phẩm</p>
-											<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Thêm vào giỏ hàng</a>
-										</div>
-									</div>
-								</div>
-								<div class="choose">
-									<ul class="nav nav-pills nav-justified">
-										<li><a href=""><i class="fa fa-plus-square"></i>Yêu thích</a></li>
-										<li><a href=""><i class="fa fa-plus-square"></i>Thuê </a></li>
-									</ul>
-								</div>
-							</div>
-						</div>
-						
-						<div class="col-sm-4">
-							<div class="product-image-wrapper">
-								<div class="single-products">
-									<div class="productinfo text-center">
-										<img src="images/home/product4.png" alt="" />
-										<h2>$100000</h2>
-										<p>Lấy sản phẩm</p>
-										<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Thêm vào giỏ hàng</a>
-									</div>
-									<div class="product-overlay">
-										<div class="overlay-content">
-											<h2>$100000</h2>
-											<p>Lấy sản phẩm</p>
-											<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Thêm vào giỏ hàng</a>
-										</div>
-									</div>
-								</div>
-								<div class="choose">
-									<ul class="nav nav-pills nav-justified">
-										<li><a href=""><i class="fa fa-plus-square"></i>Yêu thích</a></li>
-										<li><a href=""><i class="fa fa-plus-square"></i>Thuê </a></li>
-									</ul>
-								</div>
-							</div>
-						</div>
-						
-						<div class="col-sm-4">
-							<div class="product-image-wrapper">
-								<div class="single-products">
-									<div class="productinfo text-center">
-										<img src="images/home/product3.png" alt="" />
-										<h2>$100000</h2>
-										<p>Lấy sản phẩm</p>
-										<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Thêm vào giỏ hàng</a>
-									</div>
-									<div class="product-overlay">
-										<div class="overlay-content">
-											<h2>$100000</h2>
-											<p>Lấy sản phẩm</p>
-											<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Thêm vào giỏ hàng</a>
-										</div>
-									</div>
-								</div>
-								<div class="choose">
-									<ul class="nav nav-pills nav-justified">
-										<li><a href=""><i class="fa fa-plus-square"></i>Yêu thích</a></li>
-										<li><a href=""><i class="fa fa-plus-square"></i>Thuê </a></li>
-									</ul>
-								</div>
-							</div>
-						</div>
-						
-						
-						<div class="col-sm-4">
-							<div class="product-image-wrapper">
-								<div class="single-products">
-									<div class="productinfo text-center">
-										<img src="images/home/product2.png" alt="" />
-										<h2>$100000</h2>
-										<p>Lấy sản phẩm</p>
-										<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Thêm vào giỏ hàng</a>
-									</div>
-									<div class="product-overlay">
-										<div class="overlay-content">
-											<h2>$100000</h2>
-											<p>Lấy sản phẩm</p>
-											<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Thêm vào giỏ hàng</a>
-										</div>
-									</div>
-								</div>
-								<div class="choose">
-									<ul class="nav nav-pills nav-justified">
-										<li><a href=""><i class="fa fa-plus-square"></i>Yêu thích</a></li>
-										<li><a href=""><i class="fa fa-plus-square"></i>Thuê </a></li>
-									</ul>
-								</div>
-							</div>
-						</div>
-						
-						<div class="col-sm-4">
-							<div class="product-image-wrapper">
-								<div class="single-products">
-									<div class="productinfo text-center">
-										<img src="images/home/product1.png" alt="" />
-										<h2>$100000</h2>
-										<p>Lấy sản phẩm</p>
-										<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Thêm vào giỏ hàng</a>
-									</div>
-									<div class="product-overlay">
-										<div class="overlay-content">
-											<h2>$100000</h2>
-											<p>Lấy sản phẩm</p>
-											<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Thêm vào giỏ hàng</a>
-										</div>
-									</div>
-								</div>
-								<div class="choose">
-									<ul class="nav nav-pills nav-justified">
-										<li><a href=""><i class="fa fa-plus-square"></i>Yêu thích</a></li>
-										<li><a href=""><i class="fa fa-plus-square"></i>Thuê </a></li>
-									</ul>
-								</div>
-							</div>
-						</div>
-						
-						<ul class="pagination">
-							<li class="active"><a href="">1</a></li>
-							<li><a href="">2</a></li>
-							<li><a href="">3</a></li>
-							<li><a href="">&raquo;</a></li>
-						</ul>
-					</div><!--features_items-->
-				</div>
+    <div class="features_items"><!--features_items-->
+        <h2 class="title text-center">Thiết bị mới nhất</h2>
+        
+        @foreach($devices as $device)
+        <div class="col-sm-4">
+            <div class="product-image-wrapper">
+                <div class="single-products">
+                    <div class="productinfo text-center">
+                        @if($device->image)
+                            <img src="{{ asset('storage/'.$device->image) }}" alt="{{ $device->name }}" />
+                        @else
+                            <img src="images/shop/no-image.jpg" alt="No image available" />
+                        @endif
+                        <h2>{{ number_format($device->price, 0, ',', '.') }} VNĐ</h2>
+                        <p>{{ $device->name }}</p>
+                        <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Thêm vào giỏ hàng</a>
+                    </div>
+                    <div class="product-overlay">
+                        <div class="overlay-content">
+                            <h2>{{ number_format($device->price, 0, ',', '.') }} VNĐ</h2>
+                            <p>{{ $device->name }}</p>
+                            <p class="small">{{ Str::limit($device->description, 100) }}</p>
+                            <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Thêm vào giỏ hàng</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="choose">
+                    <ul class="nav nav-pills nav-justified">
+                        <li><a href="{{ route('devices.show', $device->id) }}"><i class="fa fa-info-circle"></i>Chi tiết</a></li>
+                        <li><a href="#"><i class="fa fa-plus-square"></i>So sánh</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        @endforeach
+        
+        <div class="clearfix"></div>
+        <ul class="pagination">
+            {{ $devices->links() }}
+        </ul>
+    </div><!--features_items-->
+</div>
 			</div>
 		</div>
 	</section>
