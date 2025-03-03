@@ -9,6 +9,8 @@ use App\Http\Controllers\InventoryController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\ShopController;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\Admin\AdminDeviceController;
 
 // Liên kết các trang 
 Route::view('/', 'index')->name('index');

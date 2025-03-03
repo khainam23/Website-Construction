@@ -7,7 +7,6 @@
 
 body {
   font-family: 'Roboto', sans-serif;
-  background:;
   position: relative;
   font-weight:400px;
 }
@@ -924,7 +923,6 @@ h2.title {
   transition: height 500ms ease 0s;
   width: 100%;
   display: block;
-  opacity:
 }
 
 .single-products:hover .product-overlay {
@@ -2659,6 +2657,11 @@ h2.title {
 .panel-title a:hover {
     background: #FE980F;
     color: #fff;
+}
+
+.panel-title a.active {
+    color: #FE980F;
+    font-weight: bold;
 }
 
 /* Pagination Styling */
