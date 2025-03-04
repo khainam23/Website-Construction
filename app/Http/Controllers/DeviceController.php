@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Device;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 /**
  * @OA\Tag(
@@ -13,14 +14,14 @@ use Illuminate\Http\Request;
  */
 class DeviceController extends Controller
 {
+    public function __construct()
+    {
+        // Tạm thời bỏ middleware check
+    }
+
     /**
      * @OA\Get(
      *     path="/api/devices",
-     *     summary="Get all devices",
-     *     tags={"Devices"},
-     *     @OA\Response(
-     *         response=200,
-     *         description="List of all devices",
      *         @OA\JsonContent(
      *             type="array",
      *             @OA\Items(
@@ -89,11 +90,18 @@ class DeviceController extends Controller
         if ($request->hasFile('image')) {
             $image = $request->file('image');
             $filename = time() . '.' . $image->getClientOriginalExtension();
-            $image->storeAs('public/devices', $filename);
-            $validated['image'] = 'devices/' . $filename;
+            // Store with relative path
+            $path = $image->store('devices', 'public');
+            $validated['image'] = $path;
         }
 
         $device = Device::create($validated);
+        
+        // Add image URL using relative path
+        if ($device->image) {
+            $device->image_url = Storage::url($device->image);
+        }
+        
         return response()->json($device, 201);
     }
 
@@ -179,16 +187,21 @@ class DeviceController extends Controller
         if ($request->hasFile('image')) {
             // Xóa ảnh cũ nếu có
             if ($device->image) {
-                \Storage::delete('public/' . $device->image);
+                Storage::disk('public')->delete($device->image);
             }
             
-            $image = $request->file('image');
-            $filename = time() . '.' . $image->getClientOriginalExtension();
-            $image->storeAs('public/devices', $filename);
-            $validated['image'] = 'devices/' . $filename;
+            // Store with relative path
+            $path = $request->file('image')->store('devices', 'public');
+            $validated['image'] = $path;
         }
 
         $device->update($validated);
+        
+        // Add image URL using relative path
+        if ($device->image) {
+            $device->image_url = Storage::url($device->image);
+        }
+        
         return response()->json($device);
     }
 
@@ -223,7 +236,7 @@ class DeviceController extends Controller
         
         // Xóa ảnh khi xóa thiết bị
         if ($device->image) {
-            \Storage::delete('public/' . $device->image);
+            Storage::disk('public')->delete($device->image);
         }
         
         $device->delete();

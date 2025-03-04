@@ -44,3 +44,8 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('/from-sale/{sale}', [InvoiceController::class, 'generateFromSale']);
     });
 });
+
+// Device API routes với middleware admin
+Route::middleware(['auth:api', 'role:admin'])->group(function () {
+    Route::apiResource('devices', DeviceController::class);
+});

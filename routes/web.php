@@ -32,6 +32,8 @@ Route::get("/api/logout", [AuthController::class, 'logout'])->name('api.logout')
 Route::get('/shop', [ShopController::class, 'index'])->name('shop.index');
 Route::get('/devices/{device}', [DeviceController::class, 'show'])->name('devices.show');
 
+Route::get('/statistics', [App\Http\Controllers\ReportController::class, 'viewStatistics'])->name('statistics');
+
 // Group các route cần quyền admin
 Route::middleware(['role:admin'])->group(function () {
     Route::resource('devices', DeviceController::class);
