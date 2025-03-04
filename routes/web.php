@@ -8,6 +8,9 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\InventoryController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\API\AuthController;
+use App\Http\Controllers\ShopController;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\Admin\AdminDeviceController;
 
 // Liên kết các trang 
 Route::view('/', 'index')->name('index');
@@ -25,6 +28,9 @@ Route::view('/404', '404')->name('404');
 // Login
 Route::post('/api/login', [AuthController::class, 'login'])->name('api.login');
 Route::get("/api/logout", [AuthController::class, 'logout'])->name('api.logout');
+
+Route::get('/shop', [ShopController::class, 'index'])->name('shop.index');
+Route::get('/devices/{device}', [DeviceController::class, 'show'])->name('devices.show');
 
 // Group các route cần quyền admin
 Route::middleware(['role:admin'])->group(function () {

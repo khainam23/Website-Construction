@@ -98,7 +98,7 @@
 						</div>
 						<div class="mainmenu pull-left">
 							<ul class="nav navbar-nav collapse navbar-collapse">
-								<li><a href="/" class="active">Nhà </a></li>
+								<li><a href="/" class="active">Trang chủ</a></li>
 								<li class="dropdown"><a href="#">Cửa hàng<i class="fa fa-angle-down"></i></a>
 									<ul role="menu" class="sub-menu">
 										<li><a href="shop">Products</a></li>
@@ -107,14 +107,8 @@
 										<li><a href="login">Truy cập</a></li>
 									</ul>
 								</li>
-
 								<li><a href="contact-us">Liên hệ</a></li>
 							</ul>
-						</div>
-					</div>
-					<div class="col-sm-3">
-						<div class="search_box pull-right">
-							<input type="text" placeholder="Search" />
 						</div>
 					</div>
 				</div>
@@ -137,40 +131,36 @@
 							<div class="item active">
 								<div class="col-sm-6">
 									<h1><span>INGOUDE</span>-SHOPPER</h1>
-									<h2>Chuyên về các máy móc thiết bị</h2>
-									<p>Chúng tôi chuyên cung cấp và phân phối các loại máy móc, thiết bị hiện đại, đáp
-										ứng nhu cầu đa dạng trong sản xuất và kinh doanh. </p>
-									<button type="button" class="btn btn-default get">Tìm mặt hàng</button>
+									<h2>Đối tác tin cậy trong ngành thiết bị xây dựng</h2>
+									<p>Với hơn 10 năm kinh nghiệm, chúng tôi tự hào là đơn vị hàng đầu trong việc cung cấp và cho thuê thiết bị xây dựng chất lượng cao.</p>
+									<button type="button" class="btn btn-default get">Tìm hiểu thêm</button>
 								</div>
 								<div class="col-sm-6">
-									<img src="images/home/c1.png" class=utensils img-responsive" alt="" />
+									<img src="images/home/c1.png" class="img-responsive" alt="" />
 								</div>
 							</div>
 							<div class="item">
 								<div class="col-sm-6">
 									<h1><span>INGOUDE</span>-SHOPPER</h1>
-									<h2>100% Thiết bị mới và được bảo hành</h2>
-									<p>Chúng tôi cung cấp 100% thiết bị mới, cam kết chất lượng và bảo hành đầy đủ, đảm
-										bảo sự an tâm cho khách hàng. </p>
-									<button type="button" class="btn btn-default get">Khám phá ngay</button>
+									<h2>Giải pháp toàn diện</h2>
+									<p>Cung cấp đa dạng dịch vụ từ tư vấn, cho thuê đến bảo trì bảo dưỡng thiết bị xây dựng.</p>
+									<button type="button" class="btn btn-default get">Khám phá dịch vụ</button>
 								</div>
 								<div class="col-sm-6">
-									<img src="images/home/c2.png" class=utensils img-responsive" alt="" />
+									<img src="images/home/c2.png" class="img-responsive" alt="" />
 								</div>
 							</div>
-
 							<div class="item">
 								<div class="col-sm-6">
-									<h1><span>INGOUDE</span>-SHOPPER</h1>
-									<h2>Chất lượng hàng đầu</h2>
-									<p>Dịch vụ chuyên nghiệp, luôn sẵn sàng hỗ trợ khách hàng tận tâm. </p>
-									<button type="button" class="btn btn-default get">Lấy ngay</button>
+									<h1><span>INGOUDE</span>-SHOPPER</h2>
+									<h2>Đội ngũ chuyên nghiệp</h2>
+									<p>Nhân viên được đào tạo chuyên sâu, sẵn sàng hỗ trợ 24/7 cho mọi nhu cầu của khách hàng.</p>
+									<button type="button" class="btn btn-default get">Liên hệ ngay</button>
 								</div>
 								<div class="col-sm-6">
-									<img src="images/home/c3.png" class=utensils img-responsive" alt="" />
+									<img src="images/home/c3.png" class="img-responsive" alt="" />
 								</div>
 							</div>
-
 						</div>
 
 						<a href="#slider-carousel" class="left control-carousel hidden-xs" data-slide="prev">
@@ -189,717 +179,33 @@
 	<section>
 		<div class="container">
 			<div class="row">
-				<div class="col-sm-3">
-					<div class="left-sidebar">
-						<h2>Thể loại</h2>
-						<div class="panel-group category-products" id="accordian"><!--category-productsr-->
-							<div class="panel panel-default">
-								<div class="panel-heading">
-									<h4 class="panel-title">
-										<a data-toggle="collapse" data-parent="#accordian" href="#sportswear">
-											<span class="badge pull-right"><i class="fa fa-plus"></i></span>
-											Máy móc thi công xây dựng
-										</a>
-									</h4>
-								</div>
-								<div id="sportswear" class="panel-collapse collapse">
-									<div class="panel-body">
-										<ul>
-											<li><a href="#">Máy xúc </a></li>
-											<li><a href="#">Máy ủi </a></li>
-											<li><a href="#">Máy lu </a></li>
-											<li><a href="#">Máy cẩu</a></li>
-											<li><a href="#">Máy khoan cọc nhồi </a></li>
-											<li><a href="#">Máy ép cọc </a></li>
-										</ul>
-									</div>
+				<div class="col-sm-12">
+					<div class="about-company">
+						<h2 class="title text-center">Về Chúng Tôi</h2>
+						<div class="row">
+							<div class="col-sm-4">
+								<div class="company-feature text-center">
+									<i class="fa fa-trophy fa-4x"></i>
+									<h3>Kinh Nghiệm</h3>
+									<p>Hơn 10 năm trong ngành thiết bị xây dựng, phục vụ hàng nghìn dự án lớn nhỏ.</p>
 								</div>
 							</div>
-							<div class="panel panel-default">
-								<div class="panel-heading">
-									<h4 class="panel-title">
-										<a data-toggle="collapse" data-parent="#accordian" href="#mens">
-											<span class="badge pull-right"><i class="fa fa-plus"></i></span>
-											Thiết bị bê tông và nền móng
-										</a>
-									</h4>
-								</div>
-								<div id="mens" class="panel-collapse collapse">
-									<div class="panel-body">
-										<ul>
-											<li><a href="#">Máy trộn bê tông</a></li>
-											<li><a href="#">Máy bơm bê tông</a></li>
-											<li><a href="#">Máy đầm đất, đầm bàn, đầm rung</a></li>
-											<li><a href="#">Máy cắt bê tông, máy mài sàn</a></li>
-											<li><a href="#">Versace</a></li>
-										</ul>
-									</div>
+							<div class="col-sm-4">
+								<div class="company-feature text-center">
+									<i class="fa fa-check-circle fa-4x"></i>
+									<h3>Cam Kết</h3>
+									<p>Đảm bảo chất lượng dịch vụ, hỗ trợ kỹ thuật 24/7, giải quyết mọi vấn đề nhanh chóng.</p>
 								</div>
 							</div>
-
-							<div class="panel panel-default">
-								<div class="panel-heading">
-									<h4 class="panel-title">
-										<a data-toggle="collapse" data-parent="#accordian" href="#womens">
-											<span class="badge pull-right"><i class="fa fa-plus"></i></span>
-											Máy móc san lấp và vận chuyển
-										</a>
-									</h4>
-								</div>
-								<div id="womens" class="panel-collapse collapse">
-									<div class="panel-body">
-										<ul>
-											<li><a href="#">Xe ben, xe tải chở vật liệu</a></li>
-											<li><a href="#">Xe bồn trộn bê tông</a></li>
-											<li><a href="#">Máy bơm nước công suất lớn</a></li>
-											<li><a href="#">Máy phát điện công trình</a></li>
-										</ul>
-									</div>
+							<div class="col-sm-4">
+								<div class="company-feature text-center">
+									<i class="fa fa-handshake-o fa-4x"></i>
+									<h3>Đối Tác</h3>
+									<p>Hợp tác với các thương hiệu hàng đầu thế giới, mang đến giải pháp tốt nhất.</p>
 								</div>
 							</div>
-							<div class="panel panel-default">
-								<div class="panel-heading">
-									<h4 class="panel-title"><a href="#">Máy công trình mini</a></h4>
-								</div>
-							</div>
-							<div class="panel panel-default">
-								<div class="panel-heading">
-									<h4 class="panel-title"><a href="#">Máy móc hiện đại, công nghệ mới</a></h4>
-								</div>
-							</div>
-							<div class="panel panel-default">
-								<div class="panel-heading">
-									<h4 class="panel-title"><a href="#">Thiết bị hỗ trợ công trình</a></h4>
-								</div>
-							</div>
-							<div class="panel panel-default">
-								<div class="panel-heading">
-									<h4 class="panel-title"><a href="#">Thiết bị hoàn thiện công trình</a></h4>
-								</div>
-							</div>
-							<div class="panel panel-default">
-								<div class="panel-heading">
-									<h4 class="panel-title"><a href="#">Trang bị bảo hộ lao động</a></h4>
-								</div>
-							</div>
-							<div class="panel panel-default">
-								<div class="panel-heading">
-									<h4 class="panel-title"><a href="#">Thiết bị vận chuyển vật liệu</a></h4>
-								</div>
-							</div>
-							<div class="panel panel-default">
-								<div class="panel-heading">
-									<h4 class="panel-title"><a href="#">Phụ kiện và dụng cụ thi công</a></h4>
-								</div>
-							</div>
-						</div><!--/category-products-->
-
-						<div class="brands_products"><!--brands_products-->
-							<h2>Nhãn hiệu</h2>
-							<div class="brands-name">
-								<ul class="nav nav-pills nav-stacked">
-									<li><a href="#"> <span class="pull-right">(50)</span>Caterpillar</a></li>
-									<li><a href="#"> <span class="pull-right">(56)</span>Komatsu</a></li>
-									<li><a href="#"> <span class="pull-right">(27)</span>Hitachi</a></li>
-									<li><a href="#"> <span class="pull-right">(32)</span>Volvo CE</a></li>
-									<li><a href="#"> <span class="pull-right">(5)</span>Liebherr</a></li>
-									<li><a href="#"> <span class="pull-right">(9)</span>Doosan</a></li>
-									<li><a href="#"> <span class="pull-right">(4)</span>JCB</a></li>
-								</ul>
-							</div>
-						</div><!--/brands_products-->
-
-						<div class="shipping text-center"><!--shipping-->
-							<img src="images/home/service.png" alt="" />
-						</div><!--/shipping-->
-
+						</div>
 					</div>
-				</div>
-
-				<div class="col-sm-9 padding-right">
-					<div class="features_items"><!--features_items-->
-						<h2 class="title text-center">Sản phẩm phổ biến</h2>
-						<div class="col-sm-4">
-							<div class="product-image-wrapper">
-								<div class="single-products">
-									<div class="productinfo text-center">
-										<img src="images/home/product1.png" alt="" />
-										<h2>$100000</h2>
-										<p>Sự kết hợp bằng hệ thống dầu thủy lực giảm tiêu hao năng lượng với hệ thống
-											Hybrid giúp giảm 20% mức tiêu thụ nhiên liệu</p>
-										<a href="#" class="btn btn-default add-to-cart"><i
-												class="fa fa-shopping-cart"></i>Thêm vào giỏ hàng</a>
-									</div>
-									<div class="product-overlay">
-										<div class="overlay-content">
-											<h2>$100000</h2>
-											<p>Máy xúc thủy lực có trang bị cơ cấu Hybrid</p>
-											<a href="#" class="btn btn-default add-to-cart"><i
-													class="fa fa-shopping-cart"></i>Thêm vào giỏ hàng</a>
-										</div>
-									</div>
-								</div>
-								<div class="choose">
-									<ul class="nav nav-pills nav-justified">
-										<li><a href="#"><i class="fa fa-plus-square"></i>Yêu thích</a></li>
-										<li><a href="#"><i class="fa fa-plus-square"></i>Thuê </a></li>
-									</ul>
-								</div>
-							</div>
-						</div>
-						<div class="col-sm-4">
-							<div class="product-image-wrapper">
-								<div class="single-products">
-									<div class="productinfo text-center">
-										<img src="images/home/product2.png" alt="" />
-										<h2>$100000</h2>
-										<p>Lấy sản phẩm</p>
-										<a href="#" class="btn btn-default add-to-cart"><i
-												class="fa fa-shopping-cart"></i>Thêm vào giỏ hàng</a>
-									</div>
-									<div class="product-overlay">
-										<div class="overlay-content">
-											<h2>$100000</h2>
-											<p>Hitachi ZAXIS Hybrid ZH200-5B</p>
-											<a href="#" class="btn btn-default add-to-cart"><i
-													class="fa fa-shopping-cart"></i>Thêm vào giỏ hàng</a>
-										</div>
-									</div>
-								</div>
-								<div class="choose">
-									<ul class="nav nav-pills nav-justified">
-										<li><a href="#"><i class="fa fa-plus-square"></i>Yêu thích</a></li>
-										<li><a href="#"><i class="fa fa-plus-square"></i>Thuê </a></li>
-									</ul>
-								</div>
-							</div>
-						</div>
-						<div class="col-sm-4">
-							<div class="product-image-wrapper">
-								<div class="single-products">
-									<div class="productinfo text-center">
-										<img src="images/home/product3.png" alt="" />
-										<h2>$100000</h2>
-										<p>Lấy sản phẩm</p>
-										<a href="#" class="btn btn-default add-to-cart"><i
-												class="fa fa-shopping-cart"></i>Thêm vào giỏ hàng</a>
-									</div>
-									<div class="product-overlay">
-										<div class="overlay-content">
-											<h2>$100000</h2>
-											<p>Lấy sản phẩm</p>
-											<a href="#" class="btn btn-default add-to-cart"><i
-													class="fa fa-shopping-cart"></i>Thêm vào giỏ hàng</a>
-										</div>
-									</div>
-								</div>
-								<div class="choose">
-									<ul class="nav nav-pills nav-justified">
-										<li><a href="#"><i class="fa fa-plus-square"></i>Yêu thích</a></li>
-										<li><a href="#"><i class="fa fa-plus-square"></i>Thuê </a></li>
-									</ul>
-								</div>
-							</div>
-						</div>
-						<div class="col-sm-4">
-							<div class="product-image-wrapper">
-								<div class="single-products">
-									<div class="productinfo text-center">
-										<img src="images/home/product4.png" alt="" />
-										<h2>$100000</h2>
-										<p>Lấy sản phẩm</p>
-										<a href="#" class="btn btn-default add-to-cart"><i
-												class="fa fa-shopping-cart"></i>Thêm vào giỏ hàng</a>
-									</div>
-									<div class="product-overlay">
-										<div class="overlay-content">
-											<h2>$100000</h2>
-											<p>Lấy sản phẩm</p>
-											<a href="#" class="btn btn-default add-to-cart"><i
-													class="fa fa-shopping-cart"></i>Thêm vào giỏ hàng</a>
-										</div>
-									</div>
-									<img src="images/home/new.png" class="new" alt="" />
-								</div>
-								<div class="choose">
-									<ul class="nav nav-pills nav-justified">
-										<li><a href="#"><i class="fa fa-plus-square"></i>Yêu thích</a></li>
-										<li><a href="#"><i class="fa fa-plus-square"></i>Thuê </a></li>
-									</ul>
-								</div>
-							</div>
-						</div>
-						<div class="col-sm-4">
-							<div class="product-image-wrapper">
-								<div class="single-products">
-									<div class="productinfo text-center">
-										<img src="images/home/product5.png" alt="" />
-										<h2>$100000</h2>
-										<p>Lấy sản phẩm</p>
-										<a href="#" class="btn btn-default add-to-cart"><i
-												class="fa fa-shopping-cart"></i>Thêm vào giỏ hàng</a>
-									</div>
-									<div class="product-overlay">
-										<div class="overlay-content">
-											<h2>$100000</h2>
-											<p>Lấy sản phẩm</p>
-											<a href="#" class="btn btn-default add-to-cart"><i
-													class="fa fa-shopping-cart"></i>Thêm vào giỏ hàng</a>
-										</div>
-									</div>
-									<img src="images/home/sale.png" class="new" alt="" />
-								</div>
-								<div class="choose">
-									<ul class="nav nav-pills nav-justified">
-										<li><a href="#"><i class="fa fa-plus-square"></i>Yêu thích</a></li>
-										<li><a href="#"><i class="fa fa-plus-square"></i>Thuê </a></li>
-									</ul>
-								</div>
-							</div>
-						</div>
-						<div class="col-sm-4">
-							<div class="product-image-wrapper">
-								<div class="single-products">
-									<div class="productinfo text-center">
-										<img src="images/home/product6.png" alt="" />
-										<h2>$100000</h2>
-										<p>Lấy sản phẩm</p>
-										<a href="#" class="btn btn-default add-to-cart"><i
-												class="fa fa-shopping-cart"></i>Thêm vào giỏ hàng</a>
-									</div>
-									<div class="product-overlay">
-										<div class="overlay-content">
-											<h2>$100000</h2>
-											<p>Lấy sản phẩm</p>
-											<a href="#" class="btn btn-default add-to-cart"><i
-													class="fa fa-shopping-cart"></i>Thêm vào giỏ hàng</a>
-										</div>
-									</div>
-								</div>
-								<div class="choose">
-									<ul class="nav nav-pills nav-justified">
-										<li><a href="#"><i class="fa fa-plus-square"></i>Yêu thích</a></li>
-										<li><a href="#"><i class="fa fa-plus-square"></i>Thuê </a></li>
-									</ul>
-								</div>
-							</div>
-						</div>
-
-					</div><!--features_items-->
-
-					<div class="category-tab"><!--category-tab-->
-						<div class="col-sm-12">
-							<ul class="nav nav-tabs">
-								<li class="active"><a href="#tshirt" data-toggle="tab">Máy xúc</a></li>
-								<li><a href="#blazers" data-toggle="tab">Máy ủi</a></li>
-								<li><a href="#sunglass" data-toggle="tab">Cần cẩu</a></li>
-								<li><a href="#kids" data-toggle="tab">Thiết bị bê tông</a></li>
-								<li><a href="#poloshirt" data-toggle="tab">Máy phát điện</a></li>
-							</ul>
-						</div>
-						<div class="tab-content">
-							<div class="tab-pane fade active in" id="tshirt">
-								<div class="col-sm-3">
-									<div class="product-image-wrapper">
-										<div class="single-products">
-											<div class="productinfo text-center">
-												<img src="images/home/g1.png" alt="" />
-												<h2>$100000</h2>
-												<p>Lấy sản phẩm</p>
-												<a href="#" class="btn btn-default add-to-cart"><i
-														class="fa fa-shopping-cart"></i>Thêm vào giỏ hàng</a>
-											</div>
-
-										</div>
-									</div>
-								</div>
-								<div class="col-sm-3">
-									<div class="product-image-wrapper">
-										<div class="single-products">
-											<div class="productinfo text-center">
-												<img src="images/home/g2.png" alt="" />
-												<h2>$100000</h2>
-												<p>Lấy sản phẩm</p>
-												<a href="#" class="btn btn-default add-to-cart"><i
-														class="fa fa-shopping-cart"></i>Thêm vào giỏ hàng</a>
-											</div>
-
-										</div>
-									</div>
-								</div>
-								<div class="col-sm-3">
-									<div class="product-image-wrapper">
-										<div class="single-products">
-											<div class="productinfo text-center">
-												<img src="images/home/g3.png" alt="" />
-												<h2>$100000</h2>
-												<p>Lấy sản phẩm</p>
-												<a href="#" class="btn btn-default add-to-cart"><i
-														class="fa fa-shopping-cart"></i>Thêm vào giỏ hàng</a>
-											</div>
-
-										</div>
-									</div>
-								</div>
-								<div class="col-sm-3">
-									<div class="product-image-wrapper">
-										<div class="single-products">
-											<div class="productinfo text-center">
-												<img src="images/home/g4.png" alt="" />
-												<h2>$100000</h2>
-												<p>Lấy sản phẩm</p>
-												<a href="#" class="btn btn-default add-to-cart"><i
-														class="fa fa-shopping-cart"></i>Thêm vào giỏ hàng</a>
-											</div>
-
-										</div>
-									</div>
-								</div>
-							</div>
-
-							<div class="tab-pane fade" id="blazers">
-								<div class="col-sm-3">
-									<div class="product-image-wrapper">
-										<div class="single-products">
-											<div class="productinfo text-center">
-												<img src="images/home/g4.png" alt="" />
-												<h2>$100000</h2>
-												<p>Lấy sản phẩm</p>
-												<a href="#" class="btn btn-default add-to-cart"><i
-														class="fa fa-shopping-cart"></i>Thêm vào giỏ hàng</a>
-											</div>
-
-										</div>
-									</div>
-								</div>
-								<div class="col-sm-3">
-									<div class="product-image-wrapper">
-										<div class="single-products">
-											<div class="productinfo text-center">
-												<img src="images/home/g3.png" alt="" />
-												<h2>$100000</h2>
-												<p>Lấy sản phẩm</p>
-												<a href="#" class="btn btn-default add-to-cart"><i
-														class="fa fa-shopping-cart"></i>Thêm vào giỏ hàng</a>
-											</div>
-
-										</div>
-									</div>
-								</div>
-								<div class="col-sm-3">
-									<div class="product-image-wrapper">
-										<div class="single-products">
-											<div class="productinfo text-center">
-												<img src="images/home/g2.png" alt="" />
-												<h2>$100000</h2>
-												<p>Lấy sản phẩm</p>
-												<a href="#" class="btn btn-default add-to-cart"><i
-														class="fa fa-shopping-cart"></i>Thêm vào giỏ hàng</a>
-											</div>
-
-										</div>
-									</div>
-								</div>
-								<div class="col-sm-3">
-									<div class="product-image-wrapper">
-										<div class="single-products">
-											<div class="productinfo text-center">
-												<img src="images/home/g1.png" alt="" />
-												<h2>$100000</h2>
-												<p>Lấy sản phẩm</p>
-												<a href="#" class="btn btn-default add-to-cart"><i
-														class="fa fa-shopping-cart"></i>Thêm vào giỏ hàng</a>
-											</div>
-
-										</div>
-									</div>
-								</div>
-							</div>
-
-							<div class="tab-pane fade" id="sunglass">
-								<div class="col-sm-3">
-									<div class="product-image-wrapper">
-										<div class="single-products">
-											<div class="productinfo text-center">
-												<img src="images/home/g3.png" alt="" />
-												<h2>$100000</h2>
-												<p>Lấy sản phẩm</p>
-												<a href="#" class="btn btn-default add-to-cart"><i
-														class="fa fa-shopping-cart"></i>Thêm vào giỏ hàng</a>
-											</div>
-
-										</div>
-									</div>
-								</div>
-								<div class="col-sm-3">
-									<div class="product-image-wrapper">
-										<div class="single-products">
-											<div class="productinfo text-center">
-												<img src="images/home/g4.png" alt="" />
-												<h2>$100000</h2>
-												<p>Lấy sản phẩm</p>
-												<a href="#" class="btn btn-default add-to-cart"><i
-														class="fa fa-shopping-cart"></i>Thêm vào giỏ hàng</a>
-											</div>
-
-										</div>
-									</div>
-								</div>
-								<div class="col-sm-3">
-									<div class="product-image-wrapper">
-										<div class="single-products">
-											<div class="productinfo text-center">
-												<img src="images/home/g1.png" alt="" />
-												<h2>$100000</h2>
-												<p>Lấy sản phẩm</p>
-												<a href="#" class="btn btn-default add-to-cart"><i
-														class="fa fa-shopping-cart"></i>Thêm vào giỏ hàng</a>
-											</div>
-
-										</div>
-									</div>
-								</div>
-								<div class="col-sm-3">
-									<div class="product-image-wrapper">
-										<div class="single-products">
-											<div class="productinfo text-center">
-												<img src="images/home/g2.png" alt="" />
-												<h2>$100000</h2>
-												<p>Lấy sản phẩm</p>
-												<a href="#" class="btn btn-default add-to-cart"><i
-														class="fa fa-shopping-cart"></i>Thêm vào giỏ hàng</a>
-											</div>
-
-										</div>
-									</div>
-								</div>
-							</div>
-
-							<div class="tab-pane fade" id="kids">
-								<div class="col-sm-3">
-									<div class="product-image-wrapper">
-										<div class="single-products">
-											<div class="productinfo text-center">
-												<img src="images/home/g1.png" alt="" />
-												<h2>$100000</h2>
-												<p>Lấy sản phẩm</p>
-												<a href="#" class="btn btn-default add-to-cart"><i
-														class="fa fa-shopping-cart"></i>Thêm vào giỏ hàng</a>
-											</div>
-
-										</div>
-									</div>
-								</div>
-								<div class="col-sm-3">
-									<div class="product-image-wrapper">
-										<div class="single-products">
-											<div class="productinfo text-center">
-												<img src="images/home/g2.png" alt="" />
-												<h2>$100000</h2>
-												<p>Lấy sản phẩm</p>
-												<a href="#" class="btn btn-default add-to-cart"><i
-														class="fa fa-shopping-cart"></i>Thêm vào giỏ hàng</a>
-											</div>
-
-										</div>
-									</div>
-								</div>
-								<div class="col-sm-3">
-									<div class="product-image-wrapper">
-										<div class="single-products">
-											<div class="productinfo text-center">
-												<img src="images/home/g3.png" alt="" />
-												<h2>$100000</h2>
-												<p>Lấy sản phẩm</p>
-												<a href="#" class="btn btn-default add-to-cart"><i
-														class="fa fa-shopping-cart"></i>Thêm vào giỏ hàng</a>
-											</div>
-
-										</div>
-									</div>
-								</div>
-								<div class="col-sm-3">
-									<div class="product-image-wrapper">
-										<div class="single-products">
-											<div class="productinfo text-center">
-												<img src="images/home/g4.png" alt="" />
-												<h2>$100000</h2>
-												<p>Lấy sản phẩm</p>
-												<a href="#" class="btn btn-default add-to-cart"><i
-														class="fa fa-shopping-cart"></i>Thêm vào giỏ hàng</a>
-											</div>
-
-										</div>
-									</div>
-								</div>
-							</div>
-
-							<div class="tab-pane fade" id="poloshirt">
-								<div class="col-sm-3">
-									<div class="product-image-wrapper">
-										<div class="single-products">
-											<div class="productinfo text-center">
-												<img src="images/home/g2.png" alt="" />
-												<h2>$100000</h2>
-												<p>Lấy sản phẩm</p>
-												<a href="#" class="btn btn-default add-to-cart"><i
-														class="fa fa-shopping-cart"></i>Thêm vào giỏ hàng</a>
-											</div>
-
-										</div>
-									</div>
-								</div>
-								<div class="col-sm-3">
-									<div class="product-image-wrapper">
-										<div class="single-products">
-											<div class="productinfo text-center">
-												<img src="images/home/g4.png" alt="" />
-												<h2>$100000</h2>
-												<p>Lấy sản phẩm</p>
-												<a href="#" class="btn btn-default add-to-cart"><i
-														class="fa fa-shopping-cart"></i>Thêm vào giỏ hàng</a>
-											</div>
-
-										</div>
-									</div>
-								</div>
-								<div class="col-sm-3">
-									<div class="product-image-wrapper">
-										<div class="single-products">
-											<div class="productinfo text-center">
-												<img src="images/home/g3.png" alt="" />
-												<h2>$100000</h2>
-												<p>Lấy sản phẩm</p>
-												<a href="#" class="btn btn-default add-to-cart"><i
-														class="fa fa-shopping-cart"></i>Thêm vào giỏ hàng</a>
-											</div>
-
-										</div>
-									</div>
-								</div>
-								<div class="col-sm-3">
-									<div class="product-image-wrapper">
-										<div class="single-products">
-											<div class="productinfo text-center">
-												<img src="images/home/g1.png" alt="" />
-												<h2>$100000</h2>
-												<p>Lấy sản phẩm</p>
-												<a href="#" class="btn btn-default add-to-cart"><i
-														class="fa fa-shopping-cart"></i>Thêm vào giỏ hàng</a>
-											</div>
-
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div><!--/category-tab-->
-
-					<div class="recommended_items"><!--recommended_items-->
-						<h2 class="title text-center">Các sản phẩm được gợi ý</h2>
-
-						<div id="recommended-item-carousel" class="carousel slide" data-ride="carousel">
-							<div class="carousel-inner">
-								<div class="item active">
-									<div class="col-sm-4">
-										<div class="product-image-wrapper">
-											<div class="single-products">
-												<div class="productinfo text-center">
-													<img src="images/home/r1.png" alt="" />
-													<h2>$100000</h2>
-													<p>Lấy sản phẩm</p>
-													<a href="#" class="btn btn-default add-to-cart"><i
-															class="fa fa-shopping-cart"></i>Thêm vào giỏ hàng</a>
-												</div>
-
-											</div>
-										</div>
-									</div>
-									<div class="col-sm-4">
-										<div class="product-image-wrapper">
-											<div class="single-products">
-												<div class="productinfo text-center">
-													<img src="images/home/r2.png" alt="" />
-													<h2>$100000</h2>
-													<p>Lấy sản phẩm</p>
-													<a href="#" class="btn btn-default add-to-cart"><i
-															class="fa fa-shopping-cart"></i>Thêm vào giỏ hàng</a>
-												</div>
-
-											</div>
-										</div>
-									</div>
-									<div class="col-sm-4">
-										<div class="product-image-wrapper">
-											<div class="single-products">
-												<div class="productinfo text-center">
-													<img src="images/home/r3.png" alt="" />
-													<h2>$100000</h2>
-													<p>Lấy sản phẩm</p>
-													<a href="#" class="btn btn-default add-to-cart"><i
-															class="fa fa-shopping-cart"></i>Thêm vào giỏ hàng</a>
-												</div>
-
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="item">
-									<div class="col-sm-4">
-										<div class="product-image-wrapper">
-											<div class="single-products">
-												<div class="productinfo text-center">
-													<img src="images/home/r1.png" alt="" />
-													<h2>$100000</h2>
-													<p>Lấy sản phẩm</p>
-													<a href="#" class="btn btn-default add-to-cart"><i
-															class="fa fa-shopping-cart"></i>Thêm vào giỏ hàng</a>
-												</div>
-
-											</div>
-										</div>
-									</div>
-									<div class="col-sm-4">
-										<div class="product-image-wrapper">
-											<div class="single-products">
-												<div class="productinfo text-center">
-													<img src="images/home/r2.png" alt="" />
-													<h2>$100000</h2>
-													<p>Lấy sản phẩm</p>
-													<a href="#" class="btn btn-default add-to-cart"><i
-															class="fa fa-shopping-cart"></i>Thêm vào giỏ hàng</a>
-												</div>
-
-											</div>
-										</div>
-									</div>
-									<div class="col-sm-4">
-										<div class="product-image-wrapper">
-											<div class="single-products">
-												<div class="productinfo text-center">
-													<img src="images/home/r3.png" alt="" />
-													<h2>$100000</h2>
-													<p>Lấy sản phẩm</p>
-													<a href="#" class="btn btn-default add-to-cart"><i
-															class="fa fa-shopping-cart"></i>Thêm vào giỏ hàng</a>
-												</div>
-
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-							<a class="left recommended-item-control" href="#recommended-item-carousel"
-								data-slide="prev">
-								<i class="fa fa-angle-left"></i>
-							</a>
-							<a class="right recommended-item-control" href="#recommended-item-carousel"
-								data-slide="next">
-								<i class="fa fa-angle-right"></i>
-							</a>
-						</div>
-					</div><!--/recommended_items-->
-
 				</div>
 			</div>
 		</div>

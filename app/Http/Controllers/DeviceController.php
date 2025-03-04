@@ -38,7 +38,7 @@ class DeviceController extends Controller
      */
     public function index()
     {
-        return response()->json(Device::all());
+        return response()->json(Device::with('category')->get());
     }
 
     /**
@@ -48,13 +48,17 @@ class DeviceController extends Controller
      *     tags={"Devices"},
      *     @OA\RequestBody(
      *         required=true,
-     *         @OA\JsonContent(
-     *             required={"name","category","price","stock"},
-     *             @OA\Property(property="name", type="string", example="New Device"),
-     *             @OA\Property(property="category", type="string", example="Electronics"),
-     *             @OA\Property(property="description", type="string", example="Device description"),
-     *             @OA\Property(property="price", type="number", format="float", example=999.99),
-     *             @OA\Property(property="stock", type="integer", example=10)
+     *         @OA\MediaType(
+     *             mediaType="multipart/form-data",
+     *             @OA\Schema(
+     *                 required={"name","category_id","price","stock"},
+     *                 @OA\Property(property="name", type="string", example="New Device"),
+     *                 @OA\Property(property="category_id", type="integer", example=1),
+     *                 @OA\Property(property="description", type="string", example="Device description"),
+     *                 @OA\Property(property="price", type="number", format="float", example=999.99),
+     *                 @OA\Property(property="stock", type="integer", example=10),
+     *                 @OA\Property(property="image", type="string", format="binary", description="Device image file")
+     *             )
      *         )
      *     ),
      *     @OA\Response(
@@ -75,11 +79,19 @@ class DeviceController extends Controller
     {
         $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'category' => 'required|string|max:255',
+            'category_id' => 'required|exists:categories,id',
             'description' => 'nullable|string',
             'price' => 'required|numeric|min:0',
             'stock' => 'required|integer|min:0',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048' // Thêm validation cho image
         ]);
+
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $filename = time() . '.' . $image->getClientOriginalExtension();
+            $image->storeAs('public/devices', $filename);
+            $validated['image'] = 'devices/' . $filename;
+        }
 
         $device = Device::create($validated);
         return response()->json($device, 201);
@@ -110,7 +122,7 @@ class DeviceController extends Controller
      */
     public function show($id)
     {
-        return response()->json(Device::findOrFail($id));
+        return response()->json(Device::with('category')->findOrFail($id));
     }
 
     /**
@@ -127,13 +139,17 @@ class DeviceController extends Controller
      *     ),
      *     @OA\RequestBody(
      *         required=true,
-     *         @OA\JsonContent(
-     *             required={"name","category","price","stock"},
-     *             @OA\Property(property="name", type="string", example="Updated Device"),
-     *             @OA\Property(property="category", type="string", example="Electronics"),
-     *             @OA\Property(property="description", type="string", example="Updated description"),
-     *             @OA\Property(property="price", type="number", format="float", example=1099.99),
-     *             @OA\Property(property="stock", type="integer", example=15)
+     *         @OA\MediaType(
+     *             mediaType="multipart/form-data",
+     *             @OA\Schema(
+     *                 required={"name","category","price","stock"},
+     *                 @OA\Property(property="name", type="string", example="Updated Device"),
+     *                 @OA\Property(property="category", type="string", example="Electronics"),
+     *                 @OA\Property(property="description", type="string", example="Updated description"),
+     *                 @OA\Property(property="price", type="number", format="float", example=1099.99),
+     *                 @OA\Property(property="stock", type="integer", example=15),
+     *                 @OA\Property(property="image", type="string", format="binary", description="Device image file")
+     *             )
      *         )
      *     ),
      *     @OA\Response(
@@ -157,8 +173,21 @@ class DeviceController extends Controller
             'description' => 'nullable|string',
             'price' => 'required|numeric|min:0',
             'stock' => 'required|integer|min:0',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048' // Thêm validation cho image
         ]);
-        
+
+        if ($request->hasFile('image')) {
+            // Xóa ảnh cũ nếu có
+            if ($device->image) {
+                \Storage::delete('public/' . $device->image);
+            }
+            
+            $image = $request->file('image');
+            $filename = time() . '.' . $image->getClientOriginalExtension();
+            $image->storeAs('public/devices', $filename);
+            $validated['image'] = 'devices/' . $filename;
+        }
+
         $device->update($validated);
         return response()->json($device);
     }
@@ -190,7 +219,14 @@ class DeviceController extends Controller
      */
     public function destroy($id)
     {
-        Device::destroy($id);
+        $device = Device::findOrFail($id);
+        
+        // Xóa ảnh khi xóa thiết bị
+        if ($device->image) {
+            \Storage::delete('public/' . $device->image);
+        }
+        
+        $device->delete();
         return response()->json(['message' => 'Thiết bị đã bị xóa']);
     }
 }

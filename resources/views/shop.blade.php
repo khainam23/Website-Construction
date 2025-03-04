@@ -90,7 +90,7 @@
 						</div>
 						<div class="mainmenu pull-left">
 							<ul class="nav navbar-nav collapse navbar-collapse">
-								<li><a href="/" class="active">Nhà </a></li>
+								<li><a href="/" class="active">Trang chủ </a></li>
 								<li class="dropdown"><a href="#">Cửa hàng<i class="fa fa-angle-down"></i></a>
 									<ul role="menu" class="sub-menu">
 										<li><a href="shop">Products</a></li>
@@ -106,12 +106,20 @@
 						</div>
 					</div>
 					<div class="col-sm-3">
-						<div class="search_box pull-right">
-							<input type="text" placeholder="Search" />
-						</div>
+						<form action="{{ route('shop.index') }}" method="GET" class="search_box">
+							<input type="text" 
+								   name="search" 
+								   value="{{ request('search') }}" 
+								   placeholder="Tìm kiếm thiết bị..."
+							/>
+							<button type="submit">
+								<i class="fa fa-search"></i>
+							</button>
+						</form>
 					</div>
 				</div>
 			</div>
+		</div><!--/header-bottom-->
 		</div><!--/header-bottom-->
 	</header><!--/header-->
 	
@@ -126,452 +134,97 @@
 			<div class="row">
 				<div class="col-sm-3">
 					<div class="left-sidebar">
-						<h2>Thể loại</h2>
-						<div class="panel-group category-products" id="accordian"><!--category-productsr-->
-							<div class="panel panel-default">
-								<div class="panel-heading">
-									<h4 class="panel-title">
-										<a data-toggle="collapse" data-parent="#accordian" href="#sportswear">
-											<span class="badge pull-right"><i class="fa fa-plus"></i></span>
-											Máy móc thi công xây dựng
-										</a>
-									</h4>
-								</div>
-								<div id="sportswear" class="panel-collapse collapse">
-									<div class="panel-body">
-										<ul>
-											<li><a href="#">Máy xúc </a></li>
-											<li><a href="#">Máy ủi </a></li>
-											<li><a href="#">Máy lu </a></li>
-											<li><a href="#">Máy cẩu</a></li>
-											<li><a href="#">Máy khoan cọc nhồi </a></li>
-											<li><a href="#">Máy ép cọc </a></li>
-										</ul>
-									</div>
-								</div>
-							</div>
-							<div class="panel panel-default">
-								<div class="panel-heading">
-									<h4 class="panel-title">
-										<a data-toggle="collapse" data-parent="#accordian" href="#mens">
-											<span class="badge pull-right"><i class="fa fa-plus"></i></span>
-											Thiết bị bê tông và nền móng
-										</a>
-									</h4>
-								</div>
-								<div id="mens" class="panel-collapse collapse">
-									<div class="panel-body">
-										<ul>
-											<li><a href="#">Máy trộn bê tông</a></li>
-											<li><a href="#">Máy bơm bê tông</a></li>
-											<li><a href="#">Máy đầm đất, đầm bàn, đầm rung</a></li>
-											<li><a href="#">Máy cắt bê tông, máy mài sàn</a></li>
-											<li><a href="#">Versace</a></li>
-										</ul>
-									</div>
-								</div>
-							</div>
-
-							<div class="panel panel-default">
-								<div class="panel-heading">
-									<h4 class="panel-title">
-										<a data-toggle="collapse" data-parent="#accordian" href="#womens">
-											<span class="badge pull-right"><i class="fa fa-plus"></i></span>
-											Máy móc san lấp và vận chuyển
-										</a>
-									</h4>
-								</div>
-								<div id="womens" class="panel-collapse collapse">
-									<div class="panel-body">
-										<ul>
-											<li><a href="#">Xe ben, xe tải chở vật liệu</a></li>
-											<li><a href="#">Xe bồn trộn bê tông</a></li>
-											<li><a href="#">Máy bơm nước công suất lớn</a></li>
-											<li><a href="#">Máy phát điện công trình</a></li>
-										</ul>
-									</div>
-								</div>
-							</div>
-							<div class="panel panel-default">
-								<div class="panel-heading">
-									<h4 class="panel-title"><a href="#">Máy công trình mini</a></h4>
-								</div>
-							</div>
-							<div class="panel panel-default">
-								<div class="panel-heading">
-									<h4 class="panel-title"><a href="#">Máy móc hiện đại, công nghệ mới</a></h4>
-								</div>
-							</div>
-							<div class="panel panel-default">
-								<div class="panel-heading">
-									<h4 class="panel-title"><a href="#">Thiết bị hỗ trợ công trình</a></h4>
-								</div>
-							</div>
-							<div class="panel panel-default">
-								<div class="panel-heading">
-									<h4 class="panel-title"><a href="#">Thiết bị hoàn thiện công trình</a></h4>
-								</div>
-							</div>
-							<div class="panel panel-default">
-								<div class="panel-heading">
-									<h4 class="panel-title"><a href="#">Trang bị bảo hộ lao động</a></h4>
-								</div>
-							</div>
-							<div class="panel panel-default">
-								<div class="panel-heading">
-									<h4 class="panel-title"><a href="#">Thiết bị vận chuyển vật liệu</a></h4>
-								</div>
-							</div>
-							<div class="panel panel-default">
-								<div class="panel-heading">
-									<h4 class="panel-title"><a href="#">Phụ kiện và dụng cụ thi công</a></h4>
-								</div>
-							</div>
-						</div><!--/category-products-->
-
-						<div class="brands_products"><!--brands_products-->
-							<h2>Nhãn hiệu</h2>
-							<div class="brands-name">
-								<ul class="nav nav-pills nav-stacked">
-									<li><a href="#"> <span class="pull-right">(50)</span>Caterpillar</a></li>
-									<li><a href="#"> <span class="pull-right">(56)</span>Komatsu</a></li>
-									<li><a href="#"> <span class="pull-right">(27)</span>Hitachi</a></li>
-									<li><a href="#"> <span class="pull-right">(32)</span>Volvo CE</a></li>
-									<li><a href="#"> <span class="pull-right">(5)</span>Liebherr</a></li>
-									<li><a href="#"> <span class="pull-right">(9)</span>Doosan</a></li>
-									<li><a href="#"> <span class="pull-right">(4)</span>JCB</a></li>
-								</ul>
-							</div>
-						</div><!--/brands_products-->
-
-						<div class="shipping text-center"><!--shipping-->
-							<img src="images/home/service.png" alt="" />
-						</div><!--/shipping-->
-
-					</div>
+    <h2>Thể loại</h2>
+    <div class="panel-group category-products" id="accordian"><!--category-productsr-->
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a href="{{ route('shop.index') }}" class="{{ !request('category') ? 'active' : '' }}">
+                        Tất cả sản phẩm
+                    </a>
+                </h4>
+            </div>
+        </div>
+        @foreach($categories as $category)
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        @if($category->children && $category->children->count() > 0)
+                            <a data-toggle="collapse" data-parent="#accordian" href="#category{{ $category->id }}">
+                                <span class="badge pull-right"><i class="fa fa-plus"></i></span>
+                                {{ $category->name }}
+                            </a>
+                        @else
+                            <a href="{{ route('shop.index', ['category' => $category->slug]) }}">
+                                {{ $category->name }}
+                            </a>
+                        @endif
+                    </h4>
+                </div>
+                @if($category->children && $category->children->count() > 0)
+                    <div id="category{{ $category->id }}" class="panel-collapse collapse">
+                        <div class="panel-body">
+                            <ul>
+                                @foreach($category->children as $child)
+                                    <li>
+                                        <a href="{{ route('shop.index', ['category' => $child->slug]) }}">
+                                            {{ $child->name }}
+                                        </a>
+                                    </li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    </div>
+                @endif
+            </div>
+        @endforeach
+    </div><!--/category-products-->
+</div>
 				</div>
 				
 				<div class="col-sm-9 padding-right">
-					<div class="features_items"><!--features_items-->
-						<h2 class="title text-center">Features Items</h2>
-						<div class="col-sm-4">
-							<div class="product-image-wrapper">
-								<div class="single-products">
-									<div class="productinfo text-center">
-										<img src="images/shop/product12.png" alt="" />
-										<h2>$100000</h2>
-										<p>Lấy sản phẩm</p>
-										<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Thêm vào giỏ hàng</a>
-									</div>
-									<div class="product-overlay">
-										<div class="overlay-content">
-											<h2>$100000</h2>
-											<p>Lấy sản phẩm</p>
-											<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Thêm vào giỏ hàng</a>
-										</div>
-									</div>
-								</div>
-								<div class="choose">
-									<ul class="nav nav-pills nav-justified">
-										<li><a href=""><i class="fa fa-plus-square"></i>Yêu thích</a></li>
-										<li><a href=""><i class="fa fa-plus-square"></i>Thuê </a></li>
-									</ul>
-								</div>
-							</div>
-						</div>
-						<div class="col-sm-4">
-							<div class="product-image-wrapper">
-								<div class="single-products">
-									<div class="productinfo text-center">
-										<img src="images/shop/product11.png" alt="" />
-										<h2>$100000</h2>
-										<p>Lấy sản phẩm</p>
-										<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Thêm vào giỏ hàng</a>
-									</div>
-									<div class="product-overlay">
-										<div class="overlay-content">
-											<h2>$100000</h2>
-											<p>Lấy sản phẩm</p>
-											<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Thêm vào giỏ hàng</a>
-										</div>
-									</div>
-								</div>
-								<div class="choose">
-									<ul class="nav nav-pills nav-justified">
-										<li><a href=""><i class="fa fa-plus-square"></i>Yêu thích</a></li>
-										<li><a href=""><i class="fa fa-plus-square"></i>Thuê </a></li>
-									</ul>
-								</div>
-							</div>
-						</div>
-						<div class="col-sm-4">
-							<div class="product-image-wrapper">
-								<div class="single-products">
-									<div class="productinfo text-center">
-										<img src="images/shop/product10.png" alt="" />
-										<h2>$100000</h2>
-										<p>Lấy sản phẩm</p>
-										<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Thêm vào giỏ hàng</a>
-									</div>
-									<div class="product-overlay">
-										<div class="overlay-content">
-											<h2>$100000</h2>
-											<p>Lấy sản phẩm</p>
-											<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Thêm vào giỏ hàng</a>
-										</div>
-									</div>
-								</div>
-								<div class="choose">
-									<ul class="nav nav-pills nav-justified">
-										<li><a href=""><i class="fa fa-plus-square"></i>Yêu thích</a></li>
-										<li><a href=""><i class="fa fa-plus-square"></i>Thuê </a></li>
-									</ul>
-								</div>
-							</div>
-						</div>
-						<div class="col-sm-4">
-							<div class="product-image-wrapper">
-								<div class="single-products">
-									<div class="productinfo text-center">
-										<img src="images/shop/product9.png" alt="" />
-										<h2>$100000</h2>
-										<p>Lấy sản phẩm</p>
-										<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Thêm vào giỏ hàng</a>
-									</div>
-									<div class="product-overlay">
-										<div class="overlay-content">
-											<h2>$100000</h2>
-											<p>Lấy sản phẩm</p>
-											<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Thêm vào giỏ hàng</a>
-										</div>
-									</div>
-									<img src="images/home/new.png" class="new" alt="" />
-								</div>
-								<div class="choose">
-									<ul class="nav nav-pills nav-justified">
-										<li><a href=""><i class="fa fa-plus-square"></i>Yêu thích</a></li>
-										<li><a href=""><i class="fa fa-plus-square"></i>Thuê </a></li>
-									</ul>
-								</div>
-							</div>
-						</div>
-						<div class="col-sm-4">
-							<div class="product-image-wrapper">
-								<div class="single-products">
-									<div class="productinfo text-center">
-										<img src="images/shop/product8.png" alt="" />
-										<h2>$100000</h2>
-										<p>Lấy sản phẩm</p>
-										<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Thêm vào giỏ hàng</a>
-									</div>
-									<div class="product-overlay">
-										<div class="overlay-content">
-											<h2>$100000</h2>
-											<p>Lấy sản phẩm</p>
-											<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Thêm vào giỏ hàng</a>
-										</div>
-									</div>
-									<img src="images/home/sale.png" class="new" alt="" />
-								</div>
-								<div class="choose">
-									<ul class="nav nav-pills nav-justified">
-										<li><a href=""><i class="fa fa-plus-square"></i>Yêu thích</a></li>
-										<li><a href=""><i class="fa fa-plus-square"></i>Thuê </a></li>
-									</ul>
-								</div>
-							</div>
-						</div>
-						<div class="col-sm-4">
-							<div class="product-image-wrapper">
-								<div class="single-products">
-									<div class="productinfo text-center">
-										<img src="images/shop/product7.png" alt="" />
-										<h2>$100000</h2>
-										<p>Lấy sản phẩm</p>
-										<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Thêm vào giỏ hàng</a>
-									</div>
-									<div class="product-overlay">
-										<div class="overlay-content">
-											<h2>$100000</h2>
-											<p>Lấy sản phẩm</p>
-											<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Thêm vào giỏ hàng</a>
-										</div>
-									</div>
-								</div>
-								<div class="choose">
-									<ul class="nav nav-pills nav-justified">
-										<li><a href=""><i class="fa fa-plus-square"></i>Yêu thích</a></li>
-										<li><a href=""><i class="fa fa-plus-square"></i>Thuê </a></li>
-									</ul>
-								</div>
-							</div>
-						</div>
-						
-						<div class="col-sm-4">
-							<div class="product-image-wrapper">
-								<div class="single-products">
-									<div class="productinfo text-center">
-										<img src="images/home/product6.png" alt="" />
-										<h2>$100000</h2>
-										<p>Lấy sản phẩm</p>
-										<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Thêm vào giỏ hàng</a>
-									</div>
-									<div class="product-overlay">
-										<div class="overlay-content">
-											<h2>$100000</h2>
-											<p>Lấy sản phẩm</p>
-											<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Thêm vào giỏ hàng</a>
-										</div>
-									</div>
-								</div>
-								<div class="choose">
-									<ul class="nav nav-pills nav-justified">
-										<li><a href=""><i class="fa fa-plus-square"></i>Yêu thích</a></li>
-										<li><a href=""><i class="fa fa-plus-square"></i>Thuê </a></li>
-									</ul>
-								</div>
-							</div>
-						</div>
-						
-						<div class="col-sm-4">
-							<div class="product-image-wrapper">
-								<div class="single-products">
-									<div class="productinfo text-center">
-										<img src="images/home/product5.png" alt="" />
-										<h2>$100000</h2>
-										<p>Lấy sản phẩm</p>
-										<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Thêm vào giỏ hàng</a>
-									</div>
-									<div class="product-overlay">
-										<div class="overlay-content">
-											<h2>$100000</h2>
-											<p>Lấy sản phẩm</p>
-											<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Thêm vào giỏ hàng</a>
-										</div>
-									</div>
-								</div>
-								<div class="choose">
-									<ul class="nav nav-pills nav-justified">
-										<li><a href=""><i class="fa fa-plus-square"></i>Yêu thích</a></li>
-										<li><a href=""><i class="fa fa-plus-square"></i>Thuê </a></li>
-									</ul>
-								</div>
-							</div>
-						</div>
-						
-						<div class="col-sm-4">
-							<div class="product-image-wrapper">
-								<div class="single-products">
-									<div class="productinfo text-center">
-										<img src="images/home/product4.png" alt="" />
-										<h2>$100000</h2>
-										<p>Lấy sản phẩm</p>
-										<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Thêm vào giỏ hàng</a>
-									</div>
-									<div class="product-overlay">
-										<div class="overlay-content">
-											<h2>$100000</h2>
-											<p>Lấy sản phẩm</p>
-											<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Thêm vào giỏ hàng</a>
-										</div>
-									</div>
-								</div>
-								<div class="choose">
-									<ul class="nav nav-pills nav-justified">
-										<li><a href=""><i class="fa fa-plus-square"></i>Yêu thích</a></li>
-										<li><a href=""><i class="fa fa-plus-square"></i>Thuê </a></li>
-									</ul>
-								</div>
-							</div>
-						</div>
-						
-						<div class="col-sm-4">
-							<div class="product-image-wrapper">
-								<div class="single-products">
-									<div class="productinfo text-center">
-										<img src="images/home/product3.png" alt="" />
-										<h2>$100000</h2>
-										<p>Lấy sản phẩm</p>
-										<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Thêm vào giỏ hàng</a>
-									</div>
-									<div class="product-overlay">
-										<div class="overlay-content">
-											<h2>$100000</h2>
-											<p>Lấy sản phẩm</p>
-											<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Thêm vào giỏ hàng</a>
-										</div>
-									</div>
-								</div>
-								<div class="choose">
-									<ul class="nav nav-pills nav-justified">
-										<li><a href=""><i class="fa fa-plus-square"></i>Yêu thích</a></li>
-										<li><a href=""><i class="fa fa-plus-square"></i>Thuê </a></li>
-									</ul>
-								</div>
-							</div>
-						</div>
-						
-						
-						<div class="col-sm-4">
-							<div class="product-image-wrapper">
-								<div class="single-products">
-									<div class="productinfo text-center">
-										<img src="images/home/product2.png" alt="" />
-										<h2>$100000</h2>
-										<p>Lấy sản phẩm</p>
-										<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Thêm vào giỏ hàng</a>
-									</div>
-									<div class="product-overlay">
-										<div class="overlay-content">
-											<h2>$100000</h2>
-											<p>Lấy sản phẩm</p>
-											<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Thêm vào giỏ hàng</a>
-										</div>
-									</div>
-								</div>
-								<div class="choose">
-									<ul class="nav nav-pills nav-justified">
-										<li><a href=""><i class="fa fa-plus-square"></i>Yêu thích</a></li>
-										<li><a href=""><i class="fa fa-plus-square"></i>Thuê </a></li>
-									</ul>
-								</div>
-							</div>
-						</div>
-						
-						<div class="col-sm-4">
-							<div class="product-image-wrapper">
-								<div class="single-products">
-									<div class="productinfo text-center">
-										<img src="images/home/product1.png" alt="" />
-										<h2>$100000</h2>
-										<p>Lấy sản phẩm</p>
-										<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Thêm vào giỏ hàng</a>
-									</div>
-									<div class="product-overlay">
-										<div class="overlay-content">
-											<h2>$100000</h2>
-											<p>Lấy sản phẩm</p>
-											<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Thêm vào giỏ hàng</a>
-										</div>
-									</div>
-								</div>
-								<div class="choose">
-									<ul class="nav nav-pills nav-justified">
-										<li><a href=""><i class="fa fa-plus-square"></i>Yêu thích</a></li>
-										<li><a href=""><i class="fa fa-plus-square"></i>Thuê </a></li>
-									</ul>
-								</div>
-							</div>
-						</div>
-						
-						<ul class="pagination">
-							<li class="active"><a href="">1</a></li>
-							<li><a href="">2</a></li>
-							<li><a href="">3</a></li>
-							<li><a href="">&raquo;</a></li>
-						</ul>
-					</div><!--features_items-->
-				</div>
+    <div class="features_items"><!--features_items-->
+        <h2 class="title text-center">Thiết bị mới nhất</h2>
+        
+        @foreach($devices as $device)
+        <div class="col-sm-4">
+            <div class="product-image-wrapper">
+                <div class="single-products">
+                    <div class="productinfo text-center">
+                        @if($device->image)
+                            <img src="{{ asset('storage/'.$device->image) }}" alt="{{ $device->name }}" />
+                        @else
+                            <img src="images/shop/no-image.jpg" alt="No image available" />
+                        @endif
+                        <h2>{{ number_format($device->price, 0, ',', '.') }} VNĐ</h2>
+                        <p>{{ $device->name }}</p>
+                        <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Thêm vào giỏ hàng</a>
+                    </div>
+                    <div class="product-overlay">
+                        <div class="overlay-content">
+                            <h2>{{ number_format($device->price, 0, ',', '.') }} VNĐ</h2>
+                            <p>{{ $device->name }}</p>
+                            <p class="small">{{ Str::limit($device->description, 100) }}</p>
+                            <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Thêm vào giỏ hàng</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="choose">
+                    <ul class="nav nav-pills nav-justified">
+                        <li><a href="{{ route('devices.show', $device->id) }}"><i class="fa fa-info-circle"></i>Chi tiết</a></li>
+                        <li><a href="#"><i class="fa fa-plus-square"></i>So sánh</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        @endforeach
+        
+        <div class="clearfix"></div>
+        <ul class="pagination">
+            {{ $devices->links() }}
+        </ul>
+    </div><!--features_items-->
+</div>
 			</div>
 		</div>
 	</section>

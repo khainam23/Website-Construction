@@ -8,20 +8,21 @@ return new class extends Migration
 {
     public function up()
     {
-        Schema::create('devices', function (Blueprint $table) {
+        Schema::create('categories', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->foreignId('category_id')->constrained()->onDelete('cascade');
+            $table->string('slug')->unique();
             $table->text('description')->nullable();
-            $table->decimal('price', 20, 2);
-            $table->integer('stock');
             $table->string('image')->nullable();
+            $table->boolean('is_active')->default(true);
+            $table->integer('parent_id')->nullable();
+            $table->integer('order')->default(0);
             $table->timestamps();
         });
     }
 
     public function down()
     {
-        Schema::dropIfExists('devices');
+        Schema::dropIfExists('categories');
     }
 };
