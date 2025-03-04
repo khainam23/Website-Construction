@@ -57,17 +57,24 @@
 				<div class="row">
 					<div class="col-sm-4">
 						<div class="logo pull-left">
-							<a href="/"><img src="images/home/logo.png" style="height: 80px; width: 80px;"
-									alt="" /></a>
+							<a href="/"><img src="images/home/logo.png" style="height: 80px; width: 80px;" alt="" /></a>
 						</div>
 					</div>
 					<div class="col-sm-8">
 						<div class="shop-menu pull-right">
 							<ul class="nav navbar-nav">
-								<li><a href="#"><i class="fa fa-user"></i>Account</a></li>
 								<li><a href="checkout"><i class="fa fa-crosshairs"></i> Hóa đơn</a></li>
 								<li><a href="cart"><i class="fa fa-shopping-cart"></i> Giỏ hàng</a></li>
-								<li><a href="login"><i class="fa fa-lock"></i> Truy cập</a></li>
+
+								@if(session()->has('user'))
+									@php $user = session('user'); @endphp
+									<li><a href="#"><i class="fa fa-user"></i>
+											{{ optional($user)['email'] ?? 'Người dùng' }}</a></li>
+									<li><a href="/api/logout"><i class="fa fa-sign-out"></i> Đăng xuất</a></li>
+								@else
+									<li><a href="login"><i class="fa fa-lock"></i> Truy cập</a></li>
+								@endif
+
 							</ul>
 						</div>
 					</div>
@@ -90,24 +97,17 @@
 						</div>
 						<div class="mainmenu pull-left">
 							<ul class="nav navbar-nav collapse navbar-collapse">
-								<li><a href="/" class="active">Nhà </a></li>
+								<li><a href="/" class="active">Trang chủ</a></li>
 								<li class="dropdown"><a href="#">Cửa hàng<i class="fa fa-angle-down"></i></a>
 									<ul role="menu" class="sub-menu">
 										<li><a href="shop">Products</a></li>
-										
 										<li><a href="checkout">Hóa đơn</a></li>
 										<li><a href="cart">Giỏ hàng</a></li>
 										<li><a href="login">Truy cập</a></li>
 									</ul>
 								</li>
-								
 								<li><a href="contact-us">Liên hệ</a></li>
 							</ul>
-						</div>
-					</div>
-					<div class="col-sm-3">
-						<div class="search_box pull-right">
-							<input type="text" placeholder="Search" />
 						</div>
 					</div>
 				</div>
