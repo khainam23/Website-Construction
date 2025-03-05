@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Middleware\RoleMiddleware;
 use App\Http\Controllers\DeviceController;
 use App\Http\Controllers\SaleController;
 use App\Http\Controllers\RentalController;
@@ -26,8 +27,12 @@ Route::post('/api/login', [AuthController::class, 'login'])->name('api.login'); 
 Route::get('/shop', [ShopController::class, 'index'])->name('shop.index');
 Route::get('/devices/{device}', [DeviceController::class, 'show'])->name('devices.show');
 
-// Order 
-Route::post("/api/orders", [OrderController::class, 'store'])->name('api.orders.store');
+// Service public 
+Route::middleware([RoleMiddleware::class . ':customer,admin'])->group(function () {
+    Route::post('/api/orders', [OrderController::class, 'index'])->name('orders.index');
+    Route::view('/cart', 'cart')->name('cart');
+    Route::view('/checkout', 'checkout')->name('checkout');
+});
 
 // Group các route cần quyền admin
 Route::middleware(['role:admin'])->group(function () {
@@ -39,16 +44,10 @@ Route::middleware(['role:admin'])->group(function () {
 // Group các route cho nhân viên bán hàng
 Route::middleware(['role:sales'])->group(function () {
     Route::resource('sales', SaleController::class);
-    Route::resource('orders', OrderController::class);
+    // Route::resource('orders', OrderController::class);
 });
 
 // Group các route cho nhân viên cho thuê
 Route::middleware(['role:rental'])->group(function () {
     Route::resource('rentals', RentalController::class);
-});
-
-// Group các route dành cho customer
-Route::middleware(['role:customer'])->group(function () {
-    Route::view('/checkout', 'checkout')->name('checkout');
-    Route::view('/cart', 'cart')->name('cart');
 });

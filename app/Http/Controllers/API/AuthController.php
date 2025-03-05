@@ -235,7 +235,8 @@ class AuthController extends Controller
             // Lưu session với thông tin cần thiết
             session()->put('user', [
                 'id' => $user->id,
-                'email' => $user->email
+                'email' => $user->email,
+                'role' => $user->role
             ]);
             session()->save();
 
