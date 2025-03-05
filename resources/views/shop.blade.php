@@ -436,10 +436,7 @@
 						alert("Thêm vào giỏ hàng thành công");
 					},
 					error: function (xhr, status, error) {
-						// alert("Cần đăng nhập")
-						console.log(xhr.responseText);
-						console.log(status);
-						console.log(error);
+						alert("Cần đăng nhập");
 						// window.location.href = "/login";
 					}
 				});

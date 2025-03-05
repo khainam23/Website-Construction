@@ -39,11 +39,14 @@ foreach ($commands as $command) {
 
 echo "✅ Dọn dẹp cache hoàn tất!\n";
 
-// Chạy migration và seeder
 echo "🔄 Đang chạy migration...\n";
-shell_exec("php artisan migrate --force");
+$migrateOutput = shell_exec("php artisan migrate --force 2>&1");
+sleep(2); // Đợi 2 giây để chắc chắn migration hoàn tất
+echo $migrateOutput; // In ra log migration để kiểm tra
 echo "✅ Migration hoàn tất!\n";
 
 echo "🔄 Đang chạy seeder...\n";
-shell_exec("php artisan db:seed --force");
+$seederOutput = shell_exec("php artisan db:seed --force 2>&1");
+echo $seederOutput; // In ra log seeder để kiểm tra
+
 echo "✅ Seeder hoàn tất!\n";
