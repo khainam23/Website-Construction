@@ -17,7 +17,13 @@ return new class extends Migration
             $table->string('last_name');  // ✅ Tách name thành last_name
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
+            $table->string('verification_token')->nullable();
+            $table->string('phone') ->nullable();
+            $table->timestamp('date_of_birth')->nullable();
             $table->string('password');
+            $table->string('gender')->nullable();
+            $table->string('address')->nullable();
+            $table->string('is_active')->nullable();
             $table->enum('role', ['admin', 'sales', 'warehouse', 'customer'])->default('customer');
             $table->rememberToken();
             $table->timestamps();

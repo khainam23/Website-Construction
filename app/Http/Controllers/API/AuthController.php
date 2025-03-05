@@ -238,7 +238,6 @@ class AuthController extends Controller
                 'email' => $user->email
             ]);
             session()->save();
-            session()->regenerate();
 
             return response()->json([
                 'success' => true,

@@ -17,14 +17,8 @@ Route::get('verify-email/{token}', [AuthController::class, 'verifyEmail'])->name
 
 // Protected Routes
 Route::middleware('auth:sanctum')->group(function () {
-    // Devices
-    Route::apiResource('devices', DeviceController::class);
-    
     // Inventory
     Route::apiResource('inventory', InventoryController::class);
-    
-    // Orders
-    Route::apiResource('orders', OrderController::class);
     
     // Rentals
     Route::apiResource('rentals', RentalController::class);
@@ -44,3 +38,5 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('/from-sale/{sale}', [InvoiceController::class, 'generateFromSale']);
     });
 });
+
+Route::get("logout", [AuthController::class, 'logout'])->name('api.logout');

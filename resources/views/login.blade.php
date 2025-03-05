@@ -388,14 +388,14 @@
 				success: function (response) {
 					if (response.errors) {
 						let errorMessages = Object.values(response.errors).map(err => err.join("<br>")).join("<br>");
-						showErrorPopup(errorMessages);
+						console.log(errorMessages);
 					} else {
 						alert("Đăng ký thành công!");
 						window.location.href = "/login";
 					}
 				},
 				error: function () {
-					showErrorPopup("Đã xảy ra lỗi, vui lòng thử lại!");
+					alert("Đã xảy ra lỗi, vui lòng thử lại!");
 				}
 			});
 		});

@@ -1214,6 +1214,7 @@
                 "summary": "Create a new order with items",
                 "operationId": "d690d6834318e9b064df441e854de8b9",
                 "requestBody": {
+                    "required": true,
                     "content": {
                         "application/json": {
                             "schema": {
@@ -1223,15 +1224,37 @@
                                 ],
                                 "properties": {
                                     "user_id": {
-                                        "type": "integer"
+                                        "type": "integer",
+                                        "example": 1
                                     },
                                     "type": {
-                                        "type": "string"
+                                        "type": "string",
+                                        "example": "online"
                                     },
                                     "items": {
                                         "type": "array",
                                         "items": {
-                                            "$ref": "#/components/schemas/OrderItem"
+                                            "required": [
+                                                "device_id",
+                                                "quantity",
+                                                "unit_price"
+                                            ],
+                                            "properties": {
+                                                "device_id": {
+                                                    "type": "integer",
+                                                    "example": 101
+                                                },
+                                                "quantity": {
+                                                    "type": "integer",
+                                                    "example": 2
+                                                },
+                                                "unit_price": {
+                                                    "type": "number",
+                                                    "format": "float",
+                                                    "example": 150.5
+                                                }
+                                            },
+                                            "type": "object"
                                         }
                                     }
                                 },
@@ -1250,8 +1273,49 @@
                                 }
                             }
                         }
+                    },
+                    "401": {
+                        "description": "Unauthorized - User not logged in",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Bạn cần đăng nhập trước!"
+                                        },
+                                        "redirect": {
+                                            "type": "string",
+                                            "example": "http://yourdomain.com/login"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Error creating order: Database error"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             }
         },
         "/api/orders/{id}": {
