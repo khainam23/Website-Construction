@@ -6,6 +6,7 @@ use App\Models\Order;
 use App\Models\OrderItem;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Models\Device;
 
 /**
  * @OA\Tag(
@@ -17,7 +18,7 @@ class OrderController extends Controller
 {
     /**
      * @OA\Get(
-     *     path="/api/orders",
+     *     path="/api/cart",
      *     summary="Get all orders",
      *     tags={"Orders"},
      *     @OA\Response(
@@ -31,7 +32,27 @@ class OrderController extends Controller
      */
     public function index()
     {
-        return response()->json(Order::with('user')->get());
+        $user_id = session('user')['id'];
+
+        // Lấy danh sách order của user
+        $orders = Order::where('user_id', $user_id)->get();
+
+        // Lấy danh sách order_id
+        $orderIds = $orders->pluck('id');
+
+        // Lấy danh sách order_items dựa trên order_id
+        $orderItems = OrderItem::whereIn('order_id', $orderIds)->get();
+
+        // Lấy danh sách product_id từ order_items
+        $productIds = $orderItems->pluck('device_id');
+
+        // Lấy danh sách sản phẩm từ danh sách product_id
+        $products = Device::whereIn('id', $productIds)->get();
+
+        return response()->json([
+            'products' => $products,
+            'order_items' => $orderItems
+        ]);
     }
 
     /**

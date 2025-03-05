@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\AuthController;
+use App\Http\Middleware\RoleMiddleware;
 use App\Http\Controllers\DeviceController;
 use App\Http\Controllers\InventoryController;
 use App\Http\Controllers\OrderController;
@@ -14,6 +15,11 @@ use App\Http\Controllers\InvoiceController;
 Route::post('register', [AuthController::class, 'register'])->name('api.register');
 Route::post('forgot-password', [AuthController::class, 'forget'])->name('api.forgot-password');
 Route::get('verify-email/{token}', [AuthController::class, 'verifyEmail'])->name('api.verify-email');
+
+// Service public 
+Route::middleware([RoleMiddleware::class . ':customer,admin'])->group(function () {
+    
+});
 
 // Protected Routes
 // Route::middleware('auth:sanctum')->group(function () {

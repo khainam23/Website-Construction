@@ -16,7 +16,7 @@ class RoleMiddleware
         $user =  session("user");
 
         if (!$user || !in_array($user['role'], $roles)) {
-            abort(403, 'Unauthorized' . print_r($roles) .print_r($user) );
+            abort(403, 'Unauthorized' );
         }
 
         return $next($request);
