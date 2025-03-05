@@ -18,14 +18,15 @@ Route::view('/', 'index')->name('index');
 Route::view('/login', 'login')->name('login');
 Route::view('/about', 'about')->name('about');
 Route::view('/contact', 'contact')->name('contact');
-Route::view('/product', 'product')->name('product');
+Route::get('/product-details/{id}', function ($id) {
+    return view('product-details', ['id' => $id]);
+})->name('product-details');
 Route::view('/shop', 'shop')->name('shop');
 Route::view('/404', '404')->name('404');
 
 // Login
 Route::post('/api/login', [AuthController::class, 'login'])->name('api.login'); // Stateful
 Route::get('/shop', [ShopController::class, 'index'])->name('shop.index');
-Route::get('/devices/{device}', [DeviceController::class, 'show'])->name('devices.show');
 
 // Service public 
 Route::middleware([RoleMiddleware::class . ':customer,admin'])->group(function () {

@@ -15,14 +15,14 @@
 	<link href="css/main.css" rel="stylesheet">
 	<link href="css/responsive.css" rel="stylesheet">
 	<!--[if lt IE 9]>
-    <script src="js/html5shiv.js"></script>
-    <script src="js/respond.min.js"></script>
+    <script src="/js/html5shiv.js"></script>
+    <script src="/js/respond.min.js"></script>
     <![endif]-->
-	<link rel="shortcut icon" href="images/ico/favicon.ico">
-	<link rel="apple-touch-icon-precomposed" sizes="144x144" href="images/ico/apple-touch-icon-144-precomposed.png">
-	<link rel="apple-touch-icon-precomposed" sizes="114x114" href="images/ico/apple-touch-icon-114-precomposed.png">
-	<link rel="apple-touch-icon-precomposed" sizes="72x72" href="images/ico/apple-touch-icon-72-precomposed.png">
-	<link rel="apple-touch-icon-precomposed" href="images/ico/apple-touch-icon-57-precomposed.png">
+	<link rel="shortcut icon" href="/images/ico/favicon.ico">
+	<link rel="apple-touch-icon-precomposed" sizes="144x144" href="/images/ico/apple-touch-icon-144-precomposed.png">
+	<link rel="apple-touch-icon-precomposed" sizes="114x114" href="/images/ico/apple-touch-icon-114-precomposed.png">
+	<link rel="apple-touch-icon-precomposed" sizes="72x72" href="/images/ico/apple-touch-icon-72-precomposed.png">
+	<link rel="apple-touch-icon-precomposed" href="/images/ico/apple-touch-icon-57-precomposed.png">
 </head><!--/head-->
 
 <body>
@@ -58,7 +58,7 @@
 				<div class="row">
 					<div class="col-sm-4">
 						<div class="logo pull-left">
-							<a href="/"><img src="images/home/logo.png" style="height: 80px; width: 80px;" alt="" /></a>
+							<a href="/"><img src="/images/home/logo.png" style="height: 80px; width: 80px;" alt="" /></a>
 						</div>
 					</div>
 					<div class="col-sm-8">
@@ -163,7 +163,7 @@
 							<div class="video-gallery text-center">
 								<a href="#">
 									<div class="iframe-img">
-										<img src="images/home/i1.png" alt="" />
+										<img src="/images/home/i1.png" alt="" />
 									</div>
 									<div class="overlay-icon">
 										<i class="fa fa-play-circle-o"></i>
@@ -178,7 +178,7 @@
 							<div class="video-gallery text-center">
 								<a href="#">
 									<div class="iframe-img">
-										<img src="images/home/i2.png" alt="" />
+										<img src="/images/home/i2.png" alt="" />
 									</div>
 									<div class="overlay-icon">
 										<i class="fa fa-play-circle-o"></i>
@@ -193,7 +193,7 @@
 							<div class="video-gallery text-center">
 								<a href="#">
 									<div class="iframe-img">
-										<img src="images/home/i3.png" alt="" />
+										<img src="/images/home/i3.png" alt="" />
 									</div>
 									<div class="overlay-icon">
 										<i class="fa fa-play-circle-o"></i>
@@ -208,7 +208,7 @@
 							<div class="video-gallery text-center">
 								<a href="#">
 									<div class="iframe-img">
-										<img src="images/home/i4.png" alt="" />
+										<img src="/images/home/i4.png" alt="" />
 									</div>
 									<div class="overlay-icon">
 										<i class="fa fa-play-circle-o"></i>
@@ -221,7 +221,7 @@
 					</div>
 					<div class="col-sm-3">
 						<div class="address">
-							<img src="images/home/map.png" alt="" />
+							<img src="/images/home/map.png" alt="" />
 							<p>Việt Nam, Thành Phố Hồ Chí Minh, Thành Phố Hà Nội, Đà Nẵng</p>
 						</div>
 					</div>
@@ -307,11 +307,11 @@
 
 	</footer><!--/Footer-->
 
-	<script src="js/jquery.js"></script>
-	<script src="js/bootstrap.min.js"></script>
-	<script src="js/jquery.scrollUp.min.js"></script>
-	<script src="js/jquery.prettyPhoto.js"></script>
-	<script src="js/main.js"></script>
+	<script src="/js/jquery.js"></script>
+	<script src="/js/bootstrap.min.js"></script>
+	<script src="/js/jquery.scrollUp.min.js"></script>
+	<script src="/js/jquery.prettyPhoto.js"></script>
+	<script src="/js/main.js"></script>
 
 	<script>
 		window.onload = function () {
@@ -323,10 +323,12 @@
 					console.log(response);
 					const products = response.products;
 					const orderItems = response.order_items;
+					const orders = response.orders;
 					console.log(products);
 					for (let i in products) {
 						let product = products[i];
 						let orderItem = orderItems[i];
+						let order = orders[i];
 						let html = `
 							<tr>
 							<input type="hidden" name="order_id" value="${orderItem.order_id}">
@@ -336,6 +338,7 @@
 							</td>
 							<td class="cart_description">
 								<h4><a href="">${product.name}</a></h4>
+								<p>Type: ${order.type}</p>
 								<p>Web ID: ${product.id}</p>
 							</td>
 							<td class="cart_price">
@@ -353,7 +356,7 @@
 								<p class="cart_total_price">${orderItem.unit_price}</p>
 							</td>
 							<td class="cart_delete">
-								<a class="cart_quantity_delete" href="">Mua</a>
+								<a class="cart_quantity_delete" href="">Thanh toán</a>
 							</td>
 						</tr>
 						`;

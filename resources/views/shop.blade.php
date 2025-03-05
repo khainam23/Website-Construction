@@ -16,14 +16,14 @@
 	<link href="css/main.css" rel="stylesheet">
 	<link href="css/responsive.css" rel="stylesheet">
 	<!--[if lt IE 9]>
-    <script src="js/html5shiv.js"></script>
-    <script src="js/respond.min.js"></script>
+    <script src="/js/html5shiv.js"></script>
+    <script src="/js/respond.min.js"></script>
     <![endif]-->
-	<link rel="shortcut icon" href="images/ico/favicon.ico">
-	<link rel="apple-touch-icon-precomposed" sizes="144x144" href="images/ico/apple-touch-icon-144-precomposed.png">
-	<link rel="apple-touch-icon-precomposed" sizes="114x114" href="images/ico/apple-touch-icon-114-precomposed.png">
-	<link rel="apple-touch-icon-precomposed" sizes="72x72" href="images/ico/apple-touch-icon-72-precomposed.png">
-	<link rel="apple-touch-icon-precomposed" href="images/ico/apple-touch-icon-57-precomposed.png">
+	<link rel="shortcut icon" href="/images/ico/favicon.ico">
+	<link rel="apple-touch-icon-precomposed" sizes="144x144" href="/images/ico/apple-touch-icon-144-precomposed.png">
+	<link rel="apple-touch-icon-precomposed" sizes="114x114" href="/images/ico/apple-touch-icon-114-precomposed.png">
+	<link rel="apple-touch-icon-precomposed" sizes="72x72" href="/images/ico/apple-touch-icon-72-precomposed.png">
+	<link rel="apple-touch-icon-precomposed" href="/images/ico/apple-touch-icon-57-precomposed.png">
 </head><!--/head-->
 
 <body>
@@ -59,7 +59,7 @@
 				<div class="row">
 					<div class="col-sm-4">
 						<div class="logo pull-left">
-							<a href="/"><img src="images/home/logo.png" style="height: 80px; width: 80px;" alt="" /></a>
+							<a href="/"><img src="/images/home/logo.png" style="height: 80px; width: 80px;" alt="" /></a>
 						</div>
 					</div>
 					<div class="col-sm-8">
@@ -119,7 +119,7 @@
 
 	<section id="advertisement" class="py-4">
 		<div class="container">
-			<img src="images/shop/banner.png" class="img-fluid rounded shadow"
+			<img src="/images/shop/banner.png" class="img-fluid rounded shadow"
 				style="max-height: 400px; width: 100%; object-fit: cover;" alt="Banner quảng cáo">
 		</div>
 	</section>
@@ -191,7 +191,7 @@
 											@if($device->image)
 												<img src="{{ asset('storage/' . $device->image) }}" alt="{{ $device->name }}" />
 											@else
-												<img src="images/shop/no-image.jpg" alt="No image available" />
+												<img src="/images/shop/no-image.jpg" alt="No image available" />
 											@endif
 											<h2>{{ number_format($device->price, 0, ',', '.') }} VNĐ</h2>
 											<p>{{ $device->name }}</p>
@@ -211,7 +211,7 @@
 									</div>
 									<div class="choose">
 										<ul class="nav nav-pills nav-justified">
-											<li><a href="{{ route('devices.show', $device->id) }}"><i
+											<li><a href="{{ route('product-details', $device->id) }}"><i
 														class="fa fa-info-circle"></i>Chi tiết</a></li>
 											<li><a href="#" p-id="{{ $device->id }}" p-price="{{ $device->price }}" p-type="rentals"><i
 														class="fa fa-plus-square"></i>Thuê</a>
@@ -251,7 +251,7 @@
 							<div class="video-gallery text-center">
 								<a href="#">
 									<div class="iframe-img">
-										<img src="images/home/i1.png" alt="" />
+										<img src="/images/home/i1.png" alt="" />
 									</div>
 									<div class="overlay-icon">
 										<i class="fa fa-play-circle-o"></i>
@@ -266,7 +266,7 @@
 							<div class="video-gallery text-center">
 								<a href="#">
 									<div class="iframe-img">
-										<img src="images/home/i2.png" alt="" />
+										<img src="/images/home/i2.png" alt="" />
 									</div>
 									<div class="overlay-icon">
 										<i class="fa fa-play-circle-o"></i>
@@ -281,7 +281,7 @@
 							<div class="video-gallery text-center">
 								<a href="#">
 									<div class="iframe-img">
-										<img src="images/home/i3.png" alt="" />
+										<img src="/images/home/i3.png" alt="" />
 									</div>
 									<div class="overlay-icon">
 										<i class="fa fa-play-circle-o"></i>
@@ -296,7 +296,7 @@
 							<div class="video-gallery text-center">
 								<a href="#">
 									<div class="iframe-img">
-										<img src="images/home/i4.png" alt="" />
+										<img src="/images/home/i4.png" alt="" />
 									</div>
 									<div class="overlay-icon">
 										<i class="fa fa-play-circle-o"></i>
@@ -309,7 +309,7 @@
 					</div>
 					<div class="col-sm-3">
 						<div class="address">
-							<img src="images/home/map.png" alt="" />
+							<img src="/images/home/map.png" alt="" />
 							<p>Việt Nam, Thành Phố Hồ Chí Minh, Thành Phố Hà Nội, Đà Nẵng</p>
 						</div>
 					</div>
@@ -395,12 +395,12 @@
 
 	</footer><!--/Footer-->
 
-	<script src="js/jquery.js"></script>
-	<script src="js/price-range.js"></script>
-	<script src="js/jquery.scrollUp.min.js"></script>
-	<script src="js/bootstrap.min.js"></script>
-	<script src="js/jquery.prettyPhoto.js"></script>
-	<script src="js/main.js"></script>
+	<script src="/js/jquery.js"></script>
+	<script src="/js/price-range.js"></script>
+	<script src="/js/jquery.scrollUp.min.js"></script>
+	<script src="/js/bootstrap.min.js"></script>
+	<script src="/js/jquery.prettyPhoto.js"></script>
+	<script src="/js/main.js"></script>
 
 	<script>
 		@php $user = session('user'); @endphp
@@ -436,11 +436,8 @@
 						alert("Thêm vào giỏ hàng thành công");
 					},
 					error: function (xhr, status, error) {
-						// alert("Cần đăng nhập");
-						console.log(xhr.responseText);
-						console.log(status);
-						console.log(error);
-						// window.location.href = "/login";
+						alert("Cần đăng nhập");
+						window.location.href = "/login";
 					}
 				});
 			});

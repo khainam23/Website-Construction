@@ -16,9 +16,11 @@ Route::post('register', [AuthController::class, 'register'])->name('api.register
 Route::post('forgot-password', [AuthController::class, 'forget'])->name('api.forgot-password');
 Route::get('verify-email/{token}', [AuthController::class, 'verifyEmail'])->name('api.verify-email');
 
+Route::get('devices/{id}', [DeviceController::class, 'show']);
+
 // Service public 
 Route::middleware([RoleMiddleware::class . ':customer,admin'])->group(function () {
-    
+    Route::get("logout", [AuthController::class, 'logout'])->name('api.logout');
 });
 
 // Protected Routes
@@ -44,5 +46,3 @@ Route::middleware([RoleMiddleware::class . ':customer,admin'])->group(function (
 //         Route::post('/from-sale/{sale}', [InvoiceController::class, 'generateFromSale']);
 //     });
 // });
-
-Route::get("logout", [AuthController::class, 'logout'])->name('api.logout');

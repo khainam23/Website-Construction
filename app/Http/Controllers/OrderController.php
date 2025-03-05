@@ -51,7 +51,8 @@ class OrderController extends Controller
 
         return response()->json([
             'products' => $products,
-            'order_items' => $orderItems
+            'order_items' => $orderItems,
+            'orders' => $orders
         ]);
     }
 
