@@ -13,8 +13,8 @@ return new class extends Migration
             $table->foreignId('order_id')->constrained()->onDelete('cascade');
             $table->foreignId('device_id')->constrained();
             $table->integer('quantity');
-            $table->decimal('unit_price', 10, 2);
-            $table->decimal('subtotal', 10, 2);
+            $table->decimal('unit_price', 65, 2);
+            $table->decimal('subtotal', 65, 2);
             $table->timestamps();
         });
     }

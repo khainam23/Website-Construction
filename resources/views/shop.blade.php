@@ -437,7 +437,7 @@
 					},
 					error: function (xhr, status, error) {
 						alert("Cần đăng nhập");
-						// window.location.href = "/login";
+						window.location.href = "/login";
 					}
 				});
 			});
