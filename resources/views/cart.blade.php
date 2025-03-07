@@ -132,6 +132,7 @@
 						<tr class="cart_menu">
 							<td class="image">Item</td>
 							<td class="description"></td>
+							<td></td>
 							<td class="price">Price</td>
 							<td class="quantity">Quantity</td>
 							<td class="total">Total</td>
@@ -326,6 +327,13 @@
 					const products = response.products;
 					const orderItems = response.order_items;
 					const orders = response.orders;
+
+					let today = new Date();
+					let startDate = new Date();
+					startDate.setDate(today.getDate() + 5);
+					let endDate = new Date(startDate);
+					endDate.setDate(startDate.getDate() + 3);
+
 					for (let i in products) {
 						let product = products[i];
 						let orderItem = orderItems[i];
@@ -348,15 +356,30 @@
 								<p id="device_type">Type: ${order.type}</p>
 								<p>Web ID: ${product.id}</p>
 							</td>
+							${order.type === 'rental'
+								? `
+									<td>
+										<label>Chọn ngày bắt đầu:</label>
+										<input type="date" class="startDate"
+											value="${startDate.toISOString().split('T')[0]}" 
+											min="${startDate.toISOString().split('T')[0]}">
+										<br />
+										<label>Chọn ngày kết thúc:</label>
+										<input type="date" class="endDate"
+											value="${endDate.toISOString().split('T')[0]}" 
+											min="${endDate.toISOString().split('T')[0]}">
+									</td>
+								` : ''
+							}
 							<td class="cart_price">
 								<p>${product.price}</p>
 							</td>
 							<td class="cart_quantity">
 								<div class="cart_quantity_button">
-									<a class="cart_quantity_up" href=""> + </a>
-									<input id="device_quantity" class="cart_quantity_input" type="text" name="quantity" value="${orderItem.quantity}"}"
-										autocomplete="off" size="${product.stock}">
 									<a class="cart_quantity_down" href=""> - </a>
+									<input id="device_quantity" class="cart_quantity_input" type="text" name="quantity" value="${orderItem.quantity}"
+										autocomplete="off" size="${product.stock}">
+									<a class="cart_quantity_up" href=""> + </a>
 								</div>
 							</td>
 							<td class="cart_total">
