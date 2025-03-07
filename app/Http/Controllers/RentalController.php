@@ -60,6 +60,7 @@ class RentalController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
+            'order_id' => 'required|exists:orders,id',
             'device_id' => 'required|exists:devices,id',
             'rental_date' => 'required|date',
             'return_date' => 'required|date|after:rental_date',

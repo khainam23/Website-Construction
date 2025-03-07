@@ -417,8 +417,6 @@
 			const startDate = parent.find('.startDate')?.val();
 			const endDate = parent.find('.endDate')?.val();
 
-			console.log('device_id', id);
-
 			if (type === 'sales') {
 				// For sale
 				$.ajax({

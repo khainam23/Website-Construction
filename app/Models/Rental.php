@@ -13,7 +13,8 @@ class Rental extends Model
         'device_id',
         'rental_date',
         'return_date',
-        'rental_fee'
+        'rental_fee',
+        'quantity'
     ];
 
     public function user()
