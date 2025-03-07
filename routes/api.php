@@ -20,7 +20,7 @@ Route::get('devices/{id}', [DeviceController::class, 'show']);
 
 // Service public 
 Route::middleware([RoleMiddleware::class . ':customer,admin'])->group(function () {
-    Route::get("logout", [AuthController::class, 'logout'])->name('api.logout');
+
 });
 
 // Protected Routes

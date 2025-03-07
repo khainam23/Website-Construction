@@ -1184,13 +1184,13 @@
                 }
             }
         },
-        "/api/orders": {
+        "/api/cart": {
             "get": {
                 "tags": [
                     "Orders"
                 ],
                 "summary": "Get all orders",
-                "operationId": "2cd7e03021e72d9d799c12dfe179c865",
+                "operationId": "8c5140888d50a5fedb74e2c403a659e0",
                 "responses": {
                     "200": {
                         "description": "List of all orders",
@@ -1206,7 +1206,9 @@
                         }
                     }
                 }
-            },
+            }
+        },
+        "/api/orders": {
             "post": {
                 "tags": [
                     "Orders"

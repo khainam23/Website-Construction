@@ -34,6 +34,9 @@ Route::middleware([RoleMiddleware::class . ':customer,admin'])->group(function (
     Route::view('/cart', 'cart')->name('cart');
     Route::view('/checkout', 'checkout')->name('checkout');
     Route::get('/api/cart', [OrderController::class, 'index'])->name('orders.index');
+
+    Route::get("/api/logout", [AuthController::class, 'logout'])->name('api.logout');
+    Route::post('/api/sales', [SaleController::class, 'store'])->name('api.sales');
 });
 
 // // Group các route cần quyền admin

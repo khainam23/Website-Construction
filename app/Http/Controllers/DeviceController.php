@@ -165,7 +165,7 @@ class DeviceController extends Controller
      */
     public function update(Request $request, Device $device)
     {
-        $this-> authorize('update', $device);
+        $this->authorize('update', $device);
 
         $validated = $request->validate([
             'name' => 'required|string|max:255',
@@ -181,7 +181,7 @@ class DeviceController extends Controller
             if ($device->image) {
                 \Storage::delete('public/' . $device->image);
             }
-            
+
             $image = $request->file('image');
             $filename = time() . '.' . $image->getClientOriginalExtension();
             $image->storeAs('public/devices', $filename);
@@ -220,13 +220,14 @@ class DeviceController extends Controller
     public function destroy($id)
     {
         $device = Device::findOrFail($id);
-        
+
         // Xóa ảnh khi xóa thiết bị
         if ($device->image) {
             \Storage::delete('public/' . $device->image);
         }
-        
+
         $device->delete();
         return response()->json(['message' => 'Thiết bị đã bị xóa']);
     }
+
 }

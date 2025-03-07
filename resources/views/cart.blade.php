@@ -4,6 +4,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="csrf-token" content="{{ csrf_token() }}">
 	<meta name="description" content="">
 	<meta name="author" content="">
 	<title>Giỏ hàng | INGOUDE-Shopper</title>
@@ -58,7 +59,8 @@
 				<div class="row">
 					<div class="col-sm-4">
 						<div class="logo pull-left">
-							<a href="/"><img src="/images/home/logo.png" style="height: 80px; width: 80px;" alt="" /></a>
+							<a href="/"><img src="/images/home/logo.png" style="height: 80px; width: 80px;"
+									alt="" /></a>
 						</div>
 					</div>
 					<div class="col-sm-8">
@@ -324,21 +326,26 @@
 					const products = response.products;
 					const orderItems = response.order_items;
 					const orders = response.orders;
-					console.log(products);
 					for (let i in products) {
 						let product = products[i];
 						let orderItem = orderItems[i];
 						let order = orders[i];
 						let html = `
 							<tr>
-							<input type="hidden" name="order_id" value="${orderItem.order_id}">
+							<input id="order_id" type="hidden" name="order_id" value="${orderItem.order_id}">
+							<input id="category_id" type="hidden" name="category_id" value="${product.category_id}">
+							<input id="device_id" type="hidden" name="device_id" value="${product.id}">
+							<input id="device_description" type="hidden" name="type" value="${order.type}">
+							<input id="device_stock" type="hidden" name="device_stock" value="${product.stock}">
+							<input id="order_type" type="hidden" name="device_type" value="${order.type}">
+							<input id="device_price" type="hidden" name="device_price" value="${product.price}">
 							<td class="cart_product">
-								<a href=""><img src="${product.image}" style="height: 100px; width: 100px;"
+								<a href=""><img id="device_image" src="${product.image}" style="height: 100px; width: 100px;"
 										alt=""></a>
 							</td>
 							<td class="cart_description">
-								<h4><a href="">${product.name}</a></h4>
-								<p>Type: ${order.type}</p>
+								<h4><a href="/product-details/${product.id}" id="device_name">${product.name}</a></h4>
+								<p id="device_type">Type: ${order.type}</p>
 								<p>Web ID: ${product.id}</p>
 							</td>
 							<td class="cart_price">
@@ -347,7 +354,7 @@
 							<td class="cart_quantity">
 								<div class="cart_quantity_button">
 									<a class="cart_quantity_up" href=""> + </a>
-									<input class="cart_quantity_input" type="text" name="quantity" value="${orderItem.quantity}"}"
+									<input id="device_quantity" class="cart_quantity_input" type="text" name="quantity" value="${orderItem.quantity}"}"
 										autocomplete="off" size="${product.stock}">
 									<a class="cart_quantity_down" href=""> - </a>
 								</div>
@@ -355,8 +362,8 @@
 							<td class="cart_total">
 								<p class="cart_total_price">${orderItem.unit_price}</p>
 							</td>
-							<td class="cart_delete">
-								<a class="cart_quantity_delete" href="">Thanh toán</a>
+							<td class="cart_pay">
+								<a id="cart_pay" href="">Thanh toán</a>
 							</td>
 						</tr>
 						`;
@@ -368,6 +375,50 @@
 				}
 			});
 		};
+
+		$(document).on('click', '#cart_pay', function (e) {
+			e.preventDefault(); // Ngăn chặn load trang
+
+			const order_id = document.getElementById('order_id').value;
+			const category_id = document.getElementById('category_id').value;
+			const device_stock = document.getElementById('device_stock').value;
+			const device_description = document.getElementById('device_description').value;
+			const id = document.getElementById('device_id').value;
+			const name = document.getElementById('device_name').value;
+			const price = document.getElementById('device_price').value;
+			const quantity = document.getElementById('device_quantity').value;
+			const image = document.getElementById('device_image').value;
+			const type = document.getElementById('order_type').value;
+			console.log("price", price)
+			console.log("quantity", quantity)
+			if (type === 'sales') {
+				// For sale
+				$.ajax({
+					url: '/api/sales',
+					type: 'POST',
+					headers: {
+						'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+					},
+					data: {
+						'order_id': order_id,
+						'device_id': id,
+						'quantity': quantity,
+						'total_price': price * quantity,
+						'quantity': quantity
+					},
+					success: function (response) {
+						alert('Thanh toán thành công');
+						window.location.href = '/cart';
+					},
+					error: function (error) {
+						console.log(error.responseText);
+					}
+				});
+			} else {
+				// For rental
+				console.log('rental');
+			}
+		});
 	</script>
 </body>
 

@@ -350,7 +350,7 @@
 					url: "{{ url('/api/login') }}",
 					type: "POST",
 					data: formData,
-					dataType: "/json",
+					dataType: "json",
 					xhrFields: {
 						withCredentials: true // Bắt buộc để cookie session hoạt động
 					},
@@ -361,10 +361,12 @@
 								window.location.href = "{{ url('/') }}";
 							}, 500); // Delay 0.5 giây để đảm bảo session được lưu
 						} else {
+							console.log(response);
 							alert("Đăng nhập thất bại!");
 						}
 					},
 					error: function (xhr) {
+						console.log(xhr.responseText);
 						alert("Đăng nhập thất bại!");
 					}
 				});

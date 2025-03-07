@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Sale;
 use App\Models\Device;
+use App\Models\Order;
 use Illuminate\Http\Request;
 
 /**
@@ -62,15 +63,31 @@ class SaleController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
+            'order_id' => 'required|exists:orders,id',
             'device_id' => 'required|exists:devices,id',
-            'user_id' => 'required|exists:users,id',
             'quantity' => 'required|integer|min:1',
             'total_price' => 'required|numeric|min:0'
         ]);
 
+        // Lấy user_id từ session
+        $user = session('user');
+        if (!$user) {
+            return response()->json(['message' => 'Unauthorized'], 401);
+        }
+
+        $validated['user_id'] = $user['id']; // Gán user_id vào dữ liệu đã validate
+
         $sale = Sale::create($validated);
-        return response()->json($sale, 201);
+        
+        // Xóa đơn hàng
+        Order::destroy($validated['order_id']);
+
+        // Cập nhật số lượng đơn hàng
+        Device::updateStock($validated['device_id'], $validated['quantity']);
+        
+        return response()->json('Thanh toán thành công', 201);
     }
+
 
     /**
      * @OA\Get(

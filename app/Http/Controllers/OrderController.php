@@ -30,31 +30,31 @@ class OrderController extends Controller
      *     )
      * )
      */
-    public function index()
-    {
-        $user_id = session('user')['id'];
+        public function index()
+        {
+            $user_id = session('user')['id'];
 
-        // Lấy danh sách order của user
-        $orders = Order::where('user_id', $user_id)->get();
+            // Lấy danh sách order của user
+            $orders = Order::where('user_id', $user_id)->get();
 
-        // Lấy danh sách order_id
-        $orderIds = $orders->pluck('id');
+            // Lấy danh sách order_id
+            $orderIds = $orders->pluck('id');
 
-        // Lấy danh sách order_items dựa trên order_id
-        $orderItems = OrderItem::whereIn('order_id', $orderIds)->get();
+            // Lấy danh sách order_items dựa trên order_id
+            $orderItems = OrderItem::whereIn('order_id', $orderIds)->get();
 
-        // Lấy danh sách product_id từ order_items
-        $productIds = $orderItems->pluck('device_id');
+            // Lấy danh sách product_id từ order_items
+            $productIds = $orderItems->pluck('device_id');
 
-        // Lấy danh sách sản phẩm từ danh sách product_id
-        $products = Device::whereIn('id', $productIds)->get();
+            // Lấy danh sách sản phẩm từ danh sách product_id
+            $products = Device::whereIn('id', $productIds)->get();
 
-        return response()->json([
-            'products' => $products,
-            'order_items' => $orderItems,
-            'orders' => $orders
-        ]);
-    }
+            return response()->json([
+                'products' => $products,
+                'order_items' => $orderItems,
+                'orders' => $orders
+            ]);
+        }
 
     /**
      * @OA\Post(
