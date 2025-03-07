@@ -213,7 +213,7 @@
 										<ul class="nav nav-pills nav-justified">
 											<li><a href="{{ route('product-details', $device->id) }}"><i
 														class="fa fa-info-circle"></i>Chi tiết</a></li>
-											<li><a href="#" p-id="{{ $device->id }}" p-price="{{ $device->price }}" p-type="rentals"><i
+											<li><a href="#" class="add-to-cart" p-id="{{ $device->id }}" p-price="{{ $device->price }}" p-type="rentals"><i
 														class="fa fa-plus-square"></i>Thuê</a>
 											</li>
 										</ul>

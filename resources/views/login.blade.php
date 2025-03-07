@@ -396,7 +396,8 @@
 						window.location.href = "/login";
 					}
 				},
-				error: function () {
+				error: function (err) {
+					console.log(err.responseText);
 					alert("Đã xảy ra lỗi, vui lòng thử lại!");
 				}
 			});

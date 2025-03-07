@@ -17,7 +17,8 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->date('rental_date');
             $table->date('return_date');
-            $table->decimal('rental_fee', 10, 2);
+            $table->integer('quantity');
+            $table->decimal('rental_fee', 65, 2);
             $table->timestamps();
         });
     }

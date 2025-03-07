@@ -41,7 +41,7 @@ echo "✅ Dọn dẹp cache hoàn tất!\n";
 
 echo "🔄 Đang chạy migration...\n";
 $migrateOutput = shell_exec("php artisan migrate --force 2>&1");
-sleep(2); // Đợi 2 giây để chắc chắn migration hoàn tất
+sleep(2); // Đợi 4 giây để chắc chắn migration hoàn tất
 echo $migrateOutput; // In ra log migration để kiểm tra
 echo "✅ Migration hoàn tất!\n";
 

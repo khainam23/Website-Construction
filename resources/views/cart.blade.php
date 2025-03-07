@@ -340,23 +340,23 @@
 						let order = orders[i];
 						let html = `
 							<tr>
-							<input id="order_id" type="hidden" name="order_id" value="${orderItem.order_id}">
-							<input id="category_id" type="hidden" name="category_id" value="${product.category_id}">
-							<input id="device_id" type="hidden" name="device_id" value="${product.id}">
-							<input id="device_description" type="hidden" name="type" value="${order.type}">
-							<input id="device_stock" type="hidden" name="device_stock" value="${product.stock}">
-							<input id="order_type" type="hidden" name="device_type" value="${order.type}">
-							<input id="device_price" type="hidden" name="device_price" value="${product.price}">
+							<input class="order_id" type="hidden" name="order_id" value="${orderItem.order_id}">
+							<input class="category_id" type="hidden" name="category_id" value="${product.category_id}">
+							<input class="device_id" type="hidden" name="device_id" value="${product.id}">
+							<input class="device_description" type="hidden" name="type" value="${order.type}">
+							<input class="device_stock" type="hidden" name="device_stock" value="${product.stock}">
+							<input class="order_type" type="hidden" name="device_type" value="${order.type}">
+							<input class="device_price" type="hidden" name="device_price" value="${product.price}">
 							<td class="cart_product">
-								<a href=""><img id="device_image" src="${product.image}" style="height: 100px; width: 100px;"
+								<a href=""><img class="device_image" src="${product.image}" style="height: 100px; width: 100px;"
 										alt=""></a>
 							</td>
 							<td class="cart_description">
-								<h4><a href="/product-details/${product.id}" id="device_name">${product.name}</a></h4>
-								<p id="device_type">Type: ${order.type}</p>
+								<h4><a href="/product-details/${product.id}" class="device_name">${product.name}</a></h4>
+								<p class="device_type">Type: ${order.type}</p>
 								<p>Web ID: ${product.id}</p>
 							</td>
-							${order.type === 'rental'
+							${order.type === 'rentals'
 								? `
 									<td>
 										<label>Chọn ngày bắt đầu:</label>
@@ -369,7 +369,7 @@
 											value="${endDate.toISOString().split('T')[0]}" 
 											min="${endDate.toISOString().split('T')[0]}">
 									</td>
-								` : ''
+								` : ' <td></td>'
 							}
 							<td class="cart_price">
 								<p>${product.price}</p>
@@ -377,16 +377,16 @@
 							<td class="cart_quantity">
 								<div class="cart_quantity_button">
 									<a class="cart_quantity_down" href=""> - </a>
-									<input id="device_quantity" class="cart_quantity_input" type="text" name="quantity" value="${orderItem.quantity}"
+									<input class="device_quantity" class="cart_quantity_input" type="text" name="quantity" value="${orderItem.quantity}"
 										autocomplete="off" size="${product.stock}">
 									<a class="cart_quantity_up" href=""> + </a>
 								</div>
 							</td>
 							<td class="cart_total">
-								<p class="cart_total_price">${orderItem.unit_price}</p>
+								<p class="cart_total_price">${orderItem.unit_price * 0.4}</p>
 							</td>
-							<td class="cart_pay">
-								<a id="cart_pay" href="">Thanh toán</a>
+							<td>
+								<a class="cart_pay" href="">Thanh toán</a>
 							</td>
 						</tr>
 						`;
@@ -399,21 +399,26 @@
 			});
 		};
 
-		$(document).on('click', '#cart_pay', function (e) {
+		$(document).on('click', '.cart_pay', function (e) {
 			e.preventDefault(); // Ngăn chặn load trang
 
-			const order_id = document.getElementById('order_id').value;
-			const category_id = document.getElementById('category_id').value;
-			const device_stock = document.getElementById('device_stock').value;
-			const device_description = document.getElementById('device_description').value;
-			const id = document.getElementById('device_id').value;
-			const name = document.getElementById('device_name').value;
-			const price = document.getElementById('device_price').value;
-			const quantity = document.getElementById('device_quantity').value;
-			const image = document.getElementById('device_image').value;
-			const type = document.getElementById('order_type').value;
-			console.log("price", price)
-			console.log("quantity", quantity)
+			const parent = $(this).parents('tr');
+
+			const order_id = parent.find('.order_id').val();
+			const category_id = parent.find('.category_id').val();
+			const device_stock = parent.find('.device_stock').val();
+			const device_description = parent.find('.device_description').val();
+			const id = parent.find('.device_id').val();
+			const name = parent.find('.device_name').val();
+			const price = parent.find('.device_price').val();
+			const quantity = parent.find('.device_quantity').val();
+			const image = parent.find('.device_image').val();
+			const type = parent.find('.order_type').val();
+			const startDate = parent.find('.startDate')?.val();
+			const endDate = parent.find('.endDate')?.val();
+
+			console.log('device_id', id);
+
 			if (type === 'sales') {
 				// For sale
 				$.ajax({
@@ -439,7 +444,28 @@
 				});
 			} else {
 				// For rental
-				console.log('rental');
+				$.ajax({
+					url: '/api/rentals',
+					type: 'POST',
+					headers: {
+						'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+					},
+					data: {
+						'order_id': order_id,
+						'device_id': id,
+						'rental_date': startDate,
+						'return_date': endDate,
+						'rental_fee': price * quantity,
+						'quantity': quantity
+					},
+					success: function (response) {
+						alert('Thanh toán thành công');
+						window.location.href = '/cart';
+					},
+					error: function (error) {
+						console.log(error.responseText);
+					}
+				})
 			}
 		});
 	</script>

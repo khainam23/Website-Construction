@@ -37,6 +37,7 @@ Route::middleware([RoleMiddleware::class . ':customer,admin'])->group(function (
 
     Route::get("/api/logout", [AuthController::class, 'logout'])->name('api.logout');
     Route::post('/api/sales', [SaleController::class, 'store'])->name('api.sales');
+    Route::post('/api/rentals', [RentalController::class,'store'])->name('api.rentals');
 });
 
 // // Group các route cần quyền admin
