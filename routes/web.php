@@ -12,6 +12,7 @@ use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\ShopController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Admin\AdminDeviceController;
+use Laravel\Sail\SailServiceProvider;
 
 // Liên kết các trang 
 Route::view('/', 'index')->name('index');
@@ -37,7 +38,9 @@ Route::middleware([RoleMiddleware::class . ':customer,admin'])->group(function (
 
     Route::get("/api/logout", [AuthController::class, 'logout'])->name('api.logout');
     Route::post('/api/sales', [SaleController::class, 'store'])->name('api.sales');
+    Route::get('/api/sales', [SaleController::class,'index'])->name('api.sales.index');
     Route::post('/api/rentals', [RentalController::class,'store'])->name('api.rentals');
+    Route::get('/api/rentals', [RentalController::class,'index'])->name('api.rentals.index');
 });
 
 // // Group các route cần quyền admin

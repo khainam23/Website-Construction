@@ -31,7 +31,19 @@ class RentalController extends Controller
      */
     public function index()
     {
-        return response()->json(Rental::with(['user', 'device'])->get());
+        $user_id = session('user')['id'];
+
+        $rentals = Rental::where('user_id', $user_id)->get();
+
+        $productIds = $rentals->pluck('device_id');
+
+        // Lấy danh sách sản phẩm từ danh sách product_id
+        $products = Device::whereIn('id', $productIds)->get();
+
+        return response()->json([
+            'products' => $products,
+            'rentals' => $rentals
+        ]);
     }
 
     /**

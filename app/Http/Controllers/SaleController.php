@@ -31,7 +31,19 @@ class SaleController extends Controller
      */
     public function index()
     {
-        return response()->json(Sale::with(['user', 'device'])->get());
+        $user_id = session('user')['id'];
+
+        $sale = Sale::where('user_id', $user_id)->get();
+
+        $productIds = $sale->pluck('device_id');
+
+        // Lấy danh sách sản phẩm từ danh sách product_id
+        $products = Device::whereIn('id', $productIds)->get();
+
+        return response()->json([
+            'products' => $products,
+            'sales' => $sale
+        ]);
     }
 
     /**
