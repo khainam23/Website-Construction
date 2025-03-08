@@ -6,6 +6,7 @@ use App\Models\Order;
 use App\Models\OrderItem;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Models\Device;
 
 /**
  * @OA\Tag(
@@ -17,7 +18,7 @@ class OrderController extends Controller
 {
     /**
      * @OA\Get(
-     *     path="/api/orders",
+     *     path="/api/cart",
      *     summary="Get all orders",
      *     tags={"Orders"},
      *     @OA\Response(
@@ -29,25 +30,54 @@ class OrderController extends Controller
      *     )
      * )
      */
-    public function index()
-    {
-        return response()->json(Order::with('user')->get());
-    }
+        public function index()
+        {
+            $user_id = session('user')['id'];
+
+            // Lấy danh sách order của user
+            $orders = Order::where('user_id', $user_id)->get();
+
+            // Lấy danh sách order_id
+            $orderIds = $orders->pluck('id');
+
+            // Lấy danh sách order_items dựa trên order_id
+            $orderItems = OrderItem::whereIn('order_id', $orderIds)->get();
+
+            // Lấy danh sách product_id từ order_items
+            $productIds = $orderItems->pluck('device_id');
+
+            // Lấy danh sách sản phẩm từ danh sách product_id
+            $products = Device::whereIn('id', $productIds)->get();
+
+            return response()->json([
+                'products' => $products,
+                'order_items' => $orderItems,
+                'orders' => $orders
+            ]);
+        }
 
     /**
      * @OA\Post(
      *     path="/api/orders",
      *     summary="Create a new order with items",
      *     tags={"Orders"},
+     *     security={{ "bearerAuth":{} }},
      *     @OA\RequestBody(
+     *         required=true,
      *         @OA\JsonContent(
      *             required={"user_id", "items"},
-     *             @OA\Property(property="user_id", type="integer"),
-     *             @OA\Property(property="type", type="string"),
+     *             @OA\Property(property="user_id", type="integer", example=1),
+     *             @OA\Property(property="type", type="string", example="online"),
      *             @OA\Property(
      *                 property="items",
      *                 type="array",
-     *                 @OA\Items(ref="#/components/schemas/OrderItem")
+     *                 @OA\Items(
+     *                     type="object",
+     *                     required={"device_id", "quantity", "unit_price"},
+     *                     @OA\Property(property="device_id", type="integer", example=101),
+     *                     @OA\Property(property="quantity", type="integer", example=2),
+     *                     @OA\Property(property="unit_price", type="number", format="float", example=150.5)
+     *                 )
      *             )
      *         )
      *     ),
@@ -55,43 +85,68 @@ class OrderController extends Controller
      *         response=201,
      *         description="Order created successfully",
      *         @OA\JsonContent(ref="#/components/schemas/Order")
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Unauthorized - User not logged in",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="error", type="string", example="Bạn cần đăng nhập trước!"),
+     *             @OA\Property(property="redirect", type="string", example="http://yourdomain.com/login")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Internal Server Error",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Error creating order: Database error")
+     *         )
      *     )
      * )
      */
     public function store(Request $request)
     {
-        try {
-            DB::beginTransaction();
+        session()->start();
+        if (session()->has('user')) {
+            try {
+                DB::beginTransaction();
 
-            $total_price = 0;
-            foreach ($request->items as $item) {
-                $total_price += $item['quantity'] * $item['unit_price'];
-            }
+                $total_price = 0;
+                foreach ($request->items as $item) {
+                    $total_price += $item['quantity'] * $item['unit_price'];
+                }
 
-            $order = Order::create([
-                'user_id' => $request->user_id,
-                'type' => $request->type,
-                'total_price' => $total_price,
-                'status' => 'pending'
-            ]);
-
-            foreach ($request->items as $item) {
-                OrderItem::create([
-                    'order_id' => $order->id,
-                    'device_id' => $item['device_id'],
-                    'quantity' => $item['quantity'],
-                    'unit_price' => $item['unit_price'],
-                    'subtotal' => $item['quantity'] * $item['unit_price']
+                $order = Order::create([
+                    'user_id' => $request->user_id,
+                    'type' => $request->type,
+                    'total_price' => $total_price,
+                    'status' => 'pending'
                 ]);
+
+                foreach ($request->items as $item) {
+                    OrderItem::create([
+                        'order_id' => $order->id,
+                        'device_id' => $item['device_id'],
+                        'quantity' => $item['quantity'],
+                        'unit_price' => $item['unit_price'],
+                        'subtotal' => $item['quantity'] * $item['unit_price']
+                    ]);
+                }
+
+                DB::commit();
+                return response()->json($order->load('items'), 201);
+
+            } catch (\Exception $e) {
+                DB::rollBack();
+                return response()->json(['message' => 'Error creating order: ' . $e->getMessage()], 500);
             }
-
-            DB::commit();
-            return response()->json($order->load('items'), 201);
-
-        } catch (\Exception $e) {
-            DB::rollBack();
-            return response()->json(['message' => 'Error creating order: ' . $e->getMessage()], 500);
+        } else {
+            return response()->json([
+                'error' => 'Bạn cần đăng nhập trước!',
+                'redirect' => url('/login')
+            ], 401);
+            ;
         }
+
     }
 
     /**

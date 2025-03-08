@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Middleware\RoleMiddleware;
 use App\Http\Controllers\DeviceController;
 use App\Http\Controllers\SaleController;
 use App\Http\Controllers\RentalController;
@@ -11,43 +12,51 @@ use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\ShopController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Admin\AdminDeviceController;
+use Laravel\Sail\SailServiceProvider;
 
 // Liên kết các trang 
 Route::view('/', 'index')->name('index');
 Route::view('/login', 'login')->name('login');
 Route::view('/about', 'about')->name('about');
 Route::view('/contact', 'contact')->name('contact');
-Route::view('/checkout', 'checkout')->name('checkout');
-Route::view('/cart', 'cart')->name('cart');
-Route::view('/product', 'product')->name('product');
-Route::view('/product-details', 'product-details')->name('product-details');
+Route::get('/product-details/{id}', function ($id) {
+    return view('product-details', ['id' => $id]);
+})->name('product-details');
 Route::view('/shop', 'shop')->name('shop');
-Route::view('/wishlist', 'wishlist')->name('wishlist');
 Route::view('/404', '404')->name('404');
 
 // Login
-Route::post('/api/login', [AuthController::class, 'login'])->name('api.login');
-Route::get("/api/logout", [AuthController::class, 'logout'])->name('api.logout');
-
+Route::post('/api/login', [AuthController::class, 'login'])->name('api.login'); // Stateful
 Route::get('/shop', [ShopController::class, 'index'])->name('shop.index');
-Route::get('/devices/{device}', [DeviceController::class, 'show'])->name('devices.show');
 
-Route::get('/statistics', [App\Http\Controllers\ReportController::class, 'viewStatistics'])->name('statistics');
+// Service public 
+Route::middleware([RoleMiddleware::class . ':customer,admin'])->group(function () {
+    Route::post('/api/orders', [OrderController::class, 'store'])->name('orders.store');
+    Route::view('/cart', 'cart')->name('cart');
+    Route::view('/checkout', 'checkout')->name('checkout');
+    Route::get('/api/cart', [OrderController::class, 'index'])->name('orders.index');
 
-// Group các route cần quyền admin
-Route::middleware(['role:admin'])->group(function () {
-    Route::resource('devices', DeviceController::class);
-    Route::resource('inventories', InventoryController::class);
-    Route::resource('reports', ReportController::class);
+    Route::get("/api/logout", [AuthController::class, 'logout'])->name('api.logout');
+    Route::post('/api/sales', [SaleController::class, 'store'])->name('api.sales');
+    Route::get('/api/sales', [SaleController::class,'index'])->name('api.sales.index');
+    Route::post('/api/rentals', [RentalController::class,'store'])->name('api.rentals');
+    Route::get('/api/rentals', [RentalController::class,'index'])->name('api.rentals.index');
 });
 
-// Group các route cho nhân viên bán hàng
-Route::middleware(['role:sales'])->group(function () {
-    Route::resource('sales', SaleController::class);
-    Route::resource('orders', OrderController::class);
-});
+// // Group các route cần quyền admin
+// Route::middleware(['role:admin'])->group(function () {
+//     Route::resource('devices', DeviceController::class);
+//     Route::resource('inventories', InventoryController::class);
+//     Route::resource('reports', ReportController::class);
+// });
 
-// Group các route cho nhân viên cho thuê
-Route::middleware(['role:rental'])->group(function () {
-    Route::resource('rentals', RentalController::class);
-});
+// // Group các route cho nhân viên bán hàng
+// Route::middleware(['role:sales'])->group(function () {
+//     Route::resource('sales', SaleController::class);
+//     // Route::resource('orders', OrderController::class);
+// });
+
+// // Group các route cho nhân viên cho thuê
+// Route::middleware(['role:rental'])->group(function () {
+//     Route::resource('rentals', RentalController::class);
+// });

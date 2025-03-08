@@ -7,22 +7,22 @@
 	<meta name="description" content="">
 	<meta name="author" content="">
 	<title>Nhà | INGOUDINGOUDE-Shopper</title>
-	<link href="css/bootstrap.min.css" rel="stylesheet">
-	<link href="css/font-awesome.min.css" rel="stylesheet">
-	<link href="css/prettyPhoto.css" rel="stylesheet">
-	<link href="css/price-range.css" rel="stylesheet">
-	<link href="css/animate.css" rel="stylesheet">
-	<link href="css/main.css" rel="stylesheet">
-	<link href="css/responsive.css" rel="stylesheet">
+	<link href="/css/bootstrap.min.css" rel="stylesheet">
+	<link href="/css/font-awesome.min.css" rel="stylesheet">
+	<link href="/css/prettyPhoto.css" rel="stylesheet">
+	<link href="/css/price-range.css" rel="stylesheet">
+	<link href="/css/animate.css" rel="stylesheet">
+	<link href="/css/main.css" rel="stylesheet">
+	<link href="/css/responsive.css" rel="stylesheet">
 	<!--[if lt IE 9]>
-    <script src="js/html5shiv.js"></script>
-    <script src="js/respond.min.js"></script>
+    <script src="/js/html5shiv.js"></script>
+    <script src="/js/respond.min.js"></script>
     <![endif]-->
-	<link rel="shortcut icon" href="images/ico/favicon.ico">
-	<link rel="apple-touch-icon-precomposed" sizes="144x144" href="images/ico/apple-touch-icon-144-precomposed.png">
-	<link rel="apple-touch-icon-precomposed" sizes="114x114" href="images/ico/apple-touch-icon-114-precomposed.png">
-	<link rel="apple-touch-icon-precomposed" sizes="72x72" href="images/ico/apple-touch-icon-72-precomposed.png">
-	<link rel="apple-touch-icon-precomposed" href="images/ico/apple-touch-icon-57-precomposed.png">
+	<link rel="shortcut icon" href="/images/ico/favicon.ico">
+	<link rel="apple-touch-icon-precomposed" sizes="144x144" href="/images/ico/apple-touch-icon-144-precomposed.png">
+	<link rel="apple-touch-icon-precomposed" sizes="114x114" href="/images/ico/apple-touch-icon-114-precomposed.png">
+	<link rel="apple-touch-icon-precomposed" sizes="72x72" href="/images/ico/apple-touch-icon-72-precomposed.png">
+	<link rel="apple-touch-icon-precomposed" href="/images/ico/apple-touch-icon-57-precomposed.png">
 </head><!--/head-->
 
 <body>
@@ -58,16 +58,15 @@
 				<div class="row">
 					<div class="col-sm-4">
 						<div class="logo pull-left">
-							<a href="/"><img src="images/home/logo.png" style="height: 80px; width: 80px;" alt="" /></a>
+							<a href="/"><img src="/images/home/logo.png" style="height: 80px; width: 80px;" alt="" /></a>
 						</div>
 					</div>
 					<div class="col-sm-8">
 						<div class="shop-menu pull-right">
 							<ul class="nav navbar-nav">
-								<li><a href="checkout"><i class="fa fa-crosshairs"></i> Hóa đơn</a></li>
-								<li><a href="cart"><i class="fa fa-shopping-cart"></i> Giỏ hàng</a></li>
-
 								@if(session()->has('user'))
+									<li><a href="checkout"><i class="fa fa-crosshairs"></i> Hóa đơn</a></li>
+									<li><a href="cart"><i class="fa fa-shopping-cart"></i> Giỏ hàng</a></li>
 									@php $user = session('user'); @endphp
 									<li><a href="#"><i class="fa fa-user"></i>
 											{{ optional($user)['email'] ?? 'Người dùng' }}</a></li>
@@ -102,8 +101,10 @@
 								<li class="dropdown"><a href="#">Cửa hàng<i class="fa fa-angle-down"></i></a>
 									<ul role="menu" class="sub-menu">
 										<li><a href="shop">Products</a></li>
-										<li><a href="checkout">Hóa đơn</a></li>
-										<li><a href="cart">Giỏ hàng</a></li>
+										@if (session()->has('user'))
+											<li><a href="checkout">Hóa đơn</a></li>
+											<li><a href="cart">Giỏ hàng</a></li>
+										@endif
 										<li><a href="login">Truy cập</a></li>
 									</ul>
 								</li>
@@ -132,33 +133,36 @@
 								<div class="col-sm-6">
 									<h1><span>INGOUDE</span>-SHOPPER</h1>
 									<h2>Đối tác tin cậy trong ngành thiết bị xây dựng</h2>
-									<p>Với hơn 10 năm kinh nghiệm, chúng tôi tự hào là đơn vị hàng đầu trong việc cung cấp và cho thuê thiết bị xây dựng chất lượng cao.</p>
+									<p>Với hơn 10 năm kinh nghiệm, chúng tôi tự hào là đơn vị hàng đầu trong việc cung
+										cấp và cho thuê thiết bị xây dựng chất lượng cao.</p>
 									<button type="button" class="btn btn-default get">Tìm hiểu thêm</button>
 								</div>
 								<div class="col-sm-6">
-									<img src="images/home/c1.png" class="img-responsive" alt="" />
+									<img src="/images/home/c1.png" class="img-responsive" alt="" />
 								</div>
 							</div>
 							<div class="item">
 								<div class="col-sm-6">
 									<h1><span>INGOUDE</span>-SHOPPER</h1>
 									<h2>Giải pháp toàn diện</h2>
-									<p>Cung cấp đa dạng dịch vụ từ tư vấn, cho thuê đến bảo trì bảo dưỡng thiết bị xây dựng.</p>
+									<p>Cung cấp đa dạng dịch vụ từ tư vấn, cho thuê đến bảo trì bảo dưỡng thiết bị xây
+										dựng.</p>
 									<button type="button" class="btn btn-default get">Khám phá dịch vụ</button>
 								</div>
 								<div class="col-sm-6">
-									<img src="images/home/c2.png" class="img-responsive" alt="" />
+									<img src="/images/home/c2.png" class="img-responsive" alt="" />
 								</div>
 							</div>
 							<div class="item">
 								<div class="col-sm-6">
 									<h1><span>INGOUDE</span>-SHOPPER</h2>
-									<h2>Đội ngũ chuyên nghiệp</h2>
-									<p>Nhân viên được đào tạo chuyên sâu, sẵn sàng hỗ trợ 24/7 cho mọi nhu cầu của khách hàng.</p>
-									<button type="button" class="btn btn-default get">Liên hệ ngay</button>
+										<h2>Đội ngũ chuyên nghiệp</h2>
+										<p>Nhân viên được đào tạo chuyên sâu, sẵn sàng hỗ trợ 24/7 cho mọi nhu cầu của
+											khách hàng.</p>
+										<button type="button" class="btn btn-default get">Liên hệ ngay</button>
 								</div>
 								<div class="col-sm-6">
-									<img src="images/home/c3.png" class="img-responsive" alt="" />
+									<img src="/images/home/c3.png" class="img-responsive" alt="" />
 								</div>
 							</div>
 						</div>
@@ -194,7 +198,8 @@
 								<div class="company-feature text-center">
 									<i class="fa fa-check-circle fa-4x"></i>
 									<h3>Cam Kết</h3>
-									<p>Đảm bảo chất lượng dịch vụ, hỗ trợ kỹ thuật 24/7, giải quyết mọi vấn đề nhanh chóng.</p>
+									<p>Đảm bảo chất lượng dịch vụ, hỗ trợ kỹ thuật 24/7, giải quyết mọi vấn đề nhanh
+										chóng.</p>
 								</div>
 							</div>
 							<div class="col-sm-4">
@@ -230,7 +235,7 @@
 							<div class="video-gallery text-center">
 								<a href="#">
 									<div class="iframe-img">
-										<img src="images/home/i1.png" alt="" />
+										<img src="/images/home/i1.png" alt="" />
 									</div>
 									<div class="overlay-icon">
 										<i class="fa fa-play-circle-o"></i>
@@ -245,7 +250,7 @@
 							<div class="video-gallery text-center">
 								<a href="#">
 									<div class="iframe-img">
-										<img src="images/home/i2.png" alt="" />
+										<img src="/images/home/i2.png" alt="" />
 									</div>
 									<div class="overlay-icon">
 										<i class="fa fa-play-circle-o"></i>
@@ -260,7 +265,7 @@
 							<div class="video-gallery text-center">
 								<a href="#">
 									<div class="iframe-img">
-										<img src="images/home/i3.png" alt="" />
+										<img src="/images/home/i3.png" alt="" />
 									</div>
 									<div class="overlay-icon">
 										<i class="fa fa-play-circle-o"></i>
@@ -275,7 +280,7 @@
 							<div class="video-gallery text-center">
 								<a href="#">
 									<div class="iframe-img">
-										<img src="images/home/i4.png" alt="" />
+										<img src="/images/home/i4.png" alt="" />
 									</div>
 									<div class="overlay-icon">
 										<i class="fa fa-play-circle-o"></i>
@@ -288,7 +293,7 @@
 					</div>
 					<div class="col-sm-3">
 						<div class="address">
-							<img src="images/home/map.png" alt="" />
+							<img src="/images/home/map.png" alt="" />
 							<p>Việt Nam, Thành Phố Hồ Chí Minh, Thành Phố Hà Nội, Đà Nẵng</p>
 						</div>
 					</div>
@@ -376,12 +381,12 @@
 
 
 
-	<script src="js/jquery.js"></script>
-	<script src="js/bootstrap.min.js"></script>
-	<script src="js/jquery.scrollUp.min.js"></script>
-	<script src="js/price-range.js"></script>
-	<script src="js/jquery.prettyPhoto.js"></script>
-	<script src="js/main.js"></script>
+	<script src="/js/jquery.js"></script>
+	<script src="/js/bootstrap.min.js"></script>
+	<script src="/js/jquery.scrollUp.min.js"></script>
+	<script src="/js/price-range.js"></script>
+	<script src="/js/jquery.prettyPhoto.js"></script>
+	<script src="/js/main.js"></script>
 </body>
 
 </html>

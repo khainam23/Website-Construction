@@ -37,4 +37,12 @@ class Device extends Model
     {
         return $this->belongsTo(Category::class);
     }
+
+    public static function updateStock($device_id, $quantity)
+    {
+        $device = Device::find($device_id);
+        $device->stock -= $quantity;
+        $device->save();
+        return response()->json($device);
+    }
 }

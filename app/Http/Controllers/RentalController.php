@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Rental;
 use Illuminate\Http\Request;
+use App\Models\Order;
+use App\Models\Device;
 
 /**
  * @OA\Tag(
@@ -29,7 +31,19 @@ class RentalController extends Controller
      */
     public function index()
     {
-        return response()->json(Rental::with(['user', 'device'])->get());
+        $user_id = session('user')['id'];
+
+        $rentals = Rental::where('user_id', $user_id)->get();
+
+        $productIds = $rentals->pluck('device_id');
+
+        // Lấy danh sách sản phẩm từ danh sách product_id
+        $products = Device::whereIn('id', $productIds)->get();
+
+        return response()->json([
+            'products' => $products,
+            'rentals' => $rentals
+        ]);
     }
 
     /**
@@ -58,15 +72,31 @@ class RentalController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'user_id' => 'required|exists:users,id',
+            'order_id' => 'required|exists:orders,id',
             'device_id' => 'required|exists:devices,id',
             'rental_date' => 'required|date',
             'return_date' => 'required|date|after:rental_date',
-            'rental_fee' => 'required|numeric|min:0'
+            'rental_fee' => 'required|numeric|min:0',
+            'quantity'=> 'required|numeric|min:1',
         ]);
 
+        // Lấy user_id từ session
+        $user = session('user');
+        if (!$user) {
+            return response()->json(['message' => 'Unauthorized'], 401);
+        }
+
+        $validated['user_id'] = $user['id']; // Gán user_id vào dữ liệu đã validate
+
         $rental = Rental::create($validated);
-        return response()->json($rental, 201);
+        
+        // Xóa đơn hàng
+        Order::destroy($validated['order_id']);
+
+        // Cập nhật số lượng đơn hàng
+        Device::updateStock($validated['device_id'], $validated['quantity']);
+        
+        return response()->json('Thanh toán thành công', 201);
     }
 
     /**

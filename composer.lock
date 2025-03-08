@@ -2502,8 +2502,8 @@
                 "array",
                 "core",
                 "datetime",
-                "images",
-                "json",
+                "/images",
+                "/json",
                 "nette",
                 "paginator",
                 "password",
@@ -6213,7 +6213,7 @@
             "homepage": "https://github.com/zircote/swagger-php/",
             "keywords": [
                 "api",
-                "json",
+                "/json",
                 "rest",
                 "service discovery"
             ],

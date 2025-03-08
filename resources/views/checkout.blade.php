@@ -1,27 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <title>Hóa đơn | INGOUDE-Shopper</title>
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link href="css/font-awesome.min.css" rel="stylesheet">
-    <link href="css/prettyPhoto.css" rel="stylesheet">
-    <link href="css/price-range.css" rel="stylesheet">
-    <link href="css/animate.css" rel="stylesheet">
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<title>Hóa đơn | INGOUDE-Shopper</title>
+	<link href="css/bootstrap.min.css" rel="stylesheet">
+	<link href="css/font-awesome.min.css" rel="stylesheet">
+	<link href="css/prettyPhoto.css" rel="stylesheet">
+	<link href="css/price-range.css" rel="stylesheet">
+	<link href="css/animate.css" rel="stylesheet">
 	<link href="css/main.css" rel="stylesheet">
 	<link href="css/responsive.css" rel="stylesheet">
-    <!--[if lt IE 9]>
-    <script src="js/html5shiv.js"></script>
-    <script src="js/respond.min.js"></script>
-    <![endif]-->       
-    <link rel="shortcut icon" href="images/ico/favicon.ico">
-    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="images/ico/apple-touch-icon-144-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="images/ico/apple-touch-icon-114-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="images/ico/apple-touch-icon-72-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" href="images/ico/apple-touch-icon-57-precomposed.png">
+	<!--[if lt IE 9]>
+    <script src="/js/html5shiv.js"></script>
+    <script src="/js/respond.min.js"></script>
+    <![endif]-->
+	<link rel="shortcut icon" href="/images/ico/favicon.ico">
+	<link rel="apple-touch-icon-precomposed" sizes="144x144" href="/images/ico/apple-touch-icon-144-precomposed.png">
+	<link rel="apple-touch-icon-precomposed" sizes="114x114" href="/images/ico/apple-touch-icon-114-precomposed.png">
+	<link rel="apple-touch-icon-precomposed" sizes="72x72" href="/images/ico/apple-touch-icon-72-precomposed.png">
+	<link rel="apple-touch-icon-precomposed" href="/images/ico/apple-touch-icon-57-precomposed.png">
 </head><!--/head-->
 
 <body>
@@ -57,7 +58,8 @@
 				<div class="row">
 					<div class="col-sm-4">
 						<div class="logo pull-left">
-							<a href="/"><img src="images/home/logo.png" style="height: 80px; width: 80px;" alt="" /></a>
+							<a href="/"><img src="/images/home/logo.png" style="height: 80px; width: 80px;"
+									alt="" /></a>
 						</div>
 					</div>
 					<div class="col-sm-8">
@@ -119,8 +121,8 @@
 		<div class="container">
 			<div class="breadcrumbs">
 				<ol class="breadcrumb">
-				  <li><a href="#">Nhà</a></li>
-				  <li class="active">Hóa đơn</li>
+					<li><a href="#">Nhà</a></li>
+					<li class="active">Hóa đơn</li>
 				</ol>
 			</div><!--/breadcrums-->
 
@@ -134,92 +136,19 @@
 						<tr class="cart_menu">
 							<td class="image">Sản phẩm</td>
 							<td class="description"></td>
+							<td></td>
 							<td class="price">Giá</td>
 							<td class="quantity">Số lượng</td>
 							<td class="total">Tổng giá</td>
-							<td></td>
+							<td>Thời gian</td>
 						</tr>
 					</thead>
-					<tbody>
-						<tr>
-							<td class="cart_product">
-								<a href=""><img src="images/cart/one.png" style="height: 100px; width: 100px;" alt=""></a>
-							</td>
-							<td class="cart_description">
-								<h4><a href="">Cỗ máy</a></h4>
-								<p>Web ID: 1089772</p>
-							</td>
-							<td class="cart_price">
-								<p>$100000</p>
-							</td>
-							<td class="cart_quantity">
-								<div class="cart_quantity_button">
-									<span class="badge bg-primary fs-4 px-3 py-2">5</span>
-								</div>
-							</td>
-							<td class="cart_total">
-								<p class="cart_total_price">$100000</p>
-							</td>
-						</tr>
-
-						<tr>
-							<td class="cart_product">
-								<a href=""><img src="images/cart/two.png" style="height: 100px; width: 100px;" alt=""></a>
-							</td>
-							<td class="cart_description">
-								<h4><a href="">Cỗ máy</a></h4>
-								<p>Web ID: 1089772</p>
-							</td>
-							<td class="cart_price">
-								<p>$100000</p>
-							</td>
-							<td class="cart_quantity">
-								<div class="cart_quantity_button">
-									<span class="badge bg-primary fs-4 px-3 py-2">5</span>
-								</div>
-							</td>
-							<td class="cart_total">
-								<p class="cart_total_price">$100000</p>
-							</td>
-						</tr>
-						<tr>
-							<td class="cart_product">
-								<a href=""><img src="images/cart/three.png" style="height: 100px; width: 100px;" alt=""></a>
-							</td>
-							<td class="cart_description">
-								<h4><a href="">Cỗ máy</a></h4>
-								<p>Web ID: 1089772</p>
-							</td>
-							<td class="cart_price">
-								<p>$100000</p>
-							</td>
-							<td class="cart_quantity">
-								<div class="cart_quantity_button">
-									<span class="badge bg-primary fs-4 px-3 py-2">5</span>
-								</div>
-							</td>
-							<td class="cart_total">
-								<p class="cart_total_price">$100000</p>
-							</td>
-						</tr>
+					<tbody id="cart-items">
 					</tbody>
 				</table>
 			</div>
-			<div class="payment-options">
-					<span>
-						<label><input type="checkbox"> Mặt hàng nặng</label>
-					</span>
-					<span>
-						<label><input type="checkbox"> Mặt hàng thuê</label>
-					</span>
-					<span>
-						<label><input type="checkbox"> Hàng giá trị cao</label>
-					</span>
-				</div>
 		</div>
 	</section> <!--/#cart_items-->
-
-	
 
 	<footer id="footer"><!--Footer-->
 		<div class="footer-top">
@@ -228,7 +157,8 @@
 					<div class="col-sm-2">
 						<div class="companyinfo">
 							<h2><span>INGOUDE</span>-shopper</h2>
-							<p>INGOUDINGOUDE-Shopper là nền tảng cung cấp máy móc, thiết bị công trình chất lượng cao, giúp
+							<p>INGOUDINGOUDE-Shopper là nền tảng cung cấp máy móc, thiết bị công trình chất lượng cao,
+								giúp
 								khách hàng dễ dàng tìm kiếm và lựa chọn sản phẩm phù hợp. Với đa dạng thương hiệu uy
 								tín, dịch vụ tư vấn chuyên sâu và chính sách bảo hành minh bạch, chúng tôi cam kết mang
 								đến trải nghiệm mua sắm tối ưu cho doanh nghiệp và cá nhân trong ngành xây dựng.</p>
@@ -239,7 +169,7 @@
 							<div class="video-gallery text-center">
 								<a href="#">
 									<div class="iframe-img">
-										<img src="images/home/i1.png" alt="" />
+										<img src="/images/home/i1.png" alt="" />
 									</div>
 									<div class="overlay-icon">
 										<i class="fa fa-play-circle-o"></i>
@@ -254,7 +184,7 @@
 							<div class="video-gallery text-center">
 								<a href="#">
 									<div class="iframe-img">
-										<img src="images/home/i2.png" alt="" />
+										<img src="/images/home/i2.png" alt="" />
 									</div>
 									<div class="overlay-icon">
 										<i class="fa fa-play-circle-o"></i>
@@ -269,7 +199,7 @@
 							<div class="video-gallery text-center">
 								<a href="#">
 									<div class="iframe-img">
-										<img src="images/home/i3.png" alt="" />
+										<img src="/images/home/i3.png" alt="" />
 									</div>
 									<div class="overlay-icon">
 										<i class="fa fa-play-circle-o"></i>
@@ -284,7 +214,7 @@
 							<div class="video-gallery text-center">
 								<a href="#">
 									<div class="iframe-img">
-										<img src="images/home/i4.png" alt="" />
+										<img src="/images/home/i4.png" alt="" />
 									</div>
 									<div class="overlay-icon">
 										<i class="fa fa-play-circle-o"></i>
@@ -297,7 +227,7 @@
 					</div>
 					<div class="col-sm-3">
 						<div class="address">
-							<img src="images/home/map.png" alt="" />
+							<img src="/images/home/map.png" alt="" />
 							<p>Việt Nam, Thành Phố Hồ Chí Minh, Thành Phố Hà Nội, Đà Nẵng</p>
 						</div>
 					</div>
@@ -376,20 +306,130 @@
 			<div class="container">
 				<div class="row">
 					<p class="pull-left">Copyright © 2025 INGOUDINGOUDE-Shopper Inc. All rights reserved.</p>
-					<p class="pull-right">Designed by <span><a target="_blank"
-								href="#">PND</a></span></p>
+					<p class="pull-right">Designed by <span><a target="_blank" href="#">PND</a></span></p>
 				</div>
 			</div>
 		</div>
 
 	</footer><!--/Footer-->
-	
 
+	<script src="/js/jquery.js"></script>
+	<script src="/js/bootstrap.min.js"></script>
+	<script src="/js/jquery.scrollUp.min.js"></script>
+	<script src="/js/jquery.prettyPhoto.js"></script>
+	<script src="/js/main.js"></script>
 
-    <script src="js/jquery.js"></script>
-	<script src="js/bootstrap.min.js"></script>
-    <script src="js/jquery.scrollUp.min.js"></script>
-    <script src="js/jquery.prettyPhoto.js"></script>
-    <script src="js/main.js"></script>
+	<script>
+		window.onload = function () {
+			$.ajax({
+				url: '/api/sales',
+				type: 'GET',
+				success: function (response) {
+					const cart = document.getElementById('cart-items');
+					console.log(response);
+					const products = response.products;
+					const sales = response.sales;
+
+					for (let i in products) {
+						let product = products[i];
+						let sale = sales[i];
+
+						let date = new Date(sale.created_at);
+						let formattedDate = date.toISOString().slice(0, 19);
+
+						let html = `
+							<tr>
+							<td class="cart_product">
+								<a href=""><img class="device_image" src="${product.image}" style="height: 100px; width: 100px;"
+										alt=""></a>
+							</td>
+							<td class="cart_description">
+								<h4><a href="/product-details/${product.id}" class="device_name">${product.name}</a></h4>
+								<p class="device_type">Type: Sales</p>
+								<p>Web ID: ${product.id}</p>
+							</td>
+							<td></td>
+							<td class="cart_price">
+								<p>${product.price}</p>
+							</td>
+							<td class="cart_quantity">
+								<div class="cart_quantity_button">
+									<input class="device_quantity" class="cart_quantity_input" type="text" name="quantity" value="${sale.quantity}"
+										autocomplete="off" readonly>
+								</div>
+							</td>
+							<td class="cart_total">
+								<p class="cart_total_price">${sale.total_price}</p>
+							</td>
+							<td>
+								<p>${formattedDate}</p>
+							</td>
+						</tr>
+						`;
+						cart.innerHTML += html;
+					}
+				},
+				error: function (error) {
+					console.log(error.responseText);
+				}
+			});
+
+			$.ajax({
+				url: '/api/rentals',
+				type: 'GET',
+				success: function (response) {
+					const cart = document.getElementById('cart-items');
+					console.log(response);
+					const products = response.products;
+					const rentals = response.rentals;
+
+					for (let i in products) {
+						let product = products[i];
+						let rental = rentals[i];
+
+						let date = new Date(rental.created_at);
+						let formattedDate = date.toISOString().slice(0, 19);
+
+						let html = `
+							<tr>
+							<td class="cart_product">
+								<a href=""><img class="device_image" src="${product.image}" style="height: 100px; width: 100px;"
+										alt=""></a>
+							</td>
+							<td class="cart_description">
+								<h4><a href="/product-details/${product.id}" class="device_name">${product.name}</a></h4>
+								<p class="device_type">Type: Rentals</p>
+								<p>Web ID: ${product.id}</p>
+							</td>
+							<td>
+								<p>${rental.rental_date} - ${rental.return_date}</p>
+							</td>
+							<td class="cart_price">
+								<p>${product.price}</p>
+							</td>
+							<td class="cart_quantity">
+								<div class="cart_quantity_button">
+									<input class="device_quantity" class="cart_quantity_input" type="text" name="quantity" value="${rental.quantity}"
+										autocomplete="off" readonly>
+								</div>
+							</td>
+							<td class="cart_total">
+								<p class="cart_total_price">${rental.rental_fee}</p>
+							</td>
+							<td>
+								<p>${formattedDate}</p>
+							</td>
+						</tr>
+						`;
+						cart.innerHTML += html;
+					}
+				},
+				error: function (error) {
+					console.log(error.responseText);
+				}
+			});
+		};
+	</script>
 </body>
+
 </html>

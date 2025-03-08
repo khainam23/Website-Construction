@@ -7,7 +7,7 @@ use Illuminate\Foundation\Http\Kernel as HttpKernel;
 class Kernel extends HttpKernel
 {
     protected $routeMiddleware = [
-        'role' => \App\Http\Middleware\RoleMiddleware::class,
+        'role' => [\App\Http\Middleware\RoleMiddleware::class]
     ];
 
     protected $middlewareGroups = [
@@ -19,9 +19,12 @@ class Kernel extends HttpKernel
             \App\Http\Middleware\VerifyCsrfToken::class,
         ],
         'api' => [
-            \Illuminate\Session\Middleware\StartSession::class, // Thêm dòng này
+            \Illuminate\Session\Middleware\StartSession::class,
             \App\Http\Middleware\EncryptCookies::class,
             \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
+        ],
+        [
+            'role' => \App\Http\Middleware\RoleMiddleware::class,
         ]
     ];
 }

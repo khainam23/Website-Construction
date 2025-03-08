@@ -173,7 +173,7 @@ class DeviceController extends Controller
      */
     public function update(Request $request, Device $device)
     {
-        $this-> authorize('update', $device);
+        $this->authorize('update', $device);
 
         $validated = $request->validate([
             'name' => 'required|string|max:255',
@@ -189,7 +189,7 @@ class DeviceController extends Controller
             if ($device->image) {
                 Storage::disk('public')->delete($device->image);
             }
-            
+
             // Store with relative path
             $path = $request->file('image')->store('devices', 'public');
             $validated['image'] = $path;
@@ -233,13 +233,14 @@ class DeviceController extends Controller
     public function destroy($id)
     {
         $device = Device::findOrFail($id);
-        
+
         // Xóa ảnh khi xóa thiết bị
         if ($device->image) {
             Storage::disk('public')->delete($device->image);
         }
-        
+
         $device->delete();
         return response()->json(['message' => 'Thiết bị đã bị xóa']);
     }
+
 }
