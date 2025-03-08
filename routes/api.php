@@ -36,7 +36,6 @@ Route::middleware([RoleMiddleware::class . ':customer,admin'])->group(function (
     
 //     // Reports
 //     Route::apiResource('reports', ReportController::class);
-
 //     // Invoices
 //     Route::prefix('invoices')->group(function () {
 //         Route::get('/', [InvoiceController::class, 'index']);

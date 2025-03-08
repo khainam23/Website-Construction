@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Report;
 use Illuminate\Http\Request;
 
@@ -128,5 +129,16 @@ class ReportController extends Controller
     {
         Report::destroy($id);
         return response()->json(['message' => 'Báo cáo đã bị xóa']);
+    }
+
+    public function viewStatistics()
+    {
+        $latestReport = Report::latest('date')->first();
+        $categories = Category::all();
+        
+        return view('statistics', compact(
+            'latestReport',
+            'categories'
+        ));
     }
 }
