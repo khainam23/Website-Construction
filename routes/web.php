@@ -50,6 +50,28 @@ Route::middleware([RoleMiddleware::class . ':admin']) -> group(
         Route::delete("/api/device/{id}", [DeviceController::class, 'destroy'])->name('api.device.destroy');
         Route::get("/api/devices", [DeviceController::class, 'index'])->name('api.devices.index');
         Route::view('manager-product', 'manager-product')->name('manager-product');
+        
+        // Add new device management routes
+        Route::post("/api/devices", [DeviceController::class, 'store'])->name('api.devices.store');
+        Route::get("/api/devices/{id}", [DeviceController::class, 'show'])->name('api.devices.show');
+        Route::put("/api/devices/{id}", [DeviceController::class, 'update'])->name('api.devices.update');
+        
+        // Add new statistics routes
+        Route::get('/api/statistics/monthly-revenue', [ReportController::class, 'getMonthlyRevenue']);
+        Route::get('/api/statistics/device-stats', [ReportController::class, 'getDeviceStatistics']);
+
+        // Add Report API routes
+        Route::get('/api/reports', [ReportController::class, 'index'])->name('api.reports.index');
+        Route::post('/api/reports', [ReportController::class, 'store'])->name('api.reports.store');
+        Route::get('/api/reports/{id}', [ReportController::class, 'show'])->name('api.reports.show');
+        Route::put('/api/reports/{id}', [ReportController::class, 'update'])->name('api.reports.update');
+        Route::delete('/api/reports/{id}', [ReportController::class, 'destroy'])->name('api.reports.destroy');
+        
+        // Statistics routes
+        Route::get('/api/statistics/monthly-revenue', [ReportController::class, 'getMonthlyRevenue']);
+        Route::get('/api/statistics/quarterly-revenue', [ReportController::class, 'getQuarterlyRevenue']);
+        Route::get('/api/statistics/yearly-revenue', [ReportController::class, 'getYearlyRevenue']);
+        Route::get('/api/statistics/device-stats', [ReportController::class, 'getDeviceStatistics']);
     }
 );
 
