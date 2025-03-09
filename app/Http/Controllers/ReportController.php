@@ -135,10 +135,10 @@ class ReportController extends Controller
     {
         $latestReport = Report::latest('date')->first();
         $categories = Category::all();
-        
-        return view('statistics', compact(
-            'latestReport',
-            'categories'
-        ));
-    }
+    
+        return view('statistics', [
+            'latestReport' => $latestReport ?? new \stdClass(), // Tránh lỗi null
+            'categories' => $categories
+        ]);
+    }    
 }

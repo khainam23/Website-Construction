@@ -43,6 +43,16 @@ Route::middleware([RoleMiddleware::class . ':customer,admin'])->group(function (
     Route::get('/api/rentals', [RentalController::class,'index'])->name('api.rentals.index');
 });
 
+// Admin
+Route::middleware([RoleMiddleware::class . ':admin']) -> group(
+    function() {
+        Route::get('/statistics', [ReportController::class, 'viewStatistics'])->name('statistics');
+        Route::delete("/api/device/{id}", [DeviceController::class, 'destroy'])->name('api.device.destroy');
+        Route::get("/api/devices", [DeviceController::class, 'index'])->name('api.devices.index');
+        Route::view('manager-product', 'manager-product')->name('manager-product');
+    }
+);
+
 // // Group các route cần quyền admin
 // Route::middleware(['role:admin'])->group(function () {
 //     Route::resource('devices', DeviceController::class);

@@ -6,7 +6,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta name="description" content="">
 	<meta name="author" content="">
-	<title>Trang chủ  | INGOUDINGOUDE-Shopper</title>
+	<title>Trang chủ | INGOUDINGOUDE-Shopper</title>
 	<link href="css/bootstrap.min.css" rel="stylesheet">
 	<link href="css/font-awesome.min.css" rel="stylesheet">
 	<link href="css/prettyPhoto.css" rel="stylesheet">
@@ -139,7 +139,7 @@
 										<li><a href="login.html">Truy cập</a></li>
 									</ul>
 								</li>
-								
+
 								<li><a href="contact-us.html">Liên hệ</a></li>
 							</ul>
 						</div>
@@ -151,130 +151,133 @@
 
 	<!-- BODY SECTION START -->
 	@if(session('error'))
-	<div class="alert alert-danger">
-		{{ session('error') }}
-	</div>
+		<div class="alert alert-danger">
+			{{ session('error') }}
+		</div>
 	@endif
 
 	<section id="revenue-report">
-    <div class="container">
-        <!-- Overall Statistics -->
-        <div class="row">
-            <div class="col-sm-12">
-                <div class="features_items">
-                    <h2 class="title text-center">Báo Cáo Thống Kê</h2>
-                    <div class="col-sm-12">
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h3 class="panel-title">Tổng Quan</h3>
-                            </div>
-                            <div class="panel-body">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="statistic-box bg-primary">
-                                            <h4><i class="fa fa-money"></i> Doanh Thu Bán Hàng</h4>
-                                            <h2>{{ number_format($latestReport->sales_revenue, 1) }} Tỷ VNĐ</h2>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="statistic-box bg-success">
-                                            <h4><i class="fa fa-refresh"></i> Doanh Thu Cho Thuê</h4>
-                                            <h2>{{ number_format($latestReport->rental_revenue, 1) }} Tỷ VNĐ</h2>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+		<div class="container">
+			<!-- Overall Statistics -->
+			<div class="row">
+				<div class="col-sm-12">
+					<div class="features_items">
+						<h2 class="title text-center">Báo Cáo Thống Kê</h2>
+						<div class="col-sm-12">
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									<h3 class="panel-title">Tổng Quan</h3>
+								</div>
+								<div class="panel-body">
+									<div class="row">
+										<div class="col-md-6">
+											<div class="statistic-box bg-primary text-white">
+												<h4><i class="fa fa-money"></i> Doanh Thu Bán Hàng</h4>
+												<h2>{{ number_format($latestReport->sales_revenue ?? 0, 1) }} Tỷ VNĐ
+												</h2>
+											</div>
+										</div>
 
-        <!-- Device Management Section -->
-        <div class="row">
-            <div class="col-sm-12">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">Quản Lý Thiết Bị</h3>
-                    </div>
-                    <div class="panel-body">
-                        <!-- Add Device Form -->
-                        <form id="deviceForm" class="form-horizontal" enctype="multipart/form-data">
-                            @csrf
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">Tên Thiết Bị</label>
-                                <div class="col-sm-10">
-                                    <input type="text" class="form-control" name="name" required>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">Danh Mục</label>
-                                <div class="col-sm-10">
-                                    <select class="form-control" name="category_id" required>
-                                        @foreach($categories as $category)
-                                            <option value="{{ $category->id }}">{{ $category->name }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">Giá</label>
-                                <div class="col-sm-10">
-                                    <input type="number" class="form-control" name="price" required>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">Số Lượng</label>
-                                <div class="col-sm-10">
-                                    <input type="number" class="form-control" name="stock" required>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">Mô Tả</label>
-                                <div class="col-sm-10">
-                                    <textarea class="form-control" name="description"></textarea>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">Hình Ảnh</label>
-                                <div class="col-sm-10"></div>
-                                    <input type="file" class="form-control" name="image">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="col-sm-offset-2 col-sm-10">
-                                    <button type="submit" class="btn btn-primary">Thêm Thiết Bị</button>
-                                </div>
-                            </div>
-                        </form>
+										<div class="col-md-6">
+											<div class="statistic-box bg-success text-white">
+												<h4><i class="fa fa-refresh"></i> Doanh Thu Cho Thuê</h4>
+												<h2>{{ number_format($latestReport->rental_revenue ?? 0, 1) }} Tỷ VNĐ
+												</h2>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
 
-                        <!-- Devices Table -->
-                        <table class="table table-striped" id="devicesTable">
-                            <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Tên</th>
-                                    <th>Danh Mục</th>
-                                    <th>Giá</th>
-                                    <th>Số Lượng</th>
-                                    <th>Thao Tác</th>
-                                </tr>
-                            </thead>
-                            <tbody></tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
+			<!-- Device Management Section -->
+			<div class="row">
+				<div class="col-sm-12">
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<h3 class="panel-title">Quản Lý Thiết Bị</h3>
+						</div>
+						<div class="panel-body">
+							<!-- Add Device Form -->
+							<form id="deviceForm" class="form-horizontal" enctype="multipart/form-data">
+								@csrf
+								<div class="form-group">
+									<label class="col-sm-2 control-label">Tên Thiết Bị</label>
+									<div class="col-sm-10">
+										<input type="text" class="form-control" name="name" required>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label">Danh Mục</label>
+									<div class="col-sm-10">
+										<select class="form-control" name="category_id" required>
+											@foreach($categories as $category)
+												<option value="{{ $category->id }}">{{ $category->name }}</option>
+											@endforeach
+										</select>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label">Giá</label>
+									<div class="col-sm-10">
+										<input type="number" class="form-control" name="price" required>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label">Số Lượng</label>
+									<div class="col-sm-10">
+										<input type="number" class="form-control" name="stock" required>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label">Mô Tả</label>
+									<div class="col-sm-10">
+										<textarea class="form-control" name="description"></textarea>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label">Hình Ảnh</label>
+									<div class="col-sm-10"></div>
+									<input type="file" class="form-control" name="image">
+								</div>
+						</div>
+						<div class="form-group">
+							<div class="col-sm-offset-2 col-sm-10">
+								<button type="submit" class="btn btn-primary">Thêm Thiết Bị</button>
+							</div>
+						</div>
+						</form>
 
-<!-- Add loading indicator -->
-<div class="loading" style="display: none;">
-    <div class="loading-spinner"></div>
-</div>
+						<!-- Devices Table -->
+						<table class="table table-striped" id="devicesTable">
+							<thead>
+								<tr>
+									<th>ID</th>
+									<th>Tên</th>
+									<th>Danh Mục</th>
+									<th>Giá</th>
+									<th>Số Lượng</th>
+									<th>Thao Tác</th>
+								</tr>
+							</thead>
+							<tbody></tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+		</div>
+	</section>
 
-<!-- BODY SECTION END -->
+	<!-- Add loading indicator -->
+	<div class="loading" style="display: none;">
+		<div class="loading-spinner"></div>
+	</div>
+
+	<!-- BODY SECTION END -->
 
 	<footer id="footer"><!--Footer-->
 		<div class="footer-top">
@@ -283,7 +286,8 @@
 					<div class="col-sm-2">
 						<div class="companyinfo">
 							<h2><span>INGOUDE</span>-shopper</h2>
-							<p>INGOUDINGOUDE-Shopper là nền tảng cung cấp máy móc, thiết bị công trình chất lượng cao, giúp
+							<p>INGOUDINGOUDE-Shopper là nền tảng cung cấp máy móc, thiết bị công trình chất lượng cao,
+								giúp
 								khách hàng dễ dàng tìm kiếm và lựa chọn sản phẩm phù hợp. Với đa dạng thương hiệu uy
 								tín, dịch vụ tư vấn chuyên sâu và chính sách bảo hành minh bạch, chúng tôi cam kết mang
 								đến trải nghiệm mua sắm tối ưu cho doanh nghiệp và cá nhân trong ngành xây dựng.</p>
@@ -321,12 +325,12 @@
 						</div>
 
 						<div class="col-sm-3">
-							<div class="video-gallery text-center"></div>
+							<div class="video-gallery text-center">
 								<a href="#">
 									<div class="iframe-img">
 										<img src="/images/home/i3.png" alt="" />
 									</div>
-									<div class="overlay-icon"></div></div>
+									<div class="overlay-icon">
 										<i class="fa fa-play-circle-o"></i>
 									</div>
 								</a>
@@ -431,13 +435,13 @@
 			<div class="container">
 				<div class="row">
 					<p class="pull-left">Copyright © 2025 INGOUDINGOUDE-Shopper Inc. All rights reserved.</p>
-					<p class="pull-right">Designed by <span><a target="_blank"
-								href="#">PND</a></span></p>
+					<p class="pull-right">Designed by <span><a target="_blank" href="#">PND</a></span></p>
 				</div>
 			</div>
 		</div>
 
 	</footer><!--/Footer-->
+
 
 	<script src="/js/jquery.js"></script>
 	<script src="/js/bootstrap.min.js"></script>
@@ -447,43 +451,43 @@
 	<script src="/js/main.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 	<script>
-	$(document).ready(function() {
-    // Show loading indicator
-    $(document).ajaxStart(function() {
-        $('.loading').show();
-    });
+		$(document).ready(function () {
+			// Show loading indicator
+			$(document).ajaxStart(function () {
+				$('.loading').show();
+			});
 
-    $(document).ajaxComplete(function() {
-        $('.loading').hide();
-    });
+			$(document).ajaxComplete(function () {
+				$('.loading').hide();
+			});
 
-    // Add CSRF token to all AJAX requests
-    $.ajaxSetup({
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        }
-    });
+			// Add CSRF token to all AJAX requests
+			$.ajaxSetup({
+				headers: {
+					'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+				}
+			});
 
-    // Check session status before making AJAX calls
-    function checkSession(response) {
-        if (response === 'Unauthorized' || response.status === 401) {
-            window.location.href = '/login';
-            return false;
-        }
-        return true;
-    }
+			// Check session status before making AJAX calls
+			function checkSession(response) {
+				if (response === 'Unauthorized' || response.status === 401) {
+					window.location.href = '/login';
+					return false;
+				}
+				return true;
+			}
 
-    // Device management functionality
-    function loadDevices() {
-        $.ajax({
-            url: '/api/devices',
-            type: 'GET',
-            success: function(data) {
-                if (!checkSession(data)) return;
-                let tbody = $('#devicesTable tbody');
-                tbody.empty();
-                data.forEach(function(device) {
-                    tbody.append(`
+			// Device management functionality
+			function loadDevices() {
+				$.ajax({
+					url: '/api/devices',
+					type: 'GET',
+					success: function (data) {
+						if (!checkSession(data)) return;
+						let tbody = $('#devicesTable tbody');
+						tbody.empty();
+						data.forEach(function (device) {
+							tbody.append(`
                         <tr>
                             <td>${device.id}</td>
                             <td>${device.name}</td>
@@ -496,44 +500,44 @@
                             </td>
                         </tr>
                     `);
-                });
-            },
-            error: function(xhr, status, error) {
-                if (xhr.status === 401) {
-                    window.location.href = '/login';
-                } else {
-                    console.error('Error loading devices:', error);
-                    alert('Không thể tải danh sách thiết bị. Vui lòng thử lại sau.');
-                }
-            }
-        });
-    }
+						});
+					},
+					error: function (xhr, status, error) {
+						if (xhr.status === 401) {
+							window.location.href = '/login';
+						} else {
+							console.error('Error loading devices:', error);
+							alert('Không thể tải danh sách thiết bị. Vui lòng thử lại sau.');
+						}
+					}
+				});
+			}
 
-    // Initial load
-    loadDevices();
+			// Initial load
+			loadDevices();
 
-    // Rest of device management code remains unchanged
-    // ...existing device management code...
-});
+			// Rest of device management code remains unchanged
+			// ...existing device management code...
+		});
 
-$(document).ready(function() {
-    // Add CSRF token to all AJAX requests
-    $.ajaxSetup({
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        }
-    });
+		$(document).ready(function () {
+			// Add CSRF token to all AJAX requests
+			$.ajaxSetup({
+				headers: {
+					'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+				}
+			});
 
-    // Device management functionality with error handling
-    function loadDevices() {
-        $.ajax({
-            url: '/api/devices',
-            type: 'GET',
-            success: function(data) {
-                let tbody = $('#devicesTable tbody');
-                tbody.empty();
-                data.forEach(function(device) {
-                    tbody.append(`
+			// Device management functionality with error handling
+			function loadDevices() {
+				$.ajax({
+					url: '/api/devices',
+					type: 'GET',
+					success: function (data) {
+						let tbody = $('#devicesTable tbody');
+						tbody.empty();
+						data.forEach(function (device) {
+							tbody.append(`
                         <tr>
                             <td>${device.id}</td>
                             <td>${device.name}</td>
@@ -546,85 +550,85 @@ $(document).ready(function() {
                             </td>
                         </tr>
                     `);
-                });
-            },
-            error: function(xhr) {
-                if (xhr.status === 401) {
-                    window.location.href = '/login';
-                } else {
-                    alert('Không thể tải danh sách thiết bị: ' + xhr.responseJSON?.error || 'Lỗi không xác định');
-                }
-            }
-        });
-    }
+						});
+					},
+					error: function (xhr) {
+						if (xhr.status === 401) {
+							window.location.href = '/login';
+						} else {
+							alert('Không thể tải danh sách thiết bị: ' + xhr.responseJSON?.error || 'Lỗi không xác định');
+						}
+					}
+				});
+			}
 
-    // Device form submission with authentication
-    $('#deviceForm').submit(function(e) {
-        e.preventDefault();
-        let formData = new FormData(this);
-        
-        $.ajax({
-            url: '/api/devices',
-            type: 'POST',
-            data: formData,
-            processData: false,
-            contentType: false,
-            success: function(response) {
-                alert('Thiết bị đã được thêm thành công');
-                $('#deviceForm')[0].reset();
-                loadDevices();
-            },
-            error: function(xhr) {
-                if (xhr.status === 401) {
-                    window.location.href = '/login';
-                } else {
-                    alert('Không thể thêm thiết bị: ' + xhr.responseJSON?.error || 'Lỗi không xác định');
-                }
-            }
-        });
-    });
+			// Device form submission with authentication
+			$('#deviceForm').submit(function (e) {
+				e.preventDefault();
+				let formData = new FormData(this);
 
-    // Delete device with authentication
-    $(document).on('click', '.delete-device', function() {
-        if (confirm('Bạn có chắc muốn xóa thiết bị này?')) {
-            let id = $(this).data('id');
-            $.ajax({
-                url: '/api/devices/' + id,
-                type: 'DELETE',
-                success: function() {
-                    alert('Thiết bị đã được xóa');
-                    loadDevices();
-                },
-                error: function(xhr) {
-                    if (xhr.status === 401) {
-                        window.location.href = '/login';
-                    } else {
-                        alert('Không thể xóa thiết bị: ' + xhr.responseJSON?.error || 'Lỗi không xác định');
-                    }
-                }
-            });
-        }
-    });
+				$.ajax({
+					url: '/api/devices',
+					type: 'POST',
+					data: formData,
+					processData: false,
+					contentType: false,
+					success: function (response) {
+						alert('Thiết bị đã được thêm thành công');
+						$('#deviceForm')[0].reset();
+						loadDevices();
+					},
+					error: function (xhr) {
+						if (xhr.status === 401) {
+							window.location.href = '/login';
+						} else {
+							alert('Không thể thêm thiết bị: ' + xhr.responseJSON?.error || 'Lỗi không xác định');
+						}
+					}
+				});
+			});
 
-    // Initial load if user is admin
-    if (@json(session('user.role') === 'admin')) {
-        loadDevices();
-    }
-});
-</script>
+			// Delete device with authentication
+			$(document).on('click', '.delete-device', function () {
+				if (confirm('Bạn có chắc muốn xóa thiết bị này?')) {
+					let id = $(this).data('id');
+					$.ajax({
+						url: '/api/devices/' + id,
+						type: 'DELETE',
+						success: function () {
+							alert('Thiết bị đã được xóa');
+							loadDevices();
+						},
+						error: function (xhr) {
+							if (xhr.status === 401) {
+								window.location.href = '/login';
+							} else {
+								alert('Không thể xóa thiết bị: ' + xhr.responseJSON?.error || 'Lỗi không xác định');
+							}
+						}
+					});
+				}
+			});
 
-<script>
-$(document).ready(function() {
-    // Device management functionality without auth checks
-    function loadDevices() {
-        $.ajax({
-            url: '/api/devices',
-            type: 'GET',
-            success: function(data) {
-                let tbody = $('#devicesTable tbody');
-                tbody.empty();
-                data.forEach(function(device) {
-                    tbody.append(`
+			// Initial load if user is admin
+			if (@json(session('user.role') === 'admin')) {
+				loadDevices();
+			}
+		});
+	</script>
+
+	<script>
+		$(document).ready(function () {
+			// Device management functionality without auth checks
+			function loadDevices() {
+				$.ajax({
+					url: '/api/devices',
+					type: 'GET',
+					success: function (data) {
+						let tbody = $('#devicesTable tbody');
+						tbody.empty();
+						data.forEach(function (device) {
+							tbody.append(`
                         <tr>
                             <td>${device.id}</td>
                             <td>${device.name}</td>
@@ -637,18 +641,18 @@ $(document).ready(function() {
                             </td>
                         </tr>
                     `);
-                });
-            },
-            error: function(xhr) {
-                alert('Không thể tải danh sách thiết bị: ' + (xhr.responseJSON?.message || 'Lỗi không xác định'));
-            }
-        });
-    }
+						});
+					},
+					error: function (xhr) {
+						alert('Không thể tải danh sách thiết bị: ' + (xhr.responseJSON?.message || 'Lỗi không xác định'));
+					}
+				});
+			}
 
-    // Load devices immediately
-    loadDevices();
-});
-</script>
+			// Load devices immediately
+			loadDevices();
+		});
+	</script>
 </body>
 
 </html>
