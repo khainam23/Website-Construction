@@ -170,18 +170,18 @@
 						</div>
 						<div class="mainmenu pull-left">
 							<ul class="nav navbar-nav collapse navbar-collapse">
-								<li><a href="/" class="active">Trang chủ </a></li>
+								<li><a href="/" class="active">Trang chủ</a></li>
 								<li class="dropdown"><a href="#">Cửa hàng<i class="fa fa-angle-down"></i></a>
 									<ul role="menu" class="sub-menu">
-										<li><a href="shop.html">Products</a></li>
-										<li><a href="product-details.html">Product Details</a></li>
-										<li><a href="checkout.html">Hóa đơn</a></li>
-										<li><a href="cart.html">Giỏ hàng</a></li>
-										<li><a href="login.html">Truy cập</a></li>
+										<li><a href="shop">Products</a></li>
+										@if (session()->has('user'))
+											<li><a href="checkout">Hóa đơn</a></li>
+											<li><a href="cart">Giỏ hàng</a></li>
+										@endif
+										<li><a href="login">Truy cập</a></li>
 									</ul>
 								</li>
-
-								<li><a href="contact-us.html">Liên hệ</a></li>
+								<li><a href="contact-us">Liên hệ</a></li>
 							</ul>
 						</div>
 					</div>
@@ -783,10 +783,8 @@
         // Year change event
         $('#yearSelector').change(function() {
             let year = $(this).val();
-            $('.loading').show(); // Show loading when changing year
-            loadRevenueTable(year).always(function() {
-                $('.loading').hide(); // Hide loading after data is loaded
-            });
+            $('.loading').show(); 
+            loadRevenueTable(year);
         });
 
         // Initialize everything when page loads
@@ -795,21 +793,16 @@
             $('body').css('visibility', 'hidden');
             $('.loading').show();
             
-            // Use Promise.all to load all data concurrently
-            Promise.all([
-                loadRevenueTable(currentYear),
-                loadDeviceStatsTable(),
-                loadDevicesTable()
-            ]).then(() => {
-                // Hide loading indicator when all data is loaded and show the page
+            // Load all data sequentially to avoid Promise issues
+            loadRevenueTable(currentYear);
+            loadDeviceStatsTable();
+            loadDevicesTable();
+            
+            // Set a small timeout to ensure all AJAX requests have completed
+            setTimeout(function() {
                 $('.loading').hide();
                 $('body').css('visibility', 'visible');
-            }).catch(error => {
-                console.error("Error loading data:", error);
-                $('.loading').hide();
-                $('body').css('visibility', 'visible');
-                alert("Có lỗi xảy ra khi tải dữ liệu. Vui lòng tải lại trang.");
-            });
+            }, 1000);
         }
 
         // Call initializeAll right away

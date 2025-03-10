@@ -134,9 +134,17 @@ class ReportController extends Controller
     {
         $latestReport = Report::latest('date')->first();
         $categories = Category::all();
-    
+
+        // Check if user has sales role
+        if (auth()->check() && auth()->user()->role === 'sales') {
+            return view('sales-statistics', [
+                'latestReport' => $latestReport ?? new \stdClass()
+            ]);
+        }
+        
+        // Default admin view with all statistics
         return view('statistics', [
-            'latestReport' => $latestReport ?? new \stdClass(), // Tránh lỗi null
+            'latestReport' => $latestReport ?? new \stdClass(),
             'categories' => $categories
         ]);
     }    
