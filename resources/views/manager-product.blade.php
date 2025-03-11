@@ -273,6 +273,9 @@
                                     placeholder="Tìm kiếm thiết bị...">
                             </div>
                         </div>
+                        <div class="col-md-4 d-flex align-items-center">
+                            <button class="btn btn-primary mt-0" onclick="exportData()">Xuất thiết bị</button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -372,8 +375,43 @@
     <script src="/js/price-range.js"></script>
     <script src="/js/jquery.prettyPhoto.js"></script>
     <script src="/js/main.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 
     <script>
+        function exportData() {
+            let component = document.getElementById('list-devices').querySelectorAll('div.device-item:not(.d-none)');
+
+            let data = []; // Mảng lưu trữ dữ liệu  
+
+            component.forEach(item => {
+                const id = item.querySelectorAll('.device-id')[0]?.textContent.trim();
+                const image = item.querySelectorAll('.card-img-top')[0]?.src;
+                const category = item.querySelectorAll('.device-category')[0]?.textContent.trim();
+                const name = item.querySelectorAll('.card-title')[0]?.textContent.trim();
+                const description = item.querySelectorAll('.card-text')[0]?.textContent.trim();
+                const stock = item.querySelectorAll('.device-stock')[0]?.textContent.trim();
+                const created_at = item.querySelectorAll('.text-dark')[0]?.textContent.trim();
+                const rental = item.querySelectorAll('.device-rental')[0]?.textContent.trim();
+                const sale = item.querySelectorAll('.device-price')[0]?.textContent.trim();
+
+                data.push({
+                    ID: id, Image: image, Category: category, Name: name,
+                    Description: description, Stock: stock,
+                    Created_At: created_at, Rental: rental, Sale: sale
+                });
+            });
+
+            // Tạo worksheet từ mảng dữ liệu
+            let ws = XLSX.utils.json_to_sheet(data);
+
+            // Tạo workbook và gán worksheet
+            let wb = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(wb, ws, "Devices");
+
+            // Xuất file Excel
+            XLSX.writeFile(wb, "Device_List.xlsx");
+        }
+
         document.getElementById('search_device').addEventListener('input', function () {
             let searchText = this.value.toLowerCase();
             let component = document.getElementById('list-devices').querySelectorAll('div.device-item');
@@ -493,7 +531,7 @@
 
                         data.forEach(device => {
                             let statusBadge =
-                                `<span class="position-absolute top-0 end-0 badge bg-success m-2">${device.category.name}</span>`
+                                `<span class="position-absolute top-0 end-0 badge bg-success m-2 device-category">${device.category.name}</span>`
 
                             let deviceCard = `
                     <div class="device-item">
@@ -506,13 +544,13 @@
                                 <h5 class="card-title">${device.name}</h5>
                                 <p class="card-text">${device.description}</p>
                                 <div class="d-flex justify-content-between align-items-center mb-2">
-                                    <span class="fw-bold text-primary">Mã: ${device.id}</span>
-                                    <span class="fw-bold text-primary">Tồn kho: ${device.stock}</span>
+                                    <span class="fw-bold text-primary device-id">Mã: ${device.id}</span>
+                                    <span class="fw-bold text-primary device-stock">Tồn kho: ${device.stock}</span>
                                     <span class="badge bg-light text-dark">${(new Date(device.created_at)).toISOString().split('T')[0]}</span>
                                 </div>
                                 <div class="d-flex justify-content-between">
-                                    <span><i class="fas fa-tag me-1"></i> Thuê: ${device.price * 0.4}đ / 3ngày</span>
-                                    <span><i class="fas fa-shopping-cart me-1"></i> Bán: ${device.price}</span>
+                                    <span class="device-rental"><i class="fas fa-tag me-1"></i> Thuê: ${device.price * 0.4}đ / 3ngày</span>
+                                    <span class="device-price"><i class="fas fa-shopping-cart me-1"></i> Bán: ${device.price}</span>
                                 </div>
                             </div>
                             <div class="card-footer bg-white border-top-0">
