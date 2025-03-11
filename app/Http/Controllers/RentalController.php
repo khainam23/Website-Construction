@@ -187,4 +187,8 @@ class RentalController extends Controller
     public function count() {
         return response()->json(['totalDevices' => Device::count()]);
     }
+
+    public function all() {
+        return response()->json(Rental::all());
+    }
 }

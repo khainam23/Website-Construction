@@ -56,6 +56,9 @@ Route::middleware([RoleMiddleware::class . ':admin']) -> group(
         Route::get("/api/sales/count", [SaleController::class, 'count'])->name('api.sales.count');
         
         Route::post('/api/device/{id}', [DeviceController::class, 'update'])->name('api.device.update');
+
+        Route::get('/api/sales/all', [SaleController::class, 'all'])->name('api.sales.all');
+        Route::get('/api/rentals/all', [RentalController::class, 'all'])->name('api.rentals.all');
     }
 );
 

@@ -125,7 +125,7 @@
     <!-- Header would go here -->
 
     <!-- Main Content -->
-    <div class="container-fluid py-4">
+    <div class="container-fluid py-4 row">
         <!-- Dashboard Overview -->
         <section class="mb-4">
             <h2 class="mb-3">Tổng Quan Thiết Bị</h2>
@@ -282,8 +282,12 @@
         <section id="list-devices" class="mb-5">
         </section>
 
+        <div class="mb-4"></div>
+    </div>
+
+    <div>
         <!-- Recent Transactions -->
-        <section class="mb-4">
+        <div>
             <div class="card shadow">
                 <div class="card-header bg-white py-3">
                     <h5 class="mb-0 text-primary fw-bold">Giao Dịch Gần Đây</h5>
@@ -294,163 +298,21 @@
                             <thead class="table-light">
                                 <tr>
                                     <th scope="col">Mã GD</th>
-                                    <th scope="col">Khách Hàng</th>
-                                    <th scope="col">Thiết Bị</th>
+                                    <th scope="col">Mã sản phẩm</th>
+                                    <th scope="col">Mã khách hàng</th>
                                     <th scope="col">Loại</th>
                                     <th scope="col">Ngày Bắt Đầu</th>
                                     <th scope="col">Ngày Kết Thúc</th>
                                     <th scope="col">Giá Trị</th>
-                                    <th scope="col">Trạng Thái</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <tr>
-                                    <td>GD-2023-001</td>
-                                    <td>Công ty TNHH Xây dựng Phú Thành</td>
-                                    <td>Máy Ủi Komatsu D65EX</td>
-                                    <td><span class="badge bg-info">Cho thuê</span></td>
-                                    <td>15/05/2023</td>
-                                    <td>30/06/2023</td>
-                                    <td>285.200.000đ</td>
-                                    <td><span class="badge bg-success">Đang thực hiện</span></td>
-                                </tr>
-                                <tr>
-                                    <td>GD-2023-002</td>
-                                    <td>Công ty CP Đầu tư Xây dựng Minh Anh</td>
-                                    <td>Máy Trộn Bê Tông Hino</td>
-                                    <td><span class="badge bg-info">Cho thuê</span></td>
-                                    <td>20/05/2023</td>
-                                    <td>20/07/2023</td>
-                                    <td>210.000.000đ</td>
-                                    <td><span class="badge bg-success">Đang thực hiện</span></td>
-                                </tr>
-                                <tr>
-                                    <td>GD-2023-003</td>
-                                    <td>Công ty TNHH Xây dựng Thành Công</td>
-                                    <td>Xe Tải Howo 25 Tấn</td>
-                                    <td><span class="badge bg-danger">Bán</span></td>
-                                    <td>22/05/2023</td>
-                                    <td>-</td>
-                                    <td>950.000.000đ</td>
-                                    <td><span class="badge bg-primary">Hoàn thành</span></td>
-                                </tr>
-                                <tr>
-                                    <td>GD-2023-004</td>
-                                    <td>Công ty CP Xây dựng và Phát triển Hạ tầng</td>
-                                    <td>Máy Xúc Caterpillar 320D</td>
-                                    <td><span class="badge bg-info">Cho thuê</span></td>
-                                    <td>01/06/2023</td>
-                                    <td>15/06/2023</td>
-                                    <td>82.500.000đ</td>
-                                    <td><span class="badge bg-warning">Đã đặt cọc</span></td>
-                                </tr>
-                                <tr>
-                                    <td>GD-2023-005</td>
-                                    <td>Công ty TNHH MTV Xây dựng Tân Phát</td>
-                                    <td>Máy Đào Hitachi ZX200</td>
-                                    <td><span class="badge bg-info">Cho thuê</span></td>
-                                    <td>05/06/2023</td>
-                                    <td>20/06/2023</td>
-                                    <td>87.000.000đ</td>
-                                    <td><span class="badge bg-secondary">Chờ xác nhận</span></td>
-                                </tr>
+                            <tbody id="list-transactions">
                             </tbody>
                         </table>
                     </div>
                 </div>
-                <div class="card-footer bg-white text-center">
-                    <a href="#" class="btn btn-sm btn-outline-primary">Xem tất cả giao dịch</a>
-                </div>
             </div>
-        </section>
-
-        <!-- Maintenance Schedule -->
-        <section class="mb-4">
-            <div class="card shadow">
-                <div class="card-header bg-white py-3">
-                    <h5 class="mb-0 text-primary fw-bold">Lịch Bảo Trì Thiết Bị</h5>
-                </div>
-                <div class="card-body">
-                    <div class="table-responsive">
-                        <table class="table table-hover">
-                            <thead class="table-light">
-                                <tr>
-                                    <th scope="col">Mã Thiết Bị</th>
-                                    <th scope="col">Tên Thiết Bị</th>
-                                    <th scope="col">Loại Bảo Trì</th>
-                                    <th scope="col">Ngày Bắt Đầu</th>
-                                    <th scope="col">Dự Kiến Hoàn Thành</th>
-                                    <th scope="col">Kỹ Thuật Viên</th>
-                                    <th scope="col">Trạng Thái</th>
-                                    <th scope="col">Thao Tác</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>CR-LIE-LTM</td>
-                                    <td>Cần Cẩu Liebherr LTM</td>
-                                    <td>Bảo dưỡng định kỳ</td>
-                                    <td>01/06/2023</td>
-                                    <td>10/06/2023</td>
-                                    <td>Nguyễn Văn A</td>
-                                    <td><span class="badge bg-warning">Đang thực hiện</span></td>
-                                    <td>
-                                        <button class="btn btn-sm btn-outline-info"><i class="fas fa-eye"></i></button>
-                                        <button class="btn btn-sm btn-outline-success"><i
-                                                class="fas fa-check"></i></button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>GN-CUM-500KVA</td>
-                                    <td>Máy Phát Điện Cummins</td>
-                                    <td>Sửa chữa</td>
-                                    <td>03/06/2023</td>
-                                    <td>15/06/2023</td>
-                                    <td>Trần Văn B</td>
-                                    <td><span class="badge bg-warning">Đang thực hiện</span></td>
-                                    <td>
-                                        <button class="btn btn-sm btn-outline-info"><i class="fas fa-eye"></i></button>
-                                        <button class="btn btn-sm btn-outline-success"><i
-                                                class="fas fa-check"></i></button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>EX-CAT-320D</td>
-                                    <td>Máy Xúc Caterpillar 320D</td>
-                                    <td>Bảo dưỡng định kỳ</td>
-                                    <td>15/06/2023</td>
-                                    <td>20/06/2023</td>
-                                    <td>Lê Văn C</td>
-                                    <td><span class="badge bg-secondary">Chờ thực hiện</span></td>
-                                    <td>
-                                        <button class="btn btn-sm btn-outline-info"><i class="fas fa-eye"></i></button>
-                                        <button class="btn btn-sm btn-outline-primary"><i
-                                                class="fas fa-edit"></i></button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>BL-KOM-D65EX</td>
-                                    <td>Máy Ủi Komatsu D65EX</td>
-                                    <td>Bảo dưỡng định kỳ</td>
-                                    <td>01/07/2023</td>
-                                    <td>05/07/2023</td>
-                                    <td>Phạm Văn D</td>
-                                    <td><span class="badge bg-secondary">Chờ thực hiện</span></td>
-                                    <td>
-                                        <button class="btn btn-sm btn-outline-info"><i class="fas fa-eye"></i></button>
-                                        <button class="btn btn-sm btn-outline-primary"><i
-                                                class="fas fa-edit"></i></button>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                <div class="card-footer bg-white text-center">
-                    <a href="#" class="btn btn-sm btn-outline-primary">Xem tất cả lịch bảo trì</a>
-                </div>
-            </div>
-        </section>
+        </div>
     </div>
 
     <!-- Modal -->
@@ -692,6 +554,54 @@
                 type: 'GET',
                 success: function (response) {
                     saleDevices.innerText = response.totalDevices;
+                },
+                error: function (error) {
+                    console.error(error);
+                }
+            });
+
+            // Example: Load recent transactions
+            const listTransactions = document.getElementById('list-transactions');
+
+            $.ajax({
+                url: '/api/sales/all',
+                type: 'GET',
+                success: function (response) {
+                    for (let sale of response) {
+                        let html = `<tr>
+                                    <td>${sale.id}</td>
+                                    <td>${sale.device_id}</td>
+                                    <td>${sale.user_id}</td>
+                                    <td><span class="badge bg-info">Bán</span></td>
+                                    <td>${sale.updated_at}</td>
+                                    <td></td>
+                                    <td>${sale.total_price}</td>
+                                </tr>`;
+                        listTransactions.innerHTML += html;
+                    }
+                },
+                error: function (error) {
+                    console.error(error);
+                }
+            });
+
+            $.ajax({
+                url: '/api/rentals/all',
+                type: 'GET',
+                success: function (response) {
+                    for (let rental of response) {
+                        console.log(rental);
+                        let html = `<tr>
+                                    <td>${rental.id}</td>
+                                    <td>${rental.device_id}</td>
+                                    <td>${rental.user_id}</td>
+                                    <td><span class="badge bg-danger">Thuê</span></td>
+                                    <td>${sale.rental_date}</td>
+                                    <td>${sale.return_date}</td>
+                                    <td>${sale.total_price}</td>
+                                </tr>`;
+                        listTransactions.innerHTML += html;
+                    }
                 },
                 error: function (error) {
                     console.error(error);
