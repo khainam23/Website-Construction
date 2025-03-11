@@ -86,6 +86,38 @@
         .bg-gradient-warning {
             background: linear-gradient(to right, #f6c23e, #dda20a);
         }
+
+        .model {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .model-content {
+            background: white;
+            padding: 20px;
+            border-radius: 5px;
+            width: 400px;
+        }
+
+        .model-header {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .image-preview {
+            width: 100%;
+            height: auto;
+            max-height: 200px;
+            object-fit: cover;
+            margin-bottom: 10px;
+        }
     </style>
 </head>
 
@@ -421,6 +453,48 @@
         </section>
     </div>
 
+    <!-- Modal -->
+    <div class="model" id="editModel">
+        <div class="model-content">
+            <div class="model-header">
+                <h2>Chỉnh sửa thông tin</h2>
+                <button onclick="closeModel()">✖</button>
+            </div>
+            <form id="editForm">
+                <label for="device_name">Tên máy:</label>
+                <input type="text" id="device_name"><br>
+
+                <label for="device_description">Mô tả:</label>
+                <textarea id="device_description"></textarea><br>
+
+                <lable for="old_device_category">Danh mục cũ:</lable>
+                <p id="old_device_category"></p>
+
+                <label for="device_category">Danh mục:</label>
+                <select id="device_category" class="form-control" name="category_id" required>
+                    @foreach($categories as $category)
+                        <option value="{{ $category->id }}">{{ $category->name }}</option>
+                    @endforeach
+                </select><br>
+
+                <label for="device_id">Mã:</label>
+                <p id="device_id"></p>
+
+                <label for="sell">Giá:</label>
+                <input type="text" id="sell"> VND<br>
+
+                <label for="sell">Tồn kho:</label>
+                <input type="number" id="device_stock" min="0" max="99"><br>
+
+                <label for="device_image">Hình ảnh:</label>
+                <img id="image_preview" class="image-preview" src="" alt="Hình ảnh thiết bị"><br>
+                <input type="file" id="device_image" accept="image/*" onchange="updateImagePreview(event)"><br>
+
+                <button type="button" onclick="saveChanges()">Lưu</button>
+            </form>
+        </div>
+    </div>
+
     <!-- Footer would go here -->
 
 
@@ -455,7 +529,72 @@
             });
         }
 
-        function editProduct() {
+        function editProduct(id, name, image, description, price, category, stock) {
+            openModel(id, name, image, description, price, category, stock);
+        }
+
+        function openModel(id, name, image, description, price, category, stock) {
+            document.getElementById("editModel").style.display = "flex";
+            document.getElementById("device_id").innerText = id;
+            document.getElementById("device_name").value = name;
+            document.getElementById("device_description").value = description;
+            document.getElementById("sell").value = price;
+            document.getElementById("old_device_category").innerText = category;
+            document.getElementById("device_stock").value = stock;
+            document.getElementById("image_preview").src = image;
+        }
+
+        function closeModel() {
+            document.getElementById("editModel").style.display = "none";
+        }
+
+        function updateImagePreview(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    document.getElementById("image_preview").src = e.target.result;
+                }
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function saveChanges() {
+            let formData = new FormData();
+            formData.append("id", document.getElementById("device_id").innerText.trim());
+            formData.append("name", document.getElementById("device_name").value.trim());
+            formData.append("description", document.getElementById("device_description").value.trim());
+            formData.append("category", document.getElementById("device_category").value);
+            formData.append("price", document.getElementById("sell").value);
+            formData.append("stock", document.getElementById("device_stock").value);
+
+            let fileInput = document.getElementById("device_image");
+            if (fileInput.files.length > 0) {
+                formData.append("image", fileInput.files[0]);
+            }
+
+            $.ajax({
+                url: '/api/device/' + document.getElementById("device_id").innerText.trim(),
+                type: 'POST', // Dùng POST thay vì PUT (PUT không hỗ trợ FormData tốt trong Laravel)
+                data: formData,
+                processData: false,
+                contentType: false,
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                },
+                success: function (response) {
+                    alert('Thiết bị đã được cập nhật thành công');
+                    location.reload();
+                },
+                error: function (xhr) {
+                    if (xhr.status === 401) {
+                        window.location.href = '/login';
+                    } else {
+                        // alert('Không thể cập nhật thiết bị: ' + JSON.stringify(xhr.responseJSON.errors));
+                        console.log(xhr.responseText);
+                    }
+                }
+            });
         }
 
         window.onload = function () {
@@ -469,7 +608,6 @@
                         container.empty(); // Xóa nội dung cũ trước khi thêm mới
 
                         data.forEach(device => {
-                            console.log(device);
                             let statusBadge =
                                 `<span class="position-absolute top-0 end-0 badge bg-success m-2">${device.category.name}</span>`
 
@@ -485,6 +623,7 @@
                                 <p class="card-text">${device.description}</p>
                                 <div class="d-flex justify-content-between align-items-center mb-2">
                                     <span class="fw-bold text-primary">Mã: ${device.id}</span>
+                                    <span class="fw-bold text-primary">Tồn kho: ${device.stock}</span>
                                     <span class="badge bg-light text-dark">${(new Date(device.created_at)).toISOString().split('T')[0]}</span>
                                 </div>
                                 <div class="d-flex justify-content-between">
@@ -494,7 +633,7 @@
                             </div>
                             <div class="card-footer bg-white border-top-0">
                                 <div class="d-grid gap-2 d-md-flex justify-content-md-between">
-                                    <button class="btn btn-sm btn-outline-primary" onclick="editProduct()"><i class="fas fa-edit"></i> Sửa</button>
+                                    <button class="btn btn-sm btn-outline-primary" onclick="editProduct(${device.id}, '${device.name}', '${device.image}', '${device.description}', ${device.price}, '${device.category.name}', ${device.stock})"><i class="fas fa-edit"></i> Sửa</button>
                                     <button class="btn btn-sm btn-outline-success" onclick="deleteProduct(${device.id})"><i class="fas fa-clipboard-list"></i> Xóa</button>
                                 </div>
                             </div>
@@ -526,6 +665,9 @@
             $.ajax({
                 url: '/api/devices/count',
                 type: 'GET',
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                },
                 success: function (response) {
                     overviceDevices.innerText = response.totalDevices;
                 },

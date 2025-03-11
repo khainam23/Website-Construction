@@ -97,12 +97,12 @@ class DeviceController extends Controller
         }
 
         $device = Device::create($validated);
-        
+
         // Add image URL using relative path
         if ($device->image) {
             $device->image_url = Storage::url($device->image);
         }
-        
+
         return response()->json($device, 201);
     }
 
@@ -172,38 +172,43 @@ class DeviceController extends Controller
      *     )
      * )
      */
-    public function update(Request $request, Device $device)
+    public function update(Request $request)
     {
-        $this->authorize('update', $device);
-
         $validated = $request->validate([
+            'id' => 'required|exists:devices,id',
             'name' => 'required|string|max:255',
-            'category' => 'required|string|max:255',
+            'category' => 'required|integer|exists:categories,id',
             'description' => 'nullable|string',
             'price' => 'required|numeric|min:0',
             'stock' => 'required|integer|min:0',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048' // Thêm validation cho image
+            'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048'
         ]);
+
+        $device = Device::findOrFail($validated['id']);
 
         if ($request->hasFile('image')) {
             // Xóa ảnh cũ nếu có
             if ($device->image) {
                 Storage::disk('public')->delete($device->image);
             }
-
-            // Store with relative path
+            // Lưu ảnh mới
             $path = $request->file('image')->store('devices', 'public');
             $validated['image'] = $path;
         }
 
-        $device->update($validated);
-        
-        // Add image URL using relative path
-        if ($device->image) {
-            $device->image_url = Storage::url($device->image);
-        }
-        
-        return response()->json($device);
+        $device->update([
+            'name' => $validated['name'],
+            'category' => $validated['category'],
+            'description' => $validated['description'],
+            'price' => $validated['price'],
+            'stock' => $validated['stock'],
+            'image' => $validated['image'] ?? $device->image
+        ]);
+
+        return response()->json([
+            'message' => 'Cập nhật thành công',
+            'device' => $device
+        ]);
     }
 
     /**
@@ -244,15 +249,17 @@ class DeviceController extends Controller
         return response()->json(['message' => 'Thiết bị đã bị xóa']);
     }
 
-    public function count() {
+    public function count()
+    {
         return response()->json(['totalDevices' => 'hello']);
     }
 
-    public function viewManagerProduct() {
+    public function viewManagerProduct()
+    {
         $categories = Category::all();
 
         return view('manager-product', [
-            'categories'=> $categories
+            'categories' => $categories
         ]);
     }
 
