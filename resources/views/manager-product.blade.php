@@ -118,6 +118,26 @@
             object-fit: cover;
             margin-bottom: 10px;
         }
+
+        #list-devices {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            /* 4 cột bằng nhau */
+            gap: 15px;
+            /* Khoảng cách giữa các phần tử */
+        }
+
+        .device-item {
+            background: #f0f0f0;
+            padding: 20px;
+            text-align: center;
+            height: 200px;
+            /* Đảm bảo chiều cao bằng nhau */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #ccc;
+        }
     </style>
 </head>
 
@@ -249,28 +269,8 @@
                     <div class="row">
                         <div class="col-md-4 mb-3">
                             <div class="input-group">
-                                <input type="text" class="form-control" placeholder="Tìm kiếm thiết bị...">
-                                <button class="btn btn-primary" type="button">
-                                    <i class="fas fa-search"></i>
-                                </button>
-                            </div>
-                        </div>
-                        <div class="col-md-8">
-                            <div class="row">
-                                <div class="col-md-4 mb-3">
-                                    <select class="form-control" name="category_id" required>
-                                        @foreach($categories as $category)
-                                            <option value="{{ $category->id }}">{{ $category->name }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="col-md-4 mb-3">
-                                    <select class="form-select">
-                                        <option>Sẵn sàng</option>
-                                        <option>Đang cho thuê</option>
-                                        <option>Đang bán</option>
-                                    </select>
-                                </div>
+                                <input id="search_device" type="text" class="form-control"
+                                    placeholder="Tìm kiếm thiết bị...">
                             </div>
                         </div>
                     </div>
@@ -355,7 +355,8 @@
 
                 <label for="device_image">Hình ảnh:</label>
                 <img id="image_preview" class="image-preview" src="" alt="Hình ảnh thiết bị"><br>
-                <input {{$role == 'warehouse' ? 'disabled' : ''}} type="file" id="device_image" accept="image/*" onchange="updateImagePreview(event)"><br>
+                <input {{$role == 'warehouse' ? 'disabled' : ''}} type="file" id="device_image" accept="image/*"
+                    onchange="updateImagePreview(event)"><br>
 
                 <button type="button" onclick="saveChanges()">Lưu</button>
             </form>
@@ -373,6 +374,22 @@
     <script src="/js/main.js"></script>
 
     <script>
+        document.getElementById('search_device').addEventListener('input', function () {
+            let searchText = this.value.toLowerCase();
+            let component = document.getElementById('list-devices').querySelectorAll('div.device-item');
+
+            component.forEach(item => {
+                if (searchText) {
+                    const name = item.querySelectorAll('.card-title')[0]?.textContent.trim();
+                    console.log(name)
+                    if (!name?.includes(searchText)) {
+                        item.classList.add("d-none");
+                    }
+                } else {
+                    item.classList.remove("d-none");
+                }
+            })
+        });
 
         function deleteProduct(id) {
             $.ajax({
@@ -479,7 +496,7 @@
                                 `<span class="position-absolute top-0 end-0 badge bg-success m-2">${device.category.name}</span>`
 
                             let deviceCard = `
-                    <div class="col-lg-3 col-md-6 mb-4">
+                    <div class="device-item">
                         <div class="card shadow equipment-card">
                             <div class="position-relative">
                                 <img src="${device.image}" class="card-img-top" alt="${device.name}">
