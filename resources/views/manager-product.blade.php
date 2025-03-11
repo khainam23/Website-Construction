@@ -1,27 +1,29 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
     <meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta name="description" content="">
-	<meta name="author" content="">
-	<title>Nhà  | INGOUDINGOUDE-Shopper</title>
-	<link href="css/bootstrap.min.css" rel="stylesheet">
-	<link href="css/font-awesome.min.css" rel="stylesheet">
-	<link href="css/prettyPhoto.css" rel="stylesheet">
-	<link href="css/price-range.css" rel="stylesheet">
-	<link href="css/animate.css" rel="stylesheet">
-	<link href="css/main.css" rel="stylesheet">
-	<link href="css/responsive.css" rel="stylesheet">
-	<!--[if lt IE 9]>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="author" content="">
+    <title>Nhà | INGOUDINGOUDE-Shopper</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/font-awesome.min.css" rel="stylesheet">
+    <link href="css/prettyPhoto.css" rel="stylesheet">
+    <link href="css/price-range.css" rel="stylesheet">
+    <link href="css/animate.css" rel="stylesheet">
+    <link href="css/main.css" rel="stylesheet">
+    <link href="css/responsive.css" rel="stylesheet">
+    <!--[if lt IE 9]>
     <script src="/js/html5shiv.js"></script>
     <script src="/js/respond.min.js"></script>
     <![endif]-->
-	<link rel="shortcut icon" href="/images/ico/favicon.ico">
-	<link rel="apple-touch-icon-precomposed" sizes="144x144" href="/images/ico/apple-touch-icon-144-precomposed.png">
-	<link rel="apple-touch-icon-precomposed" sizes="114x114" href="/images/ico/apple-touch-icon-114-precomposed.png">
-	<link rel="apple-touch-icon-precomposed" sizes="72x72" href="/images/ico/apple-touch-icon-72-precomposed.png">
-	<link rel="apple-touch-icon-precomposed" href="/images/ico/apple-touch-icon-57-precomposed.png">
+    <link rel="shortcut icon" href="/images/ico/favicon.ico">
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/images/ico/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/images/ico/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/images/ico/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" href="/images/ico/apple-touch-icon-57-precomposed.png">
     <title>Quản Lý Thiết Bị | INGOUDINGOUDE-Shopper</title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -32,48 +34,61 @@
             transition: transform 0.3s;
             height: 100%;
         }
+
         .equipment-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
         }
+
         .card-img-top {
             height: 200px;
             object-fit: cover;
         }
+
         .filter-section {
             background-color: #f8f9fa;
             border-radius: 10px;
         }
+
         .status-available {
             color: #28a745;
         }
+
         .status-rented {
             color: #dc3545;
         }
+
         .status-maintenance {
             color: #ffc107;
         }
+
         .dashboard-card {
             border-left: 4px solid;
             transition: transform 0.3s;
         }
+
         .dashboard-card:hover {
             transform: translateY(-5px);
         }
+
         .bg-gradient-primary {
             background: linear-gradient(to right, #4e73df, #224abe);
         }
+
         .bg-gradient-success {
             background: linear-gradient(to right, #1cc88a, #13855c);
         }
+
         .bg-gradient-info {
             background: linear-gradient(to right, #36b9cc, #258391);
         }
+
         .bg-gradient-warning {
             background: linear-gradient(to right, #f6c23e, #dda20a);
         }
     </style>
 </head>
+
 <body>
     <!-- Header would go here -->
 
@@ -83,14 +98,14 @@
         <section class="mb-4">
             <h2 class="mb-3">Tổng Quan Thiết Bị</h2>
             <div class="row">
-                <div class="col-xl-3 col-md-6 mb-4">
+                <div class="col-xl-4 col-md-6 mb-4">
                     <div class="card border-0 shadow h-100 py-2 dashboard-card" style="border-left-color: #4e73df;">
                         <div class="card-body">
                             <div class="row no-gutters align-items-center">
                                 <div class="col mr-2">
                                     <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                         Tổng Thiết Bị</div>
-                                    <div class="h5 mb-0 font-weight-bold text-gray-800">215</div>
+                                    <div id="overview-devices" class="h5 mb-0 font-weight-bold text-gray-800">0</div>
                                 </div>
                                 <div class="col-auto">
                                     <i class="fas fa-tools fa-2x text-gray-300"></i>
@@ -100,14 +115,14 @@
                     </div>
                 </div>
 
-                <div class="col-xl-3 col-md-6 mb-4">
+                <div class="col-xl-4 col-md-6 mb-4">
                     <div class="card border-0 shadow h-100 py-2 dashboard-card" style="border-left-color: #1cc88a;">
                         <div class="card-body">
                             <div class="row no-gutters align-items-center">
                                 <div class="col mr-2">
                                     <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
                                         Đang Cho Thuê</div>
-                                    <div class="h5 mb-0 font-weight-bold text-gray-800">87</div>
+                                    <div id="rental-devices" class="h5 mb-0 font-weight-bold text-gray-800">0</div>
                                 </div>
                                 <div class="col-auto">
                                     <i class="fas fa-truck-loading fa-2x text-gray-300"></i>
@@ -117,34 +132,17 @@
                     </div>
                 </div>
 
-                <div class="col-xl-3 col-md-6 mb-4">
+                <div class="col-xl-4 col-md-6 mb-4">
                     <div class="card border-0 shadow h-100 py-2 dashboard-card" style="border-left-color: #36b9cc;">
                         <div class="card-body">
                             <div class="row no-gutters align-items-center">
                                 <div class="col mr-2">
                                     <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
                                         Sẵn Sàng</div>
-                                    <div class="h5 mb-0 font-weight-bold text-gray-800">112</div>
+                                    <div id="sale-devices" class="h5 mb-0 font-weight-bold text-gray-800">0</div>
                                 </div>
                                 <div class="col-auto">
                                     <i class="fas fa-check-circle fa-2x text-gray-300"></i>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-xl-3 col-md-6 mb-4">
-                    <div class="card border-0 shadow h-100 py-2 dashboard-card" style="border-left-color: #f6c23e;">
-                        <div class="card-body">
-                            <div class="row no-gutters align-items-center">
-                                <div class="col mr-2">
-                                    <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
-                                        Bảo Trì</div>
-                                    <div class="h5 mb-0 font-weight-bold text-gray-800">16</div>
-                                </div>
-                                <div class="col-auto">
-                                    <i class="fas fa-wrench fa-2x text-gray-300"></i>
                                 </div>
                             </div>
                         </div>
@@ -155,17 +153,59 @@
 
         <!-- Quick Actions -->
         <section class="mb-4">
-            <div class="row">
+            <div class="d-flex flex-column">
                 <div class="col-md-8">
                     <h2 class="mb-3">Quản Lý Thiết Bị</h2>
                 </div>
-                <div class="col-md-4 text-end">
-                    <button class="btn btn-primary me-2">
-                        <i class="fas fa-plus"></i> Thêm Thiết Bị
-                    </button>
-                    <button class="btn btn-success">
-                        <i class="fas fa-file-export"></i> Xuất Excel
-                    </button>
+                <div class="col-md-4 mx-auto text-center">
+                    <!-- Add Device Form -->
+                    <form id="deviceForm" class="form-horizontal" enctype="multipart/form-data">
+                        @csrf
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Tên Thiết Bị</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" name="name" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Danh Mục</label>
+                            <div class="col-sm-10">
+                                <select class="form-control" name="category_id" required>
+                                    @foreach($categories as $category)
+                                        <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Giá</label>
+                            <div class="col-sm-10">
+                                <input type="number" class="form-control" name="price" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Số Lượng</label>
+                            <div class="col-sm-10">
+                                <input type="number" class="form-control" name="stock" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Mô Tả</label>
+                            <div class="col-sm-10">
+                                <textarea class="form-control" name="description"></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Hình Ảnh</label>
+                            <div class="col-sm-10"></div>
+                            <input type="file" class="form-control" name="image">
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-10">
+                                <button type="submit" class="btn btn-primary">Thêm Thiết Bị</button>
+                            </div>
+                        </div>
+                    </form>
                 </div>
             </div>
         </section>
@@ -186,31 +226,17 @@
                         <div class="col-md-8">
                             <div class="row">
                                 <div class="col-md-4 mb-3">
-                                    <select class="form-select">
-                                        <option selected>Loại thiết bị</option>
-                                        <option>Máy xúc</option>
-                                        <option>Máy ủi</option>
-                                        <option>Máy đào</option>
-                                        <option>Xe tải</option>
-                                        <option>Cần cẩu</option>
-                                        <option>Máy trộn bê tông</option>
+                                    <select class="form-control" name="category_id" required>
+                                        @foreach($categories as $category)
+                                            <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                                 <div class="col-md-4 mb-3">
                                     <select class="form-select">
-                                        <option selected>Trạng thái</option>
                                         <option>Sẵn sàng</option>
                                         <option>Đang cho thuê</option>
-                                        <option>Đang bảo trì</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-4 mb-3">
-                                    <select class="form-select">
-                                        <option selected>Sắp xếp theo</option>
-                                        <option>Mới nhất</option>
-                                        <option>Cũ nhất</option>
-                                        <option>Giá tăng dần</option>
-                                        <option>Giá giảm dần</option>
+                                        <option>Đang bán</option>
                                     </select>
                                 </div>
                             </div>
@@ -221,242 +247,7 @@
         </section>
 
         <!-- Equipment List -->
-        <section class="mb-5">
-            <div class="row">
-                <div class="col-lg-3 col-md-6 mb-4">
-                    <div class="card shadow equipment-card">
-                        <div class="position-relative">
-                            <img src="https://images.unsplash.com/photo-1581578731548-c64695cc6952?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" class="card-img-top" alt="Máy xúc">
-                            <span class="position-absolute top-0 end-0 badge bg-success m-2">Sẵn sàng</span>
-                        </div>
-                        <div class="card-body">
-                            <h5 class="card-title">Máy Xúc Caterpillar 320D</h5>
-                            <p class="card-text">Máy xúc bánh xích, trọng lượng 20 tấn, công suất 138HP</p>
-                            <div class="d-flex justify-content-between align-items-center mb-2">
-                                <span class="fw-bold text-primary">Mã: EX-CAT-320D</span>
-                                <span class="badge bg-light text-dark">2018</span>
-                            </div>
-                            <div class="d-flex justify-content-between">
-                                <span><i class="fas fa-tag me-1"></i> Thuê: 5.500.000đ/ngày</span>
-                                <span><i class="fas fa-shopping-cart me-1"></i> Bán: 1.2 tỷ</span>
-                            </div>
-                        </div>
-                        <div class="card-footer bg-white border-top-0">
-                            <div class="d-grid gap-2 d-md-flex justify-content-md-between">
-                                <button class="btn btn-sm btn-outline-primary"><i class="fas fa-edit"></i> Sửa</button>
-                                <button class="btn btn-sm btn-outline-success"><i class="fas fa-clipboard-list"></i> Chi tiết</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-3 col-md-6 mb-4">
-                    <div class="card shadow equipment-card">
-                        <div class="position-relative">
-                            <img src="https://images.unsplash.com/photo-1566576721346-d4a3b4eaeb55?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" class="card-img-top" alt="Máy ủi">
-                            <span class="position-absolute top-0 end-0 badge bg-danger m-2">Đang cho thuê</span>
-                        </div>
-                        <div class="card-body">
-                            <h5 class="card-title">Máy Ủi Komatsu D65EX</h5>
-                            <p class="card-text">Máy ủi bánh xích, trọng lượng 22 tấn, công suất 220HP</p>
-                            <div class="d-flex justify-content-between align-items-center mb-2">
-                                <span class="fw-bold text-primary">Mã: BL-KOM-D65EX</span>
-                                <span class="badge bg-light text-dark">2020</span>
-                            </div>
-                            <div class="d-flex justify-content-between">
-                                <span><i class="fas fa-tag me-1"></i> Thuê: 6.200.000đ/ngày</span>
-                                <span><i class="fas fa-shopping-cart me-1"></i> Bán: 1.5 tỷ</span>
-                            </div>
-                        </div>
-                        <div class="card-footer bg-white border-top-0">
-                            <div class="d-grid gap-2 d-md-flex justify-content-md-between">
-                                <button class="btn btn-sm btn-outline-primary"><i class="fas fa-edit"></i> Sửa</button>
-                                <button class="btn btn-sm btn-outline-success"><i class="fas fa-clipboard-list"></i> Chi tiết</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-3 col-md-6 mb-4">
-                    <div class="card shadow equipment-card">
-                        <div class="position-relative">
-                            <img src="https://images.unsplash.com/photo-1570003179394-40b59f9b4a5a?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" class="card-img-top" alt="Xe tải">
-                            <span class="position-absolute top-0 end-0 badge bg-success m-2">Sẵn sàng</span>
-                        </div>
-                        <div class="card-body">
-                            <h5 class="card-title">Xe Tải Howo 25 Tấn</h5>
-                            <p class="card-text">Xe tải tự đổ, tải trọng 25 tấn, động cơ 380HP</p>
-                            <div class="d-flex justify-content-between align-items-center mb-2">
-                                <span class="fw-bold text-primary">Mã: TR-HOWO-25T</span>
-                                <span class="badge bg-light text-dark">2021</span>
-                            </div>
-                            <div class="d-flex justify-content-between">
-                                <span><i class="fas fa-tag me-1"></i> Thuê: 4.800.000đ/ngày</span>
-                                <span><i class="fas fa-shopping-cart me-1"></i> Bán: 950 triệu</span>
-                            </div>
-                        </div>
-                        <div class="card-footer bg-white border-top-0">
-                            <div class="d-grid gap-2 d-md-flex justify-content-md-between">
-                                <button class="btn btn-sm btn-outline-primary"><i class="fas fa-edit"></i> Sửa</button>
-                                <button class="btn btn-sm btn-outline-success"><i class="fas fa-clipboard-list"></i> Chi tiết</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-3 col-md-6 mb-4">
-                    <div class="card shadow equipment-card">
-                        <div class="position-relative">
-                            <img src="https://images.unsplash.com/photo-1541625602330-2277a4c46182?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" class="card-img-top" alt="Cần cẩu">
-                            <span class="position-absolute top-0 end-0 badge bg-warning m-2">Đang bảo trì</span>
-                        </div>
-                        <div class="card-body">
-                            <h5 class="card-title">Cần Cẩu Liebherr LTM</h5>
-                            <p class="card-text">Cần cẩu di động, tải trọng nâng 100 tấn, chiều cao 60m</p>
-                            <div class="d-flex justify-content-between align-items-center mb-2">
-                                <span class="fw-bold text-primary">Mã: CR-LIE-LTM</span>
-                                <span class="badge bg-light text-dark">2019</span>
-                            </div>
-                            <div class="d-flex justify-content-between">
-                                <span><i class="fas fa-tag me-1"></i> Thuê: 12.000.000đ/ngày</span>
-                                <span><i class="fas fa-shopping-cart me-1"></i> Bán: 8.5 tỷ</span>
-                            </div>
-                        </div>
-                        <div class="card-footer bg-white border-top-0">
-                            <div class="d-grid gap-2 d-md-flex justify-content-md-between">
-                                <button class="btn btn-sm btn-outline-primary"><i class="fas fa-edit"></i> Sửa</button>
-                                <button class="btn btn-sm btn-outline-success"><i class="fas fa-clipboard-list"></i> Chi tiết</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Second Row of Equipment -->
-            <div class="row">
-                <div class="col-lg-3 col-md-6 mb-4">
-                    <div class="card shadow equipment-card">
-                        <div class="position-relative">
-                            <img src="https://images.unsplash.com/photo-1578849278619-e73505e9610f?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" class="card-img-top" alt="Máy đào">
-                            <span class="position-absolute top-0 end-0 badge bg-success m-2">Sẵn sàng</span>
-                        </div>
-                        <div class="card-body">
-                            <h5 class="card-title">Máy Đào Hitachi ZX200</h5>
-                            <p class="card-text">Máy đào bánh xích, trọng lượng 20 tấn, công suất 148HP</p>
-                            <div class="d-flex justify-content-between align-items-center mb-2">
-                                <span class="fw-bold text-primary">Mã: EX-HIT-ZX200</span>
-                                <span class="badge bg-light text-dark">2020</span>
-                            </div>
-                            <div class="d-flex justify-content-between">
-                                <span><i class="fas fa-tag me-1"></i> Thuê: 5.800.000đ/ngày</span>
-                                <span><i class="fas fa-shopping-cart me-1"></i> Bán: 1.3 tỷ</span>
-                            </div>
-                        </div>
-                        <div class="card-footer bg-white border-top-0">
-                            <div class="d-grid gap-2 d-md-flex justify-content-md-between">
-                                <button class="btn btn-sm btn-outline-primary"><i class="fas fa-edit"></i> Sửa</button>
-                                <button class="btn btn-sm btn-outline-success"><i class="fas fa-clipboard-list"></i> Chi tiết</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-3 col-md-6 mb-4">
-                    <div class="card shadow equipment-card">
-                        <div class="position-relative">
-                            <img src="https://images.unsplash.com/photo-1580810734832-74e6505cd468?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" class="card-img-top" alt="Máy trộn bê tông">
-                            <span class="position-absolute top-0 end-0 badge bg-danger m-2">Đang cho thuê</span>
-                        </div>
-                        <div class="card-body">
-                            <h5 class="card-title">Máy Trộn Bê Tông Hino</h5>
-                            <p class="card-text">Máy trộn bê tông, dung tích 9m³, động cơ 280HP</p>
-                            <div class="d-flex justify-content-between align-items-center mb-2">
-                                <span class="fw-bold text-primary">Mã: MX-HINO-9M3</span>
-                                <span class="badge bg-light text-dark">2021</span>
-                            </div>
-                            <div class="d-flex justify-content-between">
-                                <span><i class="fas fa-tag me-1"></i> Thuê: 3.500.000đ/ngày</span>
-                                <span><i class="fas fa-shopping-cart me-1"></i> Bán: 850 triệu</span>
-                            </div>
-                        </div>
-                        <div class="card-footer bg-white border-top-0">
-                            <div class="d-grid gap-2 d-md-flex justify-content-md-between">
-                                <button class="btn btn-sm btn-outline-primary"><i class="fas fa-edit"></i> Sửa</button>
-                                <button class="btn btn-sm btn-outline-success"><i class="fas fa-clipboard-list"></i> Chi tiết</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-3 col-md-6 mb-4">
-                    <div class="card shadow equipment-card">
-                        <div class="position-relative">
-                            <img src="https://images.unsplash.com/photo-1566041510639-8d95a2490bfb?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" class="card-img-top" alt="Xe lu">
-                            <span class="position-absolute top-0 end-0 badge bg-success m-2">Sẵn sàng</span>
-                        </div>
-                        <div class="card-body">
-                            <h5 class="card-title">Xe Lu BOMAG BW203</h5>
-                            <p class="card-text">Xe lu rung, trọng lượng 12 tấn, công suất 130HP</p>
-                            <div class="d-flex justify-content-between align-items-center mb-2">
-                                <span class="fw-bold text-primary">Mã: RL-BOM-BW203</span>
-                                <span class="badge bg-light text-dark">2019</span>
-                            </div>
-                            <div class="d-flex justify-content-between">
-                                <span><i class="fas fa-tag me-1"></i> Thuê: 3.200.000đ/ngày</span>
-                                <span><i class="fas fa-shopping-cart me-1"></i> Bán: 780 triệu</span>
-                            </div>
-                        </div>
-                        <div class="card-footer bg-white border-top-0">
-                            <div class="d-grid gap-2 d-md-flex justify-content-md-between">
-                                <button class="btn btn-sm btn-outline-primary"><i class="fas fa-edit"></i> Sửa</button>
-                                <button class="btn btn-sm btn-outline-success"><i class="fas fa-clipboard-list"></i> Chi tiết</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-3 col-md-6 mb-4">
-                    <div class="card shadow equipment-card">
-                        <div class="position-relative">
-                            <img src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" class="card-img-top" alt="Máy phát điện">
-                            <span class="position-absolute top-0 end-0 badge bg-warning m-2">Đang bảo trì</span>
-                        </div>
-                        <div class="card-body">
-                            <h5 class="card-title">Máy Phát Điện Cummins</h5>
-                            <p class="card-text">Máy phát điện công suất 500kVA, động cơ diesel</p>
-                            <div class="d-flex justify-content-between align-items-center mb-2">
-                                <span class="fw-bold text-primary">Mã: GN-CUM-500KVA</span>
-                                <span class="badge bg-light text-dark">2020</span>
-                            </div>
-                            <div class="d-flex justify-content-between">
-                                <span><i class="fas fa-tag me-1"></i> Thuê: 2.800.000đ/ngày</span>
-                                <span><i class="fas fa-shopping-cart me-1"></i> Bán: 650 triệu</span>
-                            </div>
-                        </div>
-                        <div class="card-footer bg-white border-top-0">
-                            <div class="d-grid gap-2 d-md-flex justify-content-md-between">
-                                <button class="btn btn-sm btn-outline-primary"><i class="fas fa-edit"></i> Sửa</button>
-                                <button class="btn btn-sm btn-outline-success"><i class="fas fa-clipboard-list"></i> Chi tiết</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Pagination -->
-            <nav aria-label="Page navigation">
-                <ul class="pagination justify-content-center">
-                    <li class="page-item disabled">
-                        <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Trước</a>
-                    </li>
-                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                    <li class="page-item">
-                        <a class="page-link" href="#">Sau</a>
-                    </li>
-                </ul>
-            </nav>
+        <section id="list-devices" class="mb-5">
         </section>
 
         <!-- Recent Transactions -->
@@ -573,7 +364,8 @@
                                     <td><span class="badge bg-warning">Đang thực hiện</span></td>
                                     <td>
                                         <button class="btn btn-sm btn-outline-info"><i class="fas fa-eye"></i></button>
-                                        <button class="btn btn-sm btn-outline-success"><i class="fas fa-check"></i></button>
+                                        <button class="btn btn-sm btn-outline-success"><i
+                                                class="fas fa-check"></i></button>
                                     </td>
                                 </tr>
                                 <tr>
@@ -586,7 +378,8 @@
                                     <td><span class="badge bg-warning">Đang thực hiện</span></td>
                                     <td>
                                         <button class="btn btn-sm btn-outline-info"><i class="fas fa-eye"></i></button>
-                                        <button class="btn btn-sm btn-outline-success"><i class="fas fa-check"></i></button>
+                                        <button class="btn btn-sm btn-outline-success"><i
+                                                class="fas fa-check"></i></button>
                                     </td>
                                 </tr>
                                 <tr>
@@ -599,7 +392,8 @@
                                     <td><span class="badge bg-secondary">Chờ thực hiện</span></td>
                                     <td>
                                         <button class="btn btn-sm btn-outline-info"><i class="fas fa-eye"></i></button>
-                                        <button class="btn btn-sm btn-outline-primary"><i class="fas fa-edit"></i></button>
+                                        <button class="btn btn-sm btn-outline-primary"><i
+                                                class="fas fa-edit"></i></button>
                                     </td>
                                 </tr>
                                 <tr>
@@ -612,7 +406,8 @@
                                     <td><span class="badge bg-secondary">Chờ thực hiện</span></td>
                                     <td>
                                         <button class="btn btn-sm btn-outline-info"><i class="fas fa-eye"></i></button>
-                                        <button class="btn btn-sm btn-outline-primary"><i class="fas fa-edit"></i></button>
+                                        <button class="btn btn-sm btn-outline-primary"><i
+                                                class="fas fa-edit"></i></button>
                                     </td>
                                 </tr>
                             </tbody>
@@ -628,18 +423,167 @@
 
     <!-- Footer would go here -->
 
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- Custom JS -->
+
+    <script src="/js/jquery.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/jquery.scrollUp.min.js"></script>
+    <script src="/js/price-range.js"></script>
+    <script src="/js/jquery.prettyPhoto.js"></script>
+    <script src="/js/main.js"></script>
+
     <script>
-        // Add any custom JavaScript here
-        document.addEventListener('DOMContentLoaded', function() {
-            // Example: Initialize tooltips
-            var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-            var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-                return new bootstrap.Tooltip(tooltipTriggerEl)
+
+        function deleteProduct(id) {
+            $.ajax({
+                url: '/api/device/delete/' + id,
+                type: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                },
+                success: function (response) {
+                    alert('Thiết bị đã được xóa thành công');
+                    location.reload();
+                },
+                error: function (xhr) {
+                    if (xhr.status === 401) {
+                        window.location.href = '/login';
+                    } else {
+                        // alert('Không thể xóa thiết bị: '|| 'Lỗi không xác định');
+                        console.log(xhr.responseText);
+                    }
+                }
+            });
+        }
+
+        function editProduct() {
+        }
+
+        window.onload = function () {
+
+            function loadDevices() {
+                $.ajax({
+                    url: '/api/devices',
+                    type: 'GET',
+                    success: function (data) {
+                        let container = $('#list-devices'); // Phần tử chứa danh sách thiết bị
+                        container.empty(); // Xóa nội dung cũ trước khi thêm mới
+
+                        data.forEach(device => {
+                            console.log(device);
+                            let statusBadge =
+                                `<span class="position-absolute top-0 end-0 badge bg-success m-2">${device.category.name}</span>`
+
+                            let deviceCard = `
+                    <div class="col-lg-3 col-md-6 mb-4">
+                        <div class="card shadow equipment-card">
+                            <div class="position-relative">
+                                <img src="${device.image}" class="card-img-top" alt="${device.name}">
+                                ${statusBadge}
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title">${device.name}</h5>
+                                <p class="card-text">${device.description}</p>
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <span class="fw-bold text-primary">Mã: ${device.id}</span>
+                                    <span class="badge bg-light text-dark">${(new Date(device.created_at)).toISOString().split('T')[0]}</span>
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                    <span><i class="fas fa-tag me-1"></i> Thuê: ${device.price * 0.4}đ / 3ngày</span>
+                                    <span><i class="fas fa-shopping-cart me-1"></i> Bán: ${device.price}</span>
+                                </div>
+                            </div>
+                            <div class="card-footer bg-white border-top-0">
+                                <div class="d-grid gap-2 d-md-flex justify-content-md-between">
+                                    <button class="btn btn-sm btn-outline-primary" onclick="editProduct()"><i class="fas fa-edit"></i> Sửa</button>
+                                    <button class="btn btn-sm btn-outline-success" onclick="deleteProduct(${device.id})"><i class="fas fa-clipboard-list"></i> Xóa</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                            container.append(deviceCard);
+                        });
+                    },
+                    error: function (xhr) {
+                        if (xhr.status === 401) {
+                            window.location.href = '/login';
+                        } else {
+                            alert('Không thể tải danh sách thiết bị: ' + (xhr.responseJSON?.error || 'Lỗi không xác định'));
+                        }
+                    }
+                });
+            }
+
+            loadDevices();
+
+
+            // Example: Update dashboard overview
+            const overviceDevices = document.getElementById('overview-devices');
+            const rentalDevices = document.getElementById('rental-devices');
+            const saleDevices = document.getElementById('sale-devices');
+
+            $.ajax({
+                url: '/api/devices/count',
+                type: 'GET',
+                success: function (response) {
+                    overviceDevices.innerText = response.totalDevices;
+                },
+                error: function (error) {
+                    console.error(error);
+                }
+            });
+
+            $.ajax({
+                url: '/api/rentals/count',
+                type: 'GET',
+                success: function (response) {
+                    rentalDevices.innerText = response.totalDevices;
+                },
+                error: function (error) {
+                    console.error(error);
+                }
+            });
+
+            $.ajax({
+                url: '/api/sales/count',
+                type: 'GET',
+                success: function (response) {
+                    saleDevices.innerText = response.totalDevices;
+                },
+                error: function (error) {
+                    console.error(error);
+                }
+            });
+        };
+
+        // Device form submission with authentication
+        $('#deviceForm').submit(function (e) {
+            e.preventDefault();
+            let formData = new FormData(this);
+
+            $.ajax({
+                url: '/api/devices',
+                type: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function (response) {
+                    alert('Thiết bị đã được thêm thành công');
+                    $('#deviceForm')[0].reset();
+                    loadDevices();
+                },
+                error: function (xhr) {
+                    if (xhr.status === 401) {
+                        window.location.href = '/login';
+                    } else {
+                        alert('Không thể thêm thiết bị: ' + xhr.responseJSON?.error || 'Lỗi không xác định');
+                    }
+                }
             });
         });
+
     </script>
 </body>
+
 </html>

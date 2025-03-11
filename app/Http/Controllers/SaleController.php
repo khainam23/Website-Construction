@@ -194,4 +194,8 @@ class SaleController extends Controller
         Sale::destroy($id);
         return response()->json(['message' => 'Giao dịch bán đã bị xóa']);
     }
+
+    public function count() {
+        return response()->json(['totalDevices' => Device::count()]);
+    }
 }

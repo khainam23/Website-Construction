@@ -183,4 +183,8 @@ class RentalController extends Controller
         Rental::destroy($id);
         return response()->json(['message' => 'Giao dịch thuê đã bị xóa']);
     }
+
+    public function count() {
+        return response()->json(['totalDevices' => Device::count()]);
+    }
 }

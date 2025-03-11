@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Device;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -241,6 +242,18 @@ class DeviceController extends Controller
 
         $device->delete();
         return response()->json(['message' => 'Thiết bị đã bị xóa']);
+    }
+
+    public function count() {
+        return response()->json(['totalDevices' => 'hello']);
+    }
+
+    public function viewManagerProduct() {
+        $categories = Category::all();
+
+        return view('manager-product', [
+            'categories'=> $categories
+        ]);
     }
 
 }
