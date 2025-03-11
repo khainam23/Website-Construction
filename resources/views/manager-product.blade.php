@@ -323,34 +323,39 @@
                 <button onclick="closeModel()">✖</button>
             </div>
             <form id="editForm">
+                @php
+                    $role = session('user')['role'];
+                @endphp
                 <label for="device_name">Tên máy:</label>
-                <input type="text" id="device_name"><br>
+                <input type="text" id="device_name" {{$role == 'warehouse' ? 'disabled' : ''}}><br>
 
                 <label for="device_description">Mô tả:</label>
-                <textarea id="device_description"></textarea><br>
+                <textarea id="device_description" {{$role == 'warehouse' ? 'disabled' : ''}}></textarea><br>
 
                 <lable for="old_device_category">Danh mục cũ:</lable>
                 <p id="old_device_category"></p>
 
-                <label for="device_category">Danh mục:</label>
-                <select id="device_category" class="form-control" name="category_id" required>
-                    @foreach($categories as $category)
-                        <option value="{{ $category->id }}">{{ $category->name }}</option>
-                    @endforeach
-                </select><br>
+                @if ($role == 'sales')
+                    <label for="device_category">Danh mục:</label>
+                    <select id="device_category" class="form-control" name="category_id" required>
+                        @foreach($categories as $category)
+                            <option value="{{ $category->id }}">{{ $category->name }}</option>
+                        @endforeach
+                    </select><br>
+                @endif
 
                 <label for="device_id">Mã:</label>
                 <p id="device_id"></p>
 
                 <label for="sell">Giá:</label>
-                <input type="text" id="sell"> VND<br>
+                <input type="text" id="sell" {{$role == 'warehouse' ? 'disabled' : ''}}> VND<br>
 
                 <label for="sell">Tồn kho:</label>
-                <input type="number" id="device_stock" min="0" max="99"><br>
+                <input type="number" id="device_stock" min="0" max="99" {{$role == 'sales' ? 'disabled' : ''}}><br>
 
                 <label for="device_image">Hình ảnh:</label>
                 <img id="image_preview" class="image-preview" src="" alt="Hình ảnh thiết bị"><br>
-                <input type="file" id="device_image" accept="image/*" onchange="updateImagePreview(event)"><br>
+                <input {{$role == 'warehouse' ? 'disabled' : ''}} type="file" id="device_image" accept="image/*" onchange="updateImagePreview(event)"><br>
 
                 <button type="button" onclick="saveChanges()">Lưu</button>
             </form>
@@ -510,7 +515,8 @@
                         if (xhr.status === 401) {
                             window.location.href = '/login';
                         } else {
-                            alert('Không thể tải danh sách thiết bị: ' + (xhr.responseJSON?.error || 'Lỗi không xác định'));
+                            // alert('Không thể tải danh sách thiết bị: ' + (xhr.responseJSON?.error || 'Lỗi không xác định'));
+                            console.log(xhr.responseJSON)
                         }
                     }
                 });

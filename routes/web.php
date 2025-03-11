@@ -44,7 +44,7 @@ Route::middleware([RoleMiddleware::class . ':customer,admin'])->group(function (
 });
 
 // Admin
-Route::middleware([RoleMiddleware::class . ':admin']) -> group(
+Route::middleware([RoleMiddleware::class . ':admin,sales,warehouse']) -> group(
     function() {
         Route::get('/statistics', [ReportController::class, 'viewStatistics'])->name('statistics');
         Route::post("/api/device/delete/{id}", [DeviceController::class, 'destroy'])->name('api.device.destroy');
