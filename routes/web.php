@@ -37,6 +37,7 @@ Route::middleware([RoleMiddleware::class . ':customer,admin'])->group(function (
     Route::view('/checkout', 'checkout')->name('checkout');
     Route::get('/api/cart', [OrderController::class, 'index'])->name('orders.index');
 
+    // Sales & Rentals for customers
     Route::post('/api/sales', [SaleController::class, 'store'])->name('api.sales');
     Route::get('/api/sales', [SaleController::class,'index'])->name('api.sales.index');
     Route::post('/api/rentals', [RentalController::class,'store'])->name('api.rentals');
@@ -44,12 +45,11 @@ Route::middleware([RoleMiddleware::class . ':customer,admin'])->group(function (
 });
 
 // Admin and Sales
-Route::middleware([RoleMiddleware::class . ':admin,sales']) -> group(
+Route::middleware([RoleMiddleware::class . ':admin']) -> group(
     function() {
         Route::get('/statistics', [ReportController::class, 'viewStatistics'])->name('statistics');
         
-        // Statistics API routes accessible by both admin and sales
-        Route::get('/api/statistics/monthly-revenue', [ReportController::class, 'getMonthlyRevenue']);
+        // Statistics API routes accessible by both admin and sales - remove monthly route
         Route::get('/api/statistics/quarterly-revenue', [ReportController::class, 'getQuarterlyRevenue']);
         Route::get('/api/statistics/yearly-revenue', [ReportController::class, 'getYearlyRevenue']);
     }
@@ -76,5 +76,19 @@ Route::middleware([RoleMiddleware::class . ':admin']) -> group(
         Route::get('/api/reports/{id}', [ReportController::class, 'show'])->name('api.reports.show');
         Route::put('/api/reports/{id}', [ReportController::class, 'update'])->name('api.reports.update');
         Route::delete('/api/reports/{id}', [ReportController::class, 'destroy'])->name('api.reports.destroy');
+
+        // Full Sales API access for admin
+        Route::get('/api/sales/{id}', [SaleController::class, 'show'])->name('api.sales.show');
+        Route::put('/api/sales/{id}', [SaleController::class, 'update'])->name('api.sales.update');
+        Route::delete('/api/sales/{id}', [SaleController::class, 'destroy'])->name('api.sales.destroy');
+
+        // Full Rentals API access for admin  
+        Route::get('/api/rentals/{id}', [RentalController::class, 'show'])->name('api.rentals.show');
+        Route::put('/api/rentals/{id}', [RentalController::class, 'update'])->name('api.rentals.update');
+        Route::delete('/api/rentals/{id}', [RentalController::class, 'destroy'])->name('api.rentals.destroy');
+        
+        // Remove duplicate routes and use consistent api prefix
+        Route::get('/api/statistics/daily-revenue', [ReportController::class, 'getDailyRevenue']);
+        Route::get('/api/statistics/weekly-revenue', [ReportController::class, 'getWeeklyRevenue']);
     }
 );

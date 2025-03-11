@@ -18,7 +18,7 @@ return new class extends Migration
             $table->date('rental_date');
             $table->date('return_date');
             $table->integer('quantity');
-            $table->decimal('rental_fee', 65, 2);
+            $table->decimal('rental_fee', 20, 4);
             $table->timestamps();
         });
     }

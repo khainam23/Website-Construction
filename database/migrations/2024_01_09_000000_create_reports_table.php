@@ -11,8 +11,8 @@ return new class extends Migration
         Schema::create('reports', function (Blueprint $table) {
             $table->id();
             $table->date('date');
-            $table->decimal('sales_revenue', 10, 2);
-            $table->decimal('rental_revenue', 10, 2);
+            $table->decimal('sales_revenue', 20, 4);
+            $table->decimal('rental_revenue', 20, 4);
             $table->timestamps();
         });
     }

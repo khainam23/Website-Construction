@@ -199,64 +199,128 @@
 
 	<section id="revenue-report">
 		<div class="container">
-			<!-- Overall Statistics -->
+				<!-- Page Title -->
 			<div class="row">
 				<div class="col-sm-12">
 					<div class="features_items">
 						<h2 class="title text-center">Báo Cáo Thống Kê</h2>
-						<div class="col-sm-12">
-							<div class="panel panel-default">
-								<div class="panel-heading">
-									<h3 class="panel-title">Tổng Quan</h3>
-								</div>
-								<div class="panel-body">
-									<div class="row">
-										<div class="col-md-6">
-											<div class="statistic-box bg-primary text-white">
-												<h4><i class="fa fa-money"></i> Doanh Thu Bán Hàng</h4>
-												<h2>{{ number_format($latestReport->sales_revenue ?? 0, 1) }} Tỷ VNĐ
-												</h2>
-											</div>
-										</div>
-
-										<div class="col-md-6">
-											<div class="statistic-box bg-success text-white">
-												<h4><i class="fa fa-refresh"></i> Doanh Thu Cho Thuê</h4>
-												<h2>{{ number_format($latestReport->rental_revenue ?? 0, 1) }} Tỷ VNĐ
-												</h2>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
 					</div>
 				</div>
 			</div>
 
-			 <!-- Revenue Statistics -->
+            <!-- Daily Revenue Statistics -->
             <div class="row">
                 <div class="col-sm-12">
-                    <div class="panel panel-default">
+                    <div class="panel panel-info">
                         <div class="panel-heading">
-                            <h3 class="panel-title">Thống Kê Doanh Thu</h3>
+                            <h3 class="panel-title">
+                                <i class="fa fa-calendar"></i> Thống Kê Doanh Thu Theo Ngày
+                                <div class="pull-right">
+                                    <div class="btn-group">
+                                        <button class="btn btn-xs btn-default dropdown-toggle" data-toggle="dropdown">
+                                            <i class="fa fa-filter"></i> Lọc <span class="caret"></span>
+                                        </button>
+                                        <ul class="dropdown-menu dropdown-menu-right" id="dailyFilter">
+                                            <li><a href="#" data-days="7">7 ngày qua</a></li>
+                                            <li><a href="#" data-days="14">14 ngày qua</a></li>
+                                            <li><a href="#" data-days="30">30 ngày qua</a></li>
+                                        </ul>
+                                    </div>
+                                    <button class="btn btn-xs btn-default" id="refreshDaily">
+                                        <i class="fa fa-refresh"></i> Làm mới
+                                    </button>
+                                </div>
+                            </h3>
                         </div>
                         <div class="panel-body">
-                            <div class="row mt-4">
+                            <div class="row mb-4">
                                 <div class="col-md-12">
-                                    <table class="table table-bordered">
-                                        <thead>
-                                            <tr>
-                                                <th>Tháng</th>
-                                                <th>Doanh Thu Bán Hàng</th>
-                                                <th>Doanh Thu Cho Thuê</th>
-                                                <th>Tổng Doanh Thu</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody id="revenueTableBody">
-                                        </tbody>
-                                    </table>
+                                    <div class="chart-container" style="height: 250px; margin-bottom: 20px;">
+                                        <canvas id="dailyRevenueChart"></canvas>
+                                    </div>
                                 </div>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table table-bordered" id="dailyRevenueTable">
+                                    <thead>
+                                        <tr>
+                                            <th>Ngày</th>
+                                            <th>Thứ</th>
+                                            <th>Doanh Thu Bán</th>
+                                            <th>Doanh Thu Thuê</th>
+                                            <th>Tổng Doanh Thu</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                    <tfoot>
+                                        <tr class="bg-info">
+                                            <th colspan="2">Tổng Cộng</th>
+                                            <th id="totalSalesRevenue"></th>
+                                            <th id="totalRentalRevenue"></th>
+                                            <th id="totalDailyRevenue"></th>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Weekly Revenue Statistics -->
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="panel panel-success">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">
+                                <i class="fa fa-calendar-check-o"></i> Thống Kê Doanh Thu Theo Tuần
+                                <div class="pull-right">
+                                    <div class="btn-group">
+                                        <button class="btn btn-xs btn-default dropdown-toggle" data-toggle="dropdown">
+                                            <i class="fa fa-filter"></i> Thời gian <span class="caret"></span>
+                                        </button>
+                                        <ul class="dropdown-menu dropdown-menu-right" id="weeklyTimeFilter">
+                                            <li><a href="#" data-period="current">Tháng hiện tại</a></li>
+                                            <li><a href="#" data-period="previous">Tháng trước</a></li>
+                                            <li><a href="#" data-period="quarter">Quý hiện tại</a></li>
+                                        </ul>
+                                    </div>
+                                    <button class="btn btn-xs btn-default" id="refreshWeekly">
+                                        <i class="fa fa-refresh"></i> Làm mới
+                                    </button>
+                                </div>
+                            </h3>
+                        </div>
+                        <div class="panel-body">
+                            <div class="row mb-4">
+                                <div class="col-md-12">
+                                    <div class="chart-container" style="height: 250px; margin-bottom: 20px;">
+                                        <canvas id="weeklyRevenueChart"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table table-bordered" id="weeklyRevenueTable">
+                                    <thead>
+                                        <tr>
+                                            <th>Tuần</th>
+                                            <th>Từ Ngày</th>
+                                            <th>Đến Ngày</th>
+                                            <th>Doanh Thu Bán</th>
+                                            <th>Doanh Thu Thuê</th>
+                                            <th>Tổng Doanh Thu</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                    <tfoot>
+                                        <tr class="bg-success">
+                                            <th colspan="3">Tổng Cộng</th>
+                                            <th id="totalWeeklySales"></th>
+                                            <th id="totalWeeklyRental"></th>
+                                            <th id="totalWeeklyRevenue"></th>
+                                        </tr>
+                                    </tfoot>
+                                </table>
                             </div>
                         </div>
                     </div>
@@ -292,145 +356,96 @@
                 </div>
             </div>
 
-			<!-- Device Management Section -->
-			<div class="row">
-				<div class="col-sm-12">
-					<div class="panel panel-default">
-						<div class="panel-heading">
-							<h3 class="panel-title">Quản Lý Thiết Bị</h3>
-						</div>
-						<div class="panel-body">
-							<div class="row">
-								<div class="col-md-4">
-									<!-- Add Device Form -->
-									<div class="device-form-container">
-										<h4 class="section-subtitle"><i class="fa fa-plus-circle"></i> Thêm Thiết Bị Mới</h4>
-										<form id="deviceForm" class="form-horizontal" enctype="multipart/form-data">
-											@csrf
-											<div class="form-group">
-												<label>Tên Thiết Bị</label>
-												<input type="text" class="form-control" name="name" required placeholder="Nhập tên thiết bị">
-											</div>
-											<div class="form-group">
-												<label>Danh Mục</label>
-												<select class="form-control" name="category_id" required>
-													<option value="">-- Chọn Danh Mục --</option>
-													@foreach($categories as $category)
-														<option value="{{ $category->id }}">{{ $category->name }}</option>
-													@endforeach
-												</select>
-											</div>
-											<div class="form-group">
-												<label>Giá (VNĐ)</label>
-												<input type="number" class="form-control" name="price" required min="0" placeholder="Nhập giá thiết bị">
-											</div>
-											<div class="form-group">
-												<label>Số Lượng</label>
-												<input type="number" class="form-control" name="stock" required min="0" placeholder="Nhập số lượng">
-											</div>
-											<div class="form-group">
-												<label>Mô Tả</label>
-												<textarea class="form-control" name="description" rows="4" placeholder="Mô tả chi tiết về thiết bị"></textarea>
-											</div>
-											<div class="form-group">
-												<label>Hình Ảnh</label>
-												<input type="file" class="form-control" name="image" accept="image/*">
-												<p class="help-block">Chọn hình ảnh thiết bị (JPG, PNG)</p>
-											</div>
-											<div class="form-group">
-												<button type="submit" class="btn btn-primary btn-block">
-													<i class="fa fa-plus"></i> Thêm Thiết Bị
-												</button>
-											</div>
-										</form>
-									</div>
-								</div>
-								
-								<div class="col-md-8">
-									<!-- Devices Table -->
-									<div class="device-table-container">
-										<h4 class="section-subtitle"><i class="fa fa-list"></i> Danh Sách Thiết Bị</h4>
-										<div class="table-responsive">
-											<table class="table table-striped table-hover" id="devicesTable">
-												<thead>
-													<tr>
-														<th>ID</th>
-														<th>Tên</th>
-														<th>Danh Mục</th>
-														<th>Giá</th>
-														<th>Số Lượng</th>
-														<th>Thao Tác</th>
-													</tr>
-												</thead>
-												<tbody></tbody>
-											</table>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
+            <!-- Device Management Section -->
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Danh Sách Thiết Bị</h3>
+                        </div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <!-- Devices Table -->
+                                    <div class="device-table-container">
+                                        <table class="table table-striped table-hover" id="devicesTable">
+                                            <thead>
+                                                <tr>
+                                                    <th>ID</th>
+                                                    <th>Tên</th>
+                                                    <th>Danh Mục</th>
+                                                    <th>Giá</th>
+                                                    <th>Số Lượng</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody></tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-			<!-- Edit Device Modal -->
-			<div class="modal fade" id="editDeviceModal" tabindex="-1" role="dialog">
-				<div class="modal-dialog" role="document">
-					<div class="modal-content">
-						<div class="modal-header">
-							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-								<span aria-hidden="true">&times;</span>
-							</button>
-							<h4 class="modal-title"><i class="fa fa-edit"></i> Chỉnh Sửa Thiết Bị</h4>
-						</div>
-						<div class="modal-body">
-							<form id="editDeviceForm" enctype="multipart/form-data">
-								@csrf
-								<input type="hidden" name="device_id" id="edit_device_id">
-								<div class="form-group">
-									<label>Tên Thiết Bị</label>
-									<input type="text" class="form-control" id="edit_name" name="name" required>
-								</div>
-								<div class="form-group">
-									<label>Danh Mục</label>
-									<select class="form-control" id="edit_category_id" name="category_id" required>
-										@foreach($categories as $category)
-											<option value="{{ $category->id }}">{{ $category->name }}</option>
-										@endforeach
-									</select>
-								</div>
-								<div class="form-group">
-									<label>Giá (VNĐ)</label>
-									<input type="number" class="form-control" id="edit_price" name="price" required>
-								</div>
-								<div class="form-group">
-									<label>Số Lượng</label>
-									<input type="number" class="form-control" id="edit_stock" name="stock" required>
-								</div>
-								<div class="form-group">
-									<label>Mô Tả</label>
-									<textarea class="form-control" id="edit_description" name="description" rows="4"></textarea>
-								</div>
-								<div class="form-group">
-									<label>Hình Ảnh</label>
-									<input type="file" class="form-control" name="image">
-									<p class="help-block">Để trống nếu không muốn thay đổi hình ảnh</p>
-								</div>
-							</form>
-						</div>
-						<div class="modal-footer">
-							<button type="button" class="btn btn-default" data-dismiss="modal">
-								<i class="fa fa-times"></i> Đóng
-							</button>
-							<button type="button" class="btn btn-primary" id="saveDeviceChanges">
-								<i class="fa fa-save"></i> Lưu Thay Đổi
-							</button>
-						</div>
-					</div>
-				</div>
-			</div>
+            <!-- Sales Invoices -->
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Hóa Đơn Bán Hàng</h3>
+                        </div>
+                        <div class="panel-body"></div>
+                            <div class="row">
+                                <div class="col-md-12"></div>
+                                    <table class="table table-striped table-hover" id="salesTable">
+                                        <thead>
+                                            <tr>
+                                                <th>ID</th>
+                                                <th>Thiết Bị</th>
+                                                <th>Số Lượng</th>
+                                                <th>Tổng Giá</th>
+                                                <th>Ngày Bán</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-		</div>
+            <!-- Rental Invoices -->
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Hóa Đơn Cho Thuê</h3>
+                        </div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <table class="table table-striped table-hover" id="rentalsTable">
+                                        <thead>
+                                            <tr>
+                                                <th>ID</th>
+                                                <th>Thiết Bị</th>
+                                                <th>Số Lượng</th>
+                                                <th>Phí Thuê</th>
+                                                <th>Ngày Thuê</th>
+                                                <th>Ngày Trả</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 		</div>
 	</section>
 
@@ -615,13 +630,16 @@
 		<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 		<script>
     $(document).ready(function () {
-        // Format currency functions
-        function formatCurrencyBillions(amount) {
-            return amount.toFixed(1) + ' Tỷ VNĐ';
-        }
-
+        // Add currentYear declaration at the top
+        const currentYear = new Date().getFullYear();
+        
+        // Format currency functions - Updated to display Đồng instead of ₫
         function formatCurrency(amount) {
-            return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(amount);
+            return new Intl.NumberFormat('vi-VN', { 
+                style: 'currency', 
+                currency: 'VND',
+                currencyDisplay: 'code'
+            }).format(amount).replace('VND', 'Đồng');
         }
 
         // Loading indicator
@@ -635,6 +653,20 @@
 
         // Initially show the loading indicator until all data is loaded
         $('.loading').show();
+        
+        // Chart.js color configuration
+        const chartColors = {
+            sales: 'rgba(54, 162, 235, 0.7)',
+            rental: 'rgba(75, 192, 192, 0.7)',
+            total: 'rgba(255, 99, 132, 0.7)',
+            borderSales: 'rgb(54, 162, 235)',
+            borderRental: 'rgb(75, 192, 192)',
+            borderTotal: 'rgb(255, 99, 132)'
+        };
+        
+        let dailyRevenueChart, weeklyRevenueChart;
+        let dailyFilterDays = 7; // Default: 7 days
+        let weeklyPeriod = 'current'; // Default: current month
         
         // AJAX setup
         $.ajaxSetup({
@@ -652,42 +684,461 @@
             return true;
         }
 
-        // Load Statistics Tables
-        function loadRevenueTable(year = new Date().getFullYear()) {
+        // Functions for loading statistics
+        
+        // Daily Revenue statistics
+        function loadDailyRevenue() {
+            // Show a small loading indicator in the panel
+            $('#dailyRevenueTable').closest('.panel-body').prepend(
+                '<div class="text-center panel-loading"><i class="fa fa-spinner fa-spin"></i> Đang tải dữ liệu...</div>'
+            );
+            
             return $.ajax({
-                url: '/api/statistics/monthly-revenue',
+                url: '/api/statistics/daily-revenue',
                 type: 'GET',
-                data: { year: year },
+                data: { days: dailyFilterDays },
                 success: function(data) {
-                    let tbody = $('#revenueTableBody');
+                    // Remove loading indicator
+                    $('.panel-loading').remove();
+                    
+                    let tbody = $('#dailyRevenueTable tbody');
                     tbody.empty();
                     
                     if (data && data.length > 0) {
-                        data.forEach(function(row) {
+                        let totalSales = 0, totalRental = 0, totalRevenue = 0;
+                        
+                        // Prepare chart data
+                        const labels = [];
+                        const salesData = [];
+                        const rentalData = [];
+                        const totalData = [];
+                        
+                        // Process data in reverse order to show oldest first
+                        data.sort((a, b) => new Date(a.date) - new Date(b.date)).forEach(function(row) {
+                            const date = new Date(row.date);
+                            const formattedDate = date.toLocaleDateString('vi-VN');
+                            
+                            // Add to table
                             tbody.append(`
                                 <tr>
-                                    <td>Tháng ${row.month}</td>
-                                    <td>${formatCurrencyBillions(row.sales_revenue)}</td>
-                                    <td>${formatCurrencyBillions(row.rental_revenue)}</td>
-                                    <td>${formatCurrencyBillions(row.total_revenue)}</td>
+                                    <td>${formattedDate}</td>
+                                    <td>${row.day_name}</td>
+                                    <td>${formatCurrency(row.sales_revenue)}</td>
+                                    <td>${formatCurrency(row.rental_revenue)}</td>
+                                    <td><strong>${formatCurrency(row.total_revenue)}</strong></td>
                                 </tr>
                             `);
+                            
+                            // Add to chart data
+                            labels.push(formattedDate);
+                            salesData.push(parseFloat(row.sales_revenue));
+                            rentalData.push(parseFloat(row.rental_revenue));
+                            totalData.push(parseFloat(row.total_revenue));
+                            
+                            // Calculate totals
+                            totalSales += parseFloat(row.sales_revenue);
+                            totalRental += parseFloat(row.rental_revenue);
+                            totalRevenue += parseFloat(row.total_revenue);
                         });
+                        
+                        // Update totals in footer
+                        $('#totalSalesRevenue').text(formatCurrency(totalSales));
+                        $('#totalRentalRevenue').text(formatCurrency(totalRental));
+                        $('#totalDailyRevenue').text(formatCurrency(totalRevenue));
+                        
+                        // Update or create chart
+                        updateDailyRevenueChart(labels, salesData, rentalData, totalData);
+                        
+                        // Update chart title to reflect current filter
+                        if (dailyRevenueChart) {
+                            dailyRevenueChart.options.plugins.title.text = `Biểu Đồ Doanh Thu ${dailyFilterDays} Ngày Qua`;
+                            dailyRevenueChart.update();
+                        }
                     } else {
-                        tbody.append(`<tr><td colspan="4" class="text-center">Chưa có dữ liệu báo cáo</td></tr>`);
+                        tbody.append('<tr><td colspan="5" class="text-center">Không có dữ liệu</td></tr>');
+                        $('#totalSalesRevenue, #totalRentalRevenue, #totalDailyRevenue').text(formatCurrency(0));
+                        
+                        // Clear chart if no data
+                        if (dailyRevenueChart) {
+                            dailyRevenueChart.data.labels = [];
+                            dailyRevenueChart.data.datasets.forEach(dataset => {
+                                dataset.data = [];
+                            });
+                            dailyRevenueChart.update();
+                        }
                     }
                 },
                 error: function(xhr) {
-                    console.error('Error loading revenue data:', xhr);
-                    $('#revenueTableBody').html(`
-                        <tr><td colspan="4" class="text-center text-danger">
-                            Không thể tải dữ liệu. Vui lòng thử lại sau.
+                    // Remove loading indicator
+                    $('.panel-loading').remove();
+                    
+                    $('#dailyRevenueTable tbody').html(`
+                        <tr><td colspan="5" class="text-center text-danger">
+                            Không thể tải dữ liệu doanh thu theo ngày
                         </td></tr>
                     `);
+                    $('#totalSalesRevenue, #totalRentalRevenue, #totalDailyRevenue').text(formatCurrency(0));
                 }
             });
         }
+        
+        // Weekly Revenue statistics - FIXED FUNCTION
+        function loadWeeklyRevenue() {
+            // Show a small loading indicator in the panel
+            $('#weeklyRevenueTable').closest('.panel-body').prepend(
+                '<div class="text-center panel-loading"><i class="fa fa-spinner fa-spin"></i> Đang tải dữ liệu...</div>'
+            );
+            
+            return $.ajax({
+                url: '/api/statistics/weekly-revenue',
+                type: 'GET',
+                data: { period: weeklyPeriod },
+                success: function(data) {
+                    // Remove loading indicator
+                    $('.panel-loading').remove();
+                    
+                    let tbody = $('#weeklyRevenueTable tbody');
+                    tbody.empty();
+                    
+                    if (data && data.length > 0) {
+                        let totalSales = 0, totalRental = 0, totalRevenue = 0;
+                        
+                        // Prepare chart data
+                        const labels = [];
+                        const salesData = [];
+                        const rentalData = [];
+                        const totalData = [];
+                        
+                        data.forEach(function(row) {
+                            const weekLabel = `Tuần ${row.week_number}`;
+                            const startDate = new Date(row.week_start).toLocaleDateString('vi-VN');
+                            const endDate = new Date(row.week_end).toLocaleDateString('vi-VN');
+                            
+                            // Add to table
+                            tbody.append(`
+                                <tr>
+                                    <td>${weekLabel}</td>
+                                    <td>${startDate}</td>
+                                    <td>${endDate}</td>
+                                    <td>${formatCurrency(row.sales_revenue)}</td>
+                                    <td>${formatCurrency(row.rental_revenue)}</td>
+                                    <td><strong>${formatCurrency(row.total_revenue)}</strong></td>
+                                </tr>
+                            `);
+                            
+                            // Add to chart data
+                            labels.push(weekLabel);
+                            salesData.push(parseFloat(row.sales_revenue));
+                            rentalData.push(parseFloat(row.rental_revenue));
+                            totalData.push(parseFloat(row.total_revenue));
+                            
+                            // Calculate totals
+                            totalSales += parseFloat(row.sales_revenue);
+                            totalRental += parseFloat(row.rental_revenue);
+                            totalRevenue += parseFloat(row.total_revenue);
+                        });
+                        
+                        // Update totals in footer
+                        $('#totalWeeklySales').text(formatCurrency(totalSales));
+                        $('#totalWeeklyRental').text(formatCurrency(totalRental));
+                        $('#totalWeeklyRevenue').text(formatCurrency(totalRevenue));
+                        
+                        // Update or create chart
+                        updateWeeklyRevenueChart(labels, salesData, rentalData, totalData);
+                        
+                        // Update chart title to reflect current filter
+                        if (weeklyRevenueChart) {
+                            let periodText = 'Tháng hiện tại';
+                            if (weeklyPeriod === 'previous') periodText = 'Tháng trước';
+                            if (weeklyPeriod === 'quarter') periodText = 'Quý hiện tại';
+                            
+                            weeklyRevenueChart.options.plugins.title.text = `Biểu Đồ Doanh Thu Theo Tuần (${periodText})`;
+                            weeklyRevenueChart.update();
+                        }
+                    } else {
+                        tbody.append('<tr><td colspan="6" class="text-center">Không có dữ liệu</td></tr>');
+                        $('#totalWeeklySales, #totalWeeklyRental, #totalWeeklyRevenue').text(formatCurrency(0));
+                        
+                        // Clear chart if no data
+                        if (weeklyRevenueChart) {
+                            weeklyRevenueChart.data.labels = [];
+                            weeklyRevenueChart.data.datasets.forEach(dataset => {
+                                dataset.data = [];
+                            });
+                            weeklyRevenueChart.update();
+                        }
+                    }
+                },
+                error: function(xhr) {
+                    // Remove loading indicator
+                    $('.panel-loading').remove();
+                    
+                    $('#weeklyRevenueTable tbody').html(`
+                        <tr><td colspan="6" class="text-center text-danger">
+                            Không thể tải dữ liệu doanh thu theo tuần
+                        </td></tr>
+                    `);
+                    $('#totalWeeklySales, #totalWeeklyRental, #totalWeeklyRevenue').text(formatCurrency(0));
+                    console.error("Weekly revenue error:", xhr.responseText);
+                }
+            });
+        }
+        
+        // Create or update the daily revenue chart
+        function updateDailyRevenueChart(labels, salesData, rentalData, totalData) {
+            const ctx = document.getElementById('dailyRevenueChart').getContext('2d');
+            
+            if (dailyRevenueChart) {
+                dailyRevenueChart.data.labels = labels;
+                dailyRevenueChart.data.datasets[0].data = salesData;
+                dailyRevenueChart.data.datasets[1].data = rentalData;
+                dailyRevenueChart.data.datasets[2].data = totalData;
+                dailyRevenueChart.update();
+            } else {
+                dailyRevenueChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: labels,
+                        datasets: [
+                            {
+                                label: 'Doanh Thu Bán',
+                                data: salesData,
+                                backgroundColor: chartColors.sales,
+                                borderColor: chartColors.borderSales,
+                                borderWidth: 1
+                            },
+                            {
+                                label: 'Doanh Thu Thuê',
+                                data: rentalData,
+                                backgroundColor: chartColors.rental,
+                                borderColor: chartColors.borderRental,
+                                borderWidth: 1
+                            },
+                            {
+                                label: 'Tổng Doanh Thu',
+                                data: totalData,
+                                type: 'line',
+                                fill: false,
+                                borderColor: chartColors.borderTotal,
+                                backgroundColor: chartColors.total,
+                                tension: 0.2,
+                                pointBackgroundColor: chartColors.borderTotal,
+                                pointBorderColor: '#fff',
+                                pointRadius: 4
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                ticks: {
+                                    callback: function(value) {
+                                        return formatCurrency(value).replace(/\D00(?=đ)/, 'đ');
+                                    }
+                                }
+                            }
+                        },
+                        plugins: {
+                            title: {
+                                display: true,
+                                text: `Biểu Đồ Doanh Thu ${dailyFilterDays} Ngày Qua`,
+                                font: { size: 16 }
+                            },
+                            tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        return context.dataset.label + ': ' + formatCurrency(context.parsed.y);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+        }
 
+        // Weekly Revenue statistics
+        function loadWeeklyRevenue() {
+            // Show a small loading indicator in the panel
+            $('#weeklyRevenueTable').closest('.panel-body').prepend(
+                '<div class="text-center panel-loading"><i class="fa fa-spinner fa-spin"></i> Đang tải dữ liệu...</div>'
+            );
+            
+            return $.ajax({
+                url: '/api/statistics/weekly-revenue',
+                type: 'GET',
+                data: { period: weeklyPeriod }, // THIS WAS MISSING - Now sending the filter parameter
+                success: function(data) {
+                    // Remove loading indicator
+                    $('.panel-loading').remove();
+                    
+                    let tbody = $('#weeklyRevenueTable tbody');
+                    tbody.empty();
+                    
+                    if (data && data.length > 0) {
+                        let totalSales = 0, totalRental = 0, totalRevenue = 0;
+                        
+                        // Prepare chart data
+                        const labels = [];
+                        const salesData = [];
+                        const rentalData = [];
+                        const totalData = [];
+                        
+                        data.forEach(function(row) {
+                            const weekLabel = `Tuần ${row.week_number}`;
+                            const startDate = new Date(row.week_start).toLocaleDateString('vi-VN');
+                            const endDate = new Date(row.week_end).toLocaleDateString('vi-VN');
+                            
+                            // Add to table
+                            tbody.append(`
+                                <tr>
+                                    <td>${weekLabel}</td>
+                                    <td>${startDate}</td>
+                                    <td>${endDate}</td>
+                                    <td>${formatCurrency(row.sales_revenue)}</td>
+                                    <td>${formatCurrency(row.rental_revenue)}</td>
+                                    <td><strong>${formatCurrency(row.total_revenue)}</strong></td>
+                                </tr>
+                            `);
+                            
+                            // Add to chart data
+                            labels.push(weekLabel);
+                            salesData.push(parseFloat(row.sales_revenue));
+                            rentalData.push(parseFloat(row.rental_revenue));
+                            totalData.push(parseFloat(row.total_revenue));
+                            
+                            // Calculate totals
+                            totalSales += parseFloat(row.sales_revenue);
+                            totalRental += parseFloat(row.rental_revenue);
+                            totalRevenue += parseFloat(row.total_revenue);
+                        });
+                        
+                        // Update totals in footer
+                        $('#totalWeeklySales').text(formatCurrency(totalSales));
+                        $('#totalWeeklyRental').text(formatCurrency(totalRental));
+                        $('#totalWeeklyRevenue').text(formatCurrency(totalRevenue));
+                        
+                        // Update or create chart
+                        updateWeeklyRevenueChart(labels, salesData, rentalData, totalData);
+                        
+                        // Update chart title to reflect current filter
+                        if (weeklyRevenueChart) {
+                            let periodText = 'Tháng hiện tại';
+                            if (weeklyPeriod === 'previous') periodText = 'Tháng trước';
+                            if (weeklyPeriod === 'quarter') periodText = 'Quý hiện tại';
+                            
+                            weeklyRevenueChart.options.plugins.title.text = `Biểu Đồ Doanh Thu Theo Tuần (${periodText})`;
+                            weeklyRevenueChart.update();
+                        }
+                    } else {
+                        tbody.append('<tr><td colspan="6" class="text-center">Không có dữ liệu</td></tr>');
+                        $('#totalWeeklySales, #totalWeeklyRental, #totalWeeklyRevenue').text(formatCurrency(0));
+                        
+                        // Clear chart if no data
+                        if (weeklyRevenueChart) {
+                            weeklyRevenueChart.data.labels = [];
+                            weeklyRevenueChart.data.datasets.forEach(dataset => {
+                                dataset.data = [];
+                            });
+                            weeklyRevenueChart.update();
+                        }
+                    }
+                },
+                error: function(xhr) {
+                    // Remove loading indicator
+                    $('.panel-loading').remove();
+                    
+                    $('#weeklyRevenueTable tbody').html(`
+                        <tr><td colspan="6" class="text-center text-danger">
+                            Không thể tải dữ liệu doanh thu theo tuần
+                        </td></tr>
+                    `);
+                    $('#totalWeeklySales, #totalWeeklyRental, #totalWeeklyRevenue').text(formatCurrency(0));
+                    console.error("Weekly revenue error:", xhr.responseText);
+                }
+            });
+        }
+        
+        // Create or update the weekly revenue chart
+        function updateWeeklyRevenueChart(labels, salesData, rentalData, totalData) {
+            const ctx = document.getElementById('weeklyRevenueChart').getContext('2d');
+            
+            if (weeklyRevenueChart) {
+                weeklyRevenueChart.data.labels = labels;
+                weeklyRevenueChart.data.datasets[0].data = salesData;
+                weeklyRevenueChart.data.datasets[1].data = rentalData;
+                weeklyRevenueChart.data.datasets[2].data = totalData;
+                weeklyRevenueChart.update();
+            } else {
+                weeklyRevenueChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: labels,
+                        datasets: [
+                            {
+                                label: 'Doanh Thu Bán',
+                                data: salesData,
+                                backgroundColor: chartColors.sales,
+                                borderColor: chartColors.borderSales,
+                                borderWidth: 1
+                            },
+                            {
+                                label: 'Doanh Thu Thuê',
+                                data: rentalData,
+                                backgroundColor: chartColors.rental,
+                                borderColor: chartColors.borderRental,
+                                borderWidth: 1
+                            },
+                            {
+                                label: 'Tổng Doanh Thu',
+                                data: totalData,
+                                type: 'line',
+                                fill: false,
+                                borderColor: chartColors.borderTotal,
+                                backgroundColor: chartColors.total,
+                                tension: 0.2,
+                                pointBackgroundColor: chartColors.borderTotal,
+                                pointBorderColor: '#fff',
+                                pointRadius: 4
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                ticks: {
+                                    callback: function(value) {
+                                        return formatCurrency(value).replace(/\D00(?=đ)/, 'đ');
+                                    }
+                                }
+                            }
+                        },
+                        plugins: {
+                            title: {
+                                display: true,
+                                text: 'Biểu Đồ Doanh Thu Theo Tuần',
+                                font: { size: 16 }
+                            },
+                            tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        return context.dataset.label + ': ' + formatCurrency(context.parsed.y);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+        }
+
+        // Device stats
         function loadDeviceStatsTable() {
             return $.ajax({
                 url: '/api/statistics/device-stats',
@@ -731,7 +1182,7 @@
                     tbody.empty();
                     
                     if (data.length === 0) {
-                        tbody.append('<tr><td colspan="6" class="text-center">Không có thiết bị nào</td></tr>');
+                        tbody.append('<tr><td colspan="5" class="text-center">Không có thiết bị nào</td></tr>');
                         return;
                     }
                     
@@ -743,14 +1194,6 @@
                                 <td>${device.category ? device.category.name : 'N/A'}</td>
                                 <td>${formatCurrency(device.price)}</td>
                                 <td>${device.stock}</td>
-                                <td>
-                                    <button class="btn btn-sm btn-warning edit-device btn-action" data-id="${device.id}" title="Chỉnh sửa">
-                                        <i class="fa fa-edit"></i>
-                                    </button>
-                                    <button class="btn btn-sm btn-danger delete-device btn-action" data-id="${device.id}" title="Xóa">
-                                        <i class="fa fa-trash"></i>
-                                    </button>
-                                </td>
                             </tr>
                         `);
                     });
@@ -765,44 +1208,25 @@
             });
         }
 
-        // Add year selector
-        let currentYear = new Date().getFullYear();
-        let yearSelector = $(`
-            <div class="form-group">
-                <label>Chọn Năm:</label>
-                <select id="yearSelector" class="form-control" style="width:auto; display:inline-block; margin-left:10px;">
-                    <option value="2023">2023</option>
-                    <option value="2024" selected>2024</option>
-                    <option value="2025">2025</option>
-                </select>
-            </div>
-        `);
-        
-        $('.panel-heading:contains("Thống Kê Doanh Thu")').append(yearSelector);
-        
-        // Year change event
-        $('#yearSelector').change(function() {
-            let year = $(this).val();
-            $('.loading').show(); 
-            loadRevenueTable(year);
-        });
-
         // Initialize everything when page loads
         function initializeAll() {
-            // Show the main loading indicator for the page
             $('body').css('visibility', 'hidden');
             $('.loading').show();
             
-            // Load all data sequentially to avoid Promise issues
-            loadRevenueTable(currentYear);
-            loadDeviceStatsTable();
-            loadDevicesTable();
-            
-            // Set a small timeout to ensure all AJAX requests have completed
-            setTimeout(function() {
-                $('.loading').hide();
-                $('body').css('visibility', 'visible');
-            }, 1000);
+            // Load all data
+            Promise.all([
+                loadDeviceStatsTable(),
+                loadDevicesTable(),
+                loadSalesInvoices(),
+                loadRentalInvoices(),
+                loadDailyRevenue(),
+                loadWeeklyRevenue()
+            ]).then(() => {
+                setTimeout(function() {
+                    $('.loading').hide();
+                    $('body').css('visibility', 'visible');
+                }, 1000);
+            });
         }
 
         // Call initializeAll right away
@@ -811,161 +1235,141 @@
         // Set up auto-refresh every 60 seconds (optional)
         setInterval(initializeAll, 60000);
 
-        // Event handlers
-        $('#deviceForm').submit(function(e) {
-            e.preventDefault();
-            let formData = new FormData(this);
-
-            $.ajax({
-                url: '/api/devices',
-                type: 'POST',
-                data: formData,
-                processData: false,
-                contentType: false,
-                success: function(response) {
-                    alert('Thiết bị đã được thêm thành công');
-                    $('#deviceForm')[0].reset();
+        // Load Sales Invoices
+        function loadSalesInvoices() {
+            return $.ajax({
+                url: '/api/sales',
+                type: 'GET',
+                success: function(data) {
+                    if (!checkSession(data)) return;
+                    let tbody = $('#salesTable tbody');
+                    tbody.empty();
                     
-                    // Refresh all tables after adding a device
-                    initializeAll();
+                    if (!data.sales || data.sales.length === 0) {
+                        tbody.append('<tr><td colspan="5" class="text-center">Không có hóa đơn bán hàng</td></tr>');
+                        return;
+                    }
+                    
+                    data.sales.forEach(function(sale) {
+                        const product = data.products.find(p => p.id === sale.device_id);
+                        tbody.append(`
+                            <tr>
+                                <td>${sale.id}</td>
+                                <td>${product ? product.name : 'N/A'}</td>
+                                <td>${sale.quantity}</td>
+                                <td>${formatCurrency(sale.total_price)}</td>
+                                <td>${new Date(sale.created_at).toLocaleDateString('vi-VN')}</td>
+                            </tr>
+                        `);
+                    });
                 },
                 error: function(xhr) {
                     if (xhr.status === 401) {
                         window.location.href = '/login';
                     } else {
-                        alert('Không thể thêm thiết bị: ' + xhr.responseJSON?.error || 'Lỗi không xác định');
+                        $('#salesTable tbody').html(`
+                            <tr><td colspan="5" class="text-center text-danger">
+                                Không thể tải dữ liệu hóa đơn bán hàng
+                            </td></tr>
+                        `);
                     }
                 }
             });
-        });
+        }
 
-        // Delete device
-        $(document).on('click', '.delete-device', function() {
-            if (confirm('Bạn có chắc muốn xóa thiết bị này?')) {
-                let id = $(this).data('id');
-                $.ajax({
-                    url: '/api/devices/' + id,
-                    type: 'DELETE',
-                    success: function() {
-                        alert('Thiết bị đã được xóa');
-                        
-                        // Refresh all tables after deleting a device
-                        initializeAll();
-                    },
-                    error: function(xhr) {
-                        if (xhr.status === 401) {
-                            window.location.href = '/login';
-                        } else {
-                            alert('Không thể xóa thiết bị: ' + xhr.responseJSON?.error || 'Lỗi không xác định');
-                        }
+        // Load Rental Invoices
+        function loadRentalInvoices() {
+            return $.ajax({
+                url: '/api/rentals',
+                type: 'GET',
+                success: function(data) {
+                    if (!checkSession(data)) return;
+                    let tbody = $('#rentalsTable tbody');
+                    tbody.empty();
+                    
+                    if (!data.rentals || data.rentals.length === 0) {
+                        tbody.append('<tr><td colspan="6" class="text-center">Không có hóa đơn cho thuê</td></tr>');
+                        return;
                     }
-                });
+                    
+                    data.rentals.forEach(function(rental) {
+                        const product = data.products.find(p => p.id === rental.device_id);
+                        tbody.append(`
+                            <tr>
+                                <td>${rental.id}</td>
+                                <td>${product ? product.name : 'N/A'}</td>
+                                <td>${rental.quantity}</td>
+                                <td>${formatCurrency(rental.rental_fee)}</td>
+                                <td>${new Date(rental.rental_date).toLocaleDateString('vi-VN')}</td>
+                                <td>${new Date(rental.return_date).toLocaleDateString('vi-VN')}</td>
+                            </tr>
+                        `);
+                    });
+                },
+                error: function(xhr) {
+                    if (xhr.status === 401) {
+                        window.location.href = '/login';
+                    } else {
+                        $('#rentalsTable tbody').html(`
+                            <tr><td colspan="6" class="text-center text-danger">
+                                Không thể tải dữ liệu hóa đơn cho thuê
+                            </td></tr>
+                        `);
+                    }
+                }
+            });
+        }
+
+        // Add filters for daily revenue with visual feedback - FIXED EVENT HANDLER
+        $('#dailyFilter a').click(function(e) {
+            e.preventDefault();
+            const newDays = $(this).data('days');
+            
+            // Only reload if the filter actually changed
+            if (dailyFilterDays !== newDays) {
+                dailyFilterDays = newDays;
+                
+                // Update filter button text to show current selection
+                const filterText = $(this).text();
+                $(this).closest('.btn-group').find('button.dropdown-toggle').html(
+                    `<i class="fa fa-filter"></i> ${filterText} <span class="caret"></span>`
+                );
+                
+                // Load data with new filter
+                loadDailyRevenue();
             }
         });
 
-        // Edit device - open modal and populate data
-        $(document).on('click', '.edit-device', function() {
-            let deviceId = $(this).data('id');
+        // Add filters for weekly revenue with visual feedback - FIXED EVENT HANDLER
+        $('#weeklyTimeFilter a').click(function(e) {
+            e.preventDefault();
+            const newPeriod = $(this).data('period');
             
-            // Get device details
-            $.ajax({
-                url: '/api/devices/' + deviceId,
-                type: 'GET',
-                success: function(device) {
-                    $('#edit_device_id').val(device.id);
-                    $('#edit_name').val(device.name);
-                    $('#edit_category_id').val(device.category_id);
-                    $('#edit_price').val(device.price);
-                    $('#edit_stock').val(device.stock);
-                    $('#edit_description').val(device.description);
-                    
-                    $('#editDeviceModal').modal('show');
-                },
-                error: function(xhr) {
-                    if (xhr.status === 401) {
-                        window.location.href = '/login';
-                    } else {
-                        alert('Không thể tải thông tin thiết bị: ' + xhr.responseJSON?.error || 'Lỗi không xác định');
-                    }
-                }
-            });
+            // Only reload if the filter actually changed
+            if (weeklyPeriod !== newPeriod) {
+                weeklyPeriod = newPeriod;
+                
+                // Update filter button text to show current selection
+                const filterText = $(this).text();
+                $(this).closest('.btn-group').find('button.dropdown-toggle').html(
+                    `<i class="fa fa-filter"></i> ${filterText} <span class="caret"></span>`
+                );
+                
+                // Load data with new filter
+                loadWeeklyRevenue();
+            }
         });
 
-        // Save edited device
-        $('#saveDeviceChanges').click(function() {
-            let formData = new FormData($('#editDeviceForm')[0]);
-            let deviceId = $('#edit_device_id').val();
-            
-            $.ajax({
-                url: '/api/devices/' + deviceId,
-                type: 'POST',
-                data: formData,
-                processData: false,
-                contentType: false,
-                success: function(response) {
-                    $('#editDeviceModal').modal('hide');
-                    alert('Thiết bị đã được cập nhật thành công');
-                    
-                    // Refresh all tables after updating a device
-                    initializeAll();
-                },
-                error: function(xhr) {
-                    if (xhr.status === 401) {
-                        window.location.href = '/login';
-                    } else {
-                        alert('Không thể cập nhật thiết bị: ' + xhr.responseJSON?.error || 'Lỗi không xác định');
-                    }
-                }
-            });
+        // Add refresh button handlers - FIXED DUPLICATE EVENT HANDLERS
+        $('#refreshDaily').click(function() {
+            loadDailyRevenue();
+        });
+
+        $('#refreshWeekly').click(function() {
+            loadWeeklyRevenue();
         });
     });
 </script>
-
-<style>
-	.section-subtitle {
-		margin-bottom: 20px;
-		padding-bottom: 10px;
-		border-bottom: 1px solid #eee;
-		color: #555;
-		font-weight: 600;
-	}
-	.device-form-container {
-		background-color: #f9f9f9;
-		padding: 15px;
-		border-radius: 5px;
-		border: 1px solid #eee;
-		height: 100%;
-	}
-	.device-table-container {
-		background-color: #ffffff;
-		padding: 15px;
-		border-radius: 5px;
-		border: 1px solid #eee;
-		box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-	}
-	#devicesTable thead {
-		background-color: #f5f5f5;
-	}
-	#devicesTable th {
-		font-weight: 600;
-	}
-	.btn-action {
-		margin: 2px;
-	}
-	.modal-header {
-		background-color: #f8f8f8;
-		border-bottom: 1px solid #e5e5e5;
-	}
-	.modal-footer {
-		background-color: #f8f8f8;
-		border-top: 1px solid #e5e5e5;
-	}
-	.help-block {
-		font-size: 12px;
-		color: #777;
-		margin-top: 5px;
-	}
-</style>
 </body>
 
 </html>
