@@ -58,18 +58,27 @@
 				<div class="row">
 					<div class="col-sm-4">
 						<div class="logo pull-left">
-							<a href="/"><img src="/images/home/logo.png" style="height: 80px; width: 80px;" alt="" /></a>
+							<a href="/"><img src="/images/home/logo.png" style="height: 80px; width: 80px;"
+									alt="" /></a>
 						</div>
 					</div>
 					<div class="col-sm-8">
 						<div class="shop-menu pull-right">
 							<ul class="nav navbar-nav">
 								@if(session()->has('user'))
+									@php $user = session('user'); @endphp
 									<li><a href="checkout"><i class="fa fa-crosshairs"></i> Hóa đơn</a></li>
 									<li><a href="cart"><i class="fa fa-shopping-cart"></i> Giỏ hàng</a></li>
-									@php $user = session('user'); @endphp
 									<li><a href="#"><i class="fa fa-user"></i>
 											{{ optional($user)['email'] ?? 'Người dùng' }}</a></li>
+
+									@if(isset($user['role']) && $user['role'] == 'admin')
+										<li><a href="/statistics"><i class="fa fa-bar-chart"></i> Thống kê</a></li>
+									@endif
+
+									@if(isset($user['role']) && $user['role'] != 'customer')
+										<li><a href="/manager-product"><i class="fa fa-cubes"></i> Quản lý sản phẩm</a></li>
+									@endif
 									<li><a href="/api/logout"><i class="fa fa-sign-out"></i> Đăng xuất</a></li>
 								@else
 									<li><a href="login"><i class="fa fa-lock"></i> Truy cập</a></li>
