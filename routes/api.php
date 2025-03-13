@@ -18,30 +18,6 @@ Route::get('verify-email/{token}', [AuthController::class, 'verifyEmail'])->name
 
 Route::get('devices/{id}', [DeviceController::class, 'show']);
 
-// Service public 
-Route::middleware([RoleMiddleware::class . ':customer,admin'])->group(function () {
-
+Route::get('/docs', function () {
+    return view('swagger.index');
 });
-
-// Protected Routes
-// Route::middleware('auth:sanctum')->group(function () {
-//     // Inventory
-//     Route::apiResource('inventory', InventoryController::class);
-    
-//     // Rentals
-//     Route::apiResource('rentals', RentalController::class);
-    
-//     // Sales
-//     Route::apiResource('sales', SaleController::class);
-    
-//     // Reports
-//     Route::apiResource('reports', ReportController::class);
-//     // Invoices
-//     Route::prefix('invoices')->group(function () {
-//         Route::get('/', [InvoiceController::class, 'index']);
-//         Route::post('/', [InvoiceController::class, 'store']);
-//         Route::get('/{id}', [InvoiceController::class, 'show']);
-//         Route::post('/{id}/pay', [InvoiceController::class, 'markAsPaid']);
-//         Route::post('/from-sale/{sale}', [InvoiceController::class, 'generateFromSale']);
-//     });
-// });

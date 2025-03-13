@@ -69,7 +69,7 @@ class RentalController extends Controller
      *     )
      * )
      */
-    public function store(Request $request)
+    public static function store(Request $request)
     {
         $validated = $request->validate([
             'order_id' => 'required|exists:orders,id',
@@ -182,5 +182,13 @@ class RentalController extends Controller
     {
         Rental::destroy($id);
         return response()->json(['message' => 'Giao dịch thuê đã bị xóa']);
+    }
+
+    public function count() {
+        return response()->json(['totalDevices' => Device::count()]);
+    }
+
+    public function all() {
+        return response()->json(Rental::all());
     }
 }

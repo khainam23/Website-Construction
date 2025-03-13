@@ -72,7 +72,7 @@ class SaleController extends Controller
      *     )
      * )
      */
-    public function store(Request $request)
+    public static function store(Request $request)
     {
         $validated = $request->validate([
             'order_id' => 'required|exists:orders,id',
@@ -193,5 +193,13 @@ class SaleController extends Controller
     {
         Sale::destroy($id);
         return response()->json(['message' => 'Giao dịch bán đã bị xóa']);
+    }
+
+    public function count() {
+        return response()->json(['totalDevices' => Device::count()]);
+    }
+
+    public function all() {
+        return response()->json(Sale::all());
     }
 }

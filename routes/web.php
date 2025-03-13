@@ -13,6 +13,7 @@ use App\Http\Controllers\ShopController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Admin\AdminDeviceController;
 use Laravel\Sail\SailServiceProvider;
+use App\Http\Controllers\VnpayController;
 
 // Liên kết các trang 
 Route::view('/', 'index')->name('index');
@@ -31,7 +32,7 @@ Route::get("/api/logout", [AuthController::class, 'logout'])->name('api.logout')
 Route::get('/shop', [ShopController::class, 'index'])->name('shop.index');
 
 // Service public 
-Route::middleware([RoleMiddleware::class . ':customer,admin'])->group(function () {
+Route::middleware([RoleMiddleware::class . ':customer,admin,sales,warehouse'])->group(function () {
     Route::post('/api/orders', [OrderController::class, 'store'])->name('orders.store');
     Route::view('/cart', 'cart')->name('cart');
     Route::view('/checkout', 'checkout')->name('checkout');
@@ -39,36 +40,54 @@ Route::middleware([RoleMiddleware::class . ':customer,admin'])->group(function (
 
     // Sales & Rentals for customers
     Route::post('/api/sales', [SaleController::class, 'store'])->name('api.sales');
-    Route::get('/api/sales', [SaleController::class,'index'])->name('api.sales.index');
-    Route::post('/api/rentals', [RentalController::class,'store'])->name('api.rentals');
-    Route::get('/api/rentals', [RentalController::class,'index'])->name('api.rentals.index');
+    Route::get('/api/sales', [SaleController::class, 'index'])->name('api.sales.index');
+    Route::post('/api/rentals', [RentalController::class, 'store'])->name('api.rentals');
+    Route::get('/api/rentals', [RentalController::class, 'index'])->name('api.rentals.index');
+
+    // vnpay
+    Route::post('/api/payment/vnpay', [VnpayController::class, 'createPayment'])->name('api.payment.vnpay');
+    Route::get('/vnpay/return', [VnpayController::class,'vnpayReturn'])->name('vnpay.return');
 });
 
-// Admin and Sales
-Route::middleware([RoleMiddleware::class . ':admin']) -> group(
-    function() {
+// Routes for Admin, Sales, and Warehouse
+Route::middleware([RoleMiddleware::class . ':admin,sales,warehouse'])->group(
+    function () {
         Route::get('/statistics', [ReportController::class, 'viewStatistics'])->name('statistics');
         
-        // Statistics API routes accessible by both admin and sales - remove monthly route
+        // Device management
+        Route::post("/api/device/delete/{id}", [DeviceController::class, 'destroy'])->name('api.device.destroy');
+        Route::get("/api/devices", [DeviceController::class, 'index'])->name('api.devices.index');
+        Route::get("manager-product", [DeviceController::class, 'viewManagerProduct'])->name('manager-product');
+        Route::get("/api/devices/count", [DeviceController::class, 'count'])->name('api.devices.count');
+        
+        // Rentals & Sales statistics
+        Route::get("/api/rentals/count", [RentalController::class, 'count'])->name('api.rentals.count');
+        Route::get("/api/sales/count", [SaleController::class, 'count'])->name('api.sales.count');
+        Route::get("/api/sales/all", [SaleController::class, 'all'])->name('api.sales.all');
+        Route::get("/api/rentals/all", [RentalController::class, 'all'])->name('api.rentals.all');
+        
+        // Device updates
+        Route::post("/api/device/{id}", [DeviceController::class, 'update'])->name('api.device.update');
+    }
+);
+
+// Admin-only routes
+Route::middleware([RoleMiddleware::class . ':admin'])->group(
+    function () {
+        Route::view('manager-product', 'manager-product')->name('manager-product');
+        
+        // Full device management
+        Route::post("/api/devices", [DeviceController::class, 'store'])->name('api.devices.store');
+        Route::get("/api/devices/{id}", [DeviceController::class, 'show'])->name('api.devices.show');
+        Route::put("/api/devices/{id}", [DeviceController::class, 'update'])->name('api.devices.update');
+        Route::delete("/api/device/{id}", [DeviceController::class, 'destroy'])->name('api.device.destroy');
+        
+        // Admin-only statistics
+        Route::get('/api/statistics/device-stats', [ReportController::class, 'getDeviceStatistics']);
         Route::get('/api/statistics/quarterly-revenue', [ReportController::class, 'getQuarterlyRevenue']);
         Route::get('/api/statistics/yearly-revenue', [ReportController::class, 'getYearlyRevenue']);
     }
 );
-
-// Admin only routes
-Route::middleware([RoleMiddleware::class . ':admin']) -> group(
-    function() {
-        Route::delete("/api/device/{id}", [DeviceController::class, 'destroy'])->name('api.device.destroy');
-        Route::get("/api/devices", [DeviceController::class, 'index'])->name('api.devices.index');
-        Route::view('manager-product', 'manager-product')->name('manager-product');
-        
-        // Add new device management routes
-        Route::post("/api/devices", [DeviceController::class, 'store'])->name('api.devices.store');
-        Route::get("/api/devices/{id}", [DeviceController::class, 'show'])->name('api.devices.show');
-        Route::put("/api/devices/{id}", [DeviceController::class, 'update'])->name('api.devices.update');
-        
-        // Admin-only statistics routes
-        Route::get('/api/statistics/device-stats', [ReportController::class, 'getDeviceStatistics']);
 
         // Add Report API routes
         Route::get('/api/reports', [ReportController::class, 'index'])->name('api.reports.index');
