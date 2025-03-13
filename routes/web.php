@@ -56,7 +56,7 @@ Route::middleware([RoleMiddleware::class . ':admin,sales,warehouse'])->group(
         Route::get('/statistics', [ReportController::class, 'viewStatistics'])->name('statistics');
         Route::post("/api/device/delete/{id}", [DeviceController::class, 'destroy'])->name('api.device.destroy');
         Route::get("/api/devices", [DeviceController::class, 'index'])->name('api.devices.index');
-        Route::get('manager-product', [DeviceController::class, 'viewManagerProduct'])->name('manager-product');
+        Route::get('/manager-product', [DeviceController::class, 'viewManagerProduct'])->name('manager-product');
 
         Route::get("/api/devices/count", [DeviceController::class, 'count'])->name('api.devices.count');
         Route::get("/api/rentals/count", [RentalController::class, 'count'])->name('api.rentals.count');

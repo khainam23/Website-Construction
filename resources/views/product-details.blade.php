@@ -344,7 +344,7 @@
 									<span>VND ${data.price}</span>
 									<label>Số lượng: </label>
 									<input type="number" value="1" min="1" max="${data.stock}" id="myInput" />
-									<a type="button" class="btn btn-fefault cart add-to-cart" p-id="${data.id}" p-price="${data.price}" p-type="add-to-cart">
+									<a type="button" class="btn btn-fefault cart add-to-cart" p-id="${data.id}" p-price="${data.price}" p-type="sales">
 										<i class="fa fa-shopping-cart"></i>
 										Thêm vào giỏ hàng
 									</a>

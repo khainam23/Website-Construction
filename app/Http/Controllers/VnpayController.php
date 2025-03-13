@@ -71,7 +71,6 @@ class VnpayController extends Controller
     {
         $text = explode("_", $request->vnp_OrderInfo);
 
-
         // Tạo một Request mới để truyền vào store()
         $storeRequest = [
             'order_id' => $text[2] ?? null,
@@ -88,6 +87,7 @@ class VnpayController extends Controller
             RentalController::store(new Request($storeRequest));
         }
 
-        return redirect()->route('index');  
+        return redirect()->route('index');
+        // return response()->json([$request]); // For test
     }
 }

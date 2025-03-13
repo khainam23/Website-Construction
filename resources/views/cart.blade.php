@@ -420,7 +420,7 @@
 			const device_name = parent.find('.device-name')?.val();
 			const price = parent.find('.device_price').val();
 			const quantity = parent.find('.device_quantity').val();
-			const type = parent.find('.order_type').val();
+			const pay_type = parent.find('.order_type').val();
 			const startDate = parent.find('.startDate')?.val();
 			const endDate = parent.find('.endDate')?.val();
 
@@ -453,7 +453,7 @@
 							'quantity': quantity,
 							'total_price': price * quantity,
 							'payment_method': paymentMethod,
-							'type': type,
+							'type': pay_type,
 							'rental_date': startDate,
 							'return_date': endDate
 						},
@@ -471,7 +471,7 @@
 						}
 					});
 				} else {
-					let url = type === 'sales' ? '/api/sales' : '/api/rentals';
+					let url = pay_type === 'sales' ? '/api/sales' : '/api/rentals';
 					let data = {
 						'order_id': order_id,
 						'device_id': id,
@@ -480,7 +480,7 @@
 						'payment_method': paymentMethod
 					};
 
-					if (type !== 'sales') {
+					if (pay_type !== 'sales') {
 						data = {
 							...data,
 							'rental_date': startDate,
