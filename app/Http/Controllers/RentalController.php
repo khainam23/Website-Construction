@@ -69,7 +69,7 @@ class RentalController extends Controller
      *     )
      * )
      */
-    public function store(Request $request)
+    public static function store(Request $request)
     {
         $validated = $request->validate([
             'order_id' => 'required|exists:orders,id',

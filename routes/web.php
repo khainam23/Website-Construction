@@ -13,6 +13,7 @@ use App\Http\Controllers\ShopController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Admin\AdminDeviceController;
 use Laravel\Sail\SailServiceProvider;
+use App\Http\Controllers\VnpayController;
 
 // Liên kết các trang 
 Route::view('/', 'index')->name('index');
@@ -30,7 +31,7 @@ Route::post('/api/login', [AuthController::class, 'login'])->name('api.login'); 
 Route::get('/shop', [ShopController::class, 'index'])->name('shop.index');
 
 // Service public 
-Route::middleware([RoleMiddleware::class . ':customer,admin'])->group(function () {
+Route::middleware([RoleMiddleware::class . ':customer,admin,sales,warehouse'])->group(function () {
     Route::post('/api/orders', [OrderController::class, 'store'])->name('orders.store');
     Route::view('/cart', 'cart')->name('cart');
     Route::view('/checkout', 'checkout')->name('checkout');
@@ -38,14 +39,18 @@ Route::middleware([RoleMiddleware::class . ':customer,admin'])->group(function (
 
     Route::get("/api/logout", [AuthController::class, 'logout'])->name('api.logout');
     Route::post('/api/sales', [SaleController::class, 'store'])->name('api.sales');
-    Route::get('/api/sales', [SaleController::class,'index'])->name('api.sales.index');
-    Route::post('/api/rentals', [RentalController::class,'store'])->name('api.rentals');
-    Route::get('/api/rentals', [RentalController::class,'index'])->name('api.rentals.index');
+    Route::get('/api/sales', [SaleController::class, 'index'])->name('api.sales.index');
+    Route::post('/api/rentals', [RentalController::class, 'store'])->name('api.rentals');
+    Route::get('/api/rentals', [RentalController::class, 'index'])->name('api.rentals.index');
+
+    // vnpay
+    Route::post('/api/payment/vnpay', [VnpayController::class, 'createPayment'])->name('api.payment.vnpay');
+    Route::get('/vnpay/return', [VnpayController::class,'vnpayReturn'])->name('vnpay.return');
 });
 
 // Admin
-Route::middleware([RoleMiddleware::class . ':admin,sales,warehouse']) -> group(
-    function() {
+Route::middleware([RoleMiddleware::class . ':admin,sales,warehouse'])->group(
+    function () {
         Route::get('/statistics', [ReportController::class, 'viewStatistics'])->name('statistics');
         Route::post("/api/device/delete/{id}", [DeviceController::class, 'destroy'])->name('api.device.destroy');
         Route::get("/api/devices", [DeviceController::class, 'index'])->name('api.devices.index');
@@ -54,7 +59,7 @@ Route::middleware([RoleMiddleware::class . ':admin,sales,warehouse']) -> group(
         Route::get("/api/devices/count", [DeviceController::class, 'count'])->name('api.devices.count');
         Route::get("/api/rentals/count", [RentalController::class, 'count'])->name('api.rentals.count');
         Route::get("/api/sales/count", [SaleController::class, 'count'])->name('api.sales.count');
-        
+
         Route::post('/api/device/{id}', [DeviceController::class, 'update'])->name('api.device.update');
 
         Route::get('/api/sales/all', [SaleController::class, 'all'])->name('api.sales.all');

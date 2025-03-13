@@ -316,6 +316,8 @@
 	<script src="/js/jquery.prettyPhoto.js"></script>
 	<script src="/js/main.js"></script>
 
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 	<script>
 		window.onload = function () {
 			$.ajax({
@@ -405,65 +407,96 @@
 			const parent = $(this).parents('tr');
 
 			const order_id = parent.find('.order_id').val();
-			const category_id = parent.find('.category_id').val();
-			const device_stock = parent.find('.device_stock').val();
-			const device_description = parent.find('.device_description').val();
 			const id = parent.find('.device_id').val();
-			const name = parent.find('.device_name').val();
+			const device_name = parent.find('.device-name')?.val();
 			const price = parent.find('.device_price').val();
 			const quantity = parent.find('.device_quantity').val();
-			const image = parent.find('.device_image').val();
 			const type = parent.find('.order_type').val();
 			const startDate = parent.find('.startDate')?.val();
 			const endDate = parent.find('.endDate')?.val();
 
-			if (type === 'sales') {
-				// For sale
-				$.ajax({
-					url: '/api/sales',
-					type: 'POST',
-					headers: {
-						'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
-					},
-					data: {
+			Swal.fire({
+				title: "Chọn phương thức thanh toán",
+				text: "Vui lòng chọn phương thức bạn muốn sử dụng:",
+				icon: "question",
+				showCancelButton: true,
+				showDenyButton: true,
+				confirmButtonText: "VNPAY",
+				denyButtonText: "Trực tiếp",
+				cancelButtonText: "Hủy",
+			}).then((result) => {
+				if (result.isConfirmed) {
+					processPayment("vnpay");
+				} else if (result.isDenied) {
+					processPayment("direct");
+				}
+			});
+
+			// ✅ Biến `processPayment()` thành `async`
+			function processPayment(paymentMethod) {
+				if (paymentMethod == 'vnpay') {
+					$.ajax({
+						url: "/api/payment/vnpay",
+						type: "POST",
+						data: {
+							'order_id': order_id,
+							'device_id': id,
+							'quantity': quantity,
+							'total_price': price * quantity,
+							'payment_method': paymentMethod,
+							'type': type,
+							'rental_date': startDate,
+							'return_date': endDate
+						},
+						headers: { "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content") }, // CSRF Token
+						success: function (response) {
+							if (response.payment_url) {
+								window.location.href = response.payment_url; // Chuyển hướng đến VNPAY
+							} else {
+								// alert("Có lỗi xảy ra khi tạo thanh toán!");
+								console.log(response)
+							}
+						},
+						error: function (error) {
+							console.log(error.responseJSON);
+						}
+					});
+				} else {
+					let url = type === 'sales' ? '/api/sales' : '/api/rentals';
+					let data = {
 						'order_id': order_id,
 						'device_id': id,
 						'quantity': quantity,
 						'total_price': price * quantity,
-						'quantity': quantity
-					},
-					success: function (response) {
-						alert('Thanh toán thành công');
-						window.location.href = '/cart';
-					},
-					error: function (error) {
-						console.log(error.responseText);
+						'payment_method': paymentMethod
+					};
+
+					if (type !== 'sales') {
+						data = {
+							...data,
+							'rental_date': startDate,
+							'return_date': endDate,
+							'rental_fee': price * quantity
+						};
 					}
-				});
-			} else {
-				// For rental
-				$.ajax({
-					url: '/api/rentals',
-					type: 'POST',
-					headers: {
-						'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
-					},
-					data: {
-						'order_id': order_id,
-						'device_id': id,
-						'rental_date': startDate,
-						'return_date': endDate,
-						'rental_fee': price * quantity,
-						'quantity': quantity
-					},
-					success: function (response) {
-						alert('Thanh toán thành công');
-						window.location.href = '/cart';
-					},
-					error: function (error) {
-						console.log(error.responseText);
-					}
-				})
+
+					$.ajax({
+						url: url,
+						type: 'POST',
+						headers: {
+							'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+						},
+						data: data,
+						success: function (response) {
+							Swal.fire("Thành công!", "Thanh toán thành công.", "success").then(() => {
+								window.location.href = '/cart';
+							});
+						},
+						error: function (error) {
+							console.log(error.responseText);
+						}
+					});
+				}
 			}
 		});
 	</script>
