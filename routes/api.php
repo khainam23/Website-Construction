@@ -16,7 +16,7 @@ Route::post('register', [AuthController::class, 'register'])->name('api.register
 Route::post('forgot-password', [AuthController::class, 'forget'])->name('api.forgot-password');
 Route::get('verify-email/{token}', [AuthController::class, 'verifyEmail'])->name('api.verify-email');
 
-Route::get('devices/{id}', [DeviceController::class, 'show']);
+
 
 Route::get('/docs', function () {
     return view('swagger.index');

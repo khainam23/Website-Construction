@@ -66,16 +66,23 @@
 					<div class="col-sm-8">
 						<div class="shop-menu pull-right">
 							<ul class="nav navbar-nav">
-								<li><a href="checkout"><i class="fa fa-crosshairs"></i> Hóa đơn</a></li>
-								<li><a href="cart"><i class="fa fa-shopping-cart"></i> Giỏ hàng</a></li>
-
 								@if(session()->has('user'))
 									@php $user = session('user'); @endphp
+									<li><a href="/checkout"><i class="fa fa-crosshairs"></i> Hóa đơn</a></li>
+									<li><a href="/cart"><i class="fa fa-shopping-cart"></i> Giỏ hàng</a></li>
 									<li><a href="#"><i class="fa fa-user"></i>
 											{{ optional($user)['email'] ?? 'Người dùng' }}</a></li>
+
+									@if(isset($user['role']) && $user['role'] == 'admin')
+										<li><a href="/statistics"><i class="fa fa-bar-chart"></i> Thống kê</a></li>
+									@endif
+
+									@if(isset($user['role']) && $user['role'] != 'customer')
+										<li><a href="/manager-product"><i class="fa fa-cubes"></i> Quản lý sản phẩm</a></li>
+									@endif
 									<li><a href="/api/logout"><i class="fa fa-sign-out"></i> Đăng xuất</a></li>
 								@else
-									<li><a href="login"><i class="fa fa-lock"></i> Truy cập</a></li>
+									<li><a href="/login"><i class="fa fa-lock"></i> Truy cập</a></li>
 								@endif
 
 							</ul>
@@ -103,13 +110,15 @@
 								<li><a href="/" class="active">Trang chủ</a></li>
 								<li class="dropdown"><a href="#">Cửa hàng<i class="fa fa-angle-down"></i></a>
 									<ul role="menu" class="sub-menu">
-										<li><a href="shop">Products</a></li>
-										<li><a href="checkout">Hóa đơn</a></li>
-										<li><a href="cart">Giỏ hàng</a></li>
-										<li><a href="login">Truy cập</a></li>
+										<li><a href="/shop">Products</a></li>
+										@if (session()->has('user'))
+											<li><a href="/checkout">Hóa đơn</a></li>
+											<li><a href="/cart">Giỏ hàng</a></li>
+										@endif
+										<li><a href="/login">Truy cập</a></li>
 									</ul>
 								</li>
-								<li><a href="contact-us">Liên hệ</a></li>
+								<li><a href="/contact-us">Liên hệ</a></li>
 							</ul>
 						</div>
 					</div>

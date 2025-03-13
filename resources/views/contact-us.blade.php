@@ -1,27 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <title>Liên hệ | INGOUDE-Shopper</title>
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link href="css/font-awesome.min.css" rel="stylesheet">
-    <link href="css/prettyPhoto.css" rel="stylesheet">
-    <link href="css/price-range.css" rel="stylesheet">
-    <link href="css/animate.css" rel="stylesheet">
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<title>Liên hệ | INGOUDE-Shopper</title>
+	<link href="css/bootstrap.min.css" rel="stylesheet">
+	<link href="css/font-awesome.min.css" rel="stylesheet">
+	<link href="css/prettyPhoto.css" rel="stylesheet">
+	<link href="css/price-range.css" rel="stylesheet">
+	<link href="css/animate.css" rel="stylesheet">
 	<link href="css/main.css" rel="stylesheet">
 	<link href="css/responsive.css" rel="stylesheet">
-    <!--[if lt IE 9]>
+	<!--[if lt IE 9]>
     <script src="/js/html5shiv.js"></script>
     <script src="/js/respond.min.js"></script>
-    <![endif]-->       
-    <link rel="shortcut icon" href="/images/ico/favicon.ico">
-    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/images/ico/apple-touch-icon-144-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/images/ico/apple-touch-icon-114-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/images/ico/apple-touch-icon-72-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" href="/images/ico/apple-touch-icon-57-precomposed.png">
+    <![endif]-->
+	<link rel="shortcut icon" href="/images/ico/favicon.ico">
+	<link rel="apple-touch-icon-precomposed" sizes="144x144" href="/images/ico/apple-touch-icon-144-precomposed.png">
+	<link rel="apple-touch-icon-precomposed" sizes="114x114" href="/images/ico/apple-touch-icon-114-precomposed.png">
+	<link rel="apple-touch-icon-precomposed" sizes="72x72" href="/images/ico/apple-touch-icon-72-precomposed.png">
+	<link rel="apple-touch-icon-precomposed" href="/images/ico/apple-touch-icon-57-precomposed.png">
 </head><!--/head-->
 
 <body>
@@ -57,22 +58,30 @@
 				<div class="row">
 					<div class="col-sm-4">
 						<div class="logo pull-left">
-							<a href="/"><img src="/images/home/logo.png" style="height: 80px; width: 80px;" alt="" /></a>
+							<a href="/"><img src="/images/home/logo.png" style="height: 80px; width: 80px;"
+									alt="" /></a>
 						</div>
 					</div>
 					<div class="col-sm-8">
 						<div class="shop-menu pull-right">
 							<ul class="nav navbar-nav">
-								<li><a href="checkout"><i class="fa fa-crosshairs"></i> Hóa đơn</a></li>
-								<li><a href="cart"><i class="fa fa-shopping-cart"></i> Giỏ hàng</a></li>
-
 								@if(session()->has('user'))
 									@php $user = session('user'); @endphp
+									<li><a href="/checkout"><i class="fa fa-crosshairs"></i> Hóa đơn</a></li>
+									<li><a href="/cart"><i class="fa fa-shopping-cart"></i> Giỏ hàng</a></li>
 									<li><a href="#"><i class="fa fa-user"></i>
 											{{ optional($user)['email'] ?? 'Người dùng' }}</a></li>
+
+									@if(isset($user['role']) && $user['role'] == 'admin')
+										<li><a href="/statistics"><i class="fa fa-bar-chart"></i> Thống kê</a></li>
+									@endif
+
+									@if(isset($user['role']) && $user['role'] != 'customer')
+										<li><a href="/manager-product"><i class="fa fa-cubes"></i> Quản lý sản phẩm</a></li>
+									@endif
 									<li><a href="/api/logout"><i class="fa fa-sign-out"></i> Đăng xuất</a></li>
 								@else
-									<li><a href="login"><i class="fa fa-lock"></i> Truy cập</a></li>
+									<li><a href="/login"><i class="fa fa-lock"></i> Truy cập</a></li>
 								@endif
 
 							</ul>
@@ -100,67 +109,73 @@
 								<li><a href="/" class="active">Trang chủ</a></li>
 								<li class="dropdown"><a href="#">Cửa hàng<i class="fa fa-angle-down"></i></a>
 									<ul role="menu" class="sub-menu">
-										<li><a href="shop">Products</a></li>
-										<li><a href="checkout">Hóa đơn</a></li>
-										<li><a href="cart">Giỏ hàng</a></li>
-										<li><a href="login">Truy cập</a></li>
+										<li><a href="/shop">Products</a></li>
+										@if (session()->has('user'))
+											<li><a href="/checkout">Hóa đơn</a></li>
+											<li><a href="/cart">Giỏ hàng</a></li>
+										@endif
+										<li><a href="/login">Truy cập</a></li>
 									</ul>
 								</li>
-								<li><a href="contact-us">Liên hệ</a></li>
+								<li><a href="/contact-us">Liên hệ</a></li>
 							</ul>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div><!--/header-bottom-->
-	</header><!--/header-->
-	 
-	 <div id="contact-page" class="container">
-    	<div class="bg">
-	    	<div class="row">    		
-	    		<div class="col-sm-12">    			   			
-					<h2 class="title text-center">Liên hệ với <strong>Chúng tôi</strong></h2>    			    				    				
+	</header><!--/header-->	
+
+	<div id="contact-page" class="container">
+		<div class="bg">
+			<div class="row">
+				<div class="col-sm-12">
+					<h2 class="title text-center">Liên hệ với <strong>Chúng tôi</strong></h2>
 					<div id="gmap" class="contact-map">
 					</div>
-				</div>			 		
-			</div>    	
-    		<div class="row">  	
-	    		<div class="col-sm-8">
-	    			<div class="contact-form">
-	    				<h2 class="title text-center">Thông tin</h2>
-	    				<div class="status alert alert-success" style="display: none"></div>
-				    	<form id="main-contact-form" class="contact-form row" name="contact-form" method="post">
-				            <div class="form-group col-md-6">
-				                <input type="text" name="name" class="form-control" required="required" placeholder="Name">
-				            </div>
-				            <div class="form-group col-md-6">
-				                <input type="email" name="email" class="form-control" required="required" placeholder="Email">
-				            </div>
-				            <div class="form-group col-md-12">
-				                <input type="text" name="subject" class="form-control" required="required" placeholder="Subject">
-				            </div>
-				            <div class="form-group col-md-12">
-				                <textarea name="message" id="message" required="required" class="form-control" rows="8" placeholder="Your Message Here"></textarea>
-				            </div>                        
-				            <div class="form-group col-md-12">
-				                <input type="submit" name="submit" class="btn btn-primary pull-right" value="Submit">
-				            </div>
-				        </form>
-	    			</div>
-	    		</div>
-	    		<div class="col-sm-4">
-	    			<div class="contact-info">
-	    				<h2 class="title text-center">Liên hệ Info</h2>
-	    				<address>
-	    					<p>INGOUDE-Shopper Inc.</p>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-8">
+					<div class="contact-form">
+						<h2 class="title text-center">Thông tin</h2>
+						<div class="status alert alert-success" style="display: none"></div>
+						<form id="main-contact-form" class="contact-form row" name="contact-form" method="post">
+							<div class="form-group col-md-6">
+								<input type="text" name="name" class="form-control" required="required"
+									placeholder="Name">
+							</div>
+							<div class="form-group col-md-6">
+								<input type="email" name="email" class="form-control" required="required"
+									placeholder="Email">
+							</div>
+							<div class="form-group col-md-12">
+								<input type="text" name="subject" class="form-control" required="required"
+									placeholder="Subject">
+							</div>
+							<div class="form-group col-md-12">
+								<textarea name="message" id="message" required="required" class="form-control" rows="8"
+									placeholder="Your Message Here"></textarea>
+							</div>
+							<div class="form-group col-md-12">
+								<input type="submit" name="submit" class="btn btn-primary pull-right" value="Submit">
+							</div>
+						</form>
+					</div>
+				</div>
+				<div class="col-sm-4">
+					<div class="contact-info">
+						<h2 class="title text-center">Liên hệ Info</h2>
+						<address>
+							<p>INGOUDE-Shopper Inc.</p>
 							<p>Việt Nam, Thành Phố Hồ Chí Minh, Thành Phố Hà Nội, Đà Nẵng</p>
 							<p>VN</p>
 							<p>Mobile: +84 123456789</p>
 							<p>Fax: 1-714-252-0026</p>
 							<p>Email: info@gmail.com</p>
-	    				</address>
-	    				<div class="social-networks">
-	    					<h2 class="title text-center">Social Networking</h2>
+						</address>
+						<div class="social-networks">
+							<h2 class="title text-center">Social Networking</h2>
 							<ul>
 								<li>
 									<a href="#"><i class="fa fa-facebook"></i></a>
@@ -175,13 +190,13 @@
 									<a href="#"><i class="fa fa-youtube"></i></a>
 								</li>
 							</ul>
-	    				</div>
-	    			</div>
-    			</div>    			
-	    	</div>  
-    	</div>	
-    </div><!--/#contact-page-->
-	
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div><!--/#contact-page-->
+
 	<footer id="footer"><!--Footer-->
 		<div class="footer-top">
 			<div class="container">
@@ -189,7 +204,8 @@
 					<div class="col-sm-2">
 						<div class="companyinfo">
 							<h2><span>INGOUDE</span>-shopper</h2>
-							<p>INGOUDINGOUDE-Shopper là nền tảng cung cấp máy móc, thiết bị công trình chất lượng cao, giúp
+							<p>INGOUDINGOUDE-Shopper là nền tảng cung cấp máy móc, thiết bị công trình chất lượng cao,
+								giúp
 								khách hàng dễ dàng tìm kiếm và lựa chọn sản phẩm phù hợp. Với đa dạng thương hiệu uy
 								tín, dịch vụ tư vấn chuyên sâu và chính sách bảo hành minh bạch, chúng tôi cam kết mang
 								đến trải nghiệm mua sắm tối ưu cho doanh nghiệp và cá nhân trong ngành xây dựng.</p>
@@ -337,24 +353,39 @@
 			<div class="container">
 				<div class="row">
 					<p class="pull-left">Copyright © 2025 INGOUDINGOUDE-Shopper Inc. All rights reserved.</p>
-					<p class="pull-right">Designed by <span><a target="_blank"
-								href="#">PND</a></span></p>
+					<p class="pull-right">Designed by <span><a target="_blank" href="#">PND</a></span></p>
 				</div>
 			</div>
 		</div>
 
 	</footer><!--/Footer-->
-	
 
-  
-    <script src="/js/jquery.js"></script>
+
+
+	<script src="/js/jquery.js"></script>
 	<script src="/js/bootstrap.min.js"></script>
 	<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=true"></script>
-    <script type="text/javascript" src="/js/gmaps.js"></script>
+	<script type="text/javascript" src="/js/gmaps.js"></script>
 	<script src="/js/contact.js"></script>
 	<script src="/js/price-range.js"></script>
-    <script src="/js/jquery.scrollUp.min.js"></script>
-    <script src="/js/jquery.prettyPhoto.js"></script>
-    <script src="/js/main.js"></script>
+	<script src="/js/jquery.scrollUp.min.js"></script>
+	<script src="/js/jquery.prettyPhoto.js"></script>
+	<script src="/js/main.js"></script>
+
+	<script>
+		document.getElementById("main-contact-form").addEventListener("submit", function (event) {
+			event.preventDefault(); // Ngăn chặn gửi form mặc định
+
+			let name = document.querySelector('[name="name"]').value;
+			let email = document.querySelector('[name="email"]').value;
+			let subject = document.querySelector('[name="subject"]').value;
+			let message = document.querySelector('[name="message"]').value;
+
+			let mailtoLink = `mailto:harmonyteam104@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent("Name: " + name + "\nEmail: " + email + "\n\n" + message)}`;
+
+			window.location.href = mailtoLink;
+		});
+	</script>
 </body>
+
 </html>

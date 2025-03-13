@@ -148,7 +148,10 @@
     <div class="container-fluid py-4 row">
         <!-- Dashboard Overview -->
         <section class="mb-4">
-            <h2 class="mb-3">Tổng Quan Thiết Bị</h2>
+            <div class="d-flex justify-content-between align-items-center p-3 bg-light shadow-sm rounded">
+                <a href="/" class="btn btn-primary">Về trang chủ</a>
+                <h2 class="m-0 text-uppercase text-secondary">Tổng quan thiết bị</h2>
+            </div>
             <div class="row">
                 <div class="col-xl-4 col-md-6 mb-4">
                     <div class="card border-0 shadow h-100 py-2 dashboard-card" style="border-left-color: #4e73df;">
