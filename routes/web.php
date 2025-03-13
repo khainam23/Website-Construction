@@ -26,9 +26,8 @@ Route::get('/product-details/{id}', function ($id) {
 Route::view('/shop', 'shop')->name('shop');
 Route::view('/404', '404')->name('404');
 
-// Login and Logout - No middleware required
+// Login
 Route::post('/api/login', [AuthController::class, 'login'])->name('api.login'); // Stateful
-Route::get("/api/logout", [AuthController::class, 'logout'])->name('api.logout');
 Route::get('/shop', [ShopController::class, 'index'])->name('shop.index');
 
 // Service public 
@@ -38,7 +37,7 @@ Route::middleware([RoleMiddleware::class . ':customer,admin,sales,warehouse'])->
     Route::view('/checkout', 'checkout')->name('checkout');
     Route::get('/api/cart', [OrderController::class, 'index'])->name('orders.index');
 
-    // Sales & Rentals for customers
+    Route::get("/api/logout", [AuthController::class, 'logout'])->name('api.logout');
     Route::post('/api/sales', [SaleController::class, 'store'])->name('api.sales');
     Route::get('/api/sales', [SaleController::class, 'index'])->name('api.sales.index');
     Route::post('/api/rentals', [RentalController::class, 'store'])->name('api.rentals');
@@ -46,48 +45,47 @@ Route::middleware([RoleMiddleware::class . ':customer,admin,sales,warehouse'])->
 
     // vnpay
     Route::post('/api/payment/vnpay', [VnpayController::class, 'createPayment'])->name('api.payment.vnpay');
-    Route::get('/vnpay/return', [VnpayController::class,'vnpayReturn'])->name('vnpay.return');
+    Route::get('/vnpay/return', [VnpayController::class, 'vnpayReturn'])->name('vnpay.return');
 });
 
-// Routes for Admin, Sales, and Warehouse
+// Admin
 Route::middleware([RoleMiddleware::class . ':admin,sales,warehouse'])->group(
     function () {
         Route::get('/statistics', [ReportController::class, 'viewStatistics'])->name('statistics');
-        
-        // Device management
         Route::post("/api/device/delete/{id}", [DeviceController::class, 'destroy'])->name('api.device.destroy');
         Route::get("/api/devices", [DeviceController::class, 'index'])->name('api.devices.index');
-        Route::get("manager-product", [DeviceController::class, 'viewManagerProduct'])->name('manager-product');
+        Route::get('manager-product', [DeviceController::class, 'viewManagerProduct'])->name('manager-product');
+
         Route::get("/api/devices/count", [DeviceController::class, 'count'])->name('api.devices.count');
-        
-        // Rentals & Sales statistics
         Route::get("/api/rentals/count", [RentalController::class, 'count'])->name('api.rentals.count');
         Route::get("/api/sales/count", [SaleController::class, 'count'])->name('api.sales.count');
-        Route::get("/api/sales/all", [SaleController::class, 'all'])->name('api.sales.all');
-        Route::get("/api/rentals/all", [RentalController::class, 'all'])->name('api.rentals.all');
-        
-        // Device updates
-        Route::post("/api/device/{id}", [DeviceController::class, 'update'])->name('api.device.update');
+
+        Route::post('/api/device/{id}', [DeviceController::class, 'update'])->name('api.device.update');
+
+        Route::get('/api/sales/all', [SaleController::class, 'all'])->name('api.sales.all');
+        Route::get('/api/rentals/all', [RentalController::class, 'all'])->name('api.rentals.all');
     }
 );
 
-// Admin-only routes
 Route::middleware([RoleMiddleware::class . ':admin'])->group(
     function () {
+        Route::get('/statistics', [ReportController::class, 'viewStatistics'])->name('statistics');
+
+        // Statistics API routes accessible by both admin and sales - remove monthly route
+        Route::get('/api/statistics/quarterly-revenue', [ReportController::class, 'getQuarterlyRevenue']);
+        Route::get('/api/statistics/yearly-revenue', [ReportController::class, 'getYearlyRevenue']);
+
+        Route::delete("/api/device/{id}", [DeviceController::class, 'destroy'])->name('api.device.destroy');
+        Route::get("/api/devices", [DeviceController::class, 'index'])->name('api.devices.index');
         Route::view('manager-product', 'manager-product')->name('manager-product');
-        
-        // Full device management
+
+        // Add new device management routes
         Route::post("/api/devices", [DeviceController::class, 'store'])->name('api.devices.store');
         Route::get("/api/devices/{id}", [DeviceController::class, 'show'])->name('api.devices.show');
         Route::put("/api/devices/{id}", [DeviceController::class, 'update'])->name('api.devices.update');
-        Route::delete("/api/device/{id}", [DeviceController::class, 'destroy'])->name('api.device.destroy');
-        
-        // Admin-only statistics
+
+        // Admin-only statistics routes
         Route::get('/api/statistics/device-stats', [ReportController::class, 'getDeviceStatistics']);
-        Route::get('/api/statistics/quarterly-revenue', [ReportController::class, 'getQuarterlyRevenue']);
-        Route::get('/api/statistics/yearly-revenue', [ReportController::class, 'getYearlyRevenue']);
-    }
-);
 
         // Add Report API routes
         Route::get('/api/reports', [ReportController::class, 'index'])->name('api.reports.index');
@@ -105,9 +103,27 @@ Route::middleware([RoleMiddleware::class . ':admin'])->group(
         Route::get('/api/rentals/{id}', [RentalController::class, 'show'])->name('api.rentals.show');
         Route::put('/api/rentals/{id}', [RentalController::class, 'update'])->name('api.rentals.update');
         Route::delete('/api/rentals/{id}', [RentalController::class, 'destroy'])->name('api.rentals.destroy');
-        
+
         // Remove duplicate routes and use consistent api prefix
         Route::get('/api/statistics/daily-revenue', [ReportController::class, 'getDailyRevenue']);
         Route::get('/api/statistics/weekly-revenue', [ReportController::class, 'getWeeklyRevenue']);
     }
 );
+
+// // Group các route cần quyền admin
+// Route::middleware(['role:admin'])->group(function () {
+//     Route::resource('devices', DeviceController::class);
+//     Route::resource('inventories', InventoryController::class);
+//     Route::resource('reports', ReportController::class);
+// });
+
+// // Group các route cho nhân viên bán hàng
+// Route::middleware(['role:sales'])->group(function () {
+//     Route::resource('sales', SaleController::class);
+//     // Route::resource('orders', OrderController::class);
+// });
+
+// // Group các route cho nhân viên cho thuê
+// Route::middleware(['role:rental'])->group(function () {
+//     Route::resource('rentals', RentalController::class);
+// });
