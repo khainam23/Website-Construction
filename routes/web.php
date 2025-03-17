@@ -6,12 +6,12 @@ use App\Http\Controllers\LanguageController;
 use Illuminate\Support\Facades\Route;
 
 Route::get("/", [HomeController::class, "index"])->name("web.home");
-Route::get("/", [HomeController::class, "index"])->name("web.index");
+Route::get("/", [HomeController::class, "index"])->name("web.index"); // Phòng trường hợp đổi tên
 Route::view("/abouts", 'frontend.about')->name('web.about');
 Route::view('/contact', 'frontend.contact')->name('web.contact');
 Route::view('/news', 'frontend.news')->name('web.news');
-Route::get('/admin/language/{lang}', [LanguageController::class, 'changeLanguage'])
-    ->name('admin.language');
+    Route::get('/admin/language/{lang}', [LanguageController::class, 'changeLanguage'])
+        ->name('admin.language');
 Route::get('/product/{type}', [ProductController::class, 'viewAll'])
     ->where('type', 'sale|rental|all')
     ->name('web.product');

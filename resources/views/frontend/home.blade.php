@@ -66,7 +66,7 @@
                 <div class="product-card">
                     <img src="{{$product->avatar}}" alt="">
                     <h1>{{$product->name}}</h1>
-                    <p>{!!$product->description!!}</p>
+                    <p class="">{{ Str::words(strip_tags($product->description), 20, '...') }}</p>
                 </div>
             </a>
             @endforeach
