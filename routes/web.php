@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ContactController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\LanguageController;
@@ -16,3 +17,4 @@ Route::get('/product/{type}', [ProductController::class, 'viewAll'])
     ->where('type', 'sale|rental|all')
     ->name('web.product');
 Route::get('/products/{id}', [ProductController::class, 'show'])->name('web.product-detail');
+Route::post('/add-contact', [ContactController::class, 'add'])->name('web.addContact');

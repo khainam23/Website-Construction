@@ -2,9 +2,9 @@
 @section('title', 'Liên hệ')
 
 @section('style')
-    <link rel="stylesheet" href="{{ asset('frontend/css/styleGuide.css') }}" />
-    <link rel="stylesheet" href="{{ asset('frontend/css/aboutUsStyle.css') }}" />
-    <link rel="stylesheet" href="{{ asset('frontend/css/contactUsStyle.css') }}" />
+    <link rel="stylesheet" href="{{ asset('frontendcss/css/styleGuide.css') }}" />
+    <link rel="stylesheet" href="{{ asset('frontendcss/css/aboutUsStyle.css') }}" />
+    <link rel="stylesheet" href="{{ asset('frontendcss/css/contactUsStyle.css') }}" />
 @endsection
 
 @section('content')
@@ -25,7 +25,7 @@
                 </div>
                 <div class="content-container d-flex flex-column">
                     <div class="banner-contact-us d-flex flex-col">
-                        <img src="{{ asset('frontend/images/banner-contact-us.png') }}" class="w-100" alt="">
+                        <img src="{{ asset('frontendcss/images/banner-contact-us.png') }}" class="w-100" alt="">
                     </div>
                     <div class="frame-content row">
                         <div class="section-title-left col-md-6 mb-3">
