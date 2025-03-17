@@ -81,11 +81,22 @@
                                     SẢN PHẨM CHO THUÊ <span class="sr-only">(current)</span>
                                 </a>
                             </li>
-
                             <li class="nav-item 
                             {{(\Request::route()->getName() == 'web.contact') ? 'active' : ''}}
                             ">
                                 <a class="nav-link" href="{{ route('web.contact') }}">LIÊN HỆ <span
+                                        class="sr-only">(current)</span></a>
+                            </li>
+                            <li class="nav-item 
+                            {{(\Request::route()->getName() == 'web.login') ? 'active' : ''}}
+                            ">
+                                <a class="nav-link" href="{{ route('web.login') }}">Đăng nhập<span
+                                        class="sr-only">(current)</span></a>
+                            </li>
+                            <li class="nav-item 
+                            {{(\Request::route()->getName() == 'web.login') ? 'active' : ''}}
+                            ">
+                                <a class="nav-link" href="{{ route('web.register') }}">Đăng ký<span
                                         class="sr-only">(current)</span></a>
                             </li>
                         </ul>

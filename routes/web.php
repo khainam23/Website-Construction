@@ -18,3 +18,5 @@ Route::get('/product/{type}', [ProductController::class, 'viewAll'])
     ->name('web.product');
 Route::get('/products/{id}', [ProductController::class, 'show'])->name('web.product-detail');
 Route::post('/add-contact', [ContactController::class, 'add'])->name('web.addContact');
+Route::view('/login', 'frontend.login')->name('web.login');
+Route::view('/register', 'frontend.register')->name('web.register');
