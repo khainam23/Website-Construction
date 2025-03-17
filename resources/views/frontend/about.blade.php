@@ -2,8 +2,8 @@
 @section('title', 'Giới thiệu')
 
 @section('style')
-    <link rel="stylesheet" href="{{ asset('frontend/css/styleGuide.css') }}" />
-    <link rel="stylesheet" href="{{ asset('frontend/css/aboutUsStyle.css') }}" />
+    <link rel="stylesheet" href="{{ asset('frontendcss/css/styleGuide.css') }}" />
+    <link rel="stylesheet" href="{{ asset('frontendcss/css/aboutUsStyle.css') }}" />
 @endsection
 
 @section('content')
@@ -13,11 +13,13 @@
                 <div class="news-title">
                     <div>
                         <h1>
-                        {{-- {{ __('INTRODUCE') }} --}}  GIỚI THIỆU
+                            {{-- {{ __('INTRODUCE') }} --}} GIỚI THIỆU
                         </h1>
                     </div>
                     <div class="news-title-right">
-                        <a href=""><h2>{{ __('Home') }} trang chủ</h2></a>
+                        <a href="">
+                            <h2>{{ __('Home') }} trang chủ</h2>
+                        </a>
                         <p>></p>
                         {{-- <p>{{ __('Introduce') }}</p> --}} GIỚI THIỆU
                     </div>
@@ -25,11 +27,12 @@
                 <div class="content-about-us row">
                     <div class="left-content col-md-6">
                         <div class="frame-left-content">
-                           
+
                             <div class="content">
                                 <div class="sub-content mb-4">
-                                    {{-- <span class="text-content-top">{{ __('About_content1') }}<br /><br />{{ __('About_content2') }}<br /><br />{{ __('About_content3') }}<br /><br />{{ __('About_content4') }}<br /><br />{{ __('About_content5') }}<br /><br />{{ __('About_content6') }}<br /><br /></span>
-                                    <span class="text-content-bottom">{{ __('Thank_you_est') }}</span> --}} nội dung
+                                    <span
+                                        class="text-content-top">{{ __('About_content1') }}<br /><br />{{ __('About_content2') }}<br /><br />{{ __('About_content3') }}<br /><br />{{ __('About_content4') }}<br /><br />{{ __('About_content5') }}<br /><br />{{ __('About_content6') }}<br /><br /></span>
+                                    <span class="text-content-bottom">{{ __('Thank_you_est') }}</span>
                                 </div>
                             </div>
                         </div>
@@ -40,8 +43,7 @@
                         </div>
                         <div class="ceo-infomation w-100 d-flex flex-column justify-content-between">
                             <div class="mb-3 d-flex justify-content-center">
-                                <img alt="" src="ảnh giám đốc"
-                                    class="avatar-ceo w-100" />
+                                <img alt="" src="ảnh giám đốc" class="avatar-ceo w-100" />
                             </div>
                             <p class="infomation d-flex justify-content-center align-items-end">
                                 <span class="text-name">Ông Nguyễn Văn Hùng -
@@ -54,22 +56,22 @@
                     <div class="list-achievement row">
                         <div class="acvm-no-1 col-md-3 col-6 d-flex align-items-center">
                             <div class="text-wrapper">15</div>
-                            {{-- <div class="achievement">{{ __('year') }}<br />{{ __('experience') }}</div> --}}
+                            <div class="achievement">{{ __('year') }}<br />{{ __('experience') }}</div>
                             <div class="rectangle"></div>
                         </div>
                         <div class="acvm-no-1 col-md-3 col-6 d-flex align-items-center">
                             <div class="text-wrapper">22</div>
-                            {{-- <div class="achievement">{{ __('head') }}<br />{{ __('product') }}</div> --}}
+                            <div class="achievement">{{ __('head') }}<br />{{ __('product') }}</div>
                             <div class="rectangle"></div>
                         </div>
                         <div class="acvm-no-1 col-md-3 col-6 d-flex align-items-center">
                             <div class="text-wrapper">85</div>
-                            {{-- <div class="achievement">{{ __('personnel') }}<br />{{ __('high_level') }}</div> --}}
+                            <div class="achievement">{{ __('personnel') }}<br />{{ __('high_level') }}</div>
                             <div class="rectangle"></div>
                         </div>
                         <div class="acvm-no-1 col-md-3 col-6 d-flex align-items-center">
                             <div class="text-wrapper">39</div>
-                            {{-- <div class="achievement">{{ __('project') }}<br />{{ __('completed') }}</div> --}}
+                            <div class="achievement">{{ __('project') }}<br />{{ __('completed') }}</div>
                             <div class="rectangle"></div>
                         </div>
                     </div>
@@ -83,14 +85,14 @@
                             <div class="content-item">
                                 <ul class="content-wrapper">
                                     {{-- <li>
-                                    {{ __('Vision_content1') }}
+                                        {{ __('Vision_content1') }}
                                     </li>
                                     <li>
-                                    {{ __('Vision_content2') }}
+                                        {{ __('Vision_content2') }}
                                     </li> --}}
                                 </ul>
                             </div>
-                            <img src="{{ asset('frontend/images/polygon.svg') }}" class="polygon" alt="" />
+                            <img src="{{ asset('frontendcss/images/polygon.svg') }}" class="polygon" alt="" />
                         </div>
                         <div class="item">
                             <div class="title-item">
@@ -99,16 +101,16 @@
                             <div class="content-item">
                                 <ul class="content-wrapper">
                                     {{-- <li>
-                                    {{ __('Mission_content1') }}
+                                        {{ __('Mission_content1') }}
                                     </li>
                                     <li>
-                                    {{ __('Mission_content2') }}                                    </li>
+                                        {{ __('Mission_content2') }} </li>
                                     <li>
-                                    {{ __('Mission_content3') }}
+                                        {{ __('Mission_content3') }}
                                     </li> --}}
                                 </ul>
                             </div>
-                            <img src="{{ asset('frontend/images/polygon.svg') }}" class="polygon" alt="" />
+                            <img src="{{ asset('frontendcss/images/polygon.svg') }}" class="polygon" alt="" />
                         </div>
                     </div>
                     <div class="right-mission col-lg-6">
@@ -119,12 +121,12 @@
                             <div class="content-item">
                                 <ul class="content-wrapper">
                                     {{-- <li>
-                                    {{ __('Core_Value_content1') }}
+                                        {{ __('Core_Value_content1') }}
                                     </li>
                                     <li>
-                                    {{ __('Core_Value_content2') }}                                    </li>
+                                        {{ __('Core_Value_content2') }} </li>
                                     <li>
-                                    {{ __('Core_Value_content3') }}
+                                        {{ __('Core_Value_content3') }}
                                     </li> --}}
                                 </ul>
                             </div>
@@ -140,26 +142,26 @@
                     <div class="section-heading d-flex flex-column">
                         <div class="warehouse-chemical">{{ __('Warehouse, Chemical Process') }}</div>
                         <p class="text-wrapper mb-3">
-                        {{ __('PHOTOS_OF_WAREHOUSE_AND_CHEMICAL_PROCESSES') }}
+                            {{ __('PHOTOS_OF_WAREHOUSE_AND_CHEMICAL_PROCESSES') }}
                         </p>
                     </div>
                 </div>
                 <div class="swiper mySwiper1">
                     <div class="swiper-wrapper">
                         <div class="swiper-slide">
-                            <img src="{{ asset('frontend/images/img-process1.png') }}" alt="" />
+                            <img src="{{ asset('frontendcss/images/img-process1.png') }}" alt="" />
                         </div>
                         <div class="swiper-slide">
-                            <img src="{{ asset('frontend/images/item (1).png') }}" alt="" />
+                            <img src="{{ asset('frontendcss/images/item (1).png') }}" alt="" />
                         </div>
                         <div class="swiper-slide">
-                            <img src="{{ asset('frontend/images/item (2).png') }}" alt="" />
+                            <img src="{{ asset('frontendcss/images/item (2).png') }}" alt="" />
                         </div>
                         <div class="swiper-slide">
-                            <img src="{{ asset('frontend/images/item.png') }}" alt="" />
+                            <img src="{{ asset('frontendcss/images/item.png') }}" alt="" />
                         </div>
                         <div class="swiper-slide">
-                            <img src="{{ asset('frontend/images/item (1).png') }}" alt="" />
+                            <img src="{{ asset('frontendcss/images/item (1).png') }}" alt="" />
                         </div>
                     </div>
 
@@ -183,12 +185,10 @@
                 <div class="swiper mySwiper2">
                     <div class="swiper-wrapper">
                         <div class="swiper-slide">
-                            <img src="{{ asset('frontend/images/img-labo1.png') }}" alt=""
-                                class="w-100 h-100" />
+                            <img src="{{ asset('frontendcss/images/img-labo1.png') }}" alt="" class="w-100 h-100" />
                         </div>
                         <div class="swiper-slide">
-                            <img src="{{ asset('frontend/images/item (3).png') }}" alt=""
-                                class="w-100 h-100" />
+                            <img src="{{ asset('frontendcss/images/item (3).png') }}" alt="" class="w-100 h-100" />
                         </div>
                     </div>
 
@@ -204,7 +204,7 @@
 
 @section('js')
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
+        document.addEventListener("DOMContentLoaded", function () {
             // Swiper cho slider 1
             var swiper1 = new Swiper(".mySwiper1", {
                 slidesPerView: 3, // Hiển thị 3 ảnh mặc định
