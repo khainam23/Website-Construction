@@ -94,7 +94,7 @@
                                         class="sr-only">(current)</span></a>
                             </li>
                             <li class="nav-item 
-                            {{(\Request::route()->getName() == 'web.login') ? 'active' : ''}}
+                            {{(\Request::route()->getName() == 'web.register') ? 'active' : ''}}
                             ">
                                 <a class="nav-link" href="{{ route('web.register') }}">Đăng ký<span
                                         class="sr-only">(current)</span></a>
