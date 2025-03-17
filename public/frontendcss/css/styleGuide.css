@@ -1,0 +1,37 @@
+:root {
+    --primary: rgba(41, 91, 174, 1);
+    --secondary: rgba(255, 241, 0, 1);
+    --body: rgba(51, 51, 51, 1);
+    --white: rgba(255, 255, 255, 1);
+    --gray: rgba(180, 180, 180, 1);
+    --body-font-family: "Be Vietnam Pro", Helvetica;
+    --body-font-weight: 400;
+    --body-font-size: 14px;
+    --body-letter-spacing: 0px;
+    --body-line-height: 150%;
+    --body-font-style: normal;
+    --text-small-font-family: "Be Vietnam Pro", Helvetica;
+    --text-small-font-weight: 400;
+    --text-small-font-size: 12px;
+    --text-small-letter-spacing: 0px;
+    --text-small-line-height: normal;
+    --text-small-font-style: normal;
+    --section-heading-font-family: "Be Vietnam Pro", Helvetica;
+    --section-heading-font-weight: 700;
+    --section-heading-font-size: 28px;
+    --section-heading-letter-spacing: 0px;
+    --section-heading-line-height: normal;
+    --section-heading-font-style: normal;
+    --text-big-font-family: "Be Vietnam Pro", Helvetica;
+    --text-big-font-weight: 400;
+    --text-big-font-size: 16px;
+    --text-big-letter-spacing: 0px;
+    --text-big-line-height: normal;
+    --text-big-font-style: normal;
+    --section-sub-heading-font-family: "Be Vietnam Pro", Helvetica;
+    --section-sub-heading-font-weight: 700;
+    --section-sub-heading-font-size: 18px;
+    --section-sub-heading-letter-spacing: 0px;
+    --section-sub-heading-line-height: normal;
+    --section-sub-heading-font-style: normal;
+}

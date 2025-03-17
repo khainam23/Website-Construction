@@ -1,0 +1,233 @@
+.section{
+    display: flex;
+flex-direction: column;
+align-items: flex-start;
+gap: 10px;
+align-self: stretch;
+margin-bottom: 50px;
+}
+.custom-container {
+    display: flex;
+    width: 1100px;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+}
+
+
+.items{
+    display: flex;
+flex-direction: column;
+align-items: flex-start;
+gap: 20px;
+align-self: stretch;
+border-bottom: 1px solid var(--gray, #B4B4B4);
+}
+.supgroup{
+    display: flex;
+padding: 30px 0px 40px 0px;
+align-items: flex-start;
+align-content: flex-start;
+gap: 25px;
+align-self: stretch;
+flex-wrap: wrap;
+border-bottom: 1px solid #B4B4B4;
+}
+.heading-category{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+}
+.text-cantegory-2 {
+    color:  #295BAE;
+    font-size: 28px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    display: inline-block;
+    position: relative;
+    padding: 2px 5px;
+}
+
+.text-cantegory-2::before {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 10px; 
+    background-color: yellow;
+    z-index: -1;
+}
+.product-list {
+    display: flex;
+    gap: 25px;
+    flex-wrap: wrap;
+    justify-content: center; 
+}
+
+.product-list .card p {
+    font-weight: 400;
+    font-size: 14px;
+    color: #333333;
+}
+/* //// */
+
+.card {
+    display: flex;
+    flex-direction: column;
+    height: 100%;   
+    border: none;    
+    padding: 0 !important;
+}
+.card-body {
+    flex-grow: 1; 
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.card-text {
+    flex-grow: 1; 
+}
+/*  */
+.card-img-top {
+    display: flex;
+    width: 100%;
+    object-fit: cover;
+height: 280px;
+justify-content: center;
+align-items: center;
+gap: 10px;
+align-self: stretch;
+}
+.card-title{
+    color: #295BAE;
+/* section sub heading */
+font-size: 18px;
+font-style: normal;
+font-weight: 700;
+line-height: normal;
+transition: color 0.3s ease-in-out;
+
+}
+
+.card-text{
+    color: var(--body, #333);
+
+/* body */
+font-size: 14px;
+font-style: normal;
+font-weight: 400;
+line-height: 150%; /* 21px */
+}
+
+.card-body .card-title {
+    transition: color 0.3s ease-in-out;
+
+}
+
+.card-body .card-title:hover {
+    color: gold;
+    
+}
+.col-12, .col-sm-6, .col-md-6, .col-lg-4, .mb-4 {
+    border: none !important;
+    box-shadow: none !important;
+}
+a .card {
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    border: none;
+
+}
+
+a:hover .card {
+    transform: translateY(-5px);
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    border: none;
+
+}
+.link {
+    text-decoration: none;
+}
+
+.link:hover {
+    text-decoration: none;
+}
+
+.link:hover .card-title {
+    color: gold;
+}
+
+.link .card {
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+.link:hover .card {
+    transform: translateY(-5px);
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+}
+@media (max-width: 576px) {
+    .card {
+        padding: 8px;
+    }
+    .card-title {
+        font-size: 16px;
+    }
+    .card-text {
+        font-size: 13px;
+    }
+    .card img {
+        max-width: 100%;
+        height: auto;
+    }
+}
+
+@media (min-width: 576px) and (max-width: 1024px) {
+    .card {
+        padding: 10px;
+    }
+    .card-title {
+        font-size: 18px;
+    }
+    .card-text {
+        font-size: 14px;
+    }
+}
+
+@media (min-width: 1024px) {
+    .card {
+        padding: 15px;
+    }
+    .card-title {
+        font-size: 20px;
+    }
+    .card-text {
+        font-size: 16px;
+    }
+}
+@media (max-width: 768px) {
+    .section-header {
+        flex-direction: column; 
+        align-items: flex-start; 
+    }
+    .breadcrumb {
+        flex-wrap: wrap; 
+        font-size: 14px;
+    }
+    .text-category {
+        font-size: 24px; 
+    }
+    .text-big-1, .text-big-2 {
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 1024px) {
+    .text-category {
+        font-size: 26px;
+    }
+    .text-big-1, .text-big-2 {
+        font-size: 15px;
+    }
+}

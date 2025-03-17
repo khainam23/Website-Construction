@@ -1,0 +1,276 @@
+.about-us {
+    gap: 100px;
+    padding-bottom: 50px;
+}
+
+.content-about-us .left-content .frame-left-content .title-content .title {
+    color: var(--primary);
+    /* section heading */
+    font-size: 28px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+
+.title-content{
+    padding-bottom: 20px;
+}
+
+.title-breadcrumb .title {
+    top: 0;
+    left: 0;
+    font-weight: var(--section-heading-font-weight);
+    color: var(--primary);
+    font-size: var(--section-heading-font-size);
+    letter-spacing: var(--section-heading-letter-spacing);
+    line-height: var(--section-heading-line-height);
+    font-style: var(--section-heading-font-style);
+}
+.breadcrumb-parent .frame .parent-frame {
+    position: relative;
+    width: fit-content;
+    margin-top: -1px;
+    font-weight: var(--text-big-font-weight);
+    color: var(--body);
+    font-size: var(--text-big-font-size);
+    letter-spacing: var(--text-big-letter-spacing);
+    line-height: var(--text-big-line-height);
+    font-style: var(--text-big-font-style);
+}
+.breadcrumb-parent .frame .children-frame {
+    position: relative;
+    width: fit-content;
+    margin-top: -1px;
+    font-weight: var(--text-big-font-weight);
+    color: var(--gray);
+    font-size: var(--text-big-font-size);
+    letter-spacing: var(--text-big-letter-spacing);
+    line-height: var(--text-big-line-height);
+    font-style: var(--text-big-font-style);
+}
+.content-about-us .left-content .frame-left-content .content .sub-content {
+    text-align: justify;
+}
+.sub-about-us {
+    gap: 30px;
+}
+.right-content .logo-bmq123 {
+    width: 182px;
+    height: 119px;
+    position: relative;
+    object-fit: cover;
+    margin-bottom: 40px;
+}
+
+.right-content .ceo-infomation .infomation .text-name {
+    font-weight: 700;
+    color: #295bae;
+}
+.right-content .ceo-infomation .infomation .text-permission {
+    color: var(--body, #333);
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 180%;
+}
+.content-about-us
+    .left-content
+    .frame-left-content
+    .content
+    .sub-content
+    .text-content-bottom {
+    font-weight: 700;
+    color: #295bae;
+}
+.achievement-about-us .list-achievement .acvm-no-1 {
+    gap: 16px;
+    position: relative;
+}
+.acvm-no-1 .text-wrapper {
+    position: relative;
+    color: var(--primary, #295bae);
+    font-size: 60px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    z-index: 2;
+}
+.acvm-no-1 .achievement {
+    color: var(--body, #333);
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+.left-mission {
+    gap: 30px;
+}
+.acvm-no-1 .rectangle {
+    width: 73px;
+    height: 16px;
+    position: absolute;
+    bottom: 11px;
+    background: var(--secondary, #fff100);
+    z-index: 1;
+}
+.mission-about-us .item {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+}
+.mission-about-us .left-mission .item {
+    background: var(--primary, #295bae);
+    position: relative;
+}
+.mission-about-us .left-mission .item .title-item .text-wrapper {
+    color: var(--secondary, #fff100);
+    /* section heading */
+    font-size: 28px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+.mission-about-us .left-mission .item .content-item .content-wrapper {
+    color: var(--white, #fff);
+
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 150%; /* 21px */
+    position: relative;
+    letter-spacing: 0;
+}
+.mission-about-us .left-mission .item .content-item .content-wrapper li {
+    margin: auto;
+}
+
+.mission-about-us .left-mission .item .polygon {
+    position: absolute;
+    width: 71px;
+    height: 71px;
+    aspect-ratio: 1/1;
+    right: 10px;
+    bottom: 10px;
+    fill: var(--secondary, #fff100);
+    stroke-width: 3px;
+    stroke: var(--secondary, #fff100);
+    opacity: 0.44;
+}
+.mission-about-us .right-mission .item {
+    background: var(--primary, #295bae);
+    position: relative;
+    height: 95.9%;
+}
+.mission-about-us .right-mission .item .title-item .text-wrapper {
+    color: var(--secondary, #fff100);
+    /* section heading */
+    font-size: 28px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+.content-wrapper{
+    padding: 30px;  
+}
+.mission-about-us .right-mission .item .content-item .content-wrapper {
+    color: var(--white, #fff);
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 150%; /* 21px */
+}
+.mission-about-us .right-mission .item .content-item .content-wrapper li {
+}
+.mission-about-us .right-mission {
+    position: relative;
+}
+.mission-about-us .right-mission .item .polygon {
+    position: absolute;
+    width: 71px;
+    height: 71px;
+    aspect-ratio: 1/1;
+    right: 10px;
+    bottom: 10px;
+    fill: var(--secondary, #fff100);
+    stroke-width: 3px;
+    stroke: var(--secondary, #fff100);
+    opacity: 0.44;
+}
+.process-about-us
+    .container-process
+    .section-header
+    .section-heading
+    .warehouse-chemical {
+    color: var(--gray, #b4b4b4);
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 140%; /* 25.2px */
+    text-transform: uppercase;
+}
+.process-about-us
+    .container-process
+    .section-header
+    .section-heading
+    .text-wrapper {
+    color: var(--primary, #295bae);
+    /* section heading */
+    font-size: 28px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+.process-about-us .container-process .section-header .section-heading {
+    gap: 20px;
+}
+.process-about-us .container-process .items .item {
+    width: 260px;
+    height: 169px;
+    aspect-ratio: 20/13;
+}
+/* .process-about-us .container-process .items .frame {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    flex: 1 0 0;
+    align-self: stretch;
+    background: url("/asset/img-process1.png") lightgray 50% / cover no-repeat;
+    position: relative;
+  } */
+
+.laboratory-about-us
+    .container-laboratory
+    .section-header
+    .section-heading
+    .laboratory {
+    color: var(--gray, #b4b4b4);
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 140%; /* 25.2px */
+    text-transform: uppercase;
+}
+.laboratory-about-us .container-laboratory .section-header .section-heading {
+    gap: 20px;
+}
+.laboratory-about-us
+    .container-laboratory
+    .section-header
+    .section-heading
+    .text-wrapper {
+    color: var(--primary, #295bae);
+    /* section heading */
+    font-size: 28px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+
+.content .sub-content .text-content-top {
+    font-family: var(--section-heading-font-family);
+}
+.about-us .swiper-slide img {
+    width: 100%;
+    object-fit: cover;
+}

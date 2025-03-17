@@ -1,0 +1,12 @@
+<?php
+/**
+ * Language file for user section titles
+ *
+ */
+
+ return array(
+    'modal_title' => 'Delete Department Information',
+    'modal_body' => 'Are you sure you want to delete this department information?',
+    'cancel' => 'Cancel',
+    'submit' => 'Confirm'
+);

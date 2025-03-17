@@ -1,0 +1,334 @@
+* {
+    padding: 0;
+    margin: 0;
+    font-family: 'Be Vietnam Pro', sans-serif;
+}
+
+p,
+h1,
+h2 {
+    padding: 0;
+    margin: 0;
+    font-family: 'Be Vietnam Pro', sans-serif;
+}
+
+.header {
+    height: 150px;
+}
+
+.header-content {
+    width: 100%;
+    border-bottom: 1px solid #eeeeee;
+    position: fixed;
+    background: #ffffff;
+    z-index: 1000;
+}
+
+.header-top {
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 5px;
+    border-bottom: 1px solid #eeeeee;
+}
+
+.header-top-phone {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    
+}
+
+.header-top-phone i {
+    padding-right: 10px;
+}
+
+.header-top-lang img {
+    height: 23px;
+    width: 35px;
+}
+
+.header-top-lang .collapse:not(.show) {
+    display: flex;
+}
+
+.header-top-lang .navbar-expand-lg .navbar-nav .dropdown-menu {
+    position: absolute;
+    left: -97px;
+}
+
+.navbar-brand img {
+    width: 100%;
+}
+
+.navbar-brand {
+    padding-right: 80px;
+}
+
+.bg-light {
+    background: none !important;
+    padding: 0;
+    height: 100px;
+}
+
+.navbar-nav {
+    width: 100%;
+    display: flex;
+    padding-left: 0;
+    margin-bottom: 0;
+    list-style: none;
+    justify-content: space-between;
+    color: #333333;
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.navbar-light .navbar-nav .nav-link {
+    color: #333333;
+}
+
+.nav-item:hover .nav-link,
+.active .nav-link {
+    color: #295bae !important;
+}
+.logo-bmq{
+    display: flex;
+width: 608px;
+align-items: center;
+gap: 10px;
+flex-shrink: 0;
+align-self: stretch;
+text-decoration: none !important;
+
+}
+.img-logo{
+    width: 107px;
+height: 70px;
+flex-shrink: 0;
+}
+.text-logo{
+color:  #295BAE;
+font-size: 22px;
+font-style: normal;
+font-weight: 700;
+line-height: normal;
+}
+@media (max-width: 620px) {
+    .header-content {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: auto;
+    }
+
+    .logo-bmq {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        flex: 1; 
+        max-width: 70%;
+    }
+
+    .img-logo {
+        width: 50px; 
+        height: auto;
+    }
+
+    .text-logo {
+        font-size: 14px; 
+        font-weight: 700;
+        color: #295BAE;
+        white-space: nowrap; 
+    }
+
+    .navbar-toggler {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        margin-left: auto; 
+    }
+    .header-top-phone p {
+        font-size: 60%; 
+    }
+    .dropdown-menu {
+        font-size: 12px;
+        min-width: 100px; 
+    }
+    .about-left-statistical {
+        flex-direction: row; 
+    }
+    .about-left-statistical .col-md-6 {
+        flex: 1;
+        text-align: center;
+    }
+}
+
+
+/* footer  */
+
+.footer {
+    background-color: #295bae;
+    padding: 30px 0;
+}
+
+.footer-left {
+    color: #ffffff;
+}
+
+.footer-left img {
+    height: 86px;
+    padding-bottom: 20px;
+}
+
+.footer-left h1 {
+    font-weight: 700;
+    font-size: 24px;
+    color: #fff100;
+    padding-bottom: 20px;
+}
+
+.footer-left h2 {
+    font-weight: 700;
+    font-size: 14px;
+    padding-bottom: 7px;
+}
+
+.footer-left p {
+    font-size: 14px;
+    padding-bottom: 20px;
+}
+
+.footer-left div {
+    padding-top: 20px;
+}
+
+.footer-right div {
+    display: flex;
+    height: 100%;
+    align-items: flex-end;
+}
+.parsley-required {
+    color: red;
+}
+
+.footer-right iframe {
+    height: 281px;
+    width: 100%;
+}
+
+.swiper-wrapper {
+    list-style: none;
+    /* Ẩn dấu chấm */
+    padding: 0;
+    /* Loại bỏ padding mặc định */
+    margin: 0;
+    /* Loại bỏ margin mặc định */
+}
+
+.swiper-slide {
+    list-style: none !important;
+    /* Đảm bảo dấu chấm bị ẩn */
+}
+.news-title {
+    padding-top: 50px;
+    padding-bottom: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.news-title h1 {
+    font-weight: 700;
+    font-size: 28px;
+    color: #295bae;
+}
+
+.news-title-right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.news-title a {
+    text-decoration: none;
+}
+
+.news-title h2 {
+    font-weight: 400;
+    font-size: 16px;
+    color: #333333;
+}
+
+.news-title p,
+.news-title i {
+    font-weight: 400;
+    font-size: 16px;
+    color: #b4b4b4;
+}
+.footer-right .img-map img {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+
+@media (min-width: 1200px) {
+}
+
+@media (max-width: 970px) {
+}
+
+@media (max-width: 620px) {
+    .header {
+        height: 126px;
+    }
+    
+    .header-top {
+        justify-content: space-between;
+    }
+
+    .header li{
+        border-bottom: 1px solid #EEEEEE;
+    }
+
+    .header-top-lang img {
+        height: 22px;
+        width: 34px;
+    }
+
+    .navbar-light .navbar-toggler {
+        color: rgba(0, 0, 0, 0.5);
+        border: none;
+        padding: 0;
+    }
+
+    .navbar-brand {
+        margin: 0;
+        padding: 0;
+    }
+
+    .bg-light {
+        background: none !important;
+        padding: 18px 0;
+        height: auto;
+    }
+
+    .news-title {
+        padding-top: 50px;
+        padding-bottom: 30px;
+        display: flex;
+        align-items: flex-start;
+        flex-direction: column;
+    }
+    .footer-right .img-map img {
+        width: 100%;
+        height: auto;
+    }
+}
+
+@media (max-width: 375px) {
+}

@@ -1,0 +1,52 @@
+<?php
+/**
+ * Language file for customer section titles
+ *
+ */
+
+return [
+    'list_title' => 'Customer List',
+    'add_title' => 'Add New Customer',
+    'edit_title' => 'Edit Customer Information',
+    'detail_title' => 'Customer Details',
+    'add_button' => 'Add New',
+    'edit_button' => 'Edit',
+    'reset' => 'Reset',
+    'id' => 'ID',
+    'code' => 'Code',
+    'code_type' => 'Enter code',
+    'username' => 'Username',
+    'username_type' => 'Enter username',
+    'firstname' => 'First Name',
+    'firstname_type' => 'Enter first name',
+    'lastname' => 'Last Name',
+    'lastname_type' => 'Enter last name',
+    'fullname' => 'Full Name',
+    'email' => 'Email Address',
+    'email_type' => 'Enter email address',
+    'contact_number' => 'Phone Number',
+    'contact_number_type' => 'Enter phone number',
+    'password' => 'Password',
+    'password_type' => 'Enter password',
+    'retailer' => 'Retailer Code',
+    'retailer_type' => 'Enter retailer code',
+    'branch' => 'Branch Code',
+    'branch_type' => 'Enter branch code',
+    'birthday' => 'Birthday',
+    'address' => 'Address',
+    'address_type' => 'Enter address',
+    'province' => 'Province/City',
+    'province_type' => 'Select Province/City',
+    'district' => 'District',
+    'ward' => 'Ward',
+    'organization' => 'Organization',
+    'debt' => 'Current Debt',
+    'total_invoiced' => 'Total Invoiced',
+    'total_revenue' => 'Total Revenue',
+    'total_point' => 'Total Points',
+    'reward_point' => 'Reward Points',
+    'comment' => 'Comment',
+    'groups' => 'Groups',
+    'actions' => 'Actions',
+];
+
