@@ -6,22 +6,20 @@
 @endsection
 
 @section('content')
-    <div class="container custom-background">
-        <div class="row justify-content-center">
-            <div class="col-md">
-                <div class="login-container">
-                    <h2>Đăng nhập</h2>
-                    <form>
-                        <div class="mb-3">
-                            <input type="text" class="form-control" placeholder="Tên đăng nhập" required>
-                        </div>
-                        <div class="mb-3">
-                            <input type="password" class="form-control" placeholder="Mật khẩu" required>
-                        </div>
-                        <button type="submit" class="btn btn-primary w-100">Đăng nhập</button>
-                    </form>
+    <div class="container login-container">
+        <div class="login-form">
+            <h2 class="text-center mb-4">Đăng Nhập</h2>
+            <form>
+                <div class="mb-3">
+                    <label class="form-label">Tên đăng nhập</label>
+                    <input type="text" class="form-control" placeholder="Nhập tên đăng nhập" required>
                 </div>
-            </div>
+                <div class="mb-3">
+                    <label class="form-label">Mật khẩu</label>
+                    <input type="password" class="form-control" placeholder="Nhập mật khẩu" required>
+                </div>
+                <button type="submit" class="btn btn-primary w-100">Đăng Nhập</button>
+            </form>
         </div>
     </div>
 @endsection

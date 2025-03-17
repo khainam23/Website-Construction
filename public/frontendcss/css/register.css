@@ -1,11 +1,10 @@
-.login-container {
+.register-container {
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
 }
-
-.login-form {
+.register-form {
     background: white;
     padding: 30px;
     border-radius: 15px;
@@ -13,18 +12,15 @@
     max-width: 400px;
     width: 100%;
 }
-
 .form-control {
     border-radius: 10px;
 }
-
 .btn-primary {
     background: linear-gradient(to right, #ff416c, #ff4b2b);
     border: none;
     border-radius: 10px;
     box-shadow: 3px 3px 10px rgba(255, 75, 43, 0.4);
 }
-
 .btn-primary:hover {
     box-shadow: 5px 5px 15px rgba(255, 75, 43, 0.6);
 }
