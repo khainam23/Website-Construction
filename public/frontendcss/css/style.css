@@ -92,7 +92,7 @@ h2 {
 .active .nav-link {
     color: #295bae !important;
 }
-.logo-bmq{
+.logo{
     display: flex;
 width: 608px;
 align-items: center;
@@ -122,7 +122,7 @@ line-height: normal;
         height: auto;
     }
 
-    .logo-bmq {
+    .logo {
         display: flex;
         align-items: center;
         gap: 6px;

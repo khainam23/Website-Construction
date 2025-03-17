@@ -56,16 +56,27 @@ class DatabaseSeeder extends Seeder
 
         // Tạo Categories
         DB::table('categories')->insert([
-            ['name' => 'Electronics', 'is_active' => true, 'parent_id' => null, 'created_at' => now(), 'updated_at' => now()],
-            ['name' => 'Furniture', 'is_active' => true, 'parent_id' => null, 'created_at' => now(), 'updated_at' => now()],
+            ['name' => 'Xe cẩu', 'is_active' => true, 'parent_id' => null, 'created_at' => now(), 'updated_at' => now()],
         ]);
 
         // Tạo Products
         DB::table('products')->insert([
             [
-                'name' => 'Laptop',
+                'name' => 'Xe Tải Cẩu 8 Tấn Dongfeng 4 Chân 13.7 Tấn',
                 'category_id' => 1,
-                'description' => 'High-end gaming laptop',
+                'description' => '- Sức nâng tối đa: 8100 kg
+                                - Sức nâng tầm với lớn nhất: 8100 kg/2.0 m
+                                - Sức nâng tầm với trung bình: Trung bình: 2700 kg/6.0 m – 1050 kg/12.0 m
+                                - Sức nâng nhở nhất tầm với xa nhất: 400 kg/20.3 m
+                                - Bán kính làm việc tối đa: 20.3 m
+                                - Chiều cao làm việc tối đa: 23.3 m
+                                - Trọng lượng bản thân: 16.170 kg
+                                - Tải trọng cho phép chở: 13.700 kg
+                                - Số người cho phép chở: 2 người
+                                - Trọng lượng toàn bộ: 30.000 kg
+                                - Kích thước xe (D x R x C): 11.640 x 2.500 x 3.880 mm
+                                - Kích thước lòng thùng hàng: 8.300 x 2.350 x 650 mm',
+                'avatar' => 'https://xetaiphuman.vn/uploads/images/products-images/xe-cau-8-tan.jpg',
                 'price' => 1500.00,
                 'stock' => 10,
                 'type' => 'sale',
@@ -73,9 +84,18 @@ class DatabaseSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'name' => 'Office Chair',
-                'category_id' => 2,
-                'description' => 'Comfortable ergonomic chair',
+                'name' => 'Xe cẩu 5 tấn mini Komatsu-LC785-6 - JCT Việt Nam',
+                'category_id' => 1,
+                'description' => 'Cần cẩu 5 tấn mini Komatsu-LC785-6 là dòng xe cẩu nhỏ chuyên để phục vụ nâng hạ hàng hóa trong kho xưởng hoặc trong những công trường có diện tích nhỏ và thấp. Cần trục mini 5 tấn được nhập khẩu trực tiếp từ Nhật Bản thông qua JCT Việt Nam, xe được bảo dưỡng toàn bộ hệ thống trước khi bàn giao.
+
+                                Khách hàng có nhu cầu mua hoặc thuê xe cẩu vui lòng liên hệ JCT Việt Nam để nhận báo giá tốt nhất và nhanh nhất.
+
+                                Khách hàng tham khảo thêm:
+
+                                Địa chỉ bán xe cẩu nhỏ đa dạng tải trọng – giá rẻ bất ngờ
+
+                                Sửa chữa hệ thống thủy lực xe cẩu – Công ty JCT Việt Nam',
+                'avatar' => 'https://jct.com.vn/wp-content/uploads/2021/10/xe-cau-mini-5-tan-komatsu-lc785-6-1-.jpg',
                 'price' => 200.00,
                 'stock' => 20,
                 'type' => 'rental',
@@ -102,17 +122,17 @@ class DatabaseSeeder extends Seeder
         DB::table('order_details')->insert([
             [
                 'order_id' => 1,
-                'product_id' => 1, // Laptop
+                'product_id' => 1,
                 'cost' => 1500.00,
                 'quantity' => 1,
                 'rental_start_date' => null,
                 'rental_end_date' => null,
                 'created_at' => now(),
                 'updated_at' => now(),
-            ], 
+            ],
             [
                 'order_id' => 1,
-                'product_id' => 2, // Office Chair (Rental)
+                'product_id' => 2,
                 'cost' => 200.00,
                 'quantity' => 1,
                 'rental_start_date' => '2025-03-20',

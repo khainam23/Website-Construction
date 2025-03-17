@@ -36,7 +36,7 @@
                     </div>
                     <div class="right-content col-md-6 d-flex flex-column align-items-center">
                         <div>
-                            <img alt="" src="ảnh lo go" class="logo-bmq123" />
+                            <img alt="" src="ảnh lo go" class="logo123" />
                         </div>
                         <div class="ceo-infomation w-100 d-flex flex-column justify-content-between">
                             <div class="mb-3 d-flex justify-content-center">

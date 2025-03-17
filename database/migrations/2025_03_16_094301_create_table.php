@@ -46,6 +46,7 @@
             Schema::create('products', function (Blueprint $table) {
                 $table->id();
                 $table->string('name');
+                $table->string('avatar');
                 $table->foreignId('category_id')->constrained('categories')->onDelete('cascade');
                 $table->text('description')->nullable();
                 $table->decimal('price', 10, 2);

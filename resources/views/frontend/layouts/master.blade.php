@@ -16,13 +16,13 @@
     <meta name="author" content="CÔNG TY CỔ PHẦN SẢN XUẤT VÀ THƯƠNG MẠI BMQ" />
     <meta property="og:title" content="{{ __('name_company') }}" />
     <meta property="og:description" content="CÔNG TY CỔ PHẦN SẢN XUẤT VÀ THƯƠNG MẠI BMQ" />
-    <meta property="og:image" content="{{ asset('frontendcss/images/logo-bmq.png') }}" />
+    <meta property="og:image" content="{{ asset('frontendcss/images/logo.png') }}" />
     <meta property="og:url" content="{{ url()->current() }}" />
     <meta property="og:type" content="website" />
     <link rel="stylesheet" href="{{ asset('frontendcss/bootstrap_4.6/css/bootstrap.min.css') }}" />
     <link rel="stylesheet"href="{{ asset('assets/swiper/swiper-bundle.min.css') }}" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
-    <link rel="shortcut icon" href="{{ asset('frontendcss/images/logo-bmq.png') }}" type="image/x-icon" />
+    <link rel="shortcut icon" href="{{ asset('frontendcss/images/logo.png') }}" type="image/x-icon" />
     <link rel="stylesheet" href="{{ asset('frontendcss/bootstrap_4.6/css/bootstrap.min.css') }}" />
     <link rel="stylesheet" href="{{ asset('frontendcss/css/style.css') }}" />
     <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;700&display=swap" rel="stylesheet">

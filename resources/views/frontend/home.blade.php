@@ -4,11 +4,11 @@
 
 @section('style')
 
-<link rel="stylesheet" href="{{ asset('frontend/css/home.css') }}" />
+<link rel="stylesheet" href="{{ asset('frontendcss/css/home.css') }}" />
 
 <style>
     :root {
-        --commit-bg-image-certifications: url('{{ asset('frontend/images/backgrout.jpeg') }}');
+        --commit-bg-image-certifications: url('{{ asset('frontendcss/images/backgrout.jpeg') }}');
     }
 </style>
 
@@ -17,7 +17,7 @@
 @section('content')
 
 <div class="banner">
-    <img src="{{ asset('frontend/images/banner.png')}}" alt="">
+    <img src="{{ asset('frontendcss/images/banner.png')}}" alt="">
 </div>
 
 <div class="container">
@@ -43,7 +43,7 @@
 
             </div>
             <div class="about-right col-md-5">
-                <img src="{{ asset('frontend/images/right.png')}}" alt="">
+                <img src="{{ asset('frontendcss/images/right.png')}}" alt="">
             </div>
         </div>
     </div>
@@ -55,7 +55,7 @@
                 <h1>{{ __('FEATURED PRODUCTS') }}</h1>
             </div>
             <div class="product-title-right col-md-5">
-                <a href="{{ route('web.product')}}">
+                <a href="{{ route('web.product', ['type' => 'all'])}}">
                     <div>{{ __('View all products') }}</div>
                 </a>
             </div>
@@ -84,21 +84,21 @@
         <div class="swiper mySwiper1">
             <div class="swiper-wrapper">
                 <div class="swiper-slide">
-                    <img src="{{ asset('frontend/images/certifications-1.png')}}" alt="" />
+                    <img src="{{ asset('frontendcss/images/certifications-1.png')}}" alt="" />
 
                     <div class="swiper mySwiper1">
                         <div class="swiper-wrapper">
                             <div class="swiper-slide">
-                                <img src="{{ asset('frontend/images/certifications-1.png')}}" alt="" />
+                                <img src="{{ asset('frontendcss/images/certifications-1.png')}}" alt="" />
                             </div>
                             <div class="swiper-slide">
-                                <img src="{{ asset('frontend/images/certifications-2.png')}}" alt="" />
+                                <img src="{{ asset('frontendcss/images/certifications-2.png')}}" alt="" />
                             </div>
                             <div class="swiper-slide">
-                                <img src="{{ asset('frontend/images/certifications-3.png')}}" alt="" />
+                                <img src="{{ asset('frontendcss/images/certifications-3.png')}}" alt="" />
                             </div>
                             <div class="swiper-slide">
-                                <img src="{{ asset('frontend/images/certifications-2.png')}}" alt="" />
+                                <img src="{{ asset('frontendcss/images/certifications-2.png')}}" alt="" />
                             </div>
                         </div>
 
@@ -111,13 +111,13 @@
                     </div>
                 </div>
                 <div class="swiper-slide">
-                    <img src="{{ asset('frontend/images/certifications-2.png')}}" alt="" />
+                    <img src="{{ asset('frontendcss/images/certifications-2.png')}}" alt="" />
                 </div>
                 <div class="swiper-slide">
-                    <img src="{{ asset('frontend/images/certifications-3.png')}}" alt="" />
+                    <img src="{{ asset('frontendcss/images/certifications-3.png')}}" alt="" />
                 </div>
                 <div class="swiper-slide">
-                    <img src="{{ asset('frontend/images/certifications-2.png')}}" alt="" />
+                    <img src="{{ asset('frontendcss/images/certifications-2.png')}}" alt="" />
                 </div>
             </div>
 
@@ -148,22 +148,22 @@
         <div class="swiper mySwiper2">
             <div class="swiper-wrapper">
                 <div class="swiper-slide">
-                    <img src="{{ asset('frontend/images/du-an-1.png')}}" alt="" />
+                    <img src="{{ asset('frontendcss/images/du-an-1.png')}}" alt="" />
                     <P>{{ __('Hatinh') }}</P>
                     <h1>{{ __('home_content_1') }}</h1>
                 </div>
                 <div class="swiper-slide">
-                    <img src="{{ asset('frontend/images/du-an-2.png')}}" alt="" />
+                    <img src="{{ asset('frontendcss/images/du-an-2.png')}}" alt="" />
                     <P>{{ __('Hatinh') }}</P>
                     <h1>{{ __('home_content_2') }}</h1>
                 </div>
                 <div class="swiper-slide">
-                    <img src="{{ asset('frontend/images/du-an-1.png')}}" alt="" />
+                    <img src="{{ asset('frontendcss/images/du-an-1.png')}}" alt="" />
                     <P>{{ __('Hatinh') }}</P>
                     <h1>{{ __('home_content_3') }}</h1>
                 </div>
                 <div class="swiper-slide">
-                    <img src="{{ asset('frontend/images/du-an-2.png')}}" alt="" />
+                    <img src="{{ asset('frontendcss/images/du-an-2.png')}}" alt="" />
                     <P>{{ __('Hatinh') }}</P>
                     <h1>{{ __('home_content_4') }}</h1>
                 </div>
@@ -184,11 +184,11 @@
             <h1>{{ __('EXPORT MARKET') }}</h1>
         </div>
         <div class="market-img">
-            <img src="{{ asset('frontend/images/co-1.png')}}" alt="">
-            <img src="{{ asset('frontend/images/co-2.png')}}" alt="">
-            <img src="{{ asset('frontend/images/co-3.png')}}" alt="">
-            <img src="{{ asset('frontend/images/co-4.png')}}" alt="">
-            <img src="{{ asset('frontend/images/co-5.png')}}" alt="">
+            <img src="{{ asset('frontendcss/images/co-1.png')}}" alt="">
+            <img src="{{ asset('frontendcss/images/co-2.png')}}" alt="">
+            <img src="{{ asset('frontendcss/images/co-3.png')}}" alt="">
+            <img src="{{ asset('frontendcss/images/co-4.png')}}" alt="">
+            <img src="{{ asset('frontendcss/images/co-5.png')}}" alt="">
         </div>
 
     </div>
