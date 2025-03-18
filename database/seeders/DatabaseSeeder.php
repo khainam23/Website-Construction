@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
         DB::table('categories')->truncate();
         DB::table('users')->truncate();
         DB::table('product_descriptions')->truncate();
+        DB::table('product_inventory')->truncate();
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 
         // Tạo Users
@@ -79,7 +80,6 @@ class DatabaseSeeder extends Seeder
                                 - Kích thước lòng thùng hàng: 8.300 x 2.350 x 650 mm',
                 'avatar' => 'https://xetaiphuman.vn/uploads/images/products-images/xe-cau-8-tan.jpg',
                 'price' => 1500.00,
-                'stock' => 10,
                 'type' => 'sale',
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -98,11 +98,24 @@ class DatabaseSeeder extends Seeder
                                 Sửa chữa hệ thống thủy lực xe cẩu – Công ty JCT Việt Nam',
                 'avatar' => 'https://jct.com.vn/wp-content/uploads/2021/10/xe-cau-mini-5-tan-komatsu-lc785-6-1-.jpg',
                 'price' => 200.00,
-                'stock' => 20,
                 'type' => 'rental',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
+        ]);
+
+        // Tạo giá trị lưu kho
+        DB::table('product_inventory')->insert([
+            [
+                'product_id' => 1,
+                'type' => 'sale',
+                'quantity' => 10
+            ],
+            [
+                'product_id' => 2,
+                'type' => 'rental',
+                'quantity' => 10
+            ]
         ]);
 
         // Tạo Product Descriptions
@@ -126,6 +139,26 @@ class DatabaseSeeder extends Seeder
                 'applications' => 'Dùng để nâng hạ hàng hóa trong nhà kho, công trường có diện tích nhỏ.',
                 'created_at' => now(),
                 'updated_at' => now(),
+            ],
+        ]);
+
+        // Ảnh cho sản phẩm
+        DB::table('images')->insert([
+            [
+                'product_id'=> 1,
+                'path' => 'https://xetaiphuman.vn/uploads/images/products-images/xe-cau-8-tan.jpg'
+            ],
+            [
+                'product_id'=> 1,
+                'path' => 'https://banxetai.com.vn/Images/SanPham/NLB_xe-4-chan-dongfeng-hoang-huy-gan-cau-8-tan-kanglim.jpg'
+            ],
+            [
+                'product_id'=> 1,
+                'path' => 'https://www.xechuyendungmienbac.com/uploads/data/3119/imgproducts/dongfeng-4-chan-kanglim-ks5206-15-tan%20(2).jpg'
+            ],
+            [
+                'product_id'=> 2,
+                'path' => 'https://jct.com.vn/wp-content/uploads/2021/10/xe-cau-mini-5-tan-komatsu-lc785-6-1-.jpg'
             ],
         ]);
 

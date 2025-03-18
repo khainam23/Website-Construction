@@ -51,9 +51,16 @@ return new class extends Migration {
             $table->foreignId('category_id')->constrained('categories')->onDelete('cascade');
             $table->text('description')->nullable();
             $table->decimal('price', 10, 2);
-            $table->integer('stock')->default(0);
             $table->enum('type', ['sale', 'rental'])->default('sale');
             $table->enum('status', ['show', 'hide'])->default('show');
+            $table->timestamps();
+        });
+
+        Schema::create('product_inventory', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('product_id')->constrained('products')->onDelete('cascade');
+            $table->enum('type', ['sale', 'rental'])->default('sale');
+            $table->integer('quantity')->default(0);
             $table->timestamps();
         });
 
@@ -68,7 +75,7 @@ return new class extends Migration {
         Schema::create('images', function (Blueprint $table) {
             $table->id();
             $table->foreignId('product_id')->constrained('products')->onDelete('cascade');
-            $table->string('path');
+            $table->text('path');
             $table->timestamps();
         });
 

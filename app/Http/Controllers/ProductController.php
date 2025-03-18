@@ -44,11 +44,11 @@ class ProductController extends Controller
         }
 
         // Lấy danh sách sản phẩm cùng danh mục, ngoại trừ sản phẩm hiện tại
-        $products = Product::where('category_id', $product->category_id)
+        $relatedProducts = Product::where('category_id', $product->category_id)
             ->where('id', '!=', $product->id)
             ->get();
 
-        return view("frontend.product-detail", compact("product", "products"));
+        return view("frontend.product-detail", compact("product", "relatedProducts"));
     }
 
 }
