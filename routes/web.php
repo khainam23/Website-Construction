@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\EmailController;
+use App\Http\Controllers\ForgetController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\LanguageController;
@@ -28,6 +29,7 @@ Route::post('/add-contact', [ContactController::class, 'add'])->name('web.addCon
 Route::view('/login', 'frontend.login')->name('web.login');
 Route::view('/register', 'frontend.register')->name('web.register');
 Route::view('/forget', 'frontend.forget')->name('web.forget');
+Route::post('/forget', [ForgetController::class, "forget"])->name("api.forget");
 Route::post('/register', [RegisterController::class, 'register'])->name('api.register');
 Route::post('/login', [LoginController::class, 'login'])->name('api.login');
 
@@ -35,16 +37,17 @@ Route::post('/login', [LoginController::class, 'login'])->name('api.login');
 Route::post('/email/resend', [EmailController::class, 'resend'])->name('verification.resend');
 Route::get('/email/verify/{id}/{hash}', [EmailController::class, 'verify'])->name('verification.verify');
 
-// Dành cho mọi tài khoản  
-Route::middleware([RoleMiddleware::class, ":customer,admin,sale,rental"])->group(function() {
+// Dành cho mọi tài khoản đăng nhập thành công 
+Route::middleware([RoleMiddleware::class, ":customer,admin,sale,rental"])->group(function () {
     Route::get('logout', [])->name('api.logout');
+    Route::view('/profile', '') -> name('web.profile');
 });
 
 // Dành cho admin
-Route::middleware([RoleMiddleware::class,':admin'])->group(function() {});
+Route::middleware([RoleMiddleware::class, ':admin'])->group(function () { });
 
 // Dành cho sale
-Route::middleware([RoleMiddleware::class,':sale,admin'])->group(function() {});
+Route::middleware([RoleMiddleware::class, ':sale,admin'])->group(function () { });
 
 // Dành cho rental 
-Route::middleware([RoleMiddleware::class,'rental'])->group(function(){});
+Route::middleware([RoleMiddleware::class, 'rental'])->group(function () { });

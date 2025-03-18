@@ -9,7 +9,7 @@
     <div class="container login-container">
         <div class="login-form">
             <h2 class="text-center mb-4">Đăng Nhập</h2>
-            <form id="login">
+            <form id="login" class="mb-4">
                 <div class="mb-3">
                     <label class="form-label">Tên đăng nhập</label>
                     <input name="email" type="text" class="form-control" placeholder="Nhập tên đăng nhập" required>
@@ -20,6 +20,8 @@
                 </div>
                 <button type="submit" class="btn btn-primary w-100">Đăng Nhập</button>
             </form>
+
+            <a href="{{ route("web.forget") }}">Quên mật khẩu</a>
         </div>
     </div>
 @endsection
