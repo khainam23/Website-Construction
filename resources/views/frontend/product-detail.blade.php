@@ -58,7 +58,7 @@
                         </div>
                     </div>
                     <!-- supheading-1 -->
-                    @if($product->description != '')
+                    @if($product->info != '')
                         <div class="supheading">
                             <div class="polygon">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="22" height="20" viewBox="0 0 22 20" fill="none">
@@ -71,12 +71,12 @@
                         </div>
                         <div class="content-information">
                             <div>
-                                {!! $product->description !!}
+                                {!! $product->info !!}
                             </div>
                         </div>
                     @endif
                     <!-- supheading-2 -->
-                    @if($product->description != '')
+                    @if($product->features != '')
                         <div class="supheading">
                             <div class="polygon">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="22" height="20" viewBox="0 0 22 20" fill="none">
@@ -89,12 +89,12 @@
                         </div>
                         <div class="content-information">
                             <div>
-                                {!! $product->description !!}
+                                {!! $product->features !!}
                             </div>
                         </div>
                     @endif
                     <!-- supheading-3 -->
-                    @if($product->description != '')
+                    @if($product->applications != '')
                         <div class="supheading">
                             <div class="polygon">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="22" height="20" viewBox="0 0 22 20" fill="none">
@@ -107,7 +107,7 @@
                         </div>
                         <div class="content-information">
                             <div>
-                                {!! $product->description !!}
+                                {!! $product->applications !!}
                             </div>
                         </div>
                     @endif

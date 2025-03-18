@@ -23,7 +23,7 @@ class ProductController extends Controller
 
     public function show(Request $request)
     {
-        $product = Product::with(['category', 'images'])
+        $product = Product::with(['category', 'images', 'productDescriptions'])
             ->where('id', $request->id)
             ->first();
 
@@ -34,6 +34,14 @@ class ProductController extends Controller
 
         // Ẩn một số thuộc tính không cần thiết
         $product->makeHidden(['status', 'created_at']);
+
+        // Nếu có productDescriptions, gộp vào thuộc tính chính của product
+        if ($product->productDescriptions) {
+            $product->info = $product->productDescriptions->infomations;
+            $product->features = $product->productDescriptions->features;
+            $product->applications = $product->productDescriptions->applications;
+            unset($product->productDescriptions); // Xóa thuộc tính productDescriptions để đơn giản hóa dữ liệu
+        }
 
         // Lấy danh sách sản phẩm cùng danh mục, ngoại trừ sản phẩm hiện tại
         $products = Product::where('category_id', $product->category_id)
