@@ -6,6 +6,7 @@ use App\Http\Controllers\ForgetController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\LanguageController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Middleware\RoleMiddleware;
 use Illuminate\Support\Facades\Route;
@@ -40,7 +41,8 @@ Route::get('/email/verify/{id}/{hash}', [EmailController::class, 'verify'])->nam
 // Dành cho mọi tài khoản đăng nhập thành công 
 Route::middleware([RoleMiddleware::class . ":customer,admin,sale,rental"])->group(function () {
     Route::get('logout', [])->name('api.logout');
-    Route::view('/profile', 'frontend.profile') -> name('web.profile');
+    Route::get('/profile', [ProfileController::class, 'index']) -> name('web.profile');
+    Route::post('/profile/udpate/info', [ProfileController::class, 'updateInfo'])->name('api.update.info');
 });
 
 // Dành cho admin

@@ -25,6 +25,7 @@ class LoginController extends Controller
             $user = Auth::user();
             session([
                 'user' => [
+                    'id'=> $user->id,
                     'email' => $user->email,
                     'name' => $user->last_name,
                     'role' => $user->role
