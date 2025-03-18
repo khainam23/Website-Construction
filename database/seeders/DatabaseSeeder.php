@@ -14,10 +14,11 @@ class DatabaseSeeder extends Seeder
         DB::statement('SET FOREIGN_KEY_CHECKS=0;');
         DB::table('order_details')->truncate();
         DB::table('orders')->truncate();
-        DB::table('cart')->truncate();
+        DB::table('carts')->truncate();
         DB::table('products')->truncate();
         DB::table('categories')->truncate();
         DB::table('users')->truncate();
+        DB::table('product_descriptions')->truncate();
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 
         // Tạo Users
@@ -99,6 +100,30 @@ class DatabaseSeeder extends Seeder
                 'price' => 200.00,
                 'stock' => 20,
                 'type' => 'rental',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+        ]);
+
+        // Tạo Product Descriptions
+        DB::table('product_descriptions')->insert([
+            [
+                'product_id' => 1, // Gắn với sản phẩm đầu tiên
+                'infomations' => 'Xe tải cẩu 8 tấn Dongfeng với sức nâng mạnh mẽ, phù hợp cho công trình lớn.',
+                'features' => '- Sức nâng tối đa: 8100 kg
+                      - Bán kính làm việc tối đa: 20.3 m
+                      - Trọng lượng toàn bộ: 30.000 kg',
+                'applications' => 'Sử dụng để vận chuyển hàng hóa nặng, lắp ráp công trình, và xây dựng cầu đường.',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'product_id' => 2, // Gắn với sản phẩm thứ hai
+                'infomations' => 'Xe cẩu mini 5 tấn Komatsu nhỏ gọn, thích hợp cho kho xưởng và công trình nhỏ.',
+                'features' => '- Công suất nâng tối đa: 5000 kg
+                      - Nhập khẩu nguyên chiếc từ Nhật Bản
+                      - Hệ thống thủy lực tiên tiến',
+                'applications' => 'Dùng để nâng hạ hàng hóa trong nhà kho, công trường có diện tích nhỏ.',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],

@@ -64,7 +64,7 @@
             </div>
             <div class="product-list row">
                 @foreach($products as $product)
-                    <a class="col-md-4" href="{{ route('web.product-detail', ['id' => $product->id]) }}">
+                    <a class="col-md-4" href="{{ route('web.product.detail', ['id' => $product->id]) }}">
                         <div class="product-card">
                             <img src="{{$product->avatar}}" alt="">
                             <h1>{{$product->name}}</h1>

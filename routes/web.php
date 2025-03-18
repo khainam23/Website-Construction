@@ -23,7 +23,7 @@ Route::get('/admin/language/{lang}', [LanguageController::class, 'changeLanguage
 Route::get('/product/{type}', [ProductController::class, 'viewAll'])
     ->where('type', 'sale|rental|all')
     ->name('web.product');
-Route::get('/products/{id}', [ProductController::class, 'show'])->name('web.product-detail');
+Route::get('/products/{id}', [ProductController::class, 'show'])->name('web.product.detail');
 Route::post('/add-contact', [ContactController::class, 'add'])->name('web.addContact');
 
 // Dành cho truy cập
@@ -41,8 +41,10 @@ Route::get('/email/verify/{id}/{hash}', [EmailController::class, 'verify'])->nam
 // Dành cho mọi tài khoản đăng nhập thành công 
 Route::middleware([RoleMiddleware::class . ":customer,admin,sale,rental"])->group(function () {
     Route::get('logout', [])->name('api.logout');
+});
 
-    // Trang người dùng
+// Chỉ dành cho người dùng 
+Route::middleware([RoleMiddleware::class . ':customer'])->group(function () {
     Route::get('/profile', [ProfileController::class, 'index'])->name('web.profile');
     Route::post('/profile/udpate/info', [ProfileController::class, 'updateInfo'])->name('api.update.info');
     Route::post('/profile/update/password', [ProfileController::class, 'updatePassword'])->name('api.update.password');

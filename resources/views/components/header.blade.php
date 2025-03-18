@@ -68,9 +68,9 @@
                                 <a class="nav-link" href="{{ route('web.about') }}">GIỚI THIỆU<span
                                         class="sr-only">(current)</span></a>
                             </li>
-                            <li class="nav-item 
-                                {{ (\Request::route()->getName() == 'web.product' && \Request::route('type') == 'sale')
-                                    || (\Request::route()->getName() == 'web.product-detail') ? 'active' : '' }}">
+                            <li
+                                class="nav-item 
+                                {{ (\Request::route()->getName() == 'web.product' && \Request::route('type') == 'sale') ? 'active' : '' }}">
                                 <a class="nav-link" href="{{ route('web.product', ['type' => 'sale']) }}">
                                     SẢN PHẨM BÁN <span class="sr-only">(current)</span>
                                 </a>

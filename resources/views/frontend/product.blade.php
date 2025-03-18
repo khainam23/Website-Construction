@@ -39,12 +39,12 @@
                         <div class="row"> 
                             @foreach($products as $product)
                             <div class="col-12 col-sm-6 col-md-6 col-lg-4 mb-4">
-                                <a class="link" href="{{ route('web.product-detail', ['id' => $product->id]) }}">
+                                <a class="link" href="{{ route('web.product.detail', ['id' => $product->id]) }}">
                                     <div class="card">
                                         <img src="{{asset($product->avatar)}}" class="card-img-top" alt="{{$product->name}}">
                                         <div class="card-body">
                                             <h5 class="card-title">{{$product->name}}</h5>
-                                            <p class="card-text">{!!$product->description!!}</p>
+                                            <p class="card-text">{{ Str::words(strip_tags($product->description), 20, '...') }}</p>
                                         </div>
                                     </div>
                                 </a>
