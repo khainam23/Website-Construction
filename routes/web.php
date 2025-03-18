@@ -38,16 +38,16 @@ Route::post('/email/resend', [EmailController::class, 'resend'])->name('verifica
 Route::get('/email/verify/{id}/{hash}', [EmailController::class, 'verify'])->name('verification.verify');
 
 // Dành cho mọi tài khoản đăng nhập thành công 
-Route::middleware([RoleMiddleware::class, ":customer,admin,sale,rental"])->group(function () {
+Route::middleware([RoleMiddleware::class . ":customer,admin,sale,rental"])->group(function () {
     Route::get('logout', [])->name('api.logout');
-    Route::view('/profile', '') -> name('web.profile');
+    Route::view('/profile', 'frontend.profile') -> name('web.profile');
 });
 
 // Dành cho admin
-Route::middleware([RoleMiddleware::class, ':admin'])->group(function () { });
+Route::middleware([RoleMiddleware::class . ':admin'])->group(function () { });
 
 // Dành cho sale
-Route::middleware([RoleMiddleware::class, ':sale,admin'])->group(function () { });
+Route::middleware([RoleMiddleware::class . ':sale,admin'])->group(function () { });
 
 // Dành cho rental 
-Route::middleware([RoleMiddleware::class, 'rental'])->group(function () { });
+Route::middleware([RoleMiddleware::class . 'rental'])->group(function () { });

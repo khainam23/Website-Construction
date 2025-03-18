@@ -70,7 +70,7 @@
                             </li>
                             <li class="nav-item 
                                 {{ (\Request::route()->getName() == 'web.product' && \Request::route('type') == 'sale')
-    || (\Request::route()->getName() == 'web.product-detail') ? 'active' : '' }}">
+                                    || (\Request::route()->getName() == 'web.product-detail') ? 'active' : '' }}">
                                 <a class="nav-link" href="{{ route('web.product', ['type' => 'sale']) }}">
                                     SẢN PHẨM BÁN <span class="sr-only">(current)</span>
                                 </a>
@@ -97,7 +97,7 @@
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('agi.logout') }}">
+                                    <a class="nav-link" href="{{ route('api.logout') }}">
                                         Đăng xuất
                                     </a>
                                 </li>
