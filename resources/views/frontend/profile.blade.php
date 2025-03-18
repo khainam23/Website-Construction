@@ -2,70 +2,7 @@
 @section('title', 'Giới thiệu')
 
 @section('style')
-    <style>
-        body {
-            background-color: #f8f9fa;
-        }
-
-        .profile-container {
-            display: flex;
-            max-width: 900px;
-            margin: 50px auto;
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-        }
-
-        .sidebar {
-            width: 30%;
-            background: #007bff;
-            padding: 20px;
-            color: white;
-        }
-
-        .sidebar .nav-item {
-            padding: 10px;
-            cursor: pointer;
-            border-radius: 5px;
-            transition: background 0.3s;
-        }
-
-        .sidebar .nav-item:hover,
-        .sidebar .nav-item.active {
-            background: rgba(255, 255, 255, 0.2);
-        }
-
-        .content {
-            width: 70%;
-            padding: 20px;
-        }
-
-        .content-section {
-            display: none;
-        }
-
-        .content-section.active {
-            display: block;
-        }
-
-        .form-group {
-            margin-bottom: 15px;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        table,
-        th,
-        td {
-            border: 1px solid #ddd;
-            padding: 10px;
-            text-align: left;
-        }
-    </style>
+    <link rel="stylesheet" href="{{ asset('frontendcss/css/profile.css') }}" />
 @endsection
 
 @section('content')
