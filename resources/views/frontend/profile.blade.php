@@ -198,8 +198,8 @@
                         placeholder="Nhập mật khẩu mới" required>
                 </div>
                 <div class="form-group">
-                    <label for="again-password">Nhập lại mật khẩu mới</label>
-                    <input id="again-password" name="again-password" type="password" class="form-control"
+                    <label for="confrim-password">Nhập lại mật khẩu mới</label>
+                    <input id="confrim-password" name="confrim-password" type="password" class="form-control"
                         placeholder="Nhập lại mật khẩu mới" required>
                 </div>
                 <button type="submit" class="btn btn-primary">Cập nhật mật khẩu</button>
@@ -298,6 +298,66 @@
                             icon: 'error',
                             title: 'Lỗi!',
                             text: xhr.responseJSON?.message || 'Có lỗi xảy ra, vui lòng thử lại.',
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+
+    <!-- Cập nhật mật khẩu -->
+    <script>
+        $(document).ready(function () {
+            $('#password-form').on('submit', function (event) {
+                event.preventDefault();
+
+                let currentPassword = $('#current-password').val();
+                let newPassword = $('#new-password').val();
+                let confirmPassword = $('#confrim-password').val();
+
+                if (newPassword !== confirmPassword) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Lỗi!',
+                        text: 'Mật khẩu mới không khớp, vui lòng nhập lại.',
+                    });
+                    return;
+                }
+
+                // Hiển thị loading
+                Swal.fire({
+                    title: 'Đang xử lý...',
+                    html: 'Vui lòng chờ trong giây lát.',
+                    allowOutsideClick: false,
+                    didOpen: () => {
+                        Swal.showLoading();
+                    }
+                });
+
+                $.ajax({
+                    url: "{{ route('api.update.password') }}",
+                    type: "POST",
+                    data: {
+                        current_password: currentPassword,
+                        new_password: newPassword,
+                        _token: "{{ csrf_token() }}"
+                    },
+                    success: function (response) {
+                        Swal.close();
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Thành công!',
+                            text: response.message,
+                        }).then(() => {
+                            $('#password-form')[0].reset();
+                        });
+                    },
+                    error: function (xhr) {
+                        Swal.close();
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Lỗi!',
+                            text: xhr.responseJSON.message || 'Có lỗi xảy ra, vui lòng thử lại.',
                         });
                     }
                 });
