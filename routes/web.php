@@ -35,5 +35,16 @@ Route::post('/login', [LoginController::class, 'login'])->name('api.login');
 Route::post('/email/resend', [EmailController::class, 'resend'])->name('verification.resend');
 Route::get('/email/verify/{id}/{hash}', [EmailController::class, 'verify'])->name('verification.verify');
 
-// Đã đăng nhập 
-Route::get('logout', [])->name('api.logout');
+// Dành cho mọi tài khoản  
+Route::middleware([RoleMiddleware::class, ":customer,admin,sale,rental"])->group(function() {
+    Route::get('logout', [])->name('api.logout');
+});
+
+// Dành cho admin
+Route::middleware([RoleMiddleware::class,':admin'])->group(function() {});
+
+// Dành cho sale
+Route::middleware([RoleMiddleware::class,':sale,admin'])->group(function() {});
+
+// Dành cho rental 
+Route::middleware([RoleMiddleware::class,'rental'])->group(function(){});
