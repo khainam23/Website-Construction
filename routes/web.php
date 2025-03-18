@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\EmailController;
 use App\Http\Controllers\ForgetController;
@@ -44,7 +45,24 @@ Route::middleware([RoleMiddleware::class, ":customer,admin,sale,rental"])->group
 });
 
 // Dành cho admin
-Route::middleware([RoleMiddleware::class, ':admin'])->group(function () { });
+// Route::middleware([RoleMiddleware::class, ':admin'])->group(function () {
+    Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
+
+    // User Management
+    Route::get('/admin/users', [AdminController::class, 'indexUsers'])->name('admin.users.index');
+    Route::get('/admin/users/{user}/edit', [AdminController::class, 'editUser'])->name('admin.users.edit');
+    Route::put('/admin/users/{user}', [AdminController::class, 'updateUser'])->name('admin.users.update');
+
+    // Product Management
+    Route::get('/admin/products', [AdminController::class, 'indexProducts'])->name('admin.products.index');
+    Route::get('/admin/products/{product}/edit', [AdminController::class, 'editProduct'])->name('admin.products.edit');
+    Route::put('/admin/products/{product}', [AdminController::class, 'updateProduct'])->name('admin.products.update');
+    Route::delete('/admin/products/{product}', [AdminController::class, 'deleteProduct'])->name('admin.products.delete');
+
+    // Order Management
+    Route::get('/admin/orders', [AdminController::class, 'indexOrders'])->name('admin.orders.index');
+    Route::get('/admin/orders/{order}', [AdminController::class, 'showOrder'])->name('admin.orders.show');
+// });
 
 // Dành cho sale
 Route::middleware([RoleMiddleware::class, ':sale,admin'])->group(function () { });

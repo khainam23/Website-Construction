@@ -97,7 +97,7 @@
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('agi.logout') }}">
+                                    <a class="nav-link" href="{{ route('api.logout') }}">
                                         Đăng xuất
                                     </a>
                                 </li>

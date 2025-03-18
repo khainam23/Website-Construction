@@ -494,7 +494,7 @@
     "Saudi Arabia": "Ả Rập Xê Út",
     "Save": "Lưu",
     "Saved.": "Đã lưu.",
-    "Search": "Tìm Kiếm",
+    "Search": "Tìm kiếm",
     "Select": "Chọn",
     "Select a different plan": "Chọn gói khác",
     "Select A New Photo": "Chọn một ảnh mới",
@@ -645,7 +645,7 @@
     "United States": "Hoa Kỳ",
     "United States Minor Outlying Islands": "Đảo nhỏ xa xôi hẻo lánh của Hoa Kỳ",
     "United States Outlying Islands": "Các quần đảo xa xôi của Hoa Kỳ'",
-    "Update": "Cập Nhật",
+    "Update": "Cập nhật",
     "Update & Continue Editing": "Cập Nhật & Và Tiếp Tục Chỉnh Sửa",
     "Update :resource": "Cập Nhật :resource",
     "Update :resource: :title": "Cập Nhật :resource: :title",
@@ -734,14 +734,6 @@
     "Message_error": "Có lỗi xảy ra vui lòng thử lại!",
     "Full_name": "Họ và tên",
     "About": "Về chúng tôi",
-    
-
-
-
-
-
-
-
     "News_events": "Tin tức và sự kiện",
     "See_more":   "Xem tiếp ",
     "Introduction":"Lời giới thiệu",
@@ -798,7 +790,6 @@
     "Send_information":"Gửi thông tin",
     "ABOUT US":"GIỚI THIỆU",
     "NAME COMPANY":"SẢN XUẤT VÀ THƯƠNG MẠI BMQ",
-
     "Error":"lỗi",
     "Message":"Tin nhắn",
     "Related_news":"Tin tức liên quan",
@@ -810,8 +801,6 @@
     "INTRODUCE": "GIỚI THIỆU",
     "REPRESENTATIVE OFFICE":"Văn phòng đại diện",
     "Hotline":"Đường dây liên hệ",
-
-
     "Core_Value_content1":"  Thiết lập mối quan hệ thân thiết, bền vững và tin cậy đối với khách hàng.",
     "Core_Value_content2":"Phục vụ chuyên nghiệp và đảm bảo giá trị cho khách hàng.",
     "Core_Value_content3":"Luôn nỗ lực phấn đấu và sáng tạo trong công việc để mang đến cho khách hàng những sản phẩm và dịch vụ chất lượng cao với giá thành hợp lý nhất.",
@@ -826,7 +815,6 @@
     "home_content_2":"Dự án nhà máy gang thép Hưng Nghiệp Formosa",
     "home_content_3":"Dự án xây dựng cảng nước sâu Vũng Áng",
     "home_content_4":"Dự án nhà máy gang thép Hưng Nghiệp Formosa",
-
     "Director":"Giám đốc điều hành",
     "About_content1":"Lời đầu tiên, Công ty Cổ phần sản xuất và thương mại BMQ gửi tới Quý Công ty lời chào trân trọng nhất và xin chân thành cảm ơn sự quan tâm của Quý Công ty tới sản phẩm của chúng tôi.",
     "About_content2":"Công ty Cổ phần sản xuất và thương mại BMQ thành lập vào ngày 12/03/2010 chuyên hoạt động về lĩnh vực sản xuất hóa chất bê tông trong ngành xây dựng. Với kinh nghiệm của các chuyên gia hàng đầu trong ngành hóa chất xây dựng ở trong nước và ngoài nước, và cùng với dây chuyền công nghệ hàng đầu của Cộng hòa liên bang Đức chúng tôi đã không ngừng nghiên cứu và phát triển sản phẩm mang thương hiệu “Phụ gia bê tông BMQ”.",
@@ -834,21 +822,16 @@
     "About_content4":"Sản phẩm phụ gia BMQ được đăng ký chất lượng theo tiêu chuẩn Việt Nam ISO 90001:2015 phù hợp với TCVN 8826:2011 - Phụ gia hóa học cho bê tông và tiêu chuẩn quốc tế ASTM C494. Sản phẩm đã được kiểm nghiệm đánh giá chất lượng tại các phòng thí nghiệm hợp chuẩn và kiểm chứng chất lượng trong các công trình, dự án lớn trên cả nước và trên thế giới.",
     "About_content5":"Với tiêu chí sản phẩm luôn đưa quyền lợi của khách hàng lên hàng đầu, cùng với việc khẳng định thương hiệu bằng chất lượng sản phẩm, chúng tôi còn có đội ngũ các kỹ thuật đến tại chân công trình để phối hợp với các nhà thầu trong giai đoạn cấp phối, tìm ra các phương án tối ưu nhất phù hợp tất cả các yêu cầu cụ thể mà khách hàng đưa ra.",
     "About_content6":"Với khả năng và kinh nghiệm của mình, chúng tôi cũng mong nhận được sự quan tâm và ủng hộ của Quý Công ty, chúng tôi tin phụ gia bê tông BMQ mãi là sản phẩm uy tín và là người bạn tin cậy của tất cả các khách hàng.",
-
     "MessErro_1":"Vui lòng xác nhận bạn không phải là robot!",
     "MessErro_2":"Error",
     "MessErro_3":"Xác thực reCAPTCHA thất bại, vui lòng thử lại!",
     "MessErro_4":"Thêm thông tin thành công!",
     "MessErro_5":"Thêm thông tin không thành công!",
     "MessErro_6":"success",
-
-
     "See the entire project":"Xem toàn bộ dự án",
     "CONTACT":"LIÊN HỆ",
     "logo-text-bmq":"CÔNG TY CỔ PHẦN SẢN XUẤT",
     "logo-text-bmq1":"VÀ THƯƠNG MẠI BMQ",
-
-    
     "year": "năm",
     "experience": "kinh nghiệm",
     "head": "đầu",
@@ -856,14 +839,47 @@
     "personnel": "nhân sự",
     "high_level": "trình độ cao",
     "project": "dự án",
-    "completed": "đã hoàn thành"
-    
-    
-
-
-
-
-
-
-
+    "completed": "đã hoàn thành",
+    "Total Products": "Tổng Số Sản Phẩm",
+    "Total Categories": "Tổng Số Danh Mục",
+    "Total Users": "Tổng Số Người Dùng",
+    "User Management": "Quản Lý Người Dùng",
+    "Manage Users": "Quản Lý Người Dùng",
+    "Product Management": "Quản Lý Sản Phẩm",
+    "Manage Products": "Quản Lý Sản Phẩm",
+    "ID": "ID",
+    "Name": "Tên",
+    "Email": "Email",
+    "Role": "Vai trò",
+    "Actions": "Hành động",
+    "Edit": "Sửa",
+    "Update": "Cập nhật",
+    "Cancel": "Hủy",
+    "Category": "Danh mục",
+    "Price": "Giá",
+    "Stock": "Kho",
+    "Delete": "Xóa",
+    "Edit User Role": "Sửa Vai Trò Người Dùng",
+    "User role updated successfully.": "Vai trò người dùng đã được cập nhật thành công.",
+    "Admin Panel": "Bảng Điều Khiển Admin",
+    "Dashboard": "Bảng Điều Khiển",
+    "Are you sure you want to delete this product?": "Bạn có chắc chắn muốn xóa sản phẩm này?",
+    "Order Management": "Quản Lý Đơn Hàng",
+    "Orders": "Đơn hàng",
+    "User": "Người dùng",
+    "Total": "Tổng cộng",
+    "Status": "Trạng thái",
+    "View": "Xem",
+    "Order Details": "Chi tiết đơn hàng",
+    "Order Information": "Thông tin đơn hàng",
+    "Address": "Địa chỉ",
+    "Phone": "Điện thoại",
+    "Order Items": "Các mặt hàng",
+    "Product": "Sản phẩm",
+    "Quantity": "Số lượng",
+    "Cost": "Giá",
+    "Back to Orders": "Quay lại đơn hàng",
+    "Rental Start Date": "Ngày bắt đầu thuê",
+    "Rental End Date": "Ngày kết thúc thuê",
+    "Images": "Hình ảnh"
 }
