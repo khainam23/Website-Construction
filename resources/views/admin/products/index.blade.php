@@ -26,6 +26,7 @@
                     <th>{{ __('Category') }}</th>
                     <th>{{ __('Price') }}</th>
                     <th>{{ __('Stock') }}</th>
+                    <th>{{ __('Images') }}</th>
                     <th>{{ __('Actions') }}</th>
                 </tr>
             </thead>
@@ -37,6 +38,13 @@
                     <td>{{ $product->category_id }}</td>
                     <td>{{ $product->price }}</td>
                     <td>{{ $product->stock }}</td>
+                    <td>
+                        @if($product->avatar)
+                            <img src="{{ $product->avatar }}" class="card-img-top" alt="{{ $product->name }}" style="max-height: 50px; margin-right: 5px;">
+                        @else
+                            {{ __('No Images') }}
+                        @endif
+                    </td>
                     <td>
                         <a href="{{ route('admin.products.edit', $product->id) }}" class="btn btn-sm btn-primary">{{ __('Edit') }}</a>
                         <form action="{{ route('admin.products.delete', $product->id) }}" method="POST" style="display: inline;">
