@@ -17,7 +17,16 @@
     <div class="content">
         <div id="profile" class="content-section active">
             <h2>Hồ sơ của bạn</h2>
-            <form id="profile-form">
+            <form id="profile-form" enctype="multipart/form-data">
+                <div class="form-group text-center">
+                    <label>Ảnh đại diện:</label>
+                    <br>
+                    <img id="avatar-preview" src="{{ asset($infoUser->avatar) }}" alt="Avatar" class="img-thumbnail"
+                        width="150">
+                    <br>
+                    <input id="avatar" type="file" class="form-control mt-2" name="avatar" accept="image/*"
+                        onchange="previewAvatar(event)">
+                </div>
                 <div class="form-group">
                     <label>Họ:</label>
                     <input type="text" class="form-control" name="first_name" value="{{ $infoUser->first_name }}">
@@ -165,12 +174,33 @@
 
     <!-- Cập nhật thông tin cá nhân -->
     <script>
+        function previewAvatar(event) {
+            var reader = new FileReader();
+            reader.onload = function () {
+                var output = document.getElementById('avatar-preview');
+                output.src = reader.result;
+            };
+            reader.readAsDataURL(event.target.files[0]);
+        }
+
         $(document).ready(function () {
             let initialData = {};
+            let initialAvatar = null;
 
-            $('#profile-form').find('input, select').each(function () {
-                initialData[$(this).attr('name')] = $(this).val();
-            });
+            function getFormData() {
+                $('#profile-form').find('input, select').each(function () {
+                    if ($(this).attr('type') !== 'file') {
+                        initialData[$(this).attr('name')] = $(this).val();
+                    }
+                });
+
+                let avatarInput = $('#avatar')[0];
+                if (avatarInput.files.length > 0) {
+                    initialAvatar = avatarInput.files[0];
+                }
+            }
+
+            getFormData(); // Lưu dữ liệu ban đầu
 
             $('#profile-form').on('submit', function (event) {
                 event.preventDefault();
@@ -178,15 +208,23 @@
                 let formData = new FormData(this);
                 let hasChanged = false;
 
-                // Kiểm tra xem có sự thay đổi không 
+                // Kiểm tra thay đổi dữ liệu text, select
                 $(this).find('input, select').each(function () {
-                    let name = $(this).attr('name');
-                    let value = $(this).val();
+                    if ($(this).attr('type') !== 'file') {
+                        let name = $(this).attr('name');
+                        let value = $(this).val();
 
-                    if (initialData[name] !== value) {
-                        hasChanged = true;
+                        if (initialData[name] !== value) {
+                            hasChanged = true;
+                        }
                     }
                 });
+
+                // Kiểm tra xem có ảnh mới không
+                let avatarInput = $('#avatar')[0];
+                if (avatarInput.files.length > 0 && avatarInput.files[0] !== initialAvatar) {
+                    hasChanged = true;
+                }
 
                 if (!hasChanged) {
                     Swal.fire({
@@ -207,7 +245,7 @@
                 });
 
                 $.ajax({
-                    url: "{{ route('api.update.info') }}", // Cập nhật URL phù hợp
+                    url: "{{ route('api.update.info') }}",
                     type: "POST",
                     data: formData,
                     processData: false,
@@ -223,10 +261,16 @@
                             text: response.message,
                             confirmButtonText: 'OK'
                         }).then(() => {
-                            initialData = {};
-                            $('#profile-form').find('input, select').each(function () {
-                                initialData[$(this).attr('name')] = $(this).val();
-                            });
+                            getFormData(); // Cập nhật lại dữ liệu sau khi lưu thành công
+
+                            // Cập nhật avatar preview nếu có ảnh mới
+                            if (avatarInput.files.length > 0) {
+                                let reader = new FileReader();
+                                reader.onload = function (e) {
+                                    $('#avatar-preview').attr('src', e.target.result);
+                                };
+                                reader.readAsDataURL(avatarInput.files[0]);
+                            }
                         });
                     },
                     error: function (xhr) {
@@ -239,8 +283,21 @@
                     }
                 });
             });
+
+            // Hiển thị ảnh preview ngay khi chọn file
+            $('#avatar').on('change', function () {
+                let file = this.files[0];
+                if (file) {
+                    let reader = new FileReader();
+                    reader.onload = function (e) {
+                        $('#avatar-preview').attr('src', e.target.result);
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
         });
     </script>
+
 
     <!-- Cập nhật mật khẩu -->
     <script>

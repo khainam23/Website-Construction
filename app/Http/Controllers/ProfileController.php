@@ -35,24 +35,48 @@ class ProfileController extends Controller
             'phone' => 'nullable|string|max:15',
             'address' => 'nullable|string|max:255',
             'date_of_birth' => 'nullable|date',
-            'gender' => 'nullable|in:male,female,other'
+            'gender' => 'nullable|in:male,female,other',
+            'avatar' => 'nullable|image|mimes:jpg,jpeg,png|max:2048', // Validate ảnh
         ]);
 
-        // Lấy trường thay đổi
+        // Lấy các trường có thay đổi
         $changes = array_diff_assoc($validatedData, $user->only(array_keys($validatedData)));
 
-        if (empty($changes)) {
+        // Kiểm tra nếu không có thay đổi
+        if (empty($changes) && !$request->hasFile('avatar')) {
             return response()->json(['message' => 'Không có thay đổi nào để cập nhật.'], 200);
         }
 
-        // Chỉ cập nhật các trường thay đổi 
-        $user->update($changes);
+        // Xử lý cập nhật avatar
+        if ($request->hasFile('avatar')) {
+            $file = $request->file('avatar');
+            $fileName = time() . '.' . $file->getClientOriginalExtension();
+            $file->move(public_path('avatars'), $fileName);
 
-        // Lưu lại thông tin ở session 
+            // Xóa ảnh cũ nếu có
+            if ($user->avatar && file_exists(public_path($user->avatar))) {
+                unlink(public_path($user->avatar));
+            }
+
+            $user->avatar = 'avatars/' . $fileName;
+            $changes['avatar'] = $user->avatar;
+        }
+
+        // Chỉ cập nhật nếu có sự thay đổi
+        if (!empty($changes)) {
+            $user->update($changes);
+        }
+
+        // Lưu lại thông tin ở session
         session('user')['name'] = $user->last_name;
 
-        return response()->json(['message' => 'Cập nhật thông tin thành công!', 'data' => $user], 200);
+        return response()->json([
+            'message' => 'Cập nhật thông tin thành công!',
+            'avatar' => asset($user->avatar),
+            'data' => $user
+        ], 200);
     }
+
 
     public function updatePassword(Request $request)
     {

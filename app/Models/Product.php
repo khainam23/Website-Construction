@@ -22,4 +22,9 @@ class Product extends Model
     {
         return $this->hasOne(ProductDescription::class);
     }
+
+    public function productInventories()
+    {
+        return $this->hasOne(ProductInventory::class, 'product_id');
+    }
 }

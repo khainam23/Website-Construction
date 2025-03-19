@@ -19,7 +19,7 @@ class DatabaseSeeder extends Seeder
         DB::table('categories')->truncate();
         DB::table('users')->truncate();
         DB::table('product_descriptions')->truncate();
-        DB::table('product_inventory')->truncate();
+        DB::table('product_inventories')->truncate();
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 
         // Tạo Users
@@ -102,20 +102,136 @@ class DatabaseSeeder extends Seeder
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
+            [
+                'name' => 'Xe cẩu 5 tấn mini Komatsu-LC785-6 - JCT Việt Nam',
+                'category_id' => 1,
+                'description' => 'Cần cẩu 5 tấn mini Komatsu-LC785-6 là dòng xe cẩu nhỏ chuyên để phục vụ nâng hạ hàng hóa trong kho xưởng hoặc trong những công trường có diện tích nhỏ và thấp. Cần trục mini 5 tấn được nhập khẩu trực tiếp từ Nhật Bản thông qua JCT Việt Nam, xe được bảo dưỡng toàn bộ hệ thống trước khi bàn giao.
+
+                                Khách hàng có nhu cầu mua hoặc thuê xe cẩu vui lòng liên hệ JCT Việt Nam để nhận báo giá tốt nhất và nhanh nhất.
+
+                                Khách hàng tham khảo thêm:
+
+                                Địa chỉ bán xe cẩu nhỏ đa dạng tải trọng – giá rẻ bất ngờ
+
+                                Sửa chữa hệ thống thủy lực xe cẩu – Công ty JCT Việt Nam',
+                'avatar' => 'https://jct.com.vn/wp-content/uploads/2021/10/xe-cau-mini-5-tan-komatsu-lc785-6-1-.jpg',
+                'price' => 200.00,
+                'type' => 'rental',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'name' => 'Xe cẩu 5 tấn mini Komatsu-LC785-6 - JCT Việt Nam',
+                'category_id' => 1,
+                'description' => 'Cần cẩu 5 tấn mini Komatsu-LC785-6 là dòng xe cẩu nhỏ chuyên để phục vụ nâng hạ hàng hóa trong kho xưởng hoặc trong những công trường có diện tích nhỏ và thấp. Cần trục mini 5 tấn được nhập khẩu trực tiếp từ Nhật Bản thông qua JCT Việt Nam, xe được bảo dưỡng toàn bộ hệ thống trước khi bàn giao.
+
+                                Khách hàng có nhu cầu mua hoặc thuê xe cẩu vui lòng liên hệ JCT Việt Nam để nhận báo giá tốt nhất và nhanh nhất.
+
+                                Khách hàng tham khảo thêm:
+
+                                Địa chỉ bán xe cẩu nhỏ đa dạng tải trọng – giá rẻ bất ngờ
+
+                                Sửa chữa hệ thống thủy lực xe cẩu – Công ty JCT Việt Nam',
+                'avatar' => 'https://jct.com.vn/wp-content/uploads/2021/10/xe-cau-mini-5-tan-komatsu-lc785-6-1-.jpg',
+                'price' => 200.00,
+                'type' => 'rental',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'name' => 'Xe cẩu 5 tấn mini Komatsu-LC785-6 - JCT Việt Nam',
+                'category_id' => 1,
+                'description' => 'Cần cẩu 5 tấn mini Komatsu-LC785-6 là dòng xe cẩu nhỏ chuyên để phục vụ nâng hạ hàng hóa trong kho xưởng hoặc trong những công trường có diện tích nhỏ và thấp. Cần trục mini 5 tấn được nhập khẩu trực tiếp từ Nhật Bản thông qua JCT Việt Nam, xe được bảo dưỡng toàn bộ hệ thống trước khi bàn giao.
+
+                                Khách hàng có nhu cầu mua hoặc thuê xe cẩu vui lòng liên hệ JCT Việt Nam để nhận báo giá tốt nhất và nhanh nhất.
+
+                                Khách hàng tham khảo thêm:
+
+                                Địa chỉ bán xe cẩu nhỏ đa dạng tải trọng – giá rẻ bất ngờ
+
+                                Sửa chữa hệ thống thủy lực xe cẩu – Công ty JCT Việt Nam',
+                'avatar' => 'https://jct.com.vn/wp-content/uploads/2021/10/xe-cau-mini-5-tan-komatsu-lc785-6-1-.jpg',
+                'price' => 200.00,
+                'type' => 'rental',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'name' => 'Xe cẩu 5 tấn mini Komatsu-LC785-6 - JCT Việt Nam',
+                'category_id' => 1,
+                'description' => 'Cần cẩu 5 tấn mini Komatsu-LC785-6 là dòng xe cẩu nhỏ chuyên để phục vụ nâng hạ hàng hóa trong kho xưởng hoặc trong những công trường có diện tích nhỏ và thấp. Cần trục mini 5 tấn được nhập khẩu trực tiếp từ Nhật Bản thông qua JCT Việt Nam, xe được bảo dưỡng toàn bộ hệ thống trước khi bàn giao.
+
+                                Khách hàng có nhu cầu mua hoặc thuê xe cẩu vui lòng liên hệ JCT Việt Nam để nhận báo giá tốt nhất và nhanh nhất.
+
+                                Khách hàng tham khảo thêm:
+
+                                Địa chỉ bán xe cẩu nhỏ đa dạng tải trọng – giá rẻ bất ngờ
+
+                                Sửa chữa hệ thống thủy lực xe cẩu – Công ty JCT Việt Nam',
+                'avatar' => 'https://jct.com.vn/wp-content/uploads/2021/10/xe-cau-mini-5-tan-komatsu-lc785-6-1-.jpg',
+                'price' => 200.00,
+                'type' => 'rental',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'name' => 'Xe cẩu 5 tấn mini Komatsu-LC785-6 - JCT Việt Nam',
+                'category_id' => 1,
+                'description' => 'Cần cẩu 5 tấn mini Komatsu-LC785-6 là dòng xe cẩu nhỏ chuyên để phục vụ nâng hạ hàng hóa trong kho xưởng hoặc trong những công trường có diện tích nhỏ và thấp. Cần trục mini 5 tấn được nhập khẩu trực tiếp từ Nhật Bản thông qua JCT Việt Nam, xe được bảo dưỡng toàn bộ hệ thống trước khi bàn giao.
+
+                                Khách hàng có nhu cầu mua hoặc thuê xe cẩu vui lòng liên hệ JCT Việt Nam để nhận báo giá tốt nhất và nhanh nhất.
+
+                                Khách hàng tham khảo thêm:
+
+                                Địa chỉ bán xe cẩu nhỏ đa dạng tải trọng – giá rẻ bất ngờ
+
+                                Sửa chữa hệ thống thủy lực xe cẩu – Công ty JCT Việt Nam',
+                'avatar' => 'https://jct.com.vn/wp-content/uploads/2021/10/xe-cau-mini-5-tan-komatsu-lc785-6-1-.jpg',
+                'price' => 200.00,
+                'type' => 'rental',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
         ]);
 
         // Tạo giá trị lưu kho
-        DB::table('product_inventory')->insert([
+        DB::table('product_inventories')->insert([
             [
                 'product_id' => 1,
                 'type' => 'sale',
-                'quantity' => 10
+                'quantity' => 10,
+                'created_at' => now(),
+                'updated_at' => now(),
             ],
             [
                 'product_id' => 2,
                 'type' => 'rental',
-                'quantity' => 10
-            ]
+                'quantity' => 10,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'product_id' => 3,
+                'type' => 'sale',
+                'quantity' => 10,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'product_id' => 4,
+                'type' => 'rental',
+                'quantity' => 10,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'product_id' => 5,
+                'type' => 'rental',
+                'quantity' => 10,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            
         ]);
 
         // Tạo Product Descriptions
@@ -158,6 +274,26 @@ class DatabaseSeeder extends Seeder
             ],
             [
                 'product_id'=> 2,
+                'path' => 'https://jct.com.vn/wp-content/uploads/2021/10/xe-cau-mini-5-tan-komatsu-lc785-6-1-.jpg'
+            ],
+            [
+                'product_id'=> 3,
+                'path' => 'https://jct.com.vn/wp-content/uploads/2021/10/xe-cau-mini-5-tan-komatsu-lc785-6-1-.jpg'
+            ],
+            [
+                'product_id'=> 4,
+                'path' => 'https://jct.com.vn/wp-content/uploads/2021/10/xe-cau-mini-5-tan-komatsu-lc785-6-1-.jpg'
+            ],
+            [
+                'product_id'=> 5,
+                'path' => 'https://jct.com.vn/wp-content/uploads/2021/10/xe-cau-mini-5-tan-komatsu-lc785-6-1-.jpg'
+            ],
+            [
+                'product_id'=> 6,
+                'path' => 'https://jct.com.vn/wp-content/uploads/2021/10/xe-cau-mini-5-tan-komatsu-lc785-6-1-.jpg'
+            ],
+            [
+                'product_id'=> 7,
                 'path' => 'https://jct.com.vn/wp-content/uploads/2021/10/xe-cau-mini-5-tan-komatsu-lc785-6-1-.jpg'
             ],
         ]);

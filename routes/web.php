@@ -4,6 +4,7 @@ use App\Http\Controllers\ContactController;
 use App\Http\Controllers\EmailController;
 use App\Http\Controllers\ForgetController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\LogoutController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\ProfileController;
@@ -11,6 +12,7 @@ use App\Http\Controllers\RegisterController;
 use App\Http\Middleware\RoleMiddleware;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\CartController;
 
 // Các tính năng public
 Route::get("/", [HomeController::class, "index"])->name("web.index");
@@ -40,7 +42,7 @@ Route::get('/email/verify/{id}/{hash}', [EmailController::class, 'verify'])->nam
 
 // Dành cho mọi tài khoản đăng nhập thành công 
 Route::middleware([RoleMiddleware::class . ":customer,admin,sale,rental"])->group(function () {
-    Route::get('logout', [])->name('api.logout');
+    Route::get('logout', [LogoutController::class, 'logout'])->name('api.logout');
 });
 
 // Chỉ dành cho người dùng 
@@ -48,6 +50,8 @@ Route::middleware([RoleMiddleware::class . ':customer'])->group(function () {
     Route::get('/profile', [ProfileController::class, 'index'])->name('web.profile');
     Route::post('/profile/udpate/info', [ProfileController::class, 'updateInfo'])->name('api.update.info');
     Route::post('/profile/update/password', [ProfileController::class, 'updatePassword'])->name('api.update.password');
+
+    Route::post('/cart/add', [CartController::class, 'add'])->name('api.cart.add');
 });
 
 // Dành cho admin

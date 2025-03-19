@@ -23,7 +23,7 @@ class ProductController extends Controller
 
     public function show(Request $request)
     {
-        $product = Product::with(['category', 'images', 'productDescriptions'])
+        $product = Product::with(['category', 'images', 'productDescriptions', 'productInventories'])
             ->where('id', $request->id)
             ->first();
 
@@ -40,8 +40,10 @@ class ProductController extends Controller
             $product->info = $product->productDescriptions->infomations;
             $product->features = $product->productDescriptions->features;
             $product->applications = $product->productDescriptions->applications;
-            unset($product->productDescriptions); // Xóa thuộc tính productDescriptions để đơn giản hóa dữ liệu
+            unset($product->productDescriptions);
         }
+
+        // dd($product->productInventories);
 
         // Lấy danh sách sản phẩm cùng danh mục, ngoại trừ sản phẩm hiện tại
         $relatedProducts = Product::where('category_id', $product->category_id)

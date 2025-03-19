@@ -8,7 +8,8 @@ use Illuminate\Support\Facades\Hash;
 
 class RegisterController extends Controller
 {
-    public function register(Request $request) {
+    public function register(Request $request)
+    {
         $validatedData = $request->validate([
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
@@ -23,7 +24,15 @@ class RegisterController extends Controller
 
         $avatarPath = null;
         if ($request->hasFile('avatar')) {
-            $avatarPath = $request->file('avatar')->store('avatars', 'public');
+            // Lấy file ảnh từ request
+            $file = $request->file('avatar');
+            // Tạo tên file ngẫu nhiên để tránh trùng lặp
+            $fileName = time() . '.' . $file->getClientOriginalExtension();
+
+            // Lưu file vào thư mục public/avatars
+            $file->move(public_path('avatars'), $fileName);
+
+            $avatarPath = 'avatars/' . $fileName;
         }
 
         $user = User::create([

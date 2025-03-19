@@ -56,7 +56,7 @@ return new class extends Migration {
             $table->timestamps();
         });
 
-        Schema::create('product_inventory', function (Blueprint $table) {
+        Schema::create('product_inventories', function (Blueprint $table) {
             $table->id();
             $table->foreignId('product_id')->constrained('products')->onDelete('cascade');
             $table->enum('type', ['sale', 'rental'])->default('sale');
