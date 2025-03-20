@@ -16,11 +16,12 @@ class ProfileController extends Controller
 
         $infoUser = User::where('id', $userId)->first()->makeHidden(['password', 'verification_token', 'role', 'is_active', 'last_login', 'email_verified_at']);
 
-        $cartItems = Cart::where('user_id', $userId)->first();
+        $cartItems = Cart::where('user_id', $userId)->get();
 
         $orders = Order::where('user_id', $userId)
             ->with('details.product')
-            ->get();
+            ->get()
+            ->toArray();
 
         return view('frontend.profile', compact('infoUser', 'cartItems', 'orders'));
     }

@@ -5,6 +5,7 @@ use App\Http\Controllers\EmailController;
 use App\Http\Controllers\ForgetController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LogoutController;
+use App\Http\Controllers\PaymentContronller;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\ProfileController;
@@ -52,6 +53,7 @@ Route::middleware([RoleMiddleware::class . ':customer'])->group(function () {
     Route::post('/profile/update/password', [ProfileController::class, 'updatePassword'])->name('api.update.password');
 
     Route::post('/cart/add', [CartController::class, 'add'])->name('api.cart.add');
+    Route::post('/cart/payment', [PaymentContronller::class, 'all'])->name('api.payment');
 });
 
 // Dành cho admin

@@ -12,7 +12,8 @@
             <form id="forgot">
                 <div class="mb-3">
                     <label class="form-label">Email</label>
-                    <input name="email" type="email" class="form-control" id="email" placeholder="Nhập email của bạn" required>
+                    <input name="email" type="email" class="form-control" id="email" placeholder="Nhập email của bạn"
+                        required>
                 </div>
                 <button type="submit" class="btn btn-primary w-100">Gửi Yêu Cầu</button>
             </form>
@@ -26,16 +27,6 @@
             event.preventDefault();
             let formData = new FormData(this);
 
-            // Hiển thị hộp thoại loading
-            Swal.fire({
-                title: 'Đang xử lý...',
-                html: 'Vui lòng chờ trong giây lát.',
-                allowOutsideClick: false,
-                didOpen: () => {
-                    Swal.showLoading();
-                }
-            });
-
             $.ajax({
                 url: "{{ route('api.forget') }}",
                 type: "POST",
@@ -45,10 +36,18 @@
                 headers: {
                     'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
                 },
+                beforeSend: function () {
+                    Swal.fire({
+                        title: "Đang xử lý...",
+                        text: "Vui lòng đợi trong giây lát!",
+                        allowOutsideClick: false,
+                        showConfirmButton: false,
+                        willOpen: () => {
+                            Swal.showLoading();
+                        }
+                    });
+                },
                 success: function (response) {
-                    // Đóng hộp thoại loading
-                    Swal.close();
-
                     Swal.fire({
                         icon: 'success',
                         title: 'Vui lòng kiểm tra mail!',

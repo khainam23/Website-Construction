@@ -68,64 +68,105 @@
                 <table>
                     <thead>
                         <tr>
+                            <th><input type="checkbox" id="selectAll"></th>
+                            <th>Loại</th>
+                            <th>Mã sản phẩm</th>
                             <th>Sản phẩm</th>
                             <th>Giá</th>
                             <th>Số lượng</th>
                             <th>Ngày thuê</th>
                             <th>Ngày trả</th>
+                            <th>Thanh toán</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach($cartItems as $item)
                             <tr>
+                                <td>
+                                    <input type="checkbox" class="selectItem" value="{{ $item->id }}">
+                                </td>
+                                <td>
+                                    <span class="badge {{ $item->rental_end_date ? 'badge-primary' : 'badge-success' }}">
+                                        {{ $item->rental_end_date ? 'Thuê' : 'Mua' }}
+                                    </span>
+                                </td>
+                                <td>{{ $item->product->id }}</td>
                                 <td>{{ $item->product->name }}</td>
                                 <td>{{ number_format($item->cost, 0, ',', '.') }} đ</td>
                                 <td>{{ $item->quantity }}</td>
-                                <td>{{ $item->rental_start_date }}</td>
-                                <td>{{ $item->rental_end_date }}</td>
+                                <td>{{ $item->rental_start_date ? \Carbon\Carbon::parse($item->rental_start_date)->format('d/m/Y') : '-' }}
+                                </td>
+                                <td>{{ $item->rental_end_date ? \Carbon\Carbon::parse($item->rental_end_date)->format('d/m/Y') : '-' }}
+                                </td>
+                                <td>
+                                    <button class="btn btn-success">
+                                        <i class="bi bi-credit-card"></i> Thanh toán
+                                    </button>
+                                </td>
                             </tr>
                         @endforeach
                     </tbody>
                 </table>
+
+                <button id="bulkPaymentBtn" class="btn btn-primary mt-3">
+                    <i class="bi bi-cash"></i> Thanh toán các sản phẩm đang chọn
+                </button>
             @else
             <span>Hiện giỏ hàng đang trống</span>
             @endIf
         </div>
         <div id="orders" class="content-section">
             <h2>Đơn hàng</h2>
-            @if($orders->count() != 0)
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Mã đơn</th>
-                            <th>Tổng tiền</th>
-                            <th>Trạng thái</th>
-                            <th>Địa chỉ</th>
-                            <th>Số điện thoại</th>
-                            <th>Chi tiết</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach($orders as $order)
-                            <tr>
-                                <td>{{ $order->id }}</td>
-                                <td>{{ number_format($order->total, 0, ',', '.') }} đ</td>
-                                <td>{{ $order->status }}</td>
-                                <td>{{ $order->address }}</td>
-                                <td>{{ $order->phone }}</td>
-                                <td>
-                                    <ul>
-                                        @foreach($order->orderDetails as $detail)
-                                            <li>{{ $detail->product->name }} - {{ $detail->quantity }} x
-                                                {{ number_format($detail->cost, 0, ',', '.') }} đ
-                                            </li>
-                                        @endforeach
-                                    </ul>
-                                </td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+            @if(count($orders) != 0)
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Mã đơn</th>
+                                    <th>Tổng tiền</th>
+                                    <th>Trạng thái</th>
+                                    <th>Địa chỉ</th>
+                                    <th>Số điện thoại</th>
+                                    <th>Chi tiết</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($orders as $order)
+                                    <tr>
+                                        <td>{{ $order['id'] }}</td>
+                                        <td>{{ number_format($order['total'], 0, ',', '.') }} đ</td>
+                                        <td>
+                                            @php
+                                                $statusClasses = [
+                                                    'pending' => 'badge bg-secondary',  // Chờ xử lý (màu xám)
+                                                    'confirm' => 'badge bg-primary',    // Đã xác nhận (xanh dương)
+                                                    'ship' => 'badge bg-warning text-dark',  // Đang giao hàng (vàng cam)
+                                                    'delivery' => 'badge bg-success',   // Đã giao hàng (xanh lá)
+                                                    'return' => 'badge bg-info text-dark', // Trả hàng (xanh nhạt)
+                                                    'cancel' => 'badge bg-danger',      // Đã hủy (đỏ)
+                                                ];
+                                                $statusClass = $statusClasses[$order['status']] ?? 'badge bg-dark'; // Mặc định nếu trạng thái không hợp lệ
+                                            @endphp
+
+                                            <span class="{{ $statusClass }}">
+                                                {{ ucfirst($order['status']) }}
+                                            </span>
+                                        </td>
+
+                                        <td>{{ $order['address'] }}</td>
+                                        <td>{{ $order['phone'] }}</td>
+                                        <td>
+                                            <ul>
+                                                @foreach($order['details'] as $detail)
+                                                    <li>{{ $detail['product']['name'] }} - {{ $detail['quantity'] }} x
+                                                        {{ number_format($detail['product']['price'], 0, ',', '.') }} đ
+                                                    </li>
+                                                @endforeach
+                                            </ul>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
             @else
                 <span>Hiện chưa có đơn hàng thành công</span>
             @endif
@@ -158,17 +199,40 @@
 @section('js')
     <!-- Nav chuyển tab -->
     <script>
-        document.querySelectorAll('.nav-item').forEach(item => {
-            item.addEventListener('click', function () {
-                document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
-                this.classList.add('active');
+        document.addEventListener("DOMContentLoaded", function () {
+            function showTabFromHash() {
+                let hash = window.location.hash.substring(1); // Lấy phần sau dấu #
+                if (hash) {
+                    let targetTab = document.querySelector(`.nav-item[data-target="${hash}"]`);
+                    if (targetTab) {
+                        document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
+                        targetTab.classList.add('active');
 
-                let target = this.getAttribute('data-target');
-                document.querySelectorAll('.content-section').forEach(section => {
-                    section.classList.remove('active');
+                        document.querySelectorAll('.content-section').forEach(section => section.classList.remove('active'));
+                        document.getElementById(hash).classList.add('active');
+                    }
+                }
+            }
+
+            // Khi trang tải, kiểm tra URL hash
+            showTabFromHash();
+
+            // Lắng nghe sự kiện click để thay đổi hash
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.addEventListener('click', function () {
+                    document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
+                    this.classList.add('active');
+
+                    let target = this.getAttribute('data-target');
+                    window.location.hash = target; // Cập nhật hash trên URL
+
+                    document.querySelectorAll('.content-section').forEach(section => section.classList.remove('active'));
+                    document.getElementById(target).classList.add('active');
                 });
-                document.getElementById(target).classList.add('active');
             });
+
+            // Khi hash thay đổi (ví dụ: người dùng nhấn nút quay lại trên trình duyệt)
+            window.addEventListener("hashchange", showTabFromHash);
         });
     </script>
 
@@ -235,15 +299,6 @@
                     return;
                 }
 
-                Swal.fire({
-                    title: 'Đang xử lý...',
-                    html: 'Vui lòng chờ trong giây lát.',
-                    allowOutsideClick: false,
-                    didOpen: () => {
-                        Swal.showLoading();
-                    }
-                });
-
                 $.ajax({
                     url: "{{ route('api.update.info') }}",
                     type: "POST",
@@ -253,8 +308,18 @@
                     headers: {
                         'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
                     },
+                    beforeSend: function () {
+                        Swal.fire({
+                            title: "Đang xử lý...",
+                            text: "Vui lòng đợi trong giây lát!",
+                            allowOutsideClick: false,
+                            showConfirmButton: false,
+                            willOpen: () => {
+                                Swal.showLoading();
+                            }
+                        });
+                    },
                     success: function (response) {
-                        Swal.close();
                         Swal.fire({
                             icon: 'success',
                             title: 'Cập nhật thành công!',
@@ -298,7 +363,6 @@
         });
     </script>
 
-
     <!-- Cập nhật mật khẩu -->
     <script>
         $(document).ready(function () {
@@ -318,16 +382,6 @@
                     return;
                 }
 
-                // Hiển thị loading
-                Swal.fire({
-                    title: 'Đang xử lý...',
-                    html: 'Vui lòng chờ trong giây lát.',
-                    allowOutsideClick: false,
-                    didOpen: () => {
-                        Swal.showLoading();
-                    }
-                });
-
                 $.ajax({
                     url: "{{ route('api.update.password') }}",
                     type: "POST",
@@ -336,8 +390,18 @@
                         new_password: newPassword,
                         _token: "{{ csrf_token() }}"
                     },
+                    beforeSend: function () {
+                        Swal.fire({
+                            title: "Đang xử lý...",
+                            text: "Vui lòng đợi trong giây lát!",
+                            allowOutsideClick: false,
+                            showConfirmButton: false,
+                            willOpen: () => {
+                                Swal.showLoading();
+                            }
+                        });
+                    },
                     success: function (response) {
-                        Swal.close();
                         Swal.fire({
                             icon: 'success',
                             title: 'Thành công!',
@@ -355,6 +419,292 @@
                         });
                     }
                 });
+            });
+        });
+    </script>
+
+    <!-- Lựa chọn loại thanh toán -->
+    <script>
+        // Chọn loại thanh toán 
+        function handlePayment(items) {
+            Swal.fire({
+                title: "Chọn phương thức thanh toán",
+                showDenyButton: true,
+                showCancelButton: true,
+                confirmButtonText: "VNPAY",
+                denyButtonText: "Trực tiếp",
+                cancelButtonText: "Hủy",
+                icon: "question"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    processPayment(items, "vnpay");
+                } else if (result.isDenied) {
+                    processPayment(items, "direct");
+                }
+            });
+        }
+
+        function enterPaymentInfo() {
+            let paymentInfo = {
+                name: "Nguyen Nam",
+                email: "khainam23@gmail.com",
+                phone: "03955",
+                address: "HCM"
+            };
+
+            return Swal.fire({
+                title: "Nhập thông tin mua hàng",
+                html: `
+                                                    <input id="swal-name" class="swal2-input" placeholder="Họ và tên" value="${paymentInfo.name}">
+                                                    <input id="swal-phone" class="swal2-input" placeholder="Số điện thoại" type="phone" value="${paymentInfo.phone}">
+                                                    <input id="swal-address" class="swal2-input" placeholder="Địa chỉ" value="${paymentInfo.address}">
+                                                `,
+                focusConfirm: false,
+                showCancelButton: true,
+                confirmButtonText: "Xác nhận",
+                cancelButtonText: "Hủy",
+                preConfirm: () => {
+                    return {
+                        name: document.getElementById("swal-name").value,
+                        phone: document.getElementById("swal-phone").value,
+                        address: document.getElementById("swal-address").value
+                    };
+                }
+            });
+        }
+
+        // Tiến hành thanh toán
+        function processPayment(items, method) {
+            console.log(items)
+            enterPaymentInfo().then((result) => {
+                paymentInfo = result.value;
+
+                if (!paymentInfo) return;
+
+                $.ajax({
+                    url: "{{ route('api.payment') }}",
+                    type: "POST",
+                    headers: {
+                        "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content")
+                    },
+                    contentType: "application/json",
+                    data: JSON.stringify({ items: items, method: method, paymentInfo: paymentInfo }),
+                    beforeSend: function () {
+                        Swal.fire({
+                            title: "Đang xử lý...",
+                            text: "Vui lòng đợi trong giây lát!",
+                            allowOutsideClick: false,
+                            showConfirmButton: false,
+                            willOpen: () => {
+                                Swal.showLoading();
+                            }
+                        });
+                    },
+                    success: function (data) {
+                        if (data.success) {
+                            if (method === "vnpay") {
+                                window.location.href = data.redirect_url; // Chuyển hướng đến VNPAY
+                            } else {
+                                Swal.fire({
+                                    icon: "success",
+                                    title: "Thanh toán thành công!",
+                                    text: "Các sản phẩm đã được thanh toán.",
+                                    confirmButtonText: "OK"
+                                }).then(() => {
+                                    window.location.href = "{{ route('web.profile') }}#orders"; // Chuyển hướng về trang đơn hàng
+                                });
+                            }
+                        } else {
+                            Swal.fire({
+                                icon: "error",
+                                title: "Lỗi thanh toán!",
+                                text: data.message || "Có lỗi xảy ra khi thanh toán.",
+                                confirmButtonText: "OK"
+                            });
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        Swal.fire({
+                            icon: "error",
+                            title: "Lỗi kết nối!",
+                            text: "Không thể kết nối đến server, vui lòng kiểm tra lại.",
+                            confirmButtonText: "OK"
+                        });
+                        console.error("Lỗi:", error);
+                    }
+                });
+            });
+        }
+    </script>
+
+    <!-- Thanh toán hàng loạt -->
+    <script>
+        $(document).ready(function () {
+            const selectAllCheckbox = $("#selectAll");
+            const itemCheckboxes = $(".selectItem");
+            const bulkPaymentBtn = $("#bulkPaymentBtn");
+
+            function updateButtonState() {
+                let selectedCount = $(".selectItem:checked").length;
+                bulkPaymentBtn.prop("disabled", selectedCount < 2);
+                selectAllCheckbox.prop("checked", selectedCount === itemCheckboxes.length);
+            }
+
+            // Khi nhấn chọn tất cả
+            selectAllCheckbox.on("change", function () {
+                itemCheckboxes.prop("checked", this.checked);
+                updateButtonState();
+            });
+
+            // Khi chọn từng sản phẩm
+            itemCheckboxes.on("change", updateButtonState);
+
+            // Mặc định vô hiệu hóa nút thanh toán hàng loạt
+            bulkPaymentBtn.prop("disabled", true);
+
+            // Khi nhấn nút thanh toán hàng loạt
+            bulkPaymentBtn.on("click", function () {
+                let selectedItems = $(".selectItem:checked").map(function () {
+                    return $(this).val();
+                }).get();
+
+                if (selectedItems.length < 2) {
+                    Swal.fire({
+                        icon: "warning",
+                        title: "Chọn ít nhất 2 sản phẩm",
+                        text: "Bạn cần chọn ít nhất 2 sản phẩm để thanh toán!",
+                        confirmButtonText: "OK"
+                    });
+                    return;
+                }
+
+                Swal.fire({
+                    title: "Xác nhận thanh toán?",
+                    text: `Bạn đang thanh toán ${selectedItems.length} sản phẩm.`,
+                    icon: "question",
+                    showCancelButton: true,
+                    confirmButtonColor: "#28a745",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "Thanh toán",
+                    cancelButtonText: "Hủy"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        handlePayment(selectedItems);
+                    }
+                });
+            });
+        });
+    </script>
+
+    <!-- Thanh toán từng sản phẩm -->
+    <script>
+        $(document).ready(function () {
+            function formatDateForInput(dateStr) {
+                if (!dateStr || dateStr === "-") return ""; // Trả về chuỗi rỗng nếu không có ngày
+                let parts = dateStr.split("/"); // Tách chuỗi theo dấu "/"
+                if (parts.length === 3) {
+                    return `${parts[2]}-${parts[1]}-${parts[0]}`; // Chuyển sang YYYY-MM-DD
+                }
+                return ""; // Trả về chuỗi rỗng nếu không đúng định dạng
+            }
+
+            function showEditForm(items) {
+                let formHtml = `<form id="editPaymentForm">`;
+                items.forEach(item => {
+                    formHtml += `
+                                                <div class="payment-item">
+                                                    <h5>${item.name}</h5>
+                                                    <label>Số lượng:</label>
+                                                    <input type="number" class="swal2-input" name="quantity_${item.id}" value="${item.quantity}" min="1">
+                                                    ${item.end !== '-' ? `
+                                                        <label>Ngày thuê:</label>
+                                                        <input type="date" class="swal2-input" name="start_${item.id}" value="${formatDateForInput(item.start)}">
+                                                        <label>Ngày trả:</label>
+                                                        <input type="date" class="swal2-input" name="end_${item.id}" value="${formatDateForInput(item.end)}">
+                                                    ` : ""}
+                                                    <input type="hidden" name="id_${item.id}" value="${item.id}">
+                                                    <input type="hidden" name="old_quantity_${item.id}" value="${item.quantity}">
+                                                    ${item.end !== '-' ? `
+                                                        <input type="hidden" name="old_start_${item.id}" value="${formatDateForInput(item.start)}">
+                                                        <input type="hidden" name="old_end_${item.id}" value="${formatDateForInput(item.end)}">
+                                                    ` : ""}
+                                                </div>
+                                                <hr>`;
+                });
+                formHtml += `</form>`;
+
+                Swal.fire({
+                    title: "Chỉnh sửa thông tin trước khi thanh toán",
+                    html: formHtml,
+                    showCancelButton: true,
+                    confirmButtonText: "Xác nhận",
+                    cancelButtonText: "Hủy",
+                    preConfirm: () => {
+                        let updatedItems = [];
+                        items.forEach(item => {
+                            let newQuantity = $(`[name=quantity_${item.id}]`).val();
+                            let newStart = item.isRental ? formatDateForInput($(`[name=start_${item.id}]`).val()) : null;
+                            let newEnd = item.isRental ? formatDateForInput($(`[name=end_${item.id}]`).val()) : null;
+
+                            let oldQuantity = $(`[name=old_quantity_${item.id}]`).val();
+                            let oldStart = item.isRental ? formatDateForInput($(`[name=old_start_${item.id}]`).val()) : null;
+                            let oldEnd = item.isRental ? formatDateForInput($(`[name=old_end_${item.id}]`).val()) : null;
+
+                            let changes = {};
+                            // Bắt buộc có
+                            changes.id = item.id;
+                            changes.productId = item.productId;
+                            changes.quantity = item.quantity;
+                            changes.cost = item.cost.substring(0, item.cost.length - 2).replace(/\./g, '').trim(); // Bỏ dấu "." và "đ" rồi chuyển sang số
+                            if (newQuantity !== oldQuantity) changes.quantity = newQuantity;
+                            if (item.isRental) {
+                                if (newStart !== oldStart) changes.start = newStart;
+                                if (newEnd !== oldEnd) changes.end = newEnd;
+
+                                let price = changes.cost;
+
+                                let startDate = new Date(newStart);
+                                let endDate = new Date(newEnd);
+
+                                let timeDiff = endDate - startDate; // Độ chênh lệch tính bằng milliseconds
+                                let daysDiff = timeDiff / (1000 * 60 * 60 * 24); // Chuyển đổi sang ngày
+
+                                if (daysDiff > 4 && daysDiff < 7) {
+                                    price *= 0.9; // Giảm 10% => nhân 0.9
+                                } else if (daysDiff > 8 && daysDiff < 14) {
+                                    price *= 0.85; // Giảm 15% => nhân 0.85
+                                } else if (daysDiff > 14) {
+                                    price *= 0.8; // Giảm 20% => nhân 0.8
+                                }
+
+                                changes.cost = price;
+                            }
+
+                            if (Object.keys(changes).length > 0) {
+                                updatedItems.push(changes);
+                            }
+                        });
+                        return updatedItems;
+                    }
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        handlePayment(result.value);
+                    }
+                });
+            }
+
+            $(".btn-success").on("click", function () {
+                let row = $(this).closest("tr");
+                let itemId = row.find(".selectItem").val();
+                let productId = row.find("td:nth-child(3)").text().trim();
+                let productName = row.find("td:nth-child(4)").text().trim();
+                let cost = row.find("td:nth-child(5)").text().trim();
+                let quantity = row.find("td:nth-child(6)").text().trim();
+                let rentalStart = row.find("td:nth-child(7)").text().trim();
+                let rentalEnd = row.find("td:nth-child(8)").text().trim();
+                let isRental = rentalEnd !== "-"; // Kiểm tra có phải là thuê không
+
+                showEditForm([{ id: itemId, productId: productId, name: productName, cost: cost, quantity: quantity, start: rentalStart, end: rentalEnd, isRental: isRental }]);
             });
         });
     </script>

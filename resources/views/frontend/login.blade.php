@@ -34,16 +34,6 @@
 
                 let formData = new FormData(this);
 
-                // Hiển thị hộp thoại loading
-                Swal.fire({
-                    title: 'Đang xử lý...',
-                    html: 'Vui lòng chờ trong giây lát.',
-                    allowOutsideClick: false,
-                    didOpen: () => {
-                        Swal.showLoading();
-                    }
-                });
-
                 $.ajax({
                     url: "{{ route('api.login') }}",
                     type: "POST",
@@ -53,10 +43,18 @@
                     headers: {
                         'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
                     },
+                    beforeSend: function () {
+                        Swal.fire({
+                            title: "Đang xử lý...",
+                            text: "Vui lòng đợi trong giây lát!",
+                            allowOutsideClick: false,
+                            showConfirmButton: false,
+                            willOpen: () => {
+                                Swal.showLoading();
+                            }
+                        });
+                    },
                     success: function (response) {
-                        // Đóng hộp thoại loading
-                        Swal.close();
-
                         Swal.fire({
                             icon: 'success',
                             title: 'Đăng nhập thành công!',

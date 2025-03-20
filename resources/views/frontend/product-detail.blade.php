@@ -53,7 +53,8 @@
                             <div class="col-12 mt-3">
                                 <h2>Số lượng tồn kho: <span>{{ $product->productInventories->quantity }}</span></h2>
                                 <h4>Giá {{ $product->type == 'sale' ? 'Bán' : 'Thuê' }}:
-                                    {{ number_format($product->price, 0, ',', '.') }} đ</h4>
+                                    {{ number_format($product->price, 0, ',', '.') }} đ
+                                </h4>
                             </div>
                         </div>
                         <div class="row">
@@ -221,31 +222,31 @@
             Swal.fire({
                 title: 'Xác nhận thêm vào giỏ hàng',
                 html: `
-                        <div class="text-start">
-                            <label class="fw-bold">Tên sản phẩm:</label>
-                            <input type="text" id="product_name" class="form-control mb-2" value="{{ $product->name }}" readonly>
+                    <div class="text-start">
+                        <label class="fw-bold">Tên sản phẩm:</label>
+                        <input type="text" id="product_name" class="form-control mb-2" value="{{ $product->name }}" readonly>
 
-                            <label class="fw-bold">Giá sản phẩm:</label>
-                            <input type="text" id="product_price" class="form-control mb-2" value="{{ number_format($product->price, 0, ',', '.') }} đ" readonly>
+                        <label class="fw-bold">Giá sản phẩm:</label>
+                        <input type="text" id="product_price" class="form-control mb-2" value="{{ number_format($product->price, 0, ',', '.') }} đ" readonly>
 
-                            <label class="fw-bold">Số lượng:</label>
-                            <input type="number" id="quantity" class="form-control mb-2" value="1" 
-                                min="1" max="{{ $product->productInventories->quantity }}"
-                                oninput="updateTotalPrice()" 
-                                onkeypress="return event.charCode >= 48 && event.charCode <= 57">
+                        <label class="fw-bold">Số lượng:</label>
+                        <input type="number" id="quantity" class="form-control mb-2" value="1" 
+                            min="1" max="{{ $product->productInventories->quantity }}"
+                            oninput="updateTotalPrice()" 
+                            onkeypress="return event.charCode >= 48 && event.charCode <= 57">
 
-                            @if($product->type == 'rental')
-                                <label class="fw-bold">Ngày bắt đầu:</label>
-                                <input type="date" id="rental_start" class="form-control mb-2">
+                        @if($product->type == 'rental')
+                            <label class="fw-bold">Ngày bắt đầu:</label>
+                            <input type="date" id="rental_start" class="form-control mb-2">
 
-                                <label class="fw-bold">Ngày kết thúc:</label>
-                                <input type="date" id="rental_end" class="form-control mb-2" onchange="updateTotalPrice()">
-                            @endif
+                            <label class="fw-bold">Ngày kết thúc:</label>
+                            <input type="date" id="rental_end" class="form-control mb-2" onchange="updateTotalPrice()">
+                        @endif
 
-                            <label class="fw-bold">Tổng giá:</label>
-                            <input type="text" id="total_price" class="form-control mb-2" value="{{ number_format($product->price, 0, ',', '.') }} đ" readonly>
-                        </div>
-                    `,
+                        <label class="fw-bold">Tổng giá:</label>
+                        <input type="text" id="total_price" class="form-control mb-2" value="{{ number_format($product->price, 0, ',', '.') }} đ" readonly>
+                    </div>
+                `,
                 showCancelButton: true,
                 confirmButtonText: 'Thêm vào giỏ hàng',
                 cancelButtonText: 'Hủy',
@@ -291,10 +292,12 @@
                         processData: false,
                         success: function (response) {
                             Swal.fire({
-                                icon: 'success',
+                                icon: 'success',    
                                 title: 'Thêm vào giỏ hàng thành công',
                                 showConfirmButton: false,
                                 timer: 1500
+                            }).then(() => {
+                                window.location.href = "{{ route('web.profile') }}#cart";
                             });
                         },
                         error: function (xhr) {
