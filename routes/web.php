@@ -78,12 +78,12 @@ Route::middleware([RoleMiddleware::class . ':admin'])->group(function () {
 });
 
 // Dành cho sale
-// Route::middleware([RoleMiddleware::class . ':sale'])->group(function () {
+Route::middleware([RoleMiddleware::class . ':sale'])->group(function () {
     Route::get('/sale/dashboard', [SalesController::class, 'dashboard'])->name('sale.dashboard');
     Route::get('/sale/sales/revenue', [RevenueController::class, 'index'])->name('sale.sales.revenue');
     Route::get('/sale/sales/product-sales', [SalesController::class, 'productSales'])->name('sale.sales.productSales');
     Route::get('/sale/sales', [SalesController::class, 'index'])->name('sale.sales.index');
-// });
+});
 
 // Dành cho rental
 Route::middleware([RoleMiddleware::class . ':rental'])->group(function () {

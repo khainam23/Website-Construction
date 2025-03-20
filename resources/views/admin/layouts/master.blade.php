@@ -170,11 +170,6 @@
                                 <i class="fas fa-shopping-cart"></i> {{ __('Order Management') }}
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link {{ request()->routeIs('sale.sales.revenue') ? 'active' : '' }}" href="{{ route('sale.sales.revenue') }}">
-                                <i class="fas fa-chart-line"></i> {{ __('Revenue Statistics') }}
-                            </a>
-                        </li>
                         <!-- Add more sidebar items here -->
                     </ul>
                     <ul class="nav flex-column">
