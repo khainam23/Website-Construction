@@ -74,7 +74,7 @@ class PaymentContronller extends Controller
             // Tạo OrderDetail
             OrderDetail::create([
                 'order_id' => $order->id,
-                'product_id' => $item['product_id'] ?? $item['productId'],
+                'product_id' => $item['product_id'] ?? $item['productId'] ?? $cart->product_id,
                 'quantity' => $item['quantity'],
                 'cost' => $item['cost'],
                 'rental_start_date' => $item['start'] ?? null,
