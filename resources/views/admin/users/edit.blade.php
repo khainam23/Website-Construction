@@ -13,10 +13,10 @@
         <div class="form-group">
             <label for="role">{{ __('Role') }}</label>
             <select name="role" id="role" class="form-control">
-                <option value="admin" {{ $user->role == 'admin' ? 'selected' : '' }}>Admin</option>
-                <option value="customer" {{ $user->role == 'customer' ? 'selected' : '' }}>Customer</option>
-                <option value="sale" {{ $user->role == 'sale' ? 'selected' : '' }}>Sale</option>
-                <option value="rental" {{ $user->role == 'rental' ? 'selected' : '' }}>Rental</option>
+                <option value="admin" {{ $user->role == 'admin' ? 'selected' : '' }}>{{ __('Admin') }}</option>
+                <option value="customer" {{ $user->role == 'customer' ? 'selected' : '' }}>{{ __('Customer') }}</option>
+                <option value="sale" {{ $user->role == 'sale' ? 'selected' : '' }}>{{ __('Sale') }}</option>
+                <option value="rental" {{ $user->role == 'rental' ? 'selected' : '' }}>{{ __('Rental') }}</option>
             </select>
         </div>
 

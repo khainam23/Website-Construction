@@ -9,6 +9,18 @@ use Illuminate\Support\Facades\Log;
 
 class ProductController extends Controller
 {
+    public function index(Request $request)
+    {
+        $search = $request->input('search');
+        $products = Product::query()
+            ->when($search, function ($query, $search) {
+                return $query->where('name', 'like', "%{$search}%");
+            })
+            ->paginate(10);
+
+        return view('admin.products.index', compact('products'));
+    }
+
     public function viewAll($type)
     {
         $products = null;

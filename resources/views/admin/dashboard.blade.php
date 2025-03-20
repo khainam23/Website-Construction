@@ -14,7 +14,7 @@
                     </div>
                     <div class="card-body">
                         <h2 class="card-title">{{ $totalProducts }}</h2>
-                        <p class="card-text">Manage your products efficiently.</p>
+                        <p class="card-text">{{ __('Manage Products') }}</p>
                     </div>
                 </div>
             </div>
@@ -26,7 +26,7 @@
                     </div>
                     <div class="card-body">
                         <h2 class="card-title">{{ $totalCategories }}</h2>
-                        <p class="card-text">Organize your products into categories.</p>
+                        <p class="card-text">{{ __('Manage Categories') }}</p>
                     </div>
                 </div>
             </div>
@@ -38,7 +38,20 @@
                     </div>
                     <div class="card-body">
                         <h2 class="card-title">{{ $totalUsers }}</h2>
-                        <p class="card-text">Manage user accounts and roles.</p>
+                        <p class="card-text">{{ __('Manage Users') }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header">
+                        {{ __('Total Orders') }}
+                    </div>
+                    <div class="card-body">
+                        <h2 class="card-title">{{ $totalOrders }}</h2>
+                        <p class="card-text">{{ __('Manage Orders') }}</p>
                     </div>
                 </div>
             </div>

@@ -43,7 +43,15 @@
                     <td>
                         <ul>
                             @foreach($order->details as $detail)
-                            <li>{{ $detail->product->name }} ({{ $detail->quantity }}) - {{ $detail->cost }}</li>
+                            <li>
+                                {{ $detail->product->name }} ({{ $detail->quantity }}) - {{ $detail->cost }}
+                                @if($detail->rental_start && $detail->rental_end && $detail->duration)
+                                    <br>
+                                    {{ __('Rental Start') }}: {{ $detail->rental_start }}
+                                    {{ __('Rental End') }}: {{ $detail->rental_end }}
+                                    {{ __('Duration') }}: {{ $detail->duration }}
+                                @endif
+                            </li>
                             @endforeach
                         </ul>
                     </td>

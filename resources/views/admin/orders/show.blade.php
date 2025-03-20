@@ -32,6 +32,9 @@
                             <th>{{ __('Product') }}</th>
                             <th>{{ __('Quantity') }}</th>
                             <th>{{ __('Cost') }}</th>
+                            <th>{{ __('Rental Start') }}</th>
+                            <th>{{ __('Rental End') }}</th>
+                            <th>{{ __('Rental Duration') }}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -40,6 +43,9 @@
                             <td>{{ $detail->product->name }}</td>
                             <td>{{ $detail->quantity }}</td>
                             <td>{{ $detail->cost }}</td>
+                            <td>{{ $detail->rental_start_date }}</td>
+                            <td>{{ $detail->rental_end_date }}</td>
+                            <td>{{ $detail->duration }}</td>
                         </tr>
                         @endforeach
                     </tbody>

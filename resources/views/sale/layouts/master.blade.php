@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title') - {{ __('Admin Panel') }}</title>
+    <title>@yield('title') - {{ __('Bảng điều khiển Sale') }}</title>
     <link rel="stylesheet" href="{{ asset('frontendcss/bootstrap_4.6/css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
@@ -151,28 +151,23 @@
                     <img class="img-logo" src="{{ asset('frontendcss/images/logobmq1.png')}}" alt="">
                     <ul class="nav flex-column">
                         <li class="nav-item">
-                            <a class="nav-link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}" href="{{ route('admin.dashboard') }}">
-                                <i class="fas fa-tachometer-alt"></i> {{ __('Dashboard') }}
+                            <a class="nav-link {{ request()->routeIs('sale.dashboard') ? 'active' : '' }}" href="{{ route('sale.dashboard') }}">
+                                <i class="fas fa-tachometer-alt"></i> {{ __('Bảng điều khiển') }}
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link {{ request()->routeIs('admin.users.index') ? 'active' : '' }}" href="{{ route('admin.users.index') }}">
-                                <i class="fas fa-users"></i> {{ __('User Management') }}
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link {{ request()->routeIs('admin.products.index') ? 'active' : '' }}" href="{{ route('admin.products.index') }}">
-                                <i class="fas fa-boxes"></i> {{ __('Product Management') }}
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link {{ request()->routeIs('admin.orders.index') ? 'active' : '' }}" href="{{ route('admin.orders.index') }}">
-                                <i class="fas fa-shopping-cart"></i> {{ __('Order Management') }}
+                            <a class="nav-link {{ request()->routeIs('sale.sales.index') ? 'active' : '' }}" href="{{ route('sale.sales.index') }}">
+                                <i class="fas fa-chart-bar"></i> {{ __('Quản lý bán hàng') }}
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link {{ request()->routeIs('sale.sales.revenue') ? 'active' : '' }}" href="{{ route('sale.sales.revenue') }}">
-                                <i class="fas fa-chart-line"></i> {{ __('Revenue Statistics') }}
+                                <i class="fas fa-chart-line"></i> {{ __('Thống kê doanh thu') }}
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {{ request()->routeIs('sale.sales.productSales') ? 'active' : '' }}" href="{{ route('sale.sales.productSales') }}">
+                                <i class="fas fa-boxes"></i> {{ __('Bán hàng sản phẩm') }}
                             </a>
                         </li>
                         <!-- Add more sidebar items here -->
@@ -180,7 +175,7 @@
                     <ul class="nav flex-column">
                         <li class="nav-item">
                             <a class="nav-link logout-button" href="{{ route('api.logout') }}">
-                                <i class="fas fa-sign-out-alt"></i> {{ __('Logout') }}
+                                <i class="fas fa-sign-out-alt"></i> {{ __('Đăng xuất') }}
                             </a>
                         </li>
                     </ul>
