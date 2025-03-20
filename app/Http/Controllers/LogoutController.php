@@ -11,4 +11,5 @@ class LogoutController extends Controller
         session()->forget('user');
         return redirect('/');
     }
+
 }
