@@ -170,6 +170,11 @@
                                 <i class="fas fa-shopping-cart"></i> {{ __('Order Management') }}
                             </a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link {{ request()->routeIs('admin.categories.index') ? 'active' : '' }}" href="{{ route('admin.categories.index') }}">
+                                <i class="fas fa-list"></i> {{ __('Category Management') }}
+                            </a>
+                        </li>
                         <!-- Add more sidebar items here -->
                     </ul>
                     <ul class="nav flex-column">

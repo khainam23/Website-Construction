@@ -14,7 +14,9 @@
         <form action="{{ route('admin.categories.index') }}" method="GET">
             <div class="input-group">
                 <input type="text" name="search" class="form-control" placeholder="{{ __('Search category...') }}" value="{{ request('search') }}">
-                <button type="submit" class="btn btn-primary">{{ __('Search') }}</button>
+                <div class="input-group-append">
+                    <button type="submit" class="btn btn-primary">{{ __('Search') }}</button>
+                </div>
             </div>
         </form>
     </div>
