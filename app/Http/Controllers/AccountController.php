@@ -2,15 +2,22 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
 use Illuminate\Http\Request;
+use App\Models\User;
 
-class UserController extends Controller
+class AccountController extends Controller
 {
-    public function index(Request $request)
+    public function loadAccount() 
     {
-        $user = User::all();
+        $users = User::all();
         return view('admin.users.index', compact('users'));
+    }
+
+    public function show(Request $request)
+    {
+        // Tìm người dùng theo mã ID
+        $user = User::findOrFail($request->userId);
+        return response()->json($user);
     }
 
     public function update(Request $request)
@@ -34,12 +41,5 @@ class UserController extends Controller
             'message' => 'Cập nhật thông tin người dùng thành công',
             'user' => $user
         ]);
-    }
-
-    public function show(Request $request)
-    {
-        // Tìm người dùng theo mã ID
-        $user = User::findOrFail($request->userId);
-        return response()->json($user);
     }
 }

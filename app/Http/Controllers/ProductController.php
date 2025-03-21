@@ -9,11 +9,6 @@ use Illuminate\Support\Facades\Log;
 
 class ProductController extends Controller
 {
-    public function index(Request $request)
-    {
-        $products = Product::with(['category', 'productInventories'])->orderBy("id")->paginate(10);
-        return view('admin.products.index', compact('products'));
-    }
 
     public function viewAll($type)
     {
@@ -60,7 +55,9 @@ class ProductController extends Controller
 
     public function edit($id)
     {
-        $product = Product::findOrFail($id);
+        $product = Product::with(['category', 'images', 'productDescriptions', 'productInventories'])
+            ->where('id', $id)
+            ->first();
         return view('admin.products.edit', compact('product'));
     }
 
