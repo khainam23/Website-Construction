@@ -33,32 +33,48 @@
             </thead>
             <tbody>
                 @foreach($orders as $order)
-                <tr>
-                    <td>{{ $order->id }}</td>
-                    <td>{{ $order->user->first_name }} {{ $order->user->last_name }}</td>
-                    <td>{{ $order->total }}</td>
-                    <td>{{ $order->status }}</td>
-                    <td>{{ $order->address }}</td>
-                    <td>{{ $order->phone }}</td>
-                    <td>
-                        <ul>
-                            @foreach($order->details as $detail)
-                            <li>
-                                {{ $detail->product->name }} ({{ $detail->quantity }}) - {{ $detail->cost }}
-                                @if($detail->rental_start && $detail->rental_end && $detail->duration)
-                                    <br>
-                                    {{ __('Rental Start') }}: {{ $detail->rental_start }}
-                                    {{ __('Rental End') }}: {{ $detail->rental_end }}
-                                    {{ __('Duration') }}: {{ $detail->duration }}
-                                @endif
-                            </li>
-                            @endforeach
-                        </ul>
-                    </td>
-                    <td>
-                        <a href="{{ route('admin.orders.show', $order->id) }}" class="btn btn-sm btn-primary">{{ __('View') }}</a>
-                    </td>
-                </tr>
+                        <tr>
+                            <td>{{ $order->id }}</td>
+                            <td>{{ $order->user->first_name }} {{ $order->user->last_name }}</td>
+                            <td>{{ $order->total }}</td>
+                            <td>
+                                @php
+                                    $statusClasses = [
+                                        'pending' => 'badge bg-secondary',  // Chờ xử lý (màu xám)
+                                        'confirm' => 'badge bg-primary',    // Đã xác nhận (xanh dương)
+                                        'ship' => 'badge bg-warning text-dark',  // Đang giao hàng (vàng cam)
+                                        'delivery' => 'badge bg-success',   // Đã giao hàng (xanh lá)
+                                        'return' => 'badge bg-info text-dark', // Trả hàng (xanh nhạt)
+                                        'cancel' => 'badge bg-danger',      // Đã hủy (đỏ)
+                                    ];
+                                    $statusClass = $statusClasses[$order['status']] ?? 'badge bg-dark'; // Mặc định nếu trạng thái không hợp lệ
+                                @endphp
+
+                            <span class="{{ $statusClass }}">
+                                {{ ucfirst($order['status']) }}
+                            </span>
+                        </td>
+                        <td>{{ $order->address }}</td>
+                        <td>{{ $order->phone }}</td>
+                        <td>
+                            <ul>
+                                @foreach($order->details as $detail)
+                                <li>
+                                    {{ $detail->product->name }} ({{ $detail->quantity }}) - {{ $detail->cost }}
+                                    @if($detail->rental_start && $detail->rental_end && $detail->duration)
+                                        <br>
+                                        {{ __('Rental Start') }}: {{ $detail->rental_start }}
+                                        {{ __('Rental End') }}: {{ $detail->rental_end }}
+                                        {{ __('Duration') }}: {{ $detail->duration }}
+                                    @endif
+                                </li>
+                                @endforeach
+                            </ul>
+                        </td>
+                        <td>
+                            <a href="{{ route('admin.orders.show', $order->id) }}" class="btn btn-sm btn-primary">{{ __('View') }}</a>
+                        </td>
+                    </tr>
                 @endforeach
             </tbody>
         </table>

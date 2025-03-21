@@ -83,6 +83,7 @@ Route::middleware([RoleMiddleware::class . ':admin'])->group(function () {
     // Order Management
     Route::get('/admin/orders', [OrderController::class, 'index'])->name('admin.orders.index');
     Route::get('/admin/orders/{order}', [OrderController::class, 'show'])->name('admin.orders.show');
+    Route::post('/admin/order/update/status', [OrderController::class, 'updateStatus'])->name('admin.api.order.update.status');
 
     // Category Management Routes
     Route::get('/admin/categories', [CategoryController::class, 'index'])->name('admin.categories.index');
