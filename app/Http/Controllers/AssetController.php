@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\Image;
+use Illuminate\Http\Request;
 
 class AssetController extends Controller
 {
@@ -51,5 +52,35 @@ class AssetController extends Controller
         $image->delete();
 
         return response()->json(['success' => true, 'message' => 'Ảnh đã được xóa thành công!']);
+    }
+
+    public function uploadImages(Request $request)
+    {
+        $request->validate([
+            'product_id' => 'required|exists:products,id',
+            'images.*' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048'
+        ]);
+
+        $uploadedImages = [];
+
+        try {
+            foreach ($request->file('images') as $image) {
+                $imagePath = $image->store('products', 'public');
+
+                $productImage = Image::create([
+                    'product_id' => $request->product_id,
+                    'path' => 'storage/' . $imagePath
+                ]);
+
+                $uploadedImages[] = [
+                    'id' => $productImage->id,
+                    'path' => asset($productImage->path)
+                ];
+            }
+
+            return response()->json(['success' => true, 'images' => $uploadedImages]);
+        } catch (\Exception $e) {
+            return response()->json(['success' => false, 'error' => $e->getMessage()]);
+        }
     }
 }

@@ -78,6 +78,7 @@ Route::middleware([RoleMiddleware::class . ':admin'])->group(function () {
     Route::put('/admin/products/{product}', [ProductController::class, 'update'])->name('admin.products.update');
     Route::delete('/admin/products/{product}', [ProductController::class, 'delete'])->name('admin.products.delete');
     Route::delete('/admin/product/delete/image/{id}', [AssetController::class, 'deleteImage'])->name('admin.api.product.delete.image');
+    Route::post('/admin/product/add/image', [AssetController::class, 'uploadImages'])->name('admin.api.product.upload.images');
 
     // Order Management
     Route::get('/admin/orders', [OrderController::class, 'index'])->name('admin.orders.index');

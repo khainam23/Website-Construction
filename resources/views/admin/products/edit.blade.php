@@ -64,23 +64,24 @@
             <div class="form-group">
                 <label for="images">{{ __('Images') }}</label>
                 <input type="file" name="images[]" id="images" class="form-control" multiple>
+            </div>
 
-                @if($product->images)
-                    <div class="mt-3 d-flex flex-wrap">
-                        @foreach($product->images as $image)
-                            <div class="position-relative m-2 mr-5">
-                                <img src="{{ asset($image->path) }}" alt="{{ $product->name }}" class="img-thumbnail"
-                                    style="max-height: 100px;">
-
-                                <!-- Nút X để xóa -->
+            <!-- Khu vực hiển thị ảnh -->
+            <div id="imagePreview" class="mt-3 container">
+                <div class="row">
+                    @foreach($product->images as $image)
+                        <div class="col-3 mb-3 image-container" data-id="{{ $image->id }}">
+                            <div class="position-relative">
+                                <img src="{{ asset($image->path) }}" alt="{{ $product->name }}" class="img-thumbnail w-100"
+                                    style="max-height: 100px; object-fit: cover;">
                                 <button class="btn btn-danger btn-sm position-absolute top-0 end-0 delete-image"
                                     data-image-id="{{ $image->id }}">
                                     &times;
                                 </button>
                             </div>
-                        @endforeach
-                    </div>
-                @endif
+                        </div>
+                    @endforeach
+                </div>
             </div>
 
             <button type="submit" class="btn btn-primary">{{ __('Update') }}</button>
@@ -127,6 +128,74 @@
                                 Swal.fire("Lỗi!", "Có lỗi xảy ra khi xóa ảnh.", "error");
                             }
                         });
+                    }
+                });
+            });
+        });
+    </script>
+
+    <!-- Thêm hình ảnh cho sản phẩm -->
+    <script>
+        $(document).ready(function () {
+            $('#images').on('change', function (event) {
+                let files = event.target.files;
+                if (files.length === 0) return;
+
+                let formData = new FormData();
+                let allowedExtensions = ["jpg", "jpeg", "png", "gif"];
+                let maxSize = 5 * 1024 * 1024; // 5MB
+
+                for (let file of files) {
+                    let fileExt = file.name.split('.').pop().toLowerCase();
+                    if (!allowedExtensions.includes(fileExt)) {
+                        Swal.fire("Lỗi!", `Định dạng <b>${fileExt}</b> không được hỗ trợ!`, "error");
+                        return;
+                    }
+                    if (file.size > maxSize) {
+                        Swal.fire("Lỗi!", `File <b>${file.name}</b> quá lớn! Chỉ cho phép tối đa 5MB.`, "error");
+                        return;
+                    }
+                    formData.append('images[]', file);
+                }
+
+                formData.append('product_id', "{{ $product->id }}");
+
+                Swal.fire({
+                    title: "Đang tải ảnh lên...",
+                    text: "Vui lòng chờ trong giây lát!",
+                    icon: "info",
+                    allowOutsideClick: false,
+                    showConfirmButton: false,
+                    didOpen: () => {
+                        Swal.showLoading();
+                    }
+                });
+
+                $.ajax({
+                    url: "{{ route('admin.api.product.upload.images') }}",
+                    type: "POST",
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    headers: {
+                        "X-CSRF-TOKEN": "{{ csrf_token() }}"
+                    },
+                    success: function (data) {
+                        Swal.close();
+                        if (data.success) {
+                            Swal.fire({
+                                title: "Thành công!",
+                                text: "Ảnh đã được tải lên!",
+                                icon: "success"
+                            }).then(() => {
+                                location.reload(); // Reload lại trang sau khi người dùng bấm OK
+                            });
+                        } else {
+                            Swal.fire("Lỗi!", data.error || "Không xác định", "error");
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        Swal.fire("Lỗi!", "Lỗi khi tải ảnh lên. Vui lòng thử lại.", "error");
                     }
                 });
             });
