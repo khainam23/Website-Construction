@@ -38,7 +38,7 @@
                             <td>{{ $product->name }}</td>
                             <td>{{ $product->category->name }}</td>
                             <td>{{ $product->price }}</td>
-                            <td>{{ $product->productInventories ? $product->productInventories->quantity : 'Không có dữ liệu' }}</td>
+                            <td>{{ $product->productInventories ? $product->productInventories->quantity : 0 }}</td>
                             <td>
                                 @if($product->avatar)
                                     <img src="{{ $product->avatar }}" class="card-img-top" alt="{{ $product->name }}"

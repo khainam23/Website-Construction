@@ -74,9 +74,10 @@ Route::middleware([RoleMiddleware::class . ':admin'])->group(function () {
 
     // Product Management
     Route::get('/admin/products', [AssetController::class, 'loadProduct'])->name('admin.products.index');
-    Route::get('/admin.products/{product}/edit', [ProductController::class, 'edit'])->name('admin.products.edit');
-    Route::put('/admin.products/{product}', [ProductController::class, 'update'])->name('admin.products.update');
-    Route::delete('/admin.products/{product}', [ProductController::class, 'delete'])->name('admin.products.delete');
+    Route::get('/admin/products/{product}/edit', [AssetController::class, 'edit'])->name('admin.products.edit');
+    Route::put('/admin/products/{product}', [ProductController::class, 'update'])->name('admin.products.update');
+    Route::delete('/admin/products/{product}', [ProductController::class, 'delete'])->name('admin.products.delete');
+    Route::delete('/admin/product/delete/image/{id}', [AssetController::class, 'deleteImage'])->name('admin.api.product.delete.image');
 
     // Order Management
     Route::get('/admin/orders', [OrderController::class, 'index'])->name('admin.orders.index');

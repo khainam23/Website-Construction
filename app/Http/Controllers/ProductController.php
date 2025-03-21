@@ -53,14 +53,6 @@ class ProductController extends Controller
         return view("frontend.product-detail", compact("product", "relatedProducts"));
     }
 
-    public function edit($id)
-    {
-        $product = Product::with(['category', 'images', 'productDescriptions', 'productInventories'])
-            ->where('id', $id)
-            ->first();
-        return view('admin.products.edit', compact('product'));
-    }
-
     public function update(Request $request, $id)
     {
         Log::info('Starting update for product ID: ' . $id);
