@@ -11,13 +11,7 @@ class ProductController extends Controller
 {
     public function index(Request $request)
     {
-        $search = $request->input('search');
-        $products = Product::query()
-            ->when($search, function ($query, $search) {
-                return $query->where('name', 'like', "%{$search}%");
-            })
-            ->paginate(10);
-
+        $products = Product::with(['category', 'productInventories'])->orderBy("id")->paginate(10);
         return view('admin.products.index', compact('products'));
     }
 
@@ -56,8 +50,6 @@ class ProductController extends Controller
             unset($product->productDescriptions);
         }
 
-        // dd($product->productInventories);
-
         // Lấy danh sách sản phẩm cùng danh mục, ngoại trừ sản phẩm hiện tại
         $relatedProducts = Product::where('category_id', $product->category_id)
             ->where('id', '!=', $product->id)
@@ -75,7 +67,7 @@ class ProductController extends Controller
     public function update(Request $request, $id)
     {
         Log::info('Starting update for product ID: ' . $id);
-        
+
         $product = Product::findOrFail($id);
 
         $product->name = $request->input('name');
@@ -84,39 +76,39 @@ class ProductController extends Controller
         $product->price = $request->input('price');
         $product->stock = $request->input('stock');
         $product->save();
-        
+
         Log::info('Basic product info updated');
 
         if ($request->hasFile('images')) {
             Log::info('Images detected in request. Count: ' . count($request->file('images')));
-            
+
             try {
                 foreach ($request->file('images') as $index => $image) {
                     Log::info("Processing image {$index}: " . $image->getClientOriginalName());
-                    
+
                     // Check if image is valid
                     if (!$image->isValid()) {
                         Log::error("Image {$index} is not valid");
                         continue;
                     }
-                    
+
                     // Store the image
                     $path = $image->store('public/products');
                     Log::info("Image stored at path: {$path}");
-                    
+
                     if (!$path) {
                         Log::error("Failed to store image {$index}");
                         continue;
                     }
-                    
+
                     // Create database record
                     $dbPath = str_replace('public/', '', $path);
                     Log::info("Saving path to database: {$dbPath}");
-                    
+
                     $imageModel = $product->images()->create([
                         'path' => $dbPath,
                     ]);
-                    
+
                     if ($imageModel) {
                         Log::info("Image record created with ID: {$imageModel->id}");
                     } else {

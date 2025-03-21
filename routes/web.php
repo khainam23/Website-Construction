@@ -74,6 +74,7 @@ Route::middleware([RoleMiddleware::class . ':admin'])->group(function () {
 
     // Product Management
     Route::get('/admin/products', [ProductController::class, 'index'])->name('admin.products.index');
+    Route::get('/admin.products/{product}/edit', [ProductController::class, 'edit'])->name('admin.products.edit');
     Route::put('/admin.products/{product}', [ProductController::class, 'update'])->name('admin.products.update');
     Route::delete('/admin.products/{product}', [ProductController::class, 'delete'])->name('admin.products.delete');
 
