@@ -6,9 +6,9 @@
     <div class="container">
         <h1>{{ __('Edit Product') }}</h1>
 
-        <form action="{{ route('admin.products.update', $product->id) }}" method="POST" enctype="multipart/form-data">
+        <form id="updateForm" action="{{ route('admin.api.products.update', $product->id) }}" enctype="multipart/form-data">
             @csrf
-            @method('PUT')
+            @method('POST')
 
             <div class="form-group">
                 <label for="name">{{ __('Name') }}</label>
@@ -196,6 +196,50 @@
                     },
                     error: function (xhr, status, error) {
                         Swal.fire("Lỗi!", "Lỗi khi tải ảnh lên. Vui lòng thử lại.", "error");
+                    }
+                });
+            });
+        });
+    </script>
+
+    <!-- Cập nhật thông tin -->
+    <script>
+        $(document).ready(function () {
+            $('#updateForm').submit(function (e) {
+                e.preventDefault(); // Ngăn chặn reload trang
+
+                let formData = new FormData(this); // Lấy dữ liệu từ form
+
+                $.ajax({
+                    url: $(this).attr('action'), // Lấy URL từ form
+                    type: "POST",
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    beforeSend: function () {
+                        Swal.fire({
+                            title: "Đang cập nhật...",
+                            text: "Vui lòng đợi!",
+                            icon: "info",
+                            showConfirmButton: false,
+                            allowOutsideClick: false
+                        });
+                    },
+                    success: function (response) {
+                        if (response.success) {
+                            Swal.fire({
+                                title: "Thành công!",
+                                text: "Thông tin sản phẩm đã được cập nhật!",
+                                icon: "success"
+                            }).then(() => {
+                                location.reload(); // Reload trang sau khi cập nhật
+                            });
+                        } else {
+                            Swal.fire("Lỗi!", response.error || "Không xác định", "error");
+                        }
+                    },
+                    error: function (xhr) {
+                        console.log(xhr);
                     }
                 });
             });

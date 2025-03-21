@@ -83,4 +83,58 @@ class AssetController extends Controller
             return response()->json(['success' => false, 'error' => $e->getMessage()]);
         }
     }
+
+    public function update(Request $request, $id)
+    {
+        try {
+            // Tìm sản phẩm theo ID
+            $product = Product::findOrFail($id);
+
+            // Validate dữ liệu đầu vào
+            $request->validate([
+                'name' => 'required|string|max:255',
+                'category_id' => 'required|exists:categories,id',
+                'description' => 'nullable|string',
+                'info' => 'nullable|string',
+                'feature' => 'nullable|string',
+                'application' => 'nullable|string',
+                'price' => 'required|numeric|min:0',
+                'stock' => 'required|integer|min:0',
+            ]);
+
+            // Cập nhật thông tin sản phẩm
+            $product->update([
+                'name' => $request->name,
+                'category_id' => $request->category_id,
+                'description' => $request->description,
+                'price' => $request->price,
+            ]);
+
+            // Cập nhật số lượng tồn kho
+            $product->productInventories()->updateOrCreate(
+                ['product_id' => $product->id],
+                ['quantity' => $request->stock]
+            );
+
+            // Cập nhật thông tin mô tả sản phẩm
+            $product->productDescriptions()->updateOrCreate(
+                ['product_id' => $product->id],
+                [
+                    'infomations' => $request->info,
+                    'features' => $request->feature,
+                    'applications' => $request->application
+                ]
+            );
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Sản phẩm đã được cập nhật!'
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
 }
