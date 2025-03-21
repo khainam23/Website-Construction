@@ -32,8 +32,24 @@ class LoginController extends Controller
                 ]
             ]);
 
-            // Chuyển hướng đến trang chủ hoặc trang dashboard
-            return response()->json('Đăng nhập thành công', 200);
+            if($user->role == 'admin') {
+                return response()->json([
+                    'message' => 'Đang điều hướng đến trang quản trị',
+                    'url' => route('admin.dashboard')
+                ], 200);
+            } else if($user->role == 'sale'){
+                return response()->json([
+                    'message' => 'Đang điều hướng đến trang sản phẩm',
+                    'url' => route('sale.dashboard')
+                ], 200);
+            } else if($user->role == 'warehouse'){
+                // Hiện không có
+            } else {
+                return response()->json([
+                    'message' => 'Đăng nhập thành công',
+                    'url' => route('web.index')
+                ], 200);
+            }
         }
 
         // Đăng nhập thất bại

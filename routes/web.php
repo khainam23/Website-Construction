@@ -69,11 +69,11 @@ Route::middleware([RoleMiddleware::class . ':admin'])->group(function () {
     // User Management
     Route::get('/admin/users', [UserController::class, 'index'])->name('admin.users.index');
     Route::get('/admin/users/{user}/edit', [UserController::class, 'edit'])->name('admin.users.edit');
-    Route::put('/admin/users/{user}', [UserController::class, 'update'])->name('admin.users.update');
+    Route::post('/admin/user/update', [UserController::class, 'update'])->name('admin.api.user.update');
+    Route::post('/admin/user/show', [UserController::class, 'show'])->name('admin.api.user.show');
 
     // Product Management
     Route::get('/admin/products', [ProductController::class, 'index'])->name('admin.products.index');
-    Route::get('/admin.products/{product}/edit', [ProductController::class, 'edit'])->name('admin.products.edit');
     Route::put('/admin.products/{product}', [ProductController::class, 'update'])->name('admin.products.update');
     Route::delete('/admin.products/{product}', [ProductController::class, 'delete'])->name('admin.products.delete');
 

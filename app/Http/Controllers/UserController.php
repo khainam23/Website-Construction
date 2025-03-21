@@ -21,20 +21,33 @@ class UserController extends Controller
         return view('admin.users.index', compact('users'));
     }
 
-    public function edit(User $user)
+    public function update(Request $request)
     {
-        return view('admin.users.edit', compact('user'));
-    }
+        // Tìm người dùng theo ID
+        $user = User::find($request->userId);
 
-    public function update(Request $request, User $user)
-    {
-        $request->validate([
-            'role' => 'required|in:admin,customer,sale,rental|max:20',
-        ]);
+        // Kiểm tra nếu không tìm thấy user
+        if (!$user) {
+            return response()->json(['status' => 'error', 'message' => 'Người dùng không tồn tại'], 404);
+        }
 
-        $user->role = $request->input('role');
+        // Cập nhật thông tin
+        $user->role = $request->role;
+        $user->is_active = filter_var($request->is_active, FILTER_VALIDATE_BOOLEAN); // Chuyển đổi sang boolean
         $user->save();
 
-        return redirect()->route('admin.users.index')->with('success', 'User role updated successfully.');
+        // Trả về phản hồi thành công
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Cập nhật thông tin người dùng thành công',
+            'user' => $user
+        ]);
+    }
+
+    public function show(Request $request)
+    {
+        // Tìm người dùng theo mã ID
+        $user = User::findOrFail($request->userId);
+        return response()->json($user);
     }
 }

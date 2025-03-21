@@ -57,11 +57,11 @@
                     success: function (response) {
                         Swal.fire({
                             icon: 'success',
-                            title: 'Đăng nhập thành công!',
+                            title: response.message,
                             text: response.message,
                             confirmButtonText: 'OK'
                         }).then(() => {
-                            window.location.href = "{{ route('web.index') }}";
+                            window.location.href = response.url;
                         });
                     },
                     error: function (xhr) {
