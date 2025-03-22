@@ -460,7 +460,6 @@
             return Swal.fire({
                 title: "Nhập thông tin mua hàng",
                 html: `
-                    <input id="swal-name" class="swal2-input" placeholder="Họ và tên" value="${paymentInfo.name}">
                     <input id="swal-phone" class="swal2-input" placeholder="Số điện thoại" type="phone" value="${paymentInfo.phone}">
                     <input id="swal-address" class="swal2-input" placeholder="Địa chỉ" value="${paymentInfo.address}">
                 `,
@@ -470,7 +469,6 @@
                 cancelButtonText: "Hủy",
                 preConfirm: () => {
                     return {
-                        name: document.getElementById("swal-name").value,
                         phone: document.getElementById("swal-phone").value,
                         address: document.getElementById("swal-address").value
                     };

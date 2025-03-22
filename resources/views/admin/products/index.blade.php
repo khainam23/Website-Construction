@@ -78,7 +78,6 @@
             // Dữ liệu từ Laravel Blade
             let products = @json($products);
             products = products.data;
-            console.log(products);
 
             // Chuyển đổi dữ liệu thành mảng JSON
             let data = products.map((product, index) => ({
