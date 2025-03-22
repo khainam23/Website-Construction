@@ -1,0 +1,20 @@
+<?php
+
+namespace App\Http\Middleware;
+
+use Closure;
+use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Response;
+use App\Models\Category;
+
+class CategoryMiddleware
+{
+    public function handle(Request $request, Closure $next): Response
+    {
+        // Truyền biến categories cho tất cả request trong /admin/products/*
+        $categories = Category::all();
+        view()->share('categories', $categories);
+
+        return $next($request);
+    }
+}

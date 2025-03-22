@@ -6,6 +6,7 @@ use App\Models\Category;
 use App\Models\Product;
 use App\Models\Image;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\View;
 
 class AssetController extends Controller
 {
@@ -20,9 +21,6 @@ class AssetController extends Controller
         $product = Product::with(['category', 'images', 'productDescriptions', 'productInventories'])
             ->where('id', $id)
             ->first();
-
-        $categories = Category::all();
-
         // Đảm bảo sản phẩm tồn tại
         if (!$product) {
             abort(404); // Trả về lỗi 404 nếu sản phẩm không tồn tại
@@ -36,7 +34,7 @@ class AssetController extends Controller
             unset($product->productDescriptions);
         }
 
-        return view('admin.products.edit', compact('product', 'categories'));
+        return view('admin.products.edit', compact('product'));
     }
 
     public function deleteImage($idImage)
@@ -137,4 +135,72 @@ class AssetController extends Controller
             ], 500);
         }
     }
+
+    public function delete($id)
+    {
+        $product = Product::findOrFail($id);
+        $product->delete();
+
+        return redirect()->route('admin.products.index')->with('success', 'Product deleted successfully.');
+    }
+
+    public function store(Request $request)
+    {
+        // Validate dữ liệu đầu vào
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'category_id' => 'required|exists:categories,id',
+            'description' => 'nullable|string',
+            'info' => 'nullable|string',
+            'feature' => 'nullable|string',
+            'application' => 'nullable|string',
+            'price' => 'required|numeric|min:0',
+            'stock' => 'required|integer|min:1',
+            'images.*' => 'nullable|image|mimes:jpg,jpeg,png|max:2048'
+        ]);
+
+        // Tạo sản phẩm
+        $product = new Product();
+        $product->name = $request->name;
+        $product->category_id = $request->category_id;
+        $product->description = $request->description;
+        $product->price = $request->price;
+        $product->save();
+
+        // Xử lý upload hình ảnh nếu có
+        if ($request->hasFile('images')) {
+            $isFirstImage = true;
+            foreach ($request->file('images') as $image) {
+                $path = $image->store('uploads/products', 'public');
+
+                // Nếu là ảnh đầu tiên, đặt làm avatar
+                if ($isFirstImage) {
+                    $product->avatar = $path;
+                    $product->save();
+                    $isFirstImage = false;
+                }
+
+                // Lưu ảnh vào bảng images
+                $product->images()->create(['path' => $path]);
+            }
+        }
+
+        // Xử lý mô tả thông tin
+        $product->productDescriptions()->create([
+            'infomations' => $request->info,
+            'features' => $request->feature,
+            'applications' => $request->application
+        ]);
+
+        // Xử lý lưu trữ 
+        $product->productInventories()->create([
+            'quantity' => $request->stock
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Sản phẩm đã được thêm thành công!'
+        ]);
+    }
+
 }

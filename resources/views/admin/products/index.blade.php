@@ -18,6 +18,10 @@
             </form>
         </div>
 
+        <div class="mb-2">
+            <a href="{{ route('admin.products.create') }}" class="btn btn-primary" id="add-product">Thêm sản phẩm</a>
+        </div>
+
         <div class="table-responsive">
             <table class="table table-striped">
                 <thead>
