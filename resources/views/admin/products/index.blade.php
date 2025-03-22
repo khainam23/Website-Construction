@@ -18,8 +18,9 @@
             </form>
         </div>
 
-        <div class="mb-2">
+        <div class="mb-2 d-flex">
             <a href="{{ route('admin.products.create') }}" class="btn btn-primary" id="add-product">Thêm sản phẩm</a>
+            <button class="btn btn-success ml-3" onclick="exportExcel()">Xuất file</button>
         </div>
 
         <div class="table-responsive">
@@ -31,7 +32,7 @@
                         <th>{{ __('Category') }}</th>
                         <th>{{ __('Price') }}</th>
                         <th>{{ __('Stock') }}</th>
-                        <th>{{ __('Images') }}</th>
+                        <th style="text-align: center; vertical-align: middle;">{{ __('Images') }}</th>
                         <th>{{ __('Actions') }}</th>
                     </tr>
                 </thead>
@@ -43,10 +44,10 @@
                             <td>{{ $product->category->name }}</td>
                             <td>{{ $product->price }}</td>
                             <td>{{ $product->productInventories ? $product->productInventories->quantity : 0 }}</td>
-                            <td>
+                            <td style="text-align: center; vertical-align: middle;">
                                 @if($product->avatar)
-                                    <img src="{{ $product->avatar }}" class="card-img-top" alt="{{ $product->name }}"
-                                        style="max-height: 50px; margin-right: 5px;">
+                                    <img src="{{ $product->avatar }}" class="img-fluid" alt="{{ $product->name }}"
+                                        style="max-height: 100px; width: 100px; object-fit: contain;">
                                 @else
                                     {{ __('No Images') }}
                                 @endif
@@ -68,4 +69,42 @@
             </table>
         </div>
     </div>
+@endsection
+
+@section('js')
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <script>
+        function exportExcel() {
+            // Dữ liệu từ Laravel Blade
+            let products = @json($products);
+            products = products.data;
+            console.log(products);
+
+            // Chuyển đổi dữ liệu thành mảng JSON
+            let data = products.map((product, index) => ({
+                'ID': product.id,
+                'Name': product.name,
+                'Category': product.category.name,
+                'Price': product.price,
+                'Stock': product.product_inventories?.quantity,
+                'Avatar': product.avatar,
+                'Status': product.status,
+                'Created At': product.created_at,
+                'Updated At': product.updated_at,
+                'Type': product.type,
+                'Description': product.description,
+            }));
+
+            // Tạo một worksheet từ mảng JSON
+            let ws = XLSX.utils.json_to_sheet(data);
+
+            // Tạo workbook và thêm worksheet
+            let wb = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(wb, ws, "Danh sách sản phẩm");
+
+            // Xuất file Excel
+            XLSX.writeFile(wb, "products.xlsx");
+        }
+    </script>
+
 @endsection

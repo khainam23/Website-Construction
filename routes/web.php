@@ -72,18 +72,18 @@ Route::middleware([RoleMiddleware::class . ':admin'])->group(function () {
     Route::get('/admin/users', [AccountController::class, 'loadAccount'])->name('admin.users.index');
     Route::post('/admin/user/update', [AccountController::class, 'update'])->name('admin.api.user.update');
     Route::post('/admin/user/show', [AccountController::class, 'show'])->name('admin.api.user.show');
-
+    
     // Product Management, phần middleware giúp category chỉ cần gọi một lần hạn chế gọi nhiều 
     Route::middleware([CategoryMiddleware::class])->group(function () {
         Route::get('/admin/products', [AssetController::class, 'loadProduct'])->name('admin.products.index');
         Route::get('/admin/products/{product}/edit', [AssetController::class, 'edit'])->name('admin.products.edit');
-        Route::post('/admin/products/{id}', [AssetController::class, 'update'])->name('admin.api.products.update');
-        Route::delete('/admin/products/{product}', [AssetController::class, 'delete'])->name('admin.products.delete');
-        Route::delete('/admin/product/delete/image/{id}', [AssetController::class, 'deleteImage'])->name('admin.api.product.delete.image');
-        Route::post('/admin/product/add/image', [AssetController::class, 'uploadImages'])->name('admin.api.product.upload.images');
         Route::view('/admin/product/create', 'admin.products.create')->name('admin.products.create');
-        Route::post('/admin/product/store', [AssetController::class, 'store'])->name('admin.api.product.store');
     });
+    Route::post('/admin/product/store', [AssetController::class, 'store'])->name('admin.api.product.store');
+    Route::post('/admin/products/{id}', [AssetController::class, 'update'])->name('admin.api.products.update');
+    Route::delete('/admin/products/{product}', [AssetController::class, 'delete'])->name('admin.products.delete');
+    Route::post('/admin/product/add/image', [AssetController::class, 'uploadImages'])->name('admin.api.product.upload.images');
+    Route::delete('/admin/product/delete/image/{id}', [AssetController::class, 'deleteImage'])->name('admin.api.product.delete.image');
 
     // Order Management
     Route::get('/admin/orders', [OrderController::class, 'index'])->name('admin.orders.index');

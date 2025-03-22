@@ -2,11 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Category;
 use App\Models\Product;
 use App\Models\Image;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\View;
 
 class AssetController extends Controller
 {
@@ -202,5 +200,4 @@ class AssetController extends Controller
             'message' => 'Sản phẩm đã được thêm thành công!'
         ]);
     }
-
 }
