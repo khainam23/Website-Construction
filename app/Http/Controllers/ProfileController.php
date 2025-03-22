@@ -19,6 +19,7 @@ class ProfileController extends Controller
         $cartItems = Cart::where('user_id', $userId)->get();
 
         $orders = Order::where('user_id', $userId)
+            ->where('status', '!=', 'pending') // Loại bỏ đơn hàng có status là pending
             ->with('details.product')
             ->get()
             ->toArray();
