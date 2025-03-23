@@ -78,7 +78,7 @@ Route::middleware([RoleMiddleware::class . ':admin,sale'])->group(function () {
     Route::post('/admin/products/{id}', [AssetController::class, 'update'])->name('admin.api.products.update');
     Route::delete('/admin/products/{product}', [AssetController::class, 'delete'])->name('admin.products.delete');
     Route::post('/admin/product/add/image', [AssetController::class, 'uploadImages'])->name('admin.api.product.upload.images');
-    Route::delete('/admin/product/delete/image/{id}', [AssetController::class, 'deleteImage'])->name('admin.api.product.delete.image');`
+    Route::delete('/admin/product/delete/image/{id}', [AssetController::class, 'deleteImage'])->name('admin.api.product.delete.image');
 });
 
 // Dành cho admin
