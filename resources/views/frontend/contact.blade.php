@@ -14,11 +14,13 @@
                 <div class="news-title">
                     <div>
                         <h1>
-                        {{ __('CONTACT') }} 
+                            {{ __('CONTACT') }}
                         </h1>
                     </div>
                     <div class="news-title-right">
-                        <a href=""><h2> {{ __('Home') }}</h2></a>
+                        <a href="">
+                            <h2> {{ __('Home') }}</h2>
+                        </a>
                         <p>></p>
                         <p> {{ __('Contact') }}</p>
                     </div>
@@ -61,63 +63,65 @@
                             </div>
 
                             <div class="infor-wrapper">
-                            <div class="info">
-                                <span class="label-info">{{ __('Hotline') }}: <br /></span>
-                                <span class="value-info">
-                                    @if(in_array(app()->getLocale(), ['en', 'lo', 'my']))
-                                        @php
-                                            $phone1 = isset($contacts['phone']) 
-                                                ? preg_replace('/(\d{2})(\d{3})(\d{4})/', '$1.$2.$3', ltrim($contacts['phone'], '0')) 
-                                                : '';
-                                            $phone2 = isset($contacts['phone_2']) 
-                                                ? preg_replace('/(\d{2})(\d{3})(\d{4})/', '$1.$2.$3', ltrim($contacts['phone_2'], '0')) 
-                                                : '';
-                                        @endphp
-                                        +84 {{ $phone1 }} - +84 {{ $phone2 }}
-                                    @else
-                                        @php
-                                            $phone1 = isset($contacts['phone']) 
-                                                ? preg_replace('/(\d{3})(\d{3})(\d{4})/', '$1.$2.$3', $contacts['phone']) 
-                                                : '';
-                                            $phone2 = isset($contacts['phone_2']) 
-                                                ? preg_replace('/(\d{3})(\d{3})(\d{4})/', '$1.$2.$3', $contacts['phone_2']) 
-                                                : '';
-                                        @endphp
-                                        {{ $phone1 }} - {{ $phone2 }}
-                                    @endif
-                                </span>
+                                <div class="info">
+                                    <span class="label-info">{{ __('Hotline') }}: <br /></span>
+                                    <span class="value-info">
+                                        @if(in_array(app()->getLocale(), ['en', 'lo', 'my']))
+                                                                            @php
+                                                                                $phone1 = isset($contacts['phone'])
+                                                                                    ? preg_replace('/(\d{2})(\d{3})(\d{4})/', '$1.$2.$3', ltrim($contacts['phone'], '0'))
+                                                                                    : '';
+                                                                                $phone2 = isset($contacts['phone_2'])
+                                                                                    ? preg_replace('/(\d{2})(\d{3})(\d{4})/', '$1.$2.$3', ltrim($contacts['phone_2'], '0'))
+                                                                                    : '';
+                                                                            @endphp
+                                                                            +84 {{ $phone1 }} - +84 {{ $phone2 }}
+                                        @else
+                                                                            @php
+                                                                                $phone1 = isset($contacts['phone'])
+                                                                                    ? preg_replace('/(\d{3})(\d{3})(\d{4})/', '$1.$2.$3', $contacts['phone'])
+                                                                                    : '';
+                                                                                $phone2 = isset($contacts['phone_2'])
+                                                                                    ? preg_replace('/(\d{3})(\d{3})(\d{4})/', '$1.$2.$3', $contacts['phone_2'])
+                                                                                    : '';
+                                                                            @endphp
+                                                                            {{ $phone1 }} - {{ $phone2 }}
+                                        @endif
+                                    </span>
 
 
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="infor-wrapper">
-                            <div class="info">
-                                <span class="label-info">WeChat <br /></span>
-                                <span class="value-info">
-                                    @if(in_array(app()->getLocale(), ['en', 'lo', 'my']))
-                                        +84 {{ preg_replace('/(\d{2})(\d{3})(\d{4})/', '$1.$2.$3', ltrim($contacts['WeChat'], '0')) }}
-                                    @else
-                                        {{ preg_replace('/(\d{3})(\d{3})(\d{4})/', '$1.$2.$3', $contacts['WeChat']) }}
-                                    @endif
-                                </span>
+                            <div class="infor-wrapper">
+                                <div class="info">
+                                    <span class="label-info">WeChat <br /></span>
+                                    <span class="value-info">
+                                        @if(in_array(app()->getLocale(), ['en', 'lo', 'my']))
+                                            +84
+                                            {{ preg_replace('/(\d{2})(\d{3})(\d{4})/', '$1.$2.$3', ltrim($contacts['WeChat'], '0')) }}
+                                        @else
+                                            {{ preg_replace('/(\d{3})(\d{3})(\d{4})/', '$1.$2.$3', $contacts['WeChat']) }}
+                                        @endif
+                                    </span>
 
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="infor-wrapper">
-                            <div class="info">
-                                <span class="label-info">WhatsApp <br /></span>
-                                <span class="value-info">
-                                    @if(in_array(app()->getLocale(), ['en', 'lo', 'my']))
-                                        +84 {{ preg_replace('/(\d{2})(\d{3})(\d{4})/', '$1.$2.$3', ltrim($contacts['WhatsApp'], '0')) }}
-                                    @else
-                                        {{ preg_replace('/(\d{3})(\d{3})(\d{4})/', '$1.$2.$3', $contacts['WhatsApp']) }}
-                                    @endif
-                                </span>
+                            <div class="infor-wrapper">
+                                <div class="info">
+                                    <span class="label-info">WhatsApp <br /></span>
+                                    <span class="value-info">
+                                        @if(in_array(app()->getLocale(), ['en', 'lo', 'my']))
+                                            +84
+                                            {{ preg_replace('/(\d{2})(\d{3})(\d{4})/', '$1.$2.$3', ltrim($contacts['WhatsApp'], '0')) }}
+                                        @else
+                                            {{ preg_replace('/(\d{3})(\d{3})(\d{4})/', '$1.$2.$3', $contacts['WhatsApp']) }}
+                                        @endif
+                                    </span>
 
+                                </div>
                             </div>
-                        </div>
 
                             <div class="infor-wrapper">
                                 <div class="info">
@@ -128,7 +132,7 @@
                             <div class="infor-wrapper-bottom"></div>
                         </div>
                         <div class="section-title-right col-md-6 ">
-                            <form action="{{ route('web.addContact') }}" method="post" enctype="multipart/form-data"
+                            <form id="contactForm" method="post" enctype="multipart/form-data"
                                 class="d-flex flex-column submit-form-contact-us">
                                 @csrf
                                 @if(session('message'))
@@ -140,17 +144,18 @@
                                     <span class="label-help">{{ __('Do you need advice?') }}<br /></span>
                                     <span class="value-help">{{ __('Please leave us your information') }}</span>
                                 </div>
-                                <input class="fullName" placeholder="{{ __('Full_name') }}"
-                                    name="lastname"value="{{ old('lastname') }}" />
+                                <input class="fullName" placeholder="{{ __('Full_name') }}" name="lastname"
+                                    value="{{ old('lastname') }}" />
                                 @error('lastname')
                                     <div class="parsley-required">{{ $message }}</div>
                                 @enderror
                                 <input type="text" class="contact_number" placeholder="{{ __('Phone') }}"
-                                    name="contact_number"value="{{ old('contact_number') }}" />
+                                    name="contact_number" value="{{ old('contact_number') }}" />
                                 @error('contact_number')
                                     <div class="parsley-required">{{ $message }}</div>
                                 @enderror
-                                <textarea name="description" id="" class="description" placeholder="{{ __('Message') }}">{{ old('description') }}</textarea>
+                                <textarea name="description" id="" class="description"
+                                    placeholder="{{ __('Message') }}">{{ old('description') }}</textarea>
                                 @error('description')
                                     <div class="parsley-required">{{ $message }}</div>
                                 @enderror
@@ -160,8 +165,8 @@
 
                                 <div class="row">
                                     <div class="col-md-12 col-12">
-                                    <button type="submit" class="button-click" onclick="return checkRecaptcha();">
-                                        {{ __('Send_information') }}
+                                        <button type="submit" class="button-click" onclick="return checkRecaptcha();">
+                                            {{ __('Send_information') }}
                                         </button>
                                     </div>
                                 </div>
@@ -174,19 +179,78 @@
     </div>
 @endsection
 @section('js')
-<script src="https://www.google.com/recaptcha/api.js" async defer></script>
-<script>
-function checkRecaptcha() {
-    var response = grecaptcha.getResponse();
-    if (response.length === 0) {
-        document.getElementById("recaptcha-error").innerHTML = "Vui lòng xác nhận bạn không phải là robot!";
-        return false; 
-    } else {
-        document.getElementById("recaptcha-error").innerHTML = ""; 
-        return true; 
-}
-}
-</script>
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    <script>
+        function checkRecaptcha() {
+            var response = grecaptcha.getResponse();
+            if (response.length === 0) {
+                document.getElementById("recaptcha-error").innerHTML = "Vui lòng xác nhận bạn không phải là robot!";
+                return false;
+            } else {
+                document.getElementById("recaptcha-error").innerHTML = "";
+                return true;
+            }
+        }
+    </script>
+
+    <!-- Gửi thông tin mail -->
+    <script>
+        $(document).ready(function () {
+            $("#contactForm").on('submit', function (e) {
+                e.preventDefault();
+
+                let formData = new FormData(this);
+
+                $.ajax({
+                    url: "{{ route('api.contract.add') }}",
+                    type: "POST",
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    beforeSend: function () {
+                        Swal.fire({
+                            title: "Đang xử lý...",
+                            text: "Vui lòng đợi trong giây lát!",
+                            allowOutsideClick: false,
+                            showConfirmButton: false,
+                            willOpen: () => {
+                                Swal.showLoading();
+                            }
+                        });
+                    },
+                    success: function (response) {
+                        if (response.status === 'success') {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Success!',
+                                text: response.message,
+                                showConfirmButton: false,
+                                timer: 2000
+                            });
+                            $("#contactForm")[0].reset();
+                        } else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Oops...',
+                                text: response.message
+                            });
+                        }
+                    },
+                    error: function (xhr) {
+                        console.log(xhr)
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: 'Something went wrong. Please try again!'
+                        });
+                    }
+                });
+            });
+        });
+    </script>
 
 
 @endsection

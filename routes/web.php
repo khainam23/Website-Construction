@@ -35,7 +35,7 @@ Route::get('/product/{type}', [ProductController::class, 'viewAll'])
     ->where('type', 'sale|rental|all')
     ->name('web.product');
 Route::get('/products/{id}', [ProductController::class, 'show'])->name('web.product.detail');
-Route::post('/add-contact', [ContactController::class, 'add'])->name('web.addContact');
+Route::post('/add-contact', [ContactController::class, 'add'])->name('api.contract.add');
 
 // Dành cho truy cập
 Route::view('/login', 'frontend.login')->name('web.login');
