@@ -1,5 +1,5 @@
 @extends('frontend.layouts.master')
-@section('title', 'Quên Mật Khẩu')
+@section('title', __('Forgot Password'))
 
 @section('style')
     <link rel="stylesheet" href="{{ asset('frontendcss/css/forget.css') }}" />
@@ -8,14 +8,14 @@
 @section('content')
     <div class="container forgot-password-container">
         <div class="forgot-password-form">
-            <h2 class="text-center mb-4">Quên Mật Khẩu</h2>
+            <h2 class="text-center mb-4">{{ __('Forgot Password') }}</h2>
             <form id="forgot">
                 <div class="mb-3">
-                    <label class="form-label">Email</label>
-                    <input name="email" type="email" class="form-control" id="email" placeholder="Nhập email của bạn"
+                    <label class="form-label">{{ __('Email') }}</label>
+                    <input name="email" type="email" class="form-control" id="email" placeholder="{{ __('Enter your email') }}"
                         required>
                 </div>
-                <button type="submit" class="btn btn-primary w-100">Gửi Yêu Cầu</button>
+                <button type="submit" class="btn btn-primary w-100">{{ __('Send Request') }}</button>
             </form>
         </div>
     </div>
@@ -38,8 +38,8 @@
                 },
                 beforeSend: function () {
                     Swal.fire({
-                        title: "Đang xử lý...",
-                        text: "Vui lòng đợi trong giây lát!",
+                        title: "{{ __('Processing...') }}",
+                        text: "{{ __('Please wait a moment!') }}",
                         allowOutsideClick: false,
                         showConfirmButton: false,
                         willOpen: () => {
@@ -50,21 +50,21 @@
                 success: function (response) {
                     Swal.fire({
                         icon: 'success',
-                        title: 'Vui lòng kiểm tra mail!',
+                        title: "{{ __('Please check your email!') }}",
                         text: response.message,
-                        confirmButtonText: 'OK'
+                        confirmButtonText: "{{ __('OK') }}"
                     }).then(() => {
                         window.location.href = "{{ route('web.login') }}";
                     });
                 },
                 error: function (xhr) {
-                    // Đóng hộp thoại loading
+                    // Close loading dialog
                     Swal.close();
 
                     Swal.fire({
                         icon: 'error',
-                        title: 'Lỗi!',
-                        text: xhr.responseJSON || 'Có lỗi xảy ra, vui lòng thử lại.',
+                        title: "{{ __('Error!') }}",
+                        text: xhr.responseJSON || "{{ __('An error occurred, please try again.') }}",
                     });
                 }
             });

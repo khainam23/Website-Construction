@@ -1,16 +1,16 @@
 @extends('sale.layouts.master')
 
-@section('title', 'Quản lý bán hàng')
+@section('title', __('Sales Management'))
 
 @section('content')
     <div class="container-fluid">
-        <h1>Quản lý bán hàng</h1>
+        <h1>{{ __('Sales Management') }}</h1>
 
         <div class="row">
             <div class="col-md-4">
                 <div class="card">
                     <div class="card-header">
-                        Tổng doanh thu
+                        {{ __('Total Revenue') }}
                     </div>
                     <div class="card-body">
                         {{ $totalRevenue }}
@@ -21,7 +21,7 @@
             <div class="col-md-4">
                 <div class="card">
                     <div class="card-header">
-                        Tổng số đơn hàng
+                        {{ __('Total Orders') }}
                     </div>
                     <div class="card-body">
                         {{ $totalOrders }}
@@ -32,7 +32,7 @@
             <div class="col-md-4">
                 <div class="card">
                     <div class="card-header">
-                        Giá trị đơn hàng trung bình
+                        {{ __('Average Order Value') }}
                     </div>
                     <div class="card-body">
                         {{ $averageOrderValue }}
@@ -43,15 +43,15 @@
 
         <div class="card">
             <div class="card-header">
-                Đơn hàng gần đây
+                {{ __('Recent Orders') }}
             </div>
             <div class="card-body">
                 <table class="table">
                     <thead>
                         <tr>
-                            <th>ID đơn hàng</th>
-                            <th>Tổng cộng</th>
-                            <th>Đã tạo lúc</th>
+                            <th>{{ __('Order ID') }}</th>
+                            <th>{{ __('Total') }}</th>
+                            <th>{{ __('Created At') }}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -69,14 +69,14 @@
 
         <div class="card">
             <div class="card-header">
-                Doanh số theo danh mục
+                {{ __('Sales By Category') }}
             </div>
             <div class="card-body">
                 <table class="table">
                     <thead>
                         <tr>
-                            <th>Tên danh mục</th>
-                            <th>Tổng doanh số</th>
+                            <th>{{ __('Category Name') }}</th>
+                            <th>{{ __('Total Sales') }}</th>
                         </tr>
                     </thead>
                     <tbody>

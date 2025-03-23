@@ -1,5 +1,5 @@
 @extends('frontend.layouts.master')
-@section('title', 'Giới thiệu')
+@section('title', __('Introduce'))
 
 @section('style')
     <link rel="stylesheet" href="{{ asset('frontendcss/css/styleGuide.css') }}" />
@@ -13,15 +13,15 @@
                 <div class="news-title">
                     <div>
                         <h1>
-                            {{-- {{ __('INTRODUCE') }} --}} GIỚI THIỆU
+                            {{ __('INTRODUCE') }}
                         </h1>
                     </div>
                     <div class="news-title-right">
                         <a href="">
-                            <h2>{{ __('Home') }} trang chủ</h2>
+                            <h2>{{ __('Home') }}</h2>
                         </a>
                         <p>></p>
-                        {{-- <p>{{ __('Introduce') }}</p> --}} GIỚI THIỆU
+                        <p>{{ __('Introduce') }}</p>
                     </div>
                 </div>
                 <div class="content-about-us row">
@@ -47,7 +47,7 @@
                             </div>
                             <p class="infomation d-flex justify-content-center align-items-end">
                                 <span class="text-name">Ông Nguyễn Văn Hùng -
-                                    <span class="text-permission">giám đốc</span></span>
+                                    <span class="text-permission">{{ __('Director') }}</span></span>
                             </p>
                         </div>
                     </div>
@@ -84,12 +84,12 @@
                             </div>
                             <div class="content-item">
                                 <ul class="content-wrapper">
-                                    {{-- <li>
+                                    <li>
                                         {{ __('Vision_content1') }}
                                     </li>
                                     <li>
                                         {{ __('Vision_content2') }}
-                                    </li> --}}
+                                    </li>
                                 </ul>
                             </div>
                             <img src="{{ asset('frontendcss/images/polygon.svg') }}" class="polygon" alt="" />
@@ -100,14 +100,14 @@
                             </div>
                             <div class="content-item">
                                 <ul class="content-wrapper">
-                                    {{-- <li>
+                                    <li>
                                         {{ __('Mission_content1') }}
                                     </li>
                                     <li>
                                         {{ __('Mission_content2') }} </li>
                                     <li>
                                         {{ __('Mission_content3') }}
-                                    </li> --}}
+                                    </li>
                                 </ul>
                             </div>
                             <img src="{{ asset('frontendcss/images/polygon.svg') }}" class="polygon" alt="" />
@@ -120,17 +120,17 @@
                             </div>
                             <div class="content-item">
                                 <ul class="content-wrapper">
-                                    {{-- <li>
+                                    <li>
                                         {{ __('Core_Value_content1') }}
                                     </li>
                                     <li>
                                         {{ __('Core_Value_content2') }} </li>
                                     <li>
                                         {{ __('Core_Value_content3') }}
-                                    </li> --}}
+                                    </li>
                                 </ul>
                             </div>
-                            <img src="ảnh logo tam giác" class="polygon" alt="" />
+                            <img src="{{ asset('frontendcss/images/polygon.svg') }}" class="polygon" alt="" />
                         </div>
                     </div>
                 </div>

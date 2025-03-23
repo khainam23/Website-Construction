@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title') - {{ __('Bảng điều khiển Sale') }}</title>
+    <title>@yield('title') - {{ __('Sale Dashboard') }}</title>
     <link rel="stylesheet" href="{{ asset('frontendcss/bootstrap_4.6/css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
@@ -152,30 +152,33 @@
                     <ul class="nav flex-column">
                         <li class="nav-item">
                             <a class="nav-link {{ request()->routeIs('sale.dashboard') ? 'active' : '' }}" href="{{ route('sale.dashboard') }}">
-                                <i class="fas fa-tachometer-alt"></i> {{ __('Bảng điều khiển') }}
+                                <i class="fas fa-tachometer-alt"></i> {{ __('Dashboard') }}
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link {{ request()->routeIs('sale.sales.index') ? 'active' : '' }}" href="{{ route('sale.sales.index') }}">
-                                <i class="fas fa-chart-bar"></i> {{ __('Quản lý bán hàng') }}
+                                <i class="fas fa-chart-bar"></i> {{ __('Sales Management') }}
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link {{ request()->routeIs('sale.sales.revenue') ? 'active' : '' }}" href="{{ route('sale.sales.revenue') }}">
-                                <i class="fas fa-chart-line"></i> {{ __('Thống kê doanh thu') }}
+                                <i class="fas fa-chart-line"></i> {{ __('Revenue Statistics') }}
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link {{ request()->routeIs('sale.sales.productSales') ? 'active' : '' }}" href="{{ route('sale.sales.productSales') }}">
-                                <i class="fas fa-boxes"></i> {{ __('Bán hàng sản phẩm') }}
+                                <i class="fas fa-boxes"></i> {{ __('Product Sales') }}
                             </a>
                         </li>
                         <!-- Add more sidebar items here -->
                     </ul>
                     <ul class="nav flex-column">
                         <li class="nav-item">
-                            <a class="nav-link logout-button" href="{{ route('api.logout') }}">
-                                <i class="fas fa-sign-out-alt"></i> {{ __('Đăng xuất') }}
+                            <form id="logout-form" action="{{ route('api.logout.post') }}" method="POST" style="display: none;">
+                                @csrf
+                            </form>
+                            <a class="nav-link logout-button" href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                <i class="fas fa-sign-out-alt"></i> {{ __('Logout') }}
                             </a>
                         </li>
                     </ul>

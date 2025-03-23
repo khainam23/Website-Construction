@@ -19,8 +19,8 @@
         </div>
 
         <div class="mb-2 d-flex">
-            <a href="{{ route('admin.products.create') }}" class="btn btn-primary" id="add-product">Thêm sản phẩm</a>
-            <button class="btn btn-success ml-3" onclick="exportExcel()">Xuất file</button>
+            <a href="{{ route('admin.products.create') }}" class="btn btn-primary" id="add-product">{{ __('Add Product') }}</a>
+            <button class="btn btn-success ml-3" onclick="exportExcel()">{{ __('Export File') }}</button>
         </div>
 
         <div class="table-responsive">

@@ -15,7 +15,7 @@
                 <p><strong>{{ __('User') }}:</strong> {{ $order->user->first_name }} {{ $order->user->last_name }}</p>
                 <p><strong>{{ __('Total') }}:</strong> {{ $order->total }}</p>
                 <div class="mb-3">
-                    <label for="status-select" class="form-label">Trạng thái: </label>
+                    <label for="status-select" class="form-label">{{ __('Status') }}: </label>
                     <input type="hidden" value="{{ $order->status }}" id="order-status">
                     <select id="status-select" class="form-select">
                         @php

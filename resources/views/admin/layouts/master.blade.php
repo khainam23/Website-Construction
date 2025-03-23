@@ -230,7 +230,10 @@
                     </ul>
                     <ul class="nav flex-column">
                         <li class="nav-item">
-                            <a class="nav-link logout-button" href="{{ route('api.logout') }}">
+                            <form id="logout-form" action="{{ route('api.logout.post') }}" method="POST" style="display: none;">
+                                @csrf
+                            </form>
+                            <a class="nav-link logout-button" href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                 <i class="fas fa-sign-out-alt"></i> {{ __('Logout') }}
                             </a>
                         </li>

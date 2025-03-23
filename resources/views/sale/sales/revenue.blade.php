@@ -1,24 +1,24 @@
 @extends('sale.layouts.master')
 
-@section('title', 'Thống kê doanh thu')
+@section('title', __('Revenue Statistics'))
 
 @section('content')
     <div class="container-fluid">
-        <h1>Thống kê doanh thu</h1>
+        <h1>{{ __('Revenue Statistics') }}</h1>
 
         <div class="card">
             <div class="card-header">
-                {{ __('Doanh thu hàng tháng') }}
+                {{ __('Monthly Revenue') }}
             </div>
             <div class="card-body">
                 <table class="table">
                     <thead>
                         <tr>
-                            <th>{{ __('Tháng') }}</th>
-                            <th>{{ __('Doanh thu') }}</th>
-                            <th>{{ __('Loại') }}</th>
-                            <th>{{ __('Ngày bắt đầu thuê') }}</th>
-                            <th>{{ __('Ngày kết thúc thuê') }}</th>
+                            <th>{{ __('Month') }}</th>
+                            <th>{{ __('Revenue') }}</th>
+                            <th>{{ __('Type') }}</th>
+                            <th>{{ __('Rental Start Date') }}</th>
+                            <th>{{ __('Rental End Date') }}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -40,17 +40,17 @@
 
         <div class="card">
             <div class="card-header">
-                {{ __('Doanh thu hàng năm') }}
+                {{ __('Annual Revenue') }}
             </div>
             <div class="card-body">
                 <table class="table">
                     <thead>
                         <tr>
-                            <th>{{ __('Năm') }}</th>
-                            <th>{{ __('Doanh thu') }}</th>
-                             <th>{{ __('Loại') }}</th>
-                            <th>{{ __('Ngày bắt đầu thuê') }}</th>
-                            <th>{{ __('Ngày kết thúc thuê') }}</th>
+                            <th>{{ __('Year') }}</th>
+                            <th>{{ __('Revenue') }}</th>
+                            <th>{{ __('Type') }}</th>
+                            <th>{{ __('Rental Start Date') }}</th>
+                            <th>{{ __('Rental End Date') }}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -59,7 +59,7 @@
                                 <tr>
                                     <td>{{ $revenue['year'] }}</td>
                                     <td>{{ $revenue['revenue'] }}</td>
-                                     <td>{{ $revenue['type'] }}</td>
+                                    <td>{{ $revenue['type'] }}</td>
                                     <td>{{ $revenue['rental_start_date'] ?? 'N/A' }}</td>
                                     <td>{{ $revenue['rental_end_date'] ?? 'N/A' }}</td>
                                 </tr>
@@ -69,6 +69,5 @@
                 </table>
             </div>
         </div>
-
     </div>
 @endsection

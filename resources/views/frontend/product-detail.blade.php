@@ -1,5 +1,5 @@
 @extends('frontend.layouts.master')
-@section('title', 'chi tiết sản phẩm')
+@section('title', __('Product details'))
 
 @section('style')
     <link rel="stylesheet" href="{{ asset('frontendcss/css/product-detail.css') }}">
@@ -32,7 +32,7 @@
                 <div class="section-heading">
                     <h5 class="name-product">{{$product->name}}</h5>
                     <div class="content-product">
-                        <p class="text-content"> {{ $product->type == 'sale' ? 'Bán' : 'Thuê' }}</p>
+                        <p class="text-content"> {{ $product->type == 'sale' ? __('Sale') : __('Rental') }}</p>
                     </div>
                 </div>
             </div>
@@ -51,8 +51,8 @@
                                 </div>
                             </div>
                             <div class="col-12 mt-3">
-                                <h2>Số lượng tồn kho: <span>{{ $product->productInventories->quantity }}</span></h2>
-                                <h4>Giá {{ $product->type == 'sale' ? 'Bán' : 'Thuê' }}:
+                                <h2>{{ __('Stock quantity') }}: <span>{{ $product->productInventories->quantity }}</span></h2>
+                                <h4>{{ __('Price') }} {{ $product->type == 'sale' ? __('Sale') : __('Rental') }}:
                                     {{ number_format($product->price, 0, ',', '.') }} đ
                                 </h4>
                             </div>
@@ -60,10 +60,10 @@
                         <div class="row">
                             @if ($product->productInventories->quantity)
                                 <div class="col-12 mt-3">
-                                    <button class="btn btn-primary" onclick="addCart()">Thêm vào giỏ hàng</button>
+                                    <button class="btn btn-primary" onclick="addCart()">{{ __('Add to Cart') }}</button>
                                 </div>
                             @else
-                                <span class="text-danger">Sản phẩm đã hết hàng</span>
+                                <span class="text-danger">{{ __('Sold out') }}</span>
                             @endif
                         </div>
                     </div>
@@ -216,40 +216,40 @@
         });
     </script>
 
-    <!-- Thêm sản phẩm vào giỏ hàng -->
+    <!-- Add product to cart -->
     <script>
         function addCart() {
             Swal.fire({
-                title: 'Xác nhận thanh toán',
+                title: '{{ __('Confirm Payment') }}',
                 html: `
                     <div class="text-start">
-                        <label class="fw-bold">Tên sản phẩm:</label>
+                        <label class="fw-bold">{{ __('Product Name:') }}</label>
                         <input type="text" id="product_name" class="form-control mb-2" value="{{ $product->name }}" readonly>
 
-                        <label class="fw-bold">Giá sản phẩm:</label>
+                        <label class="fw-bold">{{ __('Product Price:') }}</label>
                         <input type="text" id="product_price" class="form-control mb-2" value="{{ number_format($product->price, 0, ',', '.') }} đ" readonly>
 
-                        <label class="fw-bold">Số lượng:</label>
+                        <label class="fw-bold">{{ __('Quantity:') }}</label>
                         <input type="number" id="quantity" class="form-control mb-2" value="1" 
                             min="1" max="{{ $product->productInventories->quantity }}"
                             oninput="updateTotalPrice()" 
                             onkeypress="return event.charCode >= 48 && event.charCode <= 57">
 
                         @if($product->type == 'rental')
-                            <label class="fw-bold">Ngày bắt đầu:</label>
+                            <label class="fw-bold">{{ __('Start Date:') }}</label>
                             <input type="date" id="rental_start" class="form-control mb-2">
 
-                            <label class="fw-bold">Ngày kết thúc:</label>
+                            <label class="fw-bold">{{ __('End Date:') }}</label>
                             <input type="date" id="rental_end" class="form-control mb-2" onchange="updateTotalPrice()">
                         @endif
 
-                        <label class="fw-bold">Tổng giá:</label>
+                        <label class="fw-bold">{{ __('Total Price:') }}</label>
                         <input type="text" id="total_price" class="form-control mb-2" value="{{ number_format($product->price, 0, ',', '.') }} đ" readonly>
                     </div>
                 `,
                 showCancelButton: true,
-                confirmButtonText: 'Thêm vào giỏ hàng',
-                cancelButtonText: 'Hủy',
+                confirmButtonText: '{{ __('Add to Cart') }}',
+                cancelButtonText: '{{ __('Cancel') }}',
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
                 preConfirm: () => {
@@ -293,7 +293,7 @@
                         success: function (response) {
                             Swal.fire({
                                 icon: 'success',    
-                                title: 'Thêm vào giỏ hàng thành công',
+                                title: '{{ __('Product added to cart successfully') }}',
                                 showConfirmButton: false,
                                 timer: 1500
                             }).then(() => {
@@ -304,8 +304,8 @@
                             console.log(xhr.responseText);
                             Swal.fire({
                                 icon: 'error',
-                                title: 'Lỗi khi thêm vào giỏ hàng',
-                                text: xhr.responseJSON ? xhr.responseJSON.message : 'Lỗi không xác định'
+                                title: '{{ __('Error adding to cart') }}',
+                                text: xhr.responseJSON ? xhr.responseJSON.message : '{{ __('Unknown error') }}'
                             });
                         }
                     });
@@ -313,21 +313,21 @@
             });
         }
 
-        // Hàm cập nhật tổng giá dựa trên số lượng
+        // Function to update total price based on quantity
         function updateTotalPrice() {
             let quantityInput = document.getElementById('quantity');
             let quantity = parseInt(quantityInput.value, 10);
             let maxQuantity = {{ $product->productInventories->quantity }};
-            let price = {{ $product->price }}; // Lấy giá sản phẩm từ PHP
+            let price = {{ $product->price }}; // Get product price from PHP
 
-            // Đảm bảo số lượng nằm trong khoảng hợp lệ
+            // Ensure quantity is within valid range
             if (isNaN(quantity) || quantity < 1) {
                 quantity = 1;
             } else if (quantity > maxQuantity) {
                 quantity = maxQuantity;
             }
 
-            quantityInput.value = quantity; // Cập nhật lại giá trị hợp lệ
+            quantityInput.value = quantity; // Update with valid value
 
             @if($product->type == 'rental')
                 let rentalStart = document.getElementById('rental_start').value;
@@ -337,21 +337,21 @@
                 let startDate = new Date(rentalStart);
                 let endDate = new Date(rentalEnd);
 
-                let timeDiff = endDate - startDate; // Độ chênh lệch tính bằng milliseconds
-                let daysDiff = timeDiff / (1000 * 60 * 60 * 24); // Chuyển đổi sang ngày
+                let timeDiff = endDate - startDate; // Difference in milliseconds
+                let daysDiff = timeDiff / (1000 * 60 * 60 * 24); // Convert to days
 
                 if (daysDiff > 4 && daysDiff < 7) {
-                    price *= 0.9; // Giảm 10% => nhân 0.9
+                    price *= 0.9; // 10% discount => multiply by 0.9
                 } else if (daysDiff > 8 && daysDiff < 14) {
-                    price *= 0.85; // Giảm 15% => nhân 0.85
+                    price *= 0.85; // 15% discount => multiply by 0.85
                 } else if (daysDiff > 14) {
-                    price *= 0.8; // Giảm 20% => nhân 0.8
+                    price *= 0.8; // 20% discount => multiply by 0.8
                 }
             @endif
 
             let totalPrice = quantity * price;
 
-            // Cập nhật tổng giá với định dạng tiền tệ
+            // Update total price with currency format
             document.getElementById('total_price').value = totalPrice.toLocaleString('vi-VN') + " đ";
         }
     </script>
