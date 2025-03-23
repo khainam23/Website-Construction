@@ -9,7 +9,7 @@ class LoginController extends Controller
 {
     public function login(Request $request)
     {
-        $validatedData = $request->validate([
+        $request->validate([
             'email' => 'required|email',
             'password' => 'required|min:6'
         ]);

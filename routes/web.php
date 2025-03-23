@@ -62,6 +62,8 @@ Route::middleware([RoleMiddleware::class . ':customer'])->group(function () {
 
     Route::post('/cart/add', [CartController::class, 'add'])->name('api.cart.add');
     Route::post('/cart/payment', [PaymentContronller::class, 'all'])->name('api.payment');
+    Route::get('/payment/vnpay/return', [PaymentContronller::class,'vnpayReturn'])->name('api.payment.vnpay.return');
+
 });
 
 // Dành cho admin

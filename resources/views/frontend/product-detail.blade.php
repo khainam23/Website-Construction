@@ -220,7 +220,7 @@
     <script>
         function addCart() {
             Swal.fire({
-                title: 'Xác nhận thêm vào giỏ hàng',
+                title: 'Xác nhận thanh toán',
                 html: `
                     <div class="text-start">
                         <label class="fw-bold">Tên sản phẩm:</label>

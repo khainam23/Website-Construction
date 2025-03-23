@@ -505,7 +505,7 @@
                     success: function (data) {
                         if (data.success) {
                             if (method === "vnpay") {
-                                window.location.href = data.redirect_url; // Chuyển hướng đến VNPAY
+                                window.location.href = data.vnpay_url; // Chuyển hướng đến VNPAY
                             } else {
                                 Swal.fire({
                                     icon: "success",
@@ -532,7 +532,7 @@
                             text: "Không thể kết nối đến server, vui lòng kiểm tra lại.",
                             confirmButtonText: "OK"
                         });
-                        console.error("Lỗi:", error);
+                        console.error("Lỗi:", xhr.responseJSON);
                     }
                 });
             });
@@ -575,7 +575,7 @@
                         'id': val.value,
                         'productId': productId,
                         'quantity': quantity,
-                        'cost': cost
+                        'cost': cost.substring(0, cost.length - 2).replace(/\./g, '').trim()
                     };
                 }).get();
 
