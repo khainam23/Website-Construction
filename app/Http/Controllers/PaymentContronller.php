@@ -103,6 +103,7 @@ class PaymentContronller extends Controller
             // Xử lý khi thanh toán thành công
             $items = session()->remove('vnpay-items');
             $paymentInfo = session()->remove('vnpay-info');
+            session()->flush();
 
             session()->put('type-payment', 'vnpay');
             $this->payment($items, $paymentInfo);
@@ -171,6 +172,7 @@ class PaymentContronller extends Controller
         });
 
         $type = session()->remove('type-vnpay') ?? 'confirm';
+        session()->flush();
 
         // Cập nhật tổng tiền vào Order
         $order->update([

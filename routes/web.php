@@ -28,16 +28,17 @@ use App\Http\Controllers\AssetController;
 Route::middleware([LanguageMiddleware::class])->group(function () {
     // Các tính năng public
     Route::get("/", [HomeController::class, "index"])->name("web.index");
-    Route::get("/home", [HomeController::class, "index"])->name("web.index");
-    Route::view("/abouts", 'frontend.about')->name('web.about');
-    Route::view('/contact', 'frontend.contact')->name('web.contact');
-    Route::view('/news', 'frontend.news')->name('web.news');
-    Route::get('/language/{lang}', [LanguageController::class, 'changeLanguage'])->name('web.language');
-    Route::get('/product/{type}', [ProductController::class, 'viewAll'])
-        ->where('type', 'sale|rental|all')
-        ->name('web.product');
-    Route::get('/products/{id}', [ProductController::class, 'show'])->name('web.product.detail');
-    Route::post('/add-contact', [ContactController::class, 'add'])->name('web.addContact');
+Route::get("/home", [HomeController::class, "index"])->name("web.index");
+Route::view("/abouts", 'frontend.about')->name('web.about');
+Route::view('/contact', 'frontend.contact')->name('web.contact');
+Route::view('/news', 'frontend.news')->name('web.news');
+Route::get('/admin/language/{lang}', [LanguageController::class, 'changeLanguage'])
+    ->name('admin.language');
+Route::get('/product/{type}', [ProductController::class, 'viewAll'])
+    ->where('type', 'sale|rental|all')
+    ->name('web.product');
+Route::get('/products/{id}', [ProductController::class, 'show'])->name('web.product.detail');
+Route::post('/add-contact', [ContactController::class, 'add'])->name('api.contract.add');
 
     // Dành cho truy cập
     Route::view('/login', 'frontend.login')->name('web.login');
@@ -63,56 +64,59 @@ Route::middleware([LanguageMiddleware::class])->group(function () {
         Route::post('/profile/udpate/info', [ProfileController::class, 'updateInfo'])->name('api.update.info');
         Route::post('/profile/update/password', [ProfileController::class, 'updatePassword'])->name('api.update.password');
 
-        Route::post('/cart/add', [CartController::class, 'add'])->name('api.cart.add');
-        Route::post('/cart/payment', [PaymentContronller::class, 'all'])->name('api.payment');
-        Route::get('/payment/vnpay/return', [PaymentContronller::class,'vnpayReturn'])->name('api.payment.vnpay.return');
-
+    Route::post('/cart/add', [CartController::class, 'add'])->name('api.cart.add');
+    Route::post('/cart/payment', [PaymentContronller::class, 'all'])->name('api.payment');
+    Route::get('/payment/vnpay/return', [PaymentContronller::class, 'vnpayReturn'])->name('api.payment.vnpay.return');
     });
 
-    // Dành cho admin
-    Route::middleware([RoleMiddleware::class . ':admin'])->group(function () {
-        Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
-
-        // User Management
-        Route::get('/admin/users', [AccountController::class, 'loadAccount'])->name('admin.users.index');
-        Route::post('/admin/user/update', [AccountController::class, 'update'])->name('admin.api.user.update');
-        Route::post('/admin/user/show', [AccountController::class, 'show'])->name('admin.api.user.show');
-        
-        // Product Management, phần middleware giúp category chỉ cần gọi một lần hạn chế gọi nhiều 
-        Route::middleware([CategoryMiddleware::class])->group(function () {
-            Route::get('/admin/products', [AssetController::class, 'loadProduct'])->name('admin.products.index');
-            Route::get('/admin/products/{product}/edit', [AssetController::class, 'edit'])->name('admin.products.edit');
-            Route::view('/admin/product/create', 'admin.products.create')->name('admin.products.create');
-        });
-        Route::post('/admin/product/store', [AssetController::class, 'store'])->name('admin.api.product.store');
-        Route::post('/admin.products/{id}', [AssetController::class, 'update'])->name('admin.api.products.update');
-        Route::delete('/admin.products/{product}', [AssetController::class, 'delete'])->name('admin.products.delete');
-        Route::post('/admin.product/add/image', [AssetController::class, 'uploadImages'])->name('admin.api.product.upload.images');
-        Route::delete('/admin.product/delete/image/{id}', [AssetController::class, 'deleteImage'])->name('admin.api.product.delete.image');
-
-        // Order Management
-        Route::get('/admin/orders', [OrderController::class, 'index'])->name('admin.orders.index');
-        Route::get('/admin/orders/{order}', [OrderController::class, 'show'])->name('admin.orders.show');
-        Route::post('/admin/order/update/status', [OrderController::class, 'updateStatus'])->name('admin.api.order.update.status');
-
-        // Category Management Routes
-        Route::get('/admin/categories', [CategoryController::class, 'index'])->name('admin.categories.index');
-        Route::get('/admin/categories/create', [CategoryController::class, 'create'])->name('admin.categories.create');
-        Route::post('/admin/categories', [CategoryController::class, 'store'])->name('admin.categories.store');
-        Route::get('/admin.categories/{category}/edit', [CategoryController::class, 'edit'])->name('admin.categories.edit');
-        Route::put('/admin.categories/{category}', [CategoryController::class, 'update'])->name('admin.categories.update');
-        Route::delete('/admin.categories/{category}', [CategoryController::class, 'delete'])->name('admin.categories.delete');
+// Dành cho việc điều hành sản phẩm
+Route::middleware([RoleMiddleware::class . ':admin,sale'])->group(function () {
+    // Product Management, phần middleware giúp category chỉ cần gọi một lần hạn chế gọi nhiều 
+    Route::middleware([CategoryMiddleware::class])->group(function () {
+        Route::get('/admin/products', [AssetController::class, 'loadProduct'])->name('admin.products.index');
+        Route::get('/admin/products/{product}/edit', [AssetController::class, 'edit'])->name('admin.products.edit');
+        Route::view('/admin/product/create', 'admin.products.create')->name('admin.products.create');
     });
+    Route::post('/admin/product/store', [AssetController::class, 'store'])->name('admin.api.product.store');
+    Route::post('/admin/products/{id}', [AssetController::class, 'update'])->name('admin.api.products.update');
+    Route::delete('/admin/products/{product}', [AssetController::class, 'delete'])->name('admin.products.delete');
+    Route::post('/admin/product/add/image', [AssetController::class, 'uploadImages'])->name('admin.api.product.upload.images');
+    Route::delete('/admin/product/delete/image/{id}', [AssetController::class, 'deleteImage'])->name('admin.api.product.delete.image');
+});
 
-    // Dành cho sale
-    Route::middleware([RoleMiddleware::class . ':sale'])->group(function () {
-        Route::get('/sale/dashboard', [SalesController::class, 'dashboard'])->name('sale.dashboard');
-        Route::get('/sale/sales/revenue', [RevenueController::class, 'index'])->name('sale.sales.revenue');
-        Route::get('/sale/sales/product-sales', [SalesController::class, 'productSales'])->name('sale.sales.productSales');
-        Route::get('/sale/sales', [SalesController::class, 'index'])->name('sale.sales.index');
-    });
+// Dành cho admin
+Route::middleware([RoleMiddleware::class . ':admin'])->group(function () {
+  Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
 
-    // Dành cho rental
-    Route::middleware([RoleMiddleware::class . ':rental'])->group(function () {
-    });
+  // User Management
+  Route::get('/admin/users', [AccountController::class, 'loadAccount'])->name('admin.users.index');
+  Route::post('/admin/user/update', [AccountController::class, 'update'])->name('admin.api.user.update');
+  Route::post('/admin/user/show', [AccountController::class, 'show'])->name('admin.api.user.show');
+
+  // Order Management
+  Route::get('/admin/orders', [OrderController::class, 'index'])->name('admin.orders.index');
+  Route::get('/admin/orders/{order}', [OrderController::class, 'show'])->name('admin.orders.show');
+  Route::post('/admin/order/update/status', [OrderController::class, 'updateStatus'])->name('admin.api.order.update.status');
+
+  // Category Management Routes
+  Route::get('/admin/categories', [CategoryController::class, 'index'])->name('admin.categories.index');
+  Route::get('/admin/categories/create', [CategoryController::class, 'create'])->name('admin.categories.create');
+  Route::post('/admin/categories', [CategoryController::class, 'store'])->name('admin.categories.store');
+  Route::get('/admin.categories/{category}/edit', [CategoryController::class, 'edit'])->name('admin.categories.edit');
+  Route::put('/admin.categories/{category}', [CategoryController::class, 'update'])->name('admin.categories.update');
+  Route::delete('/admin.categories/{category}', [CategoryController::class, 'delete'])->name('admin.categories.delete');
+});
+
+// Dành cho sale
+Route::middleware([RoleMiddleware::class . ':sale'])->group(function () {
+  Route::get('/sale/dashboard', [SalesController::class, 'dashboard'])->name('sale.dashboard');
+  Route::get('/sale/sales/revenue', [RevenueController::class, 'index'])->name('sale.sales.revenue');
+  Route::get('/sale/sales/product-sales', [SalesController::class, 'productSales'])->name('sale.sales.productSales');
+  Route::get('/sale/sales', [SalesController::class, 'index'])->name('sale.sales.index');
+});
+
+// Dành cho rental
+Route::middleware([RoleMiddleware::class . ':rental'])->group(function () {
+});
+  
 });
