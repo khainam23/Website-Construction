@@ -16,9 +16,8 @@
 
 .items {
     display: flex;
-    flex-direction: column;
     align-items: flex-start;
-    flex-direction: row;
+    flex-direction: column;
     gap: 20px;
     align-self: stretch;
     border-bottom: 1px solid var(--gray, #b4b4b4);
