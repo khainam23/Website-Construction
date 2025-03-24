@@ -50,7 +50,7 @@
                             <td>{{ $product->productInventories ? $product->productInventories->quantity : 0 }}</td>
                             <td style="text-align: center; vertical-align: middle;">
                                 @if($product->avatar)
-                                    <img src="{{ $product->avatar }}" class="img-fluid" alt="{{ $product->name }}"
+                                    <img src="{{ asset($product->avatar) }}" class="img-fluid" alt="{{ $product->name }}"
                                         style="max-height: 100px; width: 100px; object-fit: contain;">
                                 @else
                                     {{ __('No Images') }}
