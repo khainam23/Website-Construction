@@ -200,4 +200,14 @@ class AssetController extends Controller
             'message' => 'Sản phẩm đã được thêm thành công!'
         ]);
     }
+
+    public function search($name)
+    {
+        // Tìm các sản phẩm có tên chứa $name (không phân biệt chữ hoa/thường)
+        $products = Product::where('name', 'like', "%{$name}%")->get();
+
+        // Trả về JSON nếu gọi bằng AJAX
+        return response()->json($products);
+    }
+
 }

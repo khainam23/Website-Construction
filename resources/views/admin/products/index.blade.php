@@ -11,15 +11,14 @@
         <h1>{{ __('Product Management') }}</h1>
 
         <div class="mb-3">
-            <form method="GET" action="{{ route('admin.products.index') }}">
-                <div class="input-group">
-                    <input type="text" class="form-control" placeholder="{{ __('Search') }}" name="search"
-                        value="{{ request('search') }}">
-                    <div class="input-group-append">
-                        <button class="btn btn-outline-secondary" type="submit">{{ __('Search') }}</button>
-                    </div>
-                </div>
-            </form>
+            <div class="input-group">
+                <input id="search" type="text" class="form-control" placeholder="{{ __('Search') }}" name="search"
+                    value="{{ request('search') }}">
+            </div>
+
+            <!-- Hiển thị sản phẩm -->
+            <div id="search-results">
+            </div>
         </div>
 
         <div class="mb-2 d-flex">
@@ -41,7 +40,7 @@
                         <th>{{ __('Actions') }}</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody id="product-table">
                     @foreach($products as $product)
                         <tr>
                             <td>{{ $product->id }}</td>
@@ -77,6 +76,8 @@
 @endsection
 
 @section('js')
+
+    <!-- Xuất dữ liệu sang file Excel -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <script>
         function exportExcel() {
@@ -109,6 +110,18 @@
             // Xuất file Excel
             XLSX.writeFile(wb, "products.xlsx");
         }
+    </script>
+
+    <!-- Tìm kiếm sản phẩm -->
+    <script>
+        $(document).ready(function () {
+            $("#search").on("keyup", function () {
+                var value = $(this).val().toLowerCase();
+                $("#product-table tr").filter(function () {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+                });
+            });
+        });
     </script>
 
 @endsection
