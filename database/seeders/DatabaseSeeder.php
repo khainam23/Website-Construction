@@ -58,9 +58,6 @@ class DatabaseSeeder extends Seeder
 
         // Tạo CategoriesF
         DB::table('categories')->insert([
-<<<<<<< Updated upstream
-            ['name' => 'Xe cẩu', 'is_active' => true, 'parent_id' => null, 'created_at' => now(), 'updated_at' => now()],
-=======
             // Danh mục chính
             ['id' => 1, 'name' => 'Xe cẩu', 'is_active' => true, 'parent_id' => null, 'created_at' => now(), 'updated_at' => now()],
             ['id' => 2, 'name' => 'Xe tải', 'is_active' => true, 'parent_id' => null, 'created_at' => now(), 'updated_at' => now()],
@@ -90,7 +87,6 @@ class DatabaseSeeder extends Seeder
             // Danh mục con của Máy san gạt
             ['id' => 17, 'name' => 'Máy san gạt tự hành', 'is_active' => true, 'parent_id' => 14, 'created_at' => now(), 'updated_at' => now()],
             ['id' => 18, 'name' => 'Máy san gạt kéo', 'is_active' => true, 'parent_id' => 14, 'created_at' => now(), 'updated_at' => now()],
->>>>>>> Stashed changes
         ]);
 
         // Tạo Products
@@ -270,9 +266,6 @@ class DatabaseSeeder extends Seeder
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
-<<<<<<< Updated upstream
-            
-=======
             [
                 'product_id' => 6,
                 'type' => 'sale',
@@ -322,7 +315,6 @@ class DatabaseSeeder extends Seeder
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
->>>>>>> Stashed changes
         ]);
 
         // Tạo Product Descriptions
@@ -379,98 +371,6 @@ class DatabaseSeeder extends Seeder
 
         // Ảnh cho sản phẩm
         DB::table('images')->insert([
-<<<<<<< Updated upstream
-            [
-                'product_id'=> 1,
-                'path' => 'https://xetaiphuman.vn/uploads/images/products-images/xe-cau-8-tan.jpg'
-            ],
-            [
-                'product_id' => 4,
-                'infomations' => 'Xe cẩu tự hành XCMG 15 tấn là thiết bị chuyên nghiệp cho các dự án quy mô lớn. Công nghệ hiện đại từ thương hiệu hàng đầu.',
-                'features' => '- Tải trọng: 15000 kg
-                      - Chiều cao nâng tối đa: 30m
-                      - Hệ thống ổn định tự động
-                      - Công nghệ điều khiển tiên tiến
-                      - Tiêu chuẩn an toàn quốc tế',
-                'applications' => 'Phục vụ các dự án xây dựng cao tầng, lắp đặt thiết bị công nghiệp nặng.',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'product_id' => 5,
-                'infomations' => 'Xe cẩu gấp Hyundai 3 tấn là giải pháp linh hoạt cho các công việc nâng hạ nhẹ. Thiết kế gọn gàng, dễ dàng di chuyển.',
-                'features' => '- Tải trọng: 3000 kg
-                      - Cần gấp thông minh
-                      - Hệ thống điều khiển từ xa
-                      - Tiết kiệm không gian
-                      - Bảo trì đơn giản',
-                'applications' => 'Lý tưởng cho các công việc trong đô thị, khu công nghiệp nhẹ.',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'product_id' => 6,
-                'infomations' => 'Xe cẩu container Kalmar 45 tấn là thiết bị chuyên dụng cho cảng biển. Hiệu suất cao và độ tin cậy tuyệt đối.',
-                'features' => '- Sức nâng: 45000 kg
-                      - Hệ thống xử lý container tự động
-                      - Cabin người lái ergonomic
-                      - Hệ thống định vị chính xác
-                      - Khả năng xếp chồng cao',
-                'applications' => 'Chuyên dụng cho cảng biển, khu logistics, bãi container.',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'product_id' => 7,
-                'infomations' => 'Xe cẩu bánh lốp Grove 25 tấn là sự lựa chọn đa năng cho nhiều loại công trình. Kết hợp giữa tính linh hoạt và sức mạnh.',
-                'features' => '- Tải trọng: 25000 kg
-                      - Hệ thống truyền động 4x4
-                      - Cần telescopic tự động
-                      - Hệ thống cân bằng thủy lực
-                      - Cabin điều hòa cao cấp',
-                'applications' => 'Phù hợp cho các công trình xây dựng, lắp đặt công nghiệp, cơ sở hạ tầng.',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'product_id' => 8,
-                'infomations' => 'Xe cẩu tháp Potain 50 tấn là thiết bị chuyên nghiệp cho các công trình cao tầng. Độ ổn định và độ chính xác cao.',
-                'features' => '- Sức nâng tối đa: 50000 kg
-                      - Chiều cao làm việc: 80m
-                      - Hệ thống điều khiển kỹ thuật số
-                      - An toàn chống gió cao
-                      - Lắp đặt module hóa',
-                'applications' => 'Chuyên dụng cho xây dựng cao tầng, dự án quy mô lớn.',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'product_id' => 9,
-                'infomations' => 'Xe cẩu thủy lực Tadano 12 tấn là sản phẩm chất lượng Nhật Bản. Độ bền cao và vận hành êm ái.',
-                'features' => '- Tải trọng: 12000 kg
-                      - Hệ thống thủy lực chính xác
-                      - Công nghệ tiết kiệm nhiên liệu
-                      - Bảo trì định kỳ đơn giản
-                      - Hệ thống an toàn tích hợp',
-                'applications' => 'Thích hợp cho các công trình xây dựng vừa và nhỏ, lắp đặt thiết bị.',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'product_id' => 10,
-                'infomations' => 'Xe cẩu đa năng Liebherr 6 tấn là thiết bị linh hoạt cho nhiều mục đích sử dụng. Công nghệ Đức đáng tin cậy.',
-                'features' => '- Tải trọng: 6000 kg
-                      - Cần đa năng linh hoạt
-                      - Hệ thống điều khiển thông minh
-                      - Tiêu chuẩn an toàn châu Âu
-                      - Tiết kiệm nhiên liệu',
-                'applications' => 'Đa dụng cho các công trình xây dựng, khu công nghiệp, và dự án cơ sở hạ tầng.',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-        ]);
-
-=======
             // Product 1 - 3 images
             ['product_id' => 1, 'path' => 'products/1.jpg'],
             ['product_id' => 1, 'path' => 'products/2.jpg'],
@@ -529,7 +429,6 @@ class DatabaseSeeder extends Seeder
             ['product_id' => 12, 'path' => 'products/1.jpg'],
         ]);
 
->>>>>>> Stashed changes
         // Tạo Orders
         DB::table('orders')->insert([
             [
