@@ -969,5 +969,10 @@
     "Redirecting to admin page": "Đang điều hướng đến trang quản trị",
     "Redirecting to sales page": "Đang điều hướng đến trang sản phẩm",
     "Login successful": "Đăng nhập thành công",
-    "Invalid login credentials": "Thông tin đăng nhập không chính xác"
+    "Invalid login credentials": "Thông tin đăng nhập không chính xác",
+    "Search products...": "Tìm kiếm sản phẩm...",
+    "All Categories": "Tất cả danh mục",
+    "Found": "Tìm thấy",
+    "products": "sản phẩm",
+    "No products found matching your criteria.": "Không tìm thấy sản phẩm nào phù hợp với tiêu chí của bạn."
 }

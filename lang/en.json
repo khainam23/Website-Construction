@@ -913,5 +913,10 @@
     "Redirecting to sales page": "Redirecting to sales page",
     "Redirecting to warehouse page": "Redirecting to warehouse page",
     "Login successful": "Login successful",
-    "Invalid login credentials": "Invalid login credentials"
+    "Invalid login credentials": "Invalid login credentials",
+    "Search products...": "Search products...",
+    "All Categories": "All Categories",
+    "Found": "Found",
+    "products": "products",
+    "No products found matching your criteria.": "No products found matching your criteria."
 }

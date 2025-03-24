@@ -132,7 +132,6 @@
 }
 
 .logo {
-    position: absolute;
     bottom: 5;
     right: 0;
     display: flex;

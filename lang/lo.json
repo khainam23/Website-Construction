@@ -988,5 +988,10 @@
     "Total Revenue": "ລາຍຮັບທັງໝົດ",
      "Revenue Statistics": "ສະຖິຕິລາຍຮັບ",
       "Product Sales": "ການຂາຍສິນຄ້າ",
-        "Order ID": "ລະຫັດຄຳສັ່ງ"
+        "Order ID": "ລະຫັດຄຳສັ່ງ",
+        "Search products...": "ຄົ້ນຫາສິນຄ້າ...",
+        "All Categories": "ທັງໝົດຫົວຂໍ້",
+        "Found": "ພົບເຫົາ",
+        "products": "ສິນຄ້າ",
+        "No products found matching your criteria.": "ບໍ່ພົບສິນຄ້າທີ່ກົງກັບຄົນຫາຂອງທ່ານ."
 }

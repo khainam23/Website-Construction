@@ -1,6 +1,8 @@
+/* General Styles */
 .section {
     display: flex;
     flex-direction: column;
+<<<<<<< Updated upstream
     align-items: flex-start;
     gap: 10px;
     align-self: stretch;
@@ -19,35 +21,62 @@
     flex-direction: column;
     align-items: flex-start;
     flex-direction: row;
+=======
+    align-items: center; /* Center items horizontally */
+>>>>>>> Stashed changes
     gap: 20px;
     align-self: stretch;
-    border-bottom: 1px solid var(--gray, #b4b4b4);
+    margin-bottom: 40px;
 }
+
+.custom-container {
+    display: flex;
+    width: 90%; /* Make it responsive */
+    max-width: 1200px; /* Limit the maximum width */
+    flex-direction: column;
+    align-items: center;
+    gap: 25px;
+}
+
+/* Items and Subgroups */
+.items {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    align-self: stretch;
+    border-bottom: 1px solid var(--gray, #b4b4b4);
+    padding-bottom: 20px;
+}
+
 .supgroup {
     display: flex;
-    padding: 30px 0px 40px 0px;
+    padding: 20px 0;
     align-items: flex-start;
     align-content: flex-start;
-    gap: 25px;
+    gap: 20px;
     align-self: stretch;
     flex-wrap: wrap;
-    border-bottom: 1px solid #b4b4b4;
+    border-bottom: 1px solid #e0e0e0;
 }
+
+/* Category Heading Styles */
 .heading-category {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    gap: 20px;
+    gap: 15px;
+    margin-bottom: 10px;
 }
+
 .text-cantegory-2 {
     color: #295bae;
-    font-size: 28px;
+    font-size: 24px;
     font-style: normal;
     font-weight: 700;
-    line-height: normal;
+    line-height: 1.2;
     display: inline-block;
     position: relative;
-    padding: 2px 5px;
+    padding: 5px 10px;
 }
 
 .text-cantegory-2::before {
@@ -56,96 +85,97 @@
     bottom: 0;
     left: 0;
     width: 100%;
-    height: 10px;
-    background-color: yellow;
+    height: 8px;
+    background-color: rgba(255, 255, 0, 0.5); /* Semi-transparent yellow */
     z-index: -1;
 }
+
+/* Product List Styles */
 .product-list {
     display: flex;
-    gap: 25px;
+    gap: 20px;
     flex-wrap: wrap;
-    justify-content: center;
+    justify-content: flex-start; /* Align items to the start */
+    width: 100%;
+}
+
+.product-list .item-1 { /* Add this style */
+    display: flex;
+    flex-direction: column;
+    width: 100%; /* Ensure it takes full width */
 }
 
 .product-list .card p {
     font-weight: 400;
     font-size: 14px;
-    color: #333333;
+    color: #555;
 }
-/* //// */
 
+/* Card Styles */
 .card {
     display: flex;
     flex-direction: column;
-    height: 100%;
-    border: none;
-    padding: 0 !important;
+    height: 100%; /* Make the card take up the full height of its container */
+    border: 1px solid #ddd; /* Add a subtle border */
+    border-radius: 8px; /* Rounded corners */
+    overflow: hidden; /* Ensure content stays within the card */
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
 }
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* Lighter shadow on hover */
+}
+
 .card-body {
     flex-grow: 1;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    padding: 15px;
 }
+
 .card-text {
     flex-grow: 1;
+    margin-bottom: 10px;
 }
-/*  */
+
+/* Image Styles */
 .card-img-top {
     display: flex;
     width: 100%;
     object-fit: cover;
-    height: 280px;
+    height: 220px; /* Adjust height as needed */
     justify-content: center;
     align-items: center;
-    gap: 10px;
-    align-self: stretch;
+    background-color: #f9f9f9; /* Placeholder background color */
 }
+
+/* Title Styles */
 .card-title {
     color: #295bae;
-    /* section sub heading */
     font-size: 18px;
     font-style: normal;
     font-weight: 700;
-    line-height: normal;
-    transition: color 0.3s ease-in-out;
-}
-
-.card-text {
-    color: var(--body, #333);
-
-    /* body */
-    font-size: 14px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: 150%; /* 21px */
-}
-
-.card-body .card-title {
+    line-height: 1.3;
+    margin-bottom: 8px;
     transition: color 0.3s ease-in-out;
 }
 
 .card-body .card-title:hover {
-    color: gold;
-}
-.col-12,
-.col-sm-6,
-.col-md-6,
-.col-lg-4,
-.mb-4 {
-    border: none !important;
-    box-shadow: none !important;
-}
-a .card {
-    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-    border: none;
+    color: #ffc107; /* Gold color on hover */
 }
 
-a:hover .card {
-    transform: translateY(-5px);
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
-    border: none;
+/* Text Styles */
+.card-text {
+    color: var(--body, #333);
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 1.4;
 }
+
+/* Link Styles */
 .link {
     text-decoration: none;
 }
@@ -154,81 +184,175 @@ a:hover .card {
     text-decoration: none;
 }
 
-.link:hover .card-title {
-    color: gold;
+/* Column Styles */
+.col-12,
+.col-sm-6,
+.col-md-6,
+.col-lg-4,
+.mb-4 {
+    padding: 0 !important;
+    border: none !important;
+    box-shadow: none !important;
 }
 
-.link .card {
-    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-}
-
-.link:hover .card {
-    transform: translateY(-5px);
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
-}
+/* Media Queries for Responsiveness */
 @media (max-width: 576px) {
-    .card {
-        padding: 8px;
+    .card-img-top {
+        height: 180px;
     }
+
     .card-title {
         font-size: 16px;
     }
+
+    .card-text {
+        font-size: 12px;
+    }
+    .text-cantegory-2 {
+        font-size: 20px;
+    }
+}
+
+@media (min-width: 576px) and (max-width: 768px) {
+    .card-img-top {
+        height: 200px;
+    }
+
+    .card-title {
+        font-size: 17px;
+    }
+
     .card-text {
         font-size: 13px;
     }
-    .card img {
-        max-width: 100%;
-        height: auto;
+    .text-cantegory-2 {
+        font-size: 21px;
     }
 }
 
-@media (min-width: 576px) and (max-width: 1024px) {
-    .card {
-        padding: 10px;
+@media (min-width: 768px) and (max-width: 992px) {
+    .card-img-top {
+        height: 220px;
     }
+
     .card-title {
         font-size: 18px;
     }
+
     .card-text {
         font-size: 14px;
+    }
+    .text-cantegory-2 {
+        font-size: 22px;
     }
 }
 
-@media (min-width: 1024px) {
-    .card {
-        padding: 15px;
+@media (min-width: 992px) {
+    .card-img-top {
+        height: 240px;
     }
+
     .card-title {
-        font-size: 20px;
+        font-size: 19px;
     }
+
     .card-text {
-        font-size: 16px;
+        font-size: 15px;
+    }
+    .text-cantegory-2 {
+        font-size: 23px;
     }
 }
+
+/* Search and Filter Styles */
+.search-filter-container {
+    margin: 20px 0;
+    width: 100%;
+}
+
+.search-filter-form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.search-container {
+    display: flex;
+    flex: 1;
+    min-width: 250px;
+}
+
+.search-input {
+    flex: 1;
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px 0 0 4px;
+    font-size: 14px;
+}
+
+.search-button {
+    background-color: #295bae;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 0 4px 4px 0;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.search-button:hover {
+    background-color: #1d4990;
+}
+
+.filter-container {
+    min-width: 180px;
+}
+
+.filter-select {
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    background-color: white;
+    cursor: pointer;
+}
+
+.result-count {
+    margin-top: 15px;
+    font-size: 14px;
+    color: #666;
+    text-align: left;
+}
+
+.no-results {
+    width: 100%;
+    padding: 40px 0;
+    text-align: center;
+    font-size: 16px;
+    color: #666;
+    border-bottom: 1px solid #b4b4b4;
+}
+
 @media (max-width: 768px) {
-    .section-header {
+    .search-filter-form {
         flex-direction: column;
-        align-items: flex-start;
+        align-items: stretch;
     }
-    .breadcrumb {
-        flex-wrap: wrap;
-        font-size: 14px;
+
+    .search-container,
+    .filter-container {
+        width: 100%;
     }
+
     .text-category {
         font-size: 24px;
     }
+
     .text-big-1,
     .text-big-2 {
         font-size: 14px;
-    }
-}
-
-@media (max-width: 1024px) {
-    .text-category {
-        font-size: 26px;
-    }
-    .text-big-1,
-    .text-big-2 {
-        font-size: 15px;
     }
 }
