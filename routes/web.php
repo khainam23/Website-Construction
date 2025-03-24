@@ -81,6 +81,7 @@ Route::middleware([LanguageMiddleware::class])->group(function () {
         Route::delete('/admin/products/{product}', [AssetController::class, 'delete'])->name('admin.products.delete');
         Route::post('/admin/product/add/image', [AssetController::class, 'uploadImages'])->name('admin.api.product.upload.images');
         Route::delete('/admin/product/delete/image/{id}', [AssetController::class, 'deleteImage'])->name('admin.api.product.delete.image');
+        Route::get('/admin/prodduct/search/{name}', [AssetController::class, 'search'])->name('admin.api.product.search');
     });
 
     // Dành cho admin

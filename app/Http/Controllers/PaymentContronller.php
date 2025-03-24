@@ -7,6 +7,8 @@ use App\Models\Cart;
 use App\Models\Order;
 use App\Models\OrderDetail;
 use App\Models\Crat;
+use App\Models\ProductInventory;
+use Illuminate\Support\Facades\Mail;
 
 class PaymentContronller extends Controller
 {
@@ -164,6 +166,24 @@ class PaymentContronller extends Controller
                 'rental_end_date' => $item['end'] ?? null,
             ]);
 
+            // Update inventory
+            $productId = $item['product_id'] ?? $item['productId'] ?? $cart->product_id;
+            $type = empty($item['end']) ? 'sale' : 'rental';
+            $inventory = ProductInventory::where([
+                'product_id' => $productId,
+                'type' => $type
+            ])->first();
+
+            if ($inventory) {
+                $newQuantity = $inventory->quantity - $item['quantity'];
+                $inventory->update(['quantity' => $newQuantity]);
+
+                // Check if inventory is low (less than 3)
+                if ($newQuantity < 3) {
+                    $this->sendLowInventoryAlert($productId, $type, $newQuantity);
+                }
+            }
+
             // Xóa sản phẩm khỏi giỏ hàng nếu có
             $cart?->delete();
 
@@ -185,5 +205,19 @@ class PaymentContronller extends Controller
             'message' => 'Đơn hàng đã được tạo thành công!',
             'order_id' => $order->id,
         ]);
+    }
+
+    private function sendLowInventoryAlert($productId, $type, $quantity)
+    {
+        $adminEmail = env('ADMIN_EMAIL', 'admin@example.com');
+
+        Mail::send('emails.low-inventory', [
+            'product_id' => $productId,
+            'type' => $type,
+            'quantity' => $quantity
+        ], function ($message) use ($adminEmail) {
+            $message->to($adminEmail)
+                ->subject('Cảnh báo: Hàng tồn kho thấp');
+        });
     }
 }

@@ -56,7 +56,7 @@ class DatabaseSeeder extends Seeder
             ],
         ]);
 
-        // Tạo Categories
+        // Tạo CategoriesF
         DB::table('categories')->insert([
 <<<<<<< Updated upstream
             ['name' => 'Xe cẩu', 'is_active' => true, 'parent_id' => null, 'created_at' => now(), 'updated_at' => now()],
@@ -96,94 +96,81 @@ class DatabaseSeeder extends Seeder
         // Tạo Products
         DB::table('products')->insert([
             [
-                'name' => 'Xe Tải Cẩu 8 Tấn Dongfeng 4 Chân 13.7 Tấn',
-                'category_id' => 1,
-                'description' => '- Sức nâng tối đa: 8100 kg
-                                - Sức nâng tầm với lớn nhất: 8100 kg/2.0 m
-                                - Sức nâng tầm với trung bình: Trung bình: 2700 kg/6.0 m – 1050 kg/12.0 m
-                                - Sức nâng nhở nhất tầm với xa nhất: 400 kg/20.3 m
-                                - Bán kính làm việc tối đa: 20.3 m
-                                - Chiều cao làm việc tối đa: 23.3 m
-                                - Trọng lượng bản thân: 16.170 kg
-                                - Tải trọng cho phép chở: 13.700 kg
-                                - Số người cho phép chở: 2 người
-                                - Trọng lượng toàn bộ: 30.000 kg
-                                - Kích thước xe (D x R x C): 11.640 x 2.500 x 3.880 mm
-                                - Kích thước lòng thùng hàng: 8.300 x 2.350 x 650 mm',
-                'avatar' => 'https://xetaiphuman.vn/uploads/images/products-images/xe-cau-8-tan.jpg',
+                'name' => 'Xe Tải Cẩu 8 Tấn Dongfeng 4 Chân',
+                'category_id' => 9, // Xe tải nặng
+                'description' => 'Xe tải cẩu 8 tấn Dongfeng 4 chân với sức nâng mạnh mẽ, phù hợp cho công trình lớn.',
+                'avatar' => 'products/1.jpg',
                 'price' => 1500.00,
                 'type' => 'sale',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
-                'name' => 'Xe cẩu 5 tấn mini Komatsu-LC785-6 - JCT Việt Nam',
-                'category_id' => 1,
-                'description' => 'Cần cẩu 5 tấn mini Komatsu-LC785-6 là dòng xe cẩu nhỏ chuyên để phục vụ nâng hạ hàng hóa trong kho xưởng hoặc trong những công trường có diện tích nhỏ và thấp. Cần trục mini 5 tấn được nhập khẩu trực tiếp từ Nhật Bản thông qua JCT Việt Nam, xe được bảo dưỡng toàn bộ hệ thống trước khi bàn giao.
-
-                                Khách hàng có nhu cầu mua hoặc thuê xe cẩu vui lòng liên hệ JCT Việt Nam để nhận báo giá tốt nhất và nhanh nhất.
-
-                                Khách hàng tham khảo thêm:
-
-                                Địa chỉ bán xe cẩu nhỏ đa dạng tải trọng – giá rẻ bất ngờ
-
-                                Sửa chữa hệ thống thủy lực xe cẩu – Công ty JCT Việt Nam',
-                'avatar' => 'https://jct.com.vn/wp-content/uploads/2021/10/xe-cau-mini-5-tan-komatsu-lc785-6-1-.jpg',
-                'price' => 200.00,
+                'name' => 'Xe Cẩu Mini 5 Tấn Komatsu LC785',
+                'category_id' => 6, // Xe cẩu tự hành
+                'description' => 'Cần cẩu mini 5 tấn, thích hợp cho không gian hẹp',
+                'avatar' => 'products/2.jpg',
+                'price' => 800.00,
                 'type' => 'rental',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
-                'name' => 'Xe cẩu 5 tấn mini Komatsu-LC785-6 - JCT Việt Nam',
-                'category_id' => 1,
-                'description' => 'Cần cẩu 5 tấn mini Komatsu-LC785-6 là dòng xe cẩu nhỏ chuyên để phục vụ nâng hạ hàng hóa trong kho xưởng hoặc trong những công trường có diện tích nhỏ và thấp. Cần trục mini 5 tấn được nhập khẩu trực tiếp từ Nhật Bản thông qua JCT Việt Nam, xe được bảo dưỡng toàn bộ hệ thống trước khi bàn giao.
-
-                                Khách hàng có nhu cầu mua hoặc thuê xe cẩu vui lòng liên hệ JCT Việt Nam để nhận báo giá tốt nhất và nhanh nhất.
-
-                                Khách hàng tham khảo thêm:
-
-                                Địa chỉ bán xe cẩu nhỏ đa dạng tải trọng – giá rẻ bất ngờ
-
-                                Sửa chữa hệ thống thủy lực xe cẩu – Công ty JCT Việt Nam',
-                'avatar' => 'https://jct.com.vn/wp-content/uploads/2021/10/xe-cau-mini-5-tan-komatsu-lc785-6-1-.jpg',
-                'price' => 200.00,
+                'name' => 'Xe Cẩu Bánh Xích 10 Tấn Hitachi',
+                'category_id' => 4, // Xe cẩu bánh xích
+                'description' => 'Xe cẩu bánh xích chuyên dụng cho địa hình khó',
+                'avatar' => 'products/3.jpg',
+                'price' => 2000.00,
+                'type' => 'sale',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'name' => 'Xe Cẩu Tự Hành 15 Tấn XCMG',
+                'category_id' => 6, // Xe cẩu tự hành
+                'description' => 'Xe cẩu tự hành công suất lớn',
+                'avatar' => 'products/4.jpg',
+                'price' => 2500.00,
                 'type' => 'rental',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
-                'name' => 'Xe cẩu 5 tấn mini Komatsu-LC785-6 - JCT Việt Nam',
-                'category_id' => 1,
-                'description' => 'Cần cẩu 5 tấn mini Komatsu-LC785-6 là dòng xe cẩu nhỏ chuyên để phục vụ nâng hạ hàng hóa trong kho xưởng hoặc trong những công trường có diện tích nhỏ và thấp. Cần trục mini 5 tấn được nhập khẩu trực tiếp từ Nhật Bản thông qua JCT Việt Nam, xe được bảo dưỡng toàn bộ hệ thống trước khi bàn giao.
-
-                                Khách hàng có nhu cầu mua hoặc thuê xe cẩu vui lòng liên hệ JCT Việt Nam để nhận báo giá tốt nhất và nhanh nhất.
-
-                                Khách hàng tham khảo thêm:
-
-                                Địa chỉ bán xe cẩu nhỏ đa dạng tải trọng – giá rẻ bất ngờ
-
-                                Sửa chữa hệ thống thủy lực xe cẩu – Công ty JCT Việt Nam',
-                'avatar' => 'https://jct.com.vn/wp-content/uploads/2021/10/xe-cau-mini-5-tan-komatsu-lc785-6-1-.jpg',
-                'price' => 200.00,
+                'name' => 'Xe Cẩu Gấp 3 Tấn Hyundai',
+                'category_id' => 5, // Xe cẩu bánh lốp
+                'description' => 'Xe cẩu gấp nhỏ gọn, linh hoạt',
+                'avatar' => 'products/5.jpg',
+                'price' => 1200.00,
+                'type' => 'sale',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'name' => 'Xe Cẩu Container 45 Tấn Kalmar',
+                'category_id' => 5, // Xe cẩu bánh lốp
+                'description' => 'Xe cẩu container chuyên dụng cho cảng biển',
+                'avatar' => 'products/6.jpg',
+                'price' => 3500.00,
                 'type' => 'rental',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
-                'name' => 'Xe cẩu 5 tấn mini Komatsu-LC785-6 - JCT Việt Nam',
-                'category_id' => 1,
-                'description' => 'Cần cẩu 5 tấn mini Komatsu-LC785-6 là dòng xe cẩu nhỏ chuyên để phục vụ nâng hạ hàng hóa trong kho xưởng hoặc trong những công trường có diện tích nhỏ và thấp. Cần trục mini 5 tấn được nhập khẩu trực tiếp từ Nhật Bản thông qua JCT Việt Nam, xe được bảo dưỡng toàn bộ hệ thống trước khi bàn giao.
-
-                                Khách hàng có nhu cầu mua hoặc thuê xe cẩu vui lòng liên hệ JCT Việt Nam để nhận báo giá tốt nhất và nhanh nhất.
-
-                                Khách hàng tham khảo thêm:
-
-                                Địa chỉ bán xe cẩu nhỏ đa dạng tải trọng – giá rẻ bất ngờ
-
-                                Sửa chữa hệ thống thủy lực xe cẩu – Công ty JCT Việt Nam',
-                'avatar' => 'https://jct.com.vn/wp-content/uploads/2021/10/xe-cau-mini-5-tan-komatsu-lc785-6-1-.jpg',
-                'price' => 200.00,
+                'name' => 'Xe Cẩu Bánh Lốp 25 Tấn Grove',
+                'category_id' => 5, // Xe cẩu bánh lốp
+                'description' => 'Xe cẩu bánh lốp đa năng',
+                'avatar' => 'products/7.jpg',
+                'price' => 2800.00,
+                'type' => 'sale',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'name' => 'Xe Cẩu Tháp 50 Tấn Potain',
+                'category_id' => 6, // Xe cẩu tự hành
+                'description' => 'Xe cẩu tháp cho công trình cao tầng',
+                'avatar' => 'products/8.jpg',
+                'price' => 4000.00,
                 'type' => 'rental',
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -341,22 +328,26 @@ class DatabaseSeeder extends Seeder
         // Tạo Product Descriptions
         DB::table('product_descriptions')->insert([
             [
-                'product_id' => 1, // Gắn với sản phẩm đầu tiên
-                'infomations' => 'Xe tải cẩu 8 tấn Dongfeng với sức nâng mạnh mẽ, phù hợp cho công trình lớn.',
-                'features' => '- Sức nâng tối đa: 8100 kg
-                      - Bán kính làm việc tối đa: 20.3 m
-                      - Trọng lượng toàn bộ: 30.000 kg',
-                'applications' => 'Sử dụng để vận chuyển hàng hóa nặng, lắp ráp công trình, và xây dựng cầu đường.',
+                'product_id' => 1,
+                'infomations' => 'Xe tải cẩu 8 tấn Dongfeng 4 chân là sự kết hợp hoàn hảo giữa khả năng vận chuyển và nâng hạ hàng hóa. Được sản xuất theo tiêu chuẩn quốc tế.',
+                'features' => '- Sức nâng tối đa: 8000 kg
+                      - Chiều dài cần: 12m
+                      - Động cơ: Cummins 315HP
+                      - Hệ thống thủy lực Soosan
+                      - Cabin kép tiện nghi',
+                'applications' => 'Phù hợp cho các công trình xây dựng lớn, vận chuyển vật liệu nặng, lắp đặt thiết bị công nghiệp.',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
-                'product_id' => 2, // Gắn với sản phẩm thứ hai
-                'infomations' => 'Xe cẩu mini 5 tấn Komatsu nhỏ gọn, thích hợp cho kho xưởng và công trình nhỏ.',
-                'features' => '- Công suất nâng tối đa: 5000 kg
-                      - Nhập khẩu nguyên chiếc từ Nhật Bản
-                      - Hệ thống thủy lực tiên tiến',
-                'applications' => 'Dùng để nâng hạ hàng hóa trong nhà kho, công trường có diện tích nhỏ.',
+                'product_id' => 2,
+                'infomations' => 'Xe cẩu mini Komatsu LC785 là giải pháp tối ưu cho các không gian làm việc hạn chế. Thiết kế nhỏ gọn nhưng mạnh mẽ.',
+                'features' => '- Tải trọng nâng: 5000 kg
+                      - Bán kính hoạt động: 8m
+                      - Động cơ tiết kiệm nhiên liệu
+                      - Hệ thống điều khiển thông minh
+                      - Độ ổn định cao',
+                'applications' => 'Sử dụng trong nhà xưởng, công trình đô thị, khu vực không gian hẹp.',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
@@ -394,36 +385,88 @@ class DatabaseSeeder extends Seeder
                 'path' => 'https://xetaiphuman.vn/uploads/images/products-images/xe-cau-8-tan.jpg'
             ],
             [
-                'product_id'=> 1,
-                'path' => 'https://banxetai.com.vn/Images/SanPham/NLB_xe-4-chan-dongfeng-hoang-huy-gan-cau-8-tan-kanglim.jpg'
+                'product_id' => 4,
+                'infomations' => 'Xe cẩu tự hành XCMG 15 tấn là thiết bị chuyên nghiệp cho các dự án quy mô lớn. Công nghệ hiện đại từ thương hiệu hàng đầu.',
+                'features' => '- Tải trọng: 15000 kg
+                      - Chiều cao nâng tối đa: 30m
+                      - Hệ thống ổn định tự động
+                      - Công nghệ điều khiển tiên tiến
+                      - Tiêu chuẩn an toàn quốc tế',
+                'applications' => 'Phục vụ các dự án xây dựng cao tầng, lắp đặt thiết bị công nghiệp nặng.',
+                'created_at' => now(),
+                'updated_at' => now(),
             ],
             [
-                'product_id'=> 1,
-                'path' => 'https://www.xechuyendungmienbac.com/uploads/data/3119/imgproducts/dongfeng-4-chan-kanglim-ks5206-15-tan%20(2).jpg'
+                'product_id' => 5,
+                'infomations' => 'Xe cẩu gấp Hyundai 3 tấn là giải pháp linh hoạt cho các công việc nâng hạ nhẹ. Thiết kế gọn gàng, dễ dàng di chuyển.',
+                'features' => '- Tải trọng: 3000 kg
+                      - Cần gấp thông minh
+                      - Hệ thống điều khiển từ xa
+                      - Tiết kiệm không gian
+                      - Bảo trì đơn giản',
+                'applications' => 'Lý tưởng cho các công việc trong đô thị, khu công nghiệp nhẹ.',
+                'created_at' => now(),
+                'updated_at' => now(),
             ],
             [
-                'product_id'=> 2,
-                'path' => 'https://jct.com.vn/wp-content/uploads/2021/10/xe-cau-mini-5-tan-komatsu-lc785-6-1-.jpg'
+                'product_id' => 6,
+                'infomations' => 'Xe cẩu container Kalmar 45 tấn là thiết bị chuyên dụng cho cảng biển. Hiệu suất cao và độ tin cậy tuyệt đối.',
+                'features' => '- Sức nâng: 45000 kg
+                      - Hệ thống xử lý container tự động
+                      - Cabin người lái ergonomic
+                      - Hệ thống định vị chính xác
+                      - Khả năng xếp chồng cao',
+                'applications' => 'Chuyên dụng cho cảng biển, khu logistics, bãi container.',
+                'created_at' => now(),
+                'updated_at' => now(),
             ],
             [
-                'product_id'=> 3,
-                'path' => 'https://jct.com.vn/wp-content/uploads/2021/10/xe-cau-mini-5-tan-komatsu-lc785-6-1-.jpg'
+                'product_id' => 7,
+                'infomations' => 'Xe cẩu bánh lốp Grove 25 tấn là sự lựa chọn đa năng cho nhiều loại công trình. Kết hợp giữa tính linh hoạt và sức mạnh.',
+                'features' => '- Tải trọng: 25000 kg
+                      - Hệ thống truyền động 4x4
+                      - Cần telescopic tự động
+                      - Hệ thống cân bằng thủy lực
+                      - Cabin điều hòa cao cấp',
+                'applications' => 'Phù hợp cho các công trình xây dựng, lắp đặt công nghiệp, cơ sở hạ tầng.',
+                'created_at' => now(),
+                'updated_at' => now(),
             ],
             [
-                'product_id'=> 4,
-                'path' => 'https://jct.com.vn/wp-content/uploads/2021/10/xe-cau-mini-5-tan-komatsu-lc785-6-1-.jpg'
+                'product_id' => 8,
+                'infomations' => 'Xe cẩu tháp Potain 50 tấn là thiết bị chuyên nghiệp cho các công trình cao tầng. Độ ổn định và độ chính xác cao.',
+                'features' => '- Sức nâng tối đa: 50000 kg
+                      - Chiều cao làm việc: 80m
+                      - Hệ thống điều khiển kỹ thuật số
+                      - An toàn chống gió cao
+                      - Lắp đặt module hóa',
+                'applications' => 'Chuyên dụng cho xây dựng cao tầng, dự án quy mô lớn.',
+                'created_at' => now(),
+                'updated_at' => now(),
             ],
             [
-                'product_id'=> 5,
-                'path' => 'https://jct.com.vn/wp-content/uploads/2021/10/xe-cau-mini-5-tan-komatsu-lc785-6-1-.jpg'
+                'product_id' => 9,
+                'infomations' => 'Xe cẩu thủy lực Tadano 12 tấn là sản phẩm chất lượng Nhật Bản. Độ bền cao và vận hành êm ái.',
+                'features' => '- Tải trọng: 12000 kg
+                      - Hệ thống thủy lực chính xác
+                      - Công nghệ tiết kiệm nhiên liệu
+                      - Bảo trì định kỳ đơn giản
+                      - Hệ thống an toàn tích hợp',
+                'applications' => 'Thích hợp cho các công trình xây dựng vừa và nhỏ, lắp đặt thiết bị.',
+                'created_at' => now(),
+                'updated_at' => now(),
             ],
             [
-                'product_id'=> 6,
-                'path' => 'https://jct.com.vn/wp-content/uploads/2021/10/xe-cau-mini-5-tan-komatsu-lc785-6-1-.jpg'
-            ],
-            [
-                'product_id'=> 7,
-                'path' => 'https://jct.com.vn/wp-content/uploads/2021/10/xe-cau-mini-5-tan-komatsu-lc785-6-1-.jpg'
+                'product_id' => 10,
+                'infomations' => 'Xe cẩu đa năng Liebherr 6 tấn là thiết bị linh hoạt cho nhiều mục đích sử dụng. Công nghệ Đức đáng tin cậy.',
+                'features' => '- Tải trọng: 6000 kg
+                      - Cần đa năng linh hoạt
+                      - Hệ thống điều khiển thông minh
+                      - Tiêu chuẩn an toàn châu Âu
+                      - Tiết kiệm nhiên liệu',
+                'applications' => 'Đa dụng cho các công trình xây dựng, khu công nghiệp, và dự án cơ sở hạ tầng.',
+                'created_at' => now(),
+                'updated_at' => now(),
             ],
         ]);
 
@@ -493,7 +536,7 @@ class DatabaseSeeder extends Seeder
                 'type' => 'normal',
                 'user_id' => 2, // John Doe
                 'total' => 1700.00,
-                'status' => 'pending',
+                'status' => 'confirm',
                 'address' => '456 Customer Avenue',
                 'phone' => '0987654321',
                 'created_at' => now(),

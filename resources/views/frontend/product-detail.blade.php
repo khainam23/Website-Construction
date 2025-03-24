@@ -46,7 +46,7 @@
                             <div class="col-12 mt-3">
                                 <div class="d-flex justify-content">
                                     @foreach ($product->images as $image)
-                                        <img src="{{$image->path}}" class="thumb-img " width="70" onclick="changeImage(this)">
+                                        <img src="{{asset($image->path)}}" class="thumb-img " width="70" onclick="changeImage(this)">
                                     @endforeach
                                 </div>
                             </div>
@@ -183,8 +183,6 @@
                 });
             });
 
-
-
             // === Khởi tạo Swiper cho slider 1 ===
             var swiper1 = new Swiper(".mySwiper1", {
                 slidesPerView: 3, // Hiển thị 3 ảnh mặc định
@@ -220,7 +218,7 @@
     <script>
         function addCart() {
             Swal.fire({
-                title: '{{ __('Confirm Payment') }}',
+                title: "{{ __('Confirm Payment') }}",
                 html: `
                     <div class="text-start">
                         <label class="fw-bold">{{ __('Product Name:') }}</label>
@@ -248,8 +246,8 @@
                     </div>
                 `,
                 showCancelButton: true,
-                confirmButtonText: '{{ __('Add to Cart') }}',
-                cancelButtonText: '{{ __('Cancel') }}',
+                confirmButtonText: "{{ __('Add to Cart') }}",
+                cancelButtonText: "{{ __('Cancel') }}",
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
                 preConfirm: () => {
@@ -257,7 +255,7 @@
                         product_id: {{ $product->id }},
                         quantity: document.getElementById('quantity').value,
                         totalPrice: document.getElementById('total_price').value.replace(/[^\d]/g, '').trim(),
-                        type: '{{ $product->type }}',
+                        type: "{{ $product->type }}",
                     };
 
                     if ('{{ $product->type }}' === 'rental') {
@@ -304,8 +302,8 @@
                             console.log(xhr.responseText);
                             Swal.fire({
                                 icon: 'error',
-                                title: '{{ __('Error adding to cart') }}',
-                                text: xhr.responseJSON ? xhr.responseJSON.message : '{{ __('Unknown error') }}'
+                                title: "{{ __('Error adding to cart') }}",
+                                text: xhr.responseJSON ? xhr.responseJSON.message : "{{ __('Unknown error') }}"
                             });
                         }
                     });

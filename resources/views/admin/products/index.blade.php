@@ -1,4 +1,8 @@
-@extends('admin.layouts.master')
+@php
+    $layout = session('user')['role'] == 'admin' ? 'admin.layouts.master' : 'sale.layouts.master';
+@endphp
+
+@extends($layout)
 
 @section('title', __('Product Management'))
 
@@ -7,19 +11,19 @@
         <h1>{{ __('Product Management') }}</h1>
 
         <div class="mb-3">
-            <form method="GET" action="{{ route('admin.products.index') }}">
-                <div class="input-group">
-                    <input type="text" class="form-control" placeholder="{{ __('Search') }}" name="search"
-                        value="{{ request('search') }}">
-                    <div class="input-group-append">
-                        <button class="btn btn-outline-secondary" type="submit">{{ __('Search') }}</button>
-                    </div>
-                </div>
-            </form>
+            <div class="input-group">
+                <input id="search" type="text" class="form-control" placeholder="{{ __('Search') }}" name="search"
+                    value="{{ request('search') }}">
+            </div>
+
+            <!-- Hiển thị sản phẩm -->
+            <div id="search-results">
+            </div>
         </div>
 
         <div class="mb-2 d-flex">
-            <a href="{{ route('admin.products.create') }}" class="btn btn-primary" id="add-product">{{ __('Add Product') }}</a>
+            <a href="{{ route('admin.products.create') }}" class="btn btn-primary"
+                id="add-product">{{ __('Add Product') }}</a>
             <button class="btn btn-success ml-3" onclick="exportExcel()">{{ __('Export File') }}</button>
         </div>
 
@@ -36,7 +40,7 @@
                         <th>{{ __('Actions') }}</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody id="product-table">
                     @foreach($products as $product)
                         <tr>
                             <td>{{ $product->id }}</td>
@@ -46,7 +50,7 @@
                             <td>{{ $product->productInventories ? $product->productInventories->quantity : 0 }}</td>
                             <td style="text-align: center; vertical-align: middle;">
                                 @if($product->avatar)
-                                    <img src="{{ $product->avatar }}" class="img-fluid" alt="{{ $product->name }}"
+                                    <img src="{{ asset($product->avatar) }}" class="img-fluid" alt="{{ $product->name }}"
                                         style="max-height: 100px; width: 100px; object-fit: contain;">
                                 @else
                                     {{ __('No Images') }}
@@ -72,6 +76,8 @@
 @endsection
 
 @section('js')
+
+    <!-- Xuất dữ liệu sang file Excel -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <script>
         function exportExcel() {
@@ -104,6 +110,18 @@
             // Xuất file Excel
             XLSX.writeFile(wb, "products.xlsx");
         }
+    </script>
+
+    <!-- Tìm kiếm sản phẩm -->
+    <script>
+        $(document).ready(function () {
+            $("#search").on("keyup", function () {
+                var value = $(this).val().toLowerCase();
+                $("#product-table tr").filter(function () {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+                });
+            });
+        });
     </script>
 
 @endsection
