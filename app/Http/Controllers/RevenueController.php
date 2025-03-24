@@ -23,7 +23,8 @@ class RevenueController extends Controller
         ));
     }
 
-    private function getCombinedMonthlyRevenue()
+    // Changed from private to public so AdminController can use it
+    public function getCombinedMonthlyRevenue()
     {
         $rentalRevenue = OrderDetail::whereNotNull('rental_start_date')
             ->select(
@@ -75,7 +76,8 @@ class RevenueController extends Controller
         return $combinedRevenue;
     }
 
-    private function getCombinedYearlyRevenue()
+    // Changed from private to public so AdminController can use it
+    public function getCombinedYearlyRevenue()
     {
         $rentalRevenue = OrderDetail::whereNotNull('rental_start_date')
             ->select(
@@ -127,7 +129,8 @@ class RevenueController extends Controller
         return $combinedRevenue;
     }
 
-    private function getMonthlyProductRevenue()
+    // Changed from private to public so AdminController can use it
+    public function getMonthlyProductRevenue()
     {
         $productSalesRevenue = OrderDetail::whereNull('rental_start_date')
             ->join('orders', 'order_details.order_id', '=', 'orders.id')
@@ -154,7 +157,8 @@ class RevenueController extends Controller
         return $monthlyProductRevenue;
     }
 
-    private function getYearlyProductRevenue()
+    // Changed from private to public so AdminController can use it
+    public function getYearlyProductRevenue()
     {
         $productSalesRevenue = OrderDetail::whereNull('rental_start_date')
             ->join('orders', 'order_details.order_id', '=', 'orders.id')
