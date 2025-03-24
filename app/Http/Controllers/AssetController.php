@@ -44,12 +44,19 @@ class AssetController extends Controller
             return response()->json(['success' => false, 'message' => 'Ảnh không tồn tại!'], 404);
         }
 
-        // Xóa ảnh khỏi database
+        // Delete physical file
+        $imagePath = public_path($image->path);
+        if (file_exists($imagePath)) {
+            unlink($imagePath);
+        }
+
+        // Delete database record
         $image->delete();
 
         return response()->json(['success' => true, 'message' => 'Ảnh đã được xóa thành công!']);
     }
 
+    // In uploadImages method
     public function uploadImages(Request $request)
     {
         $request->validate([
@@ -61,11 +68,12 @@ class AssetController extends Controller
 
         try {
             foreach ($request->file('images') as $image) {
-                $imagePath = $image->store('products', 'public');
+                $fileName = time() . '_' . $image->getClientOriginalName();
+                $image->move(public_path('products'), $fileName);
 
                 $productImage = Image::create([
                     'product_id' => $request->product_id,
-                    'path' => 'storage/' . $imagePath
+                    'path' => 'products/' . $fileName
                 ]);
 
                 $uploadedImages[] = [
@@ -136,10 +144,29 @@ class AssetController extends Controller
 
     public function delete($id)
     {
-        $product = Product::findOrFail($id);
+        $product = Product::with('images')->findOrFail($id);
+
+        // Delete physical image files
+        if ($product->avatar) {
+            $avatarPath = public_path($product->avatar);
+            if (file_exists($avatarPath)) {
+                unlink($avatarPath);
+            }
+        }
+
+        // Delete all related images
+        foreach ($product->images as $image) {
+            $imagePath = public_path($image->path);
+            if (file_exists($imagePath)) {
+                unlink($imagePath);
+            }
+        }
+
+        // Delete the product (this will cascade delete related records)
         $product->delete();
 
-        return redirect()->route('admin.products.index')->with('success', 'Product deleted successfully.');
+        return redirect()->route('admin.products.index')
+            ->with('success', 'Sản phẩm và các ảnh liên quan đã được xóa thành công.');
     }
 
     public function store(Request $request)
@@ -165,20 +192,19 @@ class AssetController extends Controller
         $product->price = $request->price;
         $product->save();
 
-        // Xử lý upload hình ảnh nếu có
         if ($request->hasFile('images')) {
             $isFirstImage = true;
             foreach ($request->file('images') as $image) {
-                $path = $image->store('uploads/products', 'public');
+                $fileName = time() . '_' . $image->getClientOriginalName();
+                $image->move(public_path('products'), $fileName);
+                $path = 'products/' . $fileName;
 
-                // Nếu là ảnh đầu tiên, đặt làm avatar
                 if ($isFirstImage) {
                     $product->avatar = $path;
                     $product->save();
                     $isFirstImage = false;
                 }
 
-                // Lưu ảnh vào bảng images
                 $product->images()->create(['path' => $path]);
             }
         }
@@ -209,5 +235,4 @@ class AssetController extends Controller
         // Trả về JSON nếu gọi bằng AJAX
         return response()->json($products);
     }
-
 }
