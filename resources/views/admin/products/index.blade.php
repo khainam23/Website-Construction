@@ -1,4 +1,8 @@
-@extends('admin.layouts.master')
+@php
+    $layout = session('user')['role'] == 'admin' ? 'admin.layouts.master' : 'sale.layouts.master';
+@endphp
+
+@extends($layout)
 
 @section('title', __('Product Management'))
 
@@ -19,7 +23,8 @@
         </div>
 
         <div class="mb-2 d-flex">
-            <a href="{{ route('admin.products.create') }}" class="btn btn-primary" id="add-product">{{ __('Add Product') }}</a>
+            <a href="{{ route('admin.products.create') }}" class="btn btn-primary"
+                id="add-product">{{ __('Add Product') }}</a>
             <button class="btn btn-success ml-3" onclick="exportExcel()">{{ __('Export File') }}</button>
         </div>
 
