@@ -12,6 +12,7 @@ use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Middleware\CategoryMiddleware;
+use App\Http\Middleware\LanguageMiddleware;
 use App\Http\Middleware\RoleMiddleware;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
@@ -23,8 +24,10 @@ use App\Http\Controllers\RevenueController;
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\AssetController;
 
-// Các tính năng public
-Route::get("/", [HomeController::class, "index"])->name("web.index");
+// Apply language middleware to all routes
+Route::middleware([LanguageMiddleware::class])->group(function () {
+    // Các tính năng public
+    Route::get("/", [HomeController::class, "index"])->name("web.index");
 Route::get("/home", [HomeController::class, "index"])->name("web.index");
 Route::view("/abouts", 'frontend.about')->name('web.about');
 Route::view('/contact', 'frontend.contact')->name('web.contact');
@@ -37,34 +40,34 @@ Route::get('/product/{type}', [ProductController::class, 'viewAll'])
 Route::get('/products/{id}', [ProductController::class, 'show'])->name('web.product.detail');
 Route::post('/add-contact', [ContactController::class, 'add'])->name('api.contract.add');
 
-// Dành cho truy cập
-Route::view('/login', 'frontend.login')->name('web.login');
-Route::view('/register', 'frontend.register')->name('web.register');
-Route::view('/forget', 'frontend.forget')->name('web.forget');
-Route::post('/forget', [ForgetController::class, "forget"])->name("api.forget");
-Route::post('/register', [RegisterController::class, 'register'])->name('api.register');
-Route::post('/login', [LoginController::class, 'login'])->name('api.login');
+    // Dành cho truy cập
+    Route::view('/login', 'frontend.login')->name('web.login');
+    Route::view('/register', 'frontend.register')->name('web.register');
+    Route::view('/forget', 'frontend.forget')->name('web.forget');
+    Route::post('/forget', [ForgetController::class, "forget"])->name("api.forget");
+    Route::post('/register', [RegisterController::class, 'register'])->name('api.register');
+    Route::post('/login', [LoginController::class, 'login'])->name('api.login');
 
-// Dành cho email
-Route::post('/email/resend', [EmailController::class, 'resend'])->name('verification.resend');
-Route::get('/email/verify/{id}/{hash}', [EmailController::class, 'verify'])->name('verification.verify');
+    // Dành cho email
+    Route::post('/email/resend', [EmailController::class, 'resend'])->name('verification.resend');
+    Route::get('/email/verify/{id}/{hash}', [EmailController::class, 'verify'])->name('verification.verify');
 
-// Dành cho mọi tài khoản đăng nhập thành công 
-Route::middleware([RoleMiddleware::class . ":customer,admin,sale,rental"])->group(function () {
-    Route::get('logout', [LogoutController::class, 'logout'])->name('api.logout');
-});
+    // Dành cho mọi tài khoản đăng nhập thành công 
+    Route::middleware([RoleMiddleware::class . ":customer,admin,sale,rental"])->group(function () {
+        Route::get('logout', [LogoutController::class, 'logout'])->name('api.logout');
+        Route::post('logout', [LogoutController::class, 'logout'])->name('api.logout.post');
+    });
 
-// Chỉ dành cho người dùng 
-Route::middleware([RoleMiddleware::class . ':customer'])->group(function () {
-    Route::get('/profile', [ProfileController::class, 'index'])->name('web.profile');
-    Route::post('/profile/udpate/info', [ProfileController::class, 'updateInfo'])->name('api.update.info');
-    Route::post('/profile/update/password', [ProfileController::class, 'updatePassword'])->name('api.update.password');
+    // Chỉ dành cho người dùng 
+    Route::middleware([RoleMiddleware::class . ':customer'])->group(function () {
+        Route::get('/profile', [ProfileController::class, 'index'])->name('web.profile');
+        Route::post('/profile/udpate/info', [ProfileController::class, 'updateInfo'])->name('api.update.info');
+        Route::post('/profile/update/password', [ProfileController::class, 'updatePassword'])->name('api.update.password');
 
     Route::post('/cart/add', [CartController::class, 'add'])->name('api.cart.add');
     Route::post('/cart/payment', [PaymentContronller::class, 'all'])->name('api.payment');
     Route::get('/payment/vnpay/return', [PaymentContronller::class, 'vnpayReturn'])->name('api.payment.vnpay.return');
-
-});
+    });
 
 // Dành cho việc điều hành sản phẩm
 Route::middleware([RoleMiddleware::class . ':admin,sale'])->group(function () {
@@ -83,35 +86,37 @@ Route::middleware([RoleMiddleware::class . ':admin,sale'])->group(function () {
 
 // Dành cho admin
 Route::middleware([RoleMiddleware::class . ':admin'])->group(function () {
-    Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
+  Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
 
-    // User Management
-    Route::get('/admin/users', [AccountController::class, 'loadAccount'])->name('admin.users.index');
-    Route::post('/admin/user/update', [AccountController::class, 'update'])->name('admin.api.user.update');
-    Route::post('/admin/user/show', [AccountController::class, 'show'])->name('admin.api.user.show');
+  // User Management
+  Route::get('/admin/users', [AccountController::class, 'loadAccount'])->name('admin.users.index');
+  Route::post('/admin/user/update', [AccountController::class, 'update'])->name('admin.api.user.update');
+  Route::post('/admin/user/show', [AccountController::class, 'show'])->name('admin.api.user.show');
 
-    // Order Management
-    Route::get('/admin/orders', [OrderController::class, 'index'])->name('admin.orders.index');
-    Route::get('/admin/orders/{order}', [OrderController::class, 'show'])->name('admin.orders.show');
-    Route::post('/admin/order/update/status', [OrderController::class, 'updateStatus'])->name('admin.api.order.update.status');
+  // Order Management
+  Route::get('/admin/orders', [OrderController::class, 'index'])->name('admin.orders.index');
+  Route::get('/admin/orders/{order}', [OrderController::class, 'show'])->name('admin.orders.show');
+  Route::post('/admin/order/update/status', [OrderController::class, 'updateStatus'])->name('admin.api.order.update.status');
 
-    // Category Management Routes
-    Route::get('/admin/categories', [CategoryController::class, 'index'])->name('admin.categories.index');
-    Route::get('/admin/categories/create', [CategoryController::class, 'create'])->name('admin.categories.create');
-    Route::post('/admin/categories', [CategoryController::class, 'store'])->name('admin.categories.store');
-    Route::get('/admin.categories/{category}/edit', [CategoryController::class, 'edit'])->name('admin.categories.edit');
-    Route::put('/admin.categories/{category}', [CategoryController::class, 'update'])->name('admin.categories.update');
-    Route::delete('/admin.categories/{category}', [CategoryController::class, 'delete'])->name('admin.categories.delete');
+  // Category Management Routes
+  Route::get('/admin/categories', [CategoryController::class, 'index'])->name('admin.categories.index');
+  Route::get('/admin/categories/create', [CategoryController::class, 'create'])->name('admin.categories.create');
+  Route::post('/admin/categories', [CategoryController::class, 'store'])->name('admin.categories.store');
+  Route::get('/admin.categories/{category}/edit', [CategoryController::class, 'edit'])->name('admin.categories.edit');
+  Route::put('/admin.categories/{category}', [CategoryController::class, 'update'])->name('admin.categories.update');
+  Route::delete('/admin.categories/{category}', [CategoryController::class, 'delete'])->name('admin.categories.delete');
 });
 
 // Dành cho sale
 Route::middleware([RoleMiddleware::class . ':sale'])->group(function () {
-    Route::get('/sale/dashboard', [SalesController::class, 'dashboard'])->name('sale.dashboard');
-    Route::get('/sale/sales/revenue', [RevenueController::class, 'index'])->name('sale.sales.revenue');
-    Route::get('/sale/sales/product-sales', [SalesController::class, 'productSales'])->name('sale.sales.productSales');
-    Route::get('/sale/sales', [SalesController::class, 'index'])->name('sale.sales.index');
+  Route::get('/sale/dashboard', [SalesController::class, 'dashboard'])->name('sale.dashboard');
+  Route::get('/sale/sales/revenue', [RevenueController::class, 'index'])->name('sale.sales.revenue');
+  Route::get('/sale/sales/product-sales', [SalesController::class, 'productSales'])->name('sale.sales.productSales');
+  Route::get('/sale/sales', [SalesController::class, 'index'])->name('sale.sales.index');
 });
 
 // Dành cho rental
 Route::middleware([RoleMiddleware::class . ':rental'])->group(function () {
+});
+  
 });

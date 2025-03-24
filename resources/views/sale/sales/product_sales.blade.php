@@ -1,21 +1,21 @@
 @extends('sale.layouts.master')
 
-@section('title', 'Bán hàng sản phẩm')
+@section('title', __('Product Sales'))
 
 @section('content')
     <div class="container-fluid">
-        <h1>Bán hàng sản phẩm</h1>
+        <h1>{{ __('Product Sales') }}</h1>
 
         <div class="card">
             <div class="card-header">
-                Sản phẩm bán chạy nhất
+                {{ __('Best Selling Products') }}
             </div>
             <div class="card-body">
                 <table class="table">
                     <thead>
                         <tr>
-                            <th>Tên sản phẩm</th>
-                            <th>Tổng số lượng đã bán</th>
+                            <th>{{ __('Product Name') }}</th>
+                            <th>{{ __('Total Quantity Sold') }}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -32,14 +32,14 @@
 
         <div class="card">
             <div class="card-header">
-                Sản phẩm đã bán gần đây
+                {{ __('Recently Sold Products') }}
             </div>
             <div class="card-body">
                 <table class="table">
                     <thead>
                         <tr>
-                            <th>Tên sản phẩm</th>
-                            <th>Đã bán lúc</th>
+                            <th>{{ __('Product Name') }}</th>
+                            <th>{{ __('Sold At') }}</th>
                         </tr>
                     </thead>
                     <tbody>

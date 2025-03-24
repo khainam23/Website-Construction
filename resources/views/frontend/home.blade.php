@@ -1,6 +1,5 @@
 @extends('frontend.layouts.master')
-@section('title', 'Trang chủ')
-
+@section('title', __('Home'))
 
 @section('style')
     <link rel="stylesheet" href="{{ asset('frontendcss/css/home.css') }}" />
@@ -13,7 +12,6 @@
 @endsection
 
 @section('content')
-
     <div class="banner">
         <img src="{{ asset('frontendcss/images/banner.png')}}" alt="">
     </div>
@@ -41,8 +39,6 @@
                             </div>
                         </div>
                     </div>
-
-
                 </div>
                 <div class="about-right col-md-5">
                     <img src="{{ asset('frontendcss/images/right.png')}}" alt="">
@@ -192,7 +188,6 @@
                 <img src="{{ asset('frontendcss/images/co-4.png')}}" alt="">
                 <img src="{{ asset('frontendcss/images/co-5.png')}}" alt="">
             </div>
-
         </div>
 
         <div class="news">
@@ -206,15 +201,11 @@
                 <div class="row">
                 </div>
             </div>
-
         </div>
     </div>
-
 @endsection
 
-
 @section('js')
-
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             // Swiper cho slider 1

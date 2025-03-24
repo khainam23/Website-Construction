@@ -1,5 +1,5 @@
 @extends('frontend.layouts.master')
-@section('title', 'Đăng nhập')
+@section('title', __('Login'))
 
 @section('style')
     <link rel="stylesheet" href="{{ asset('frontendcss/css/login.css') }}" />
@@ -8,20 +8,29 @@
 @section('content')
     <div class="container login-container">
         <div class="login-form">
-            <h2 class="text-center mb-4">Đăng Nhập</h2>
+            <h2 class="text-center mb-4">{{ __('Login') }}</h2>
             <form id="login" class="mb-4">
                 <div class="mb-3">
-                    <label class="form-label">Tên đăng nhập</label>
-                    <input name="email" type="text" class="form-control" placeholder="Nhập tên đăng nhập" required>
+                    <label class="form-label">{{ __('Email') }}</label>
+                    <input name="email" type="text" class="form-control" placeholder="{{ __('Email') }}" required>
                 </div>
                 <div class="mb-3">
-                    <label class="form-label">Mật khẩu</label>
-                    <input name="password" type="password" class="form-control" placeholder="Nhập mật khẩu" required>
+                    <label class="form-label">{{ __('Password') }}</label>
+                    <input name="password" type="password" class="form-control" placeholder="{{ __('Password') }}" required>
                 </div>
-                <button type="submit" class="btn btn-primary w-100">Đăng Nhập</button>
+                <div class="mb-3 form-check">
+                    <input type="checkbox" class="form-check-input" id="remember" name="remember">
+                    <label class="form-check-label" for="remember">{{ __('Remember me') }}</label>
+                </div>
+                <button type="submit" class="btn btn-primary w-100">{{ __('Login') }}</button>
             </form>
 
-            <a href="{{ route("web.forget") }}">Quên mật khẩu</a>
+            <div class="text-center mt-3">
+                <a href="{{ route("web.forget") }}">{{ __('Forgot your password?') }}</a>
+            </div>
+            <div class="text-center mt-2">
+                <span>{{ __("Don't have an account?") }}</span> <a href="{{ route('web.register') }}">{{ __('Create an account') }}</a>
+            </div>
         </div>
     </div>
 @endsection
@@ -45,8 +54,8 @@
                     },
                     beforeSend: function () {
                         Swal.fire({
-                            title: "Đang xử lý...",
-                            text: "Vui lòng đợi trong giây lát!",
+                            title: "{{ __('Processing...') }}",
+                            text: "{{ __('Please wait a moment!') }}",
                             allowOutsideClick: false,
                             showConfirmButton: false,
                             willOpen: () => {
@@ -70,8 +79,8 @@
 
                         Swal.fire({
                             icon: 'error',
-                            title: 'Lỗi!',
-                            text: xhr.responseJSON || 'Có lỗi xảy ra, vui lòng thử lại.',
+                            title: '{{ __("Error") }}',
+                            text: xhr.responseJSON || '{{ __("Message_error") }}',
                         });
                     }
                 });

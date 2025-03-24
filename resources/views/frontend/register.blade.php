@@ -1,62 +1,70 @@
 @extends('frontend.layouts.master')
-@section('title', 'Đăng ký')
+@section('title', __('Register'))
 
 @section('style')
     <link rel="stylesheet" href="{{ asset('frontendcss/css/register.css') }}" />
 @endsection
 
 @section('content')
-    <div class="container register-container mt-5 mb-5  ">
+    <div class="container register-container mt-5 mb-5">
         <div class="register-form">
-            <h2 class="text-center mb-4">Đăng Ký</h2>
+            <h2 class="text-center mb-4">{{ __('Register') }}</h2>
             <form id="register">
                 @csrf
                 <div class="mb-3">
-                    <label class="form-label">Tên đệm</label>
-                    <input type="text" class="form-control" name="first_name" placeholder="Tên đệm" required>
+                    <label class="form-label">{{ __('First Name') }}</label>
+                    <input type="text" class="form-control" name="first_name" placeholder="{{ __('First Name') }}" required>
                 </div>
                 <div class="mb-3">
-                    <label class="form-label">Tên</label>
-                    <input type="text" class="form-control" name="last_name" placeholder="Tên" required>
+                    <label class="form-label">{{ __('Last Name') }}</label>
+                    <input type="text" class="form-control" name="last_name" placeholder="{{ __('Last Name') }}" required>
                 </div>
                 <div class="mb-3">
-                    <label class="form-label">Số điện thoại</label>
-                    <input type="tel" class="form-control" name="phone" placeholder="Số điện thoại" required>
+                    <label class="form-label">{{ __('Phone Number') }}</label>
+                    <input type="tel" class="form-control" name="phone" placeholder="{{ __('Phone Number') }}" required>
                 </div>
                 <div class="mb-3">
-                    <label class="form-label">Email</label>
-                    <input type="email" class="form-control" name="email" placeholder="Nhập email" required>
+                    <label class="form-label">{{ __('Email') }}</label>
+                    <input type="email" class="form-control" name="email" placeholder="{{ __('Email') }}" required>
                 </div>
                 <div class="mb-3">
-                    <label class="form-label">Mật khẩu</label>
-                    <input type="password" class="form-control" name="password" placeholder="Nhập mật khẩu" required>
+                    <label class="form-label">{{ __('Password') }}</label>
+                    <input type="password" class="form-control" name="password" placeholder="{{ __('Password') }}" required>
                 </div>
                 <div class="mb-3">
-                    <label class="form-label">Xác nhận mật khẩu</label>
-                    <input type="password" class="form-control" name="password_confirmation" placeholder="Nhập lại mật khẩu"
-                        required>
+                    <label class="form-label">{{ __('Confirm Password') }}</label>
+                    <input type="password" class="form-control" name="password_confirmation" placeholder="{{ __('Confirm Password') }}" required>
                 </div>
                 <div class="mb-3">
-                    <label class="form-label">Địa chỉ</label>
-                    <input type="text" class="form-control" name="address" placeholder="Nhập địa chỉ" required>
+                    <label class="form-label">{{ __('Address') }}</label>
+                    <input type="text" class="form-control" name="address" placeholder="{{ __('Address') }}" required>
                 </div>
                 <div class="mb-3">
-                    <label class="form-label">Ngày sinh</label>
+                    <label class="form-label">{{ __('Date of Birth') }}</label>
                     <input type="date" class="form-control" name="date_of_birth" required>
                 </div>
                 <div class="mb-3">
-                    <label class="form-label">Giới tính</label>
+                    <label class="form-label">{{ __('Gender') }}</label>
                     <select class="form-control" name="gender" required>
-                        <option value="male">Nam</option>
-                        <option value="female">Nữ</option>
-                        <option value="other">Khác</option>
+                        <option value="male">{{ __('Male') }}</option>
+                        <option value="female">{{ __('Female') }}</option>
+                        <option value="other">{{ __('Other') }}</option>
                     </select>
                 </div>
                 <div class="mb-3">
-                    <label class="form-label">Ảnh đại diện</label>
-                    <input type="file" class="form-control" name="avatar" required>
+                    <label class="form-label">{{ __('Avatar') }}</label>
+                    <input type="file" class="form-control" name="avatar">
                 </div>
-                <button type="submit" class="btn btn-primary w-100">Đăng Ký</button>
+                <div class="mb-3 form-check">
+                    <input type="checkbox" class="form-check-input" id="terms" required>
+                    <label class="form-check-label" for="terms">
+                        {{ __('I agree to the') }} <a href="#">{{ __('Terms of Service') }}</a> {{ __('and') }} <a href="#">{{ __('Privacy Policy') }}</a>
+                    </label>
+                </div>
+                <button type="submit" class="btn btn-primary w-100">{{ __('Register Now') }}</button>
+                <div class="text-center mt-3">
+                    <span>{{ __('Already have an account?') }}</span> <a href="{{ route('web.login') }}">{{ __('Login to continue') }}</a>
+                </div>
             </form>
         </div>
     </div>
@@ -81,8 +89,8 @@
                     },
                     beforeSend: function () {
                         Swal.fire({
-                            title: "Đang xử lý...",
-                            text: "Vui lòng đợi trong giây lát!",
+                            title: "{{ __('Processing...') }}",
+                            text: "{{ __('Please wait a moment!') }}",
                             allowOutsideClick: false,
                             showConfirmButton: false,
                             willOpen: () => {
@@ -93,7 +101,7 @@
                     success: function (response) {
                         Swal.fire({
                             icon: 'success',
-                            title: 'Đăng ký thành công!',
+                            title: '{{ __("Success") }}',
                             text: response.message,
                             confirmButtonText: 'OK'
                         }).then(() => {
@@ -106,8 +114,8 @@
 
                         Swal.fire({
                             icon: 'error',
-                            title: 'Lỗi!',
-                            text: xhr.responseJSON.message || 'Có lỗi xảy ra, vui lòng thử lại.',
+                            title: '{{ __("Error") }}',
+                            text: xhr.responseJSON.message || '{{ __("Message_error") }}',
                         });
                     }
                 });

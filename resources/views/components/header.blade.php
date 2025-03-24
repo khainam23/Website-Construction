@@ -29,18 +29,18 @@
                                         </a>
                                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                             <a class="dropdown-item"
-                                                href="{{route('admin.language', ['vi'])}}">Vietnamese</a>
+                                                href="{{route('web.language', ['lang' => 'vi'])}}">{{ __('Vietnamese') }}</a>
                                             <a class="dropdown-item"
-                                                href="{{route('admin.language', ['en'])}}">English</a>
-                                            <a class="dropdown-item" href="{{route('admin.language', ['lo'])}}">Lao</a>
+                                                href="{{route('web.language', ['lang' => 'en'])}}">{{ __('English') }}</a>
+                                            <a class="dropdown-item" 
+                                                href="{{route('web.language', ['lang' => 'lo'])}}">{{ __('Laos') }}</a>
                                             <a class="dropdown-item"
-                                                href="{{route('admin.language', ['my'])}}">Myanmar</a>
+                                                href="{{route('web.language', ['lang' => 'my'])}}">{{ __('Myanmarr') }}</a>
                                         </div>
                                     </li>
                                 </ul>
                             </div>
                         </nav>
-
                     </div>
                 </div>
             </div>
@@ -59,56 +59,56 @@
                             <li class="nav-item 
                             {{(\Request::route()->getName() == 'web.index') ? 'active' : ''}}
                             ">
-                                <a class="nav-link" href="{{ route('web.index') }}">TRANG CHỦ<span
+                                <a class="nav-link" href="{{ route('web.index') }}">{{ __('Home') }}<span
                                         class="sr-only">(current)</span></a>
                             </li>
                             <li class="nav-item 
                             {{(\Request::route()->getName() == 'web.about') ? 'active' : ''}}
                             ">
-                                <a class="nav-link" href="{{ route('web.about') }}">GIỚI THIỆU<span
+                                <a class="nav-link" href="{{ route('web.about') }}">{{ __('About') }}<span
                                         class="sr-only">(current)</span></a>
                             </li>
                             <li
                                 class="nav-item 
                                 {{ (\Request::route()->getName() == 'web.product' && \Request::route('type') == 'sale') ? 'active' : '' }}">
                                 <a class="nav-link" href="{{ route('web.product', ['type' => 'sale']) }}">
-                                    SẢN PHẨM BÁN <span class="sr-only">(current)</span>
+                                    {{ __('Product_sale') }} <span class="sr-only">(current)</span>
                                 </a>
                             </li>
                             <li
                                 class="nav-item 
                                 {{ (\Request::route()->getName() == 'web.product' && \Request::route('type') == 'rental') ? 'active' : '' }}">
                                 <a class="nav-link" href="{{ route('web.product', ['type' => 'rental']) }}">
-                                    SẢN PHẨM CHO THUÊ <span class="sr-only">(current)</span>
+                                    {{ __('Product_rental') }} <span class="sr-only">(current)</span>
                                 </a>
                             </li>
                             <li class="nav-item 
                             {{(\Request::route()->getName() == 'web.contact') ? 'active' : ''}}
                             ">
-                                <a class="nav-link" href="{{ route('web.contact') }}">LIÊN HỆ <span
+                                <a class="nav-link" href="{{ route('web.contact') }}">{{ __('Contact') }} <span
                                         class="sr-only">(current)</span></a>
                             </li>
                             @if(session()->has('user'))
                                 <!-- Nếu đã đăng nhập -->
                                 <li class="nav-item {{ \Request::route()->getName() == 'web.profile' ? 'active' : '' }}">
                                     <a class="nav-link" href="{{ route('web.profile') }}">
-                                        Xin chào, {{ session('user')['name'] }}
+                                        {{ __('Hello') }}, {{ session('user')['name'] }}
                                         <span class="sr-only">(current)</span>
                                     </a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" href="{{ route('api.logout') }}">
-                                        Đăng xuất
+                                        {{ __('Logout') }}
                                     </a>
                                 </li>
                             @else
                                 <!-- Nếu chưa đăng nhập -->
                                 <li class="nav-item {{ \Request::route()->getName() == 'web.login' ? 'active' : '' }}">
-                                    <a class="nav-link" href="{{ route('web.login') }}">Đăng nhập<span
+                                    <a class="nav-link" href="{{ route('web.login') }}">{{ __('Login') }}<span
                                             class="sr-only">(current)</span></a>
                                 </li>
                                 <li class="nav-item {{ \Request::route()->getName() == 'web.register' ? 'active' : '' }}">
-                                    <a class="nav-link" href="{{ route('web.register') }}">Đăng ký<span
+                                    <a class="nav-link" href="{{ route('web.register') }}">{{ __('Register') }}<span
                                             class="sr-only">(current)</span></a>
                                 </li>
                             @endif
@@ -116,7 +116,6 @@
                     </div>
                 </nav>
             </div>
-
         </div>
     </div>
 </div>

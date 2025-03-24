@@ -34,25 +34,28 @@ class LoginController extends Controller
 
             if($user->role == 'admin') {
                 return response()->json([
-                    'message' => 'Đang điều hướng đến trang quản trị',
+                    'message' => __('Redirecting to admin page'),
                     'url' => route('admin.dashboard')
                 ], 200);
             } else if($user->role == 'sale'){
                 return response()->json([
-                    'message' => 'Đang điều hướng đến trang sản phẩm',
+                    'message' => __('Redirecting to sales page'),
                     'url' => route('sale.dashboard')
                 ], 200);
             } else if($user->role == 'warehouse'){
-                // Hiện không có
+                return response()->json([
+                    'message' => __('Redirecting to warehouse page'),
+                    'url' => route('warehouse.dashboard')
+                ], 200);
             } else {
                 return response()->json([
-                    'message' => 'Đăng nhập thành công',
+                    'message' => __('Login successful'),
                     'url' => route('web.index')
                 ], 200);
             }
         }
 
         // Đăng nhập thất bại
-        return response()->json('Thông tin đăng nhập không chính xác', 403);
+        return response()->json(__('Invalid login credentials'), 403);
     }
 }

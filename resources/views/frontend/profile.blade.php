@@ -1,5 +1,5 @@
 @extends('frontend.layouts.master')
-@section('title', 'Giới thiệu')
+@section('title', 'Profile')
 
 @section('style')
     <link rel="stylesheet" href="{{ asset('frontendcss/css/profile.css') }}" />
@@ -8,18 +8,18 @@
 @section('content')
 <div class="profile-container">
     <div class="sidebar">
-        <h3>Danh Mục</h3>
-        <div class="nav-item active" data-target="profile">Hồ sơ</div>
-        <div class="nav-item" data-target="cart">Giỏ hàng</div>
-        <div class="nav-item" data-target="orders">Đơn hàng</div>
-        <div class="nav-item" data-target="password">Mật khẩu</div>
+        <h3>{{ __('Category') }}</h3>
+        <div class="nav-item active" data-target="profile">{{ __('Profile') }}</div>
+        <div class="nav-item" data-target="cart">{{ __('Cart') }}</div>
+        <div class="nav-item" data-target="orders">{{ __('Orders') }}</div>
+        <div class="nav-item" data-target="password">{{ __('Password') }}</div>
     </div>
     <div class="content">
         <div id="profile" class="content-section active">
-            <h2>Hồ sơ của bạn</h2>
+            <h2>{{ __('Profile') }}</h2>
             <form id="profile-form" enctype="multipart/form-data">
                 <div class="form-group text-center">
-                    <label>Ảnh đại diện:</label>
+                    <label>{{ __('Avatar') }}:</label>
                     <br>
                     <img id="avatar-preview" src="{{ asset($infoUser->avatar) }}" alt="Avatar" class="img-thumbnail"
                         width="150">
@@ -28,55 +28,55 @@
                         onchange="previewAvatar(event)">
                 </div>
                 <div class="form-group">
-                    <label>Họ:</label>
+                    <label>{{ __('First Name') }}:</label>
                     <input type="text" class="form-control" name="first_name" value="{{ $infoUser->first_name }}">
                 </div>
                 <div class="form-group">
-                    <label>Tên:</label>
+                    <label>{{ __('Last Name') }}:</label>
                     <input type="text" class="form-control" name="last_name" value="{{ $infoUser->last_name }}">
                 </div>
                 <div class="form-group">
-                    <label>Email:</label>
+                    <label>{{ __('Email') }}:</label>
                     <input type="email" class="form-control" name="email" value="{{ $infoUser->email }}" disabled>
                 </div>
                 <div class="form-group">
-                    <label>Số điện thoại:</label>
+                    <label>{{ __('Phone Number') }}:</label>
                     <input type="text" class="form-control" name="phone" value="{{ $infoUser->phone }}">
                 </div>
                 <div class="form-group">
-                    <label>Địa chỉ:</label>
+                    <label>{{ __('Address') }}:</label>
                     <input type="text" class="form-control" name="address" value="{{ $infoUser->address }}">
                 </div>
                 <div class="form-group">
-                    <label>Ngày sinh:</label>
+                    <label>{{ __('Date of Birth') }}:</label>
                     <input type="date" class="form-control" name="date_of_birth" value="{{ $infoUser->date_of_birth }}">
                 </div>
                 <div class="form-group">
-                    <label>Giới tính:</label>
+                    <label>{{ __('Gender') }}:</label>
                     <select class="form-control" name="gender">
-                        <option value="male" {{ $infoUser->gender == 'male' ? 'selected' : '' }}>Nam</option>
-                        <option value="female" {{ $infoUser->gender == 'female' ? 'selected' : '' }}>Nữ</option>
-                        <option value="other" {{ $infoUser->gender == 'other' ? 'selected' : '' }}>Khác</option>
+                        <option value="male" {{ $infoUser->gender == 'male' ? 'selected' : '' }}>{{ __('Male') }}</option>
+                        <option value="female" {{ $infoUser->gender == 'female' ? 'selected' : '' }}>{{ __('Female') }}</option>
+                        <option value="other" {{ $infoUser->gender == 'other' ? 'selected' : '' }}>{{ __('Other') }}</option>
                     </select>
                 </div>
-                <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
+                <button type="submit" class="btn btn-primary">{{ __('Save Changes') }}</button>
             </form>
         </div>
         <div id="cart" class="content-section">
-            <h2>Giỏ hàng</h2>
+            <h2>{{ __('Cart') }}</h2>
             @if($cartItems)
                 <table>
                     <thead>
                         <tr>
                             <th><input type="checkbox" id="selectAll"></th>
-                            <th>Loại</th>
-                            <th>Mã sản phẩm</th>
-                            <th>Sản phẩm</th>
-                            <th>Giá</th>
-                            <th>Số lượng</th>
-                            <th>Ngày thuê</th>
-                            <th>Ngày trả</th>
-                            <th>Thanh toán</th>
+                            <th>{{ __('Type') }}</th>
+                            <th>{{ __('Product ID') }}</th>
+                            <th>{{ __('Product') }}</th>
+                            <th>{{ __('Price') }}</th>
+                            <th>{{ __('Quantity') }}</th>
+                            <th>{{ __('Rental Date') }}</th>
+                            <th>{{ __('Return Date') }}</th>
+                            <th>{{ __('Payment') }}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -87,7 +87,7 @@
                                 </td>
                                 <td>
                                     <span class="badge {{ $item->rental_end_date ? 'badge-primary' : 'badge-success' }}">
-                                        {{ $item->rental_end_date ? 'Thuê' : 'Mua' }}
+                                        {{ $item->rental_end_date ? __('Rent') : __('Buy') }}
                                     </span>
                                 </td>
                                 <td>{{ $item->product->id }}</td>
@@ -100,7 +100,7 @@
                                 </td>
                                 <td>
                                     <button class="btn btn-success">
-                                        <i class="bi bi-credit-card"></i> Thanh toán
+                                        <i class="bi bi-credit-card"></i> {{ __('Payment') }}
                                     </button>
                                 </td>
                             </tr>
@@ -109,24 +109,24 @@
                 </table>
 
                 <button id="bulkPaymentBtn" class="btn btn-primary mt-3">
-                    <i class="bi bi-cash"></i> Thanh toán các sản phẩm đang chọn
+                    <i class="bi bi-cash"></i> {{ __('Pay for selected products') }}
                 </button>
             @else
-            <span>Hiện giỏ hàng đang trống</span>
+            <span>{{ __('The cart is empty') }}</span>
             @endIf
         </div>
         <div id="orders" class="content-section">
-            <h2>Đơn hàng</h2>
+            <h2>{{ __('Orders') }}</h2>
             @if(count($orders) != 0)
                 <table>
                     <thead>
                         <tr>
-                            <th>Mã đơn</th>
-                            <th>Tổng tiền</th>
-                            <th>Trạng thái</th>
-                            <th>Địa chỉ</th>
-                            <th>Số điện thoại</th>
-                            <th>Chi tiết</th>
+                            <th>{{ __('Order ID') }}</th>
+                            <th>{{ __('Total Price') }}</th>
+                            <th>{{ __('Status') }}</th>
+                            <th>{{ __('Address') }}</th>
+                            <th>{{ __('Phone Number') }}</th>
+                            <th>{{ __('Details') }}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -161,7 +161,7 @@
                                                 {{ $detail['product']['name'] }} - {{ $detail['quantity'] }} x
                                                 {{ number_format($detail['product']['price'], 0, ',', '.') }} đ
                                                 @if(!empty($detail['rental_end_date']))
-                                                    - Ngày thuê: {{ $detail['rental_start_date'] }} và Ngày trả:
+                                                    - {{ __('Rental Date') }}: {{ $detail['rental_start_date'] }} {{ __('and Return Date') }}:
                                                     {{ $detail['rental_end_date'] }}
                                                 @endif
                                             </li>
@@ -173,28 +173,28 @@
                     </tbody>
                 </table>
             @else
-                <span>Hiện chưa có đơn hàng thành công</span>
+                <span>{{ __('No successful orders yet') }}</span>
             @endif
         </div>
         <div id="password" class="content-section">
-            <h2 class="mb-4">Mật khẩu</h2>
+            <h2 class="mb-4">{{ __('Password') }}</h2>
             <form id="password-form">
                 <div class="form-group">
-                    <label for="current-password">Mật khẩu cũ</label>
+                    <label for="current-password">{{ __('Current Password') }}</label>
                     <input id="current-password" name="current-password" type="password" class="form-control"
-                        placeholder="Nhập mật khẩu cũ" required>
+                        placeholder="{{ __('Enter old password') }}" required>
                 </div>
                 <div class="form-group">
-                    <label for="new-password">Mật khẩu mới</label>
+                    <label for="new-password">{{ __('New Password') }}</label>
                     <input id="new-password" name="new-password" type="password" class="form-control"
-                        placeholder="Nhập mật khẩu mới" required>
+                        placeholder="{{ __('Enter new password') }}" required>
                 </div>
                 <div class="form-group">
-                    <label for="confrim-password">Nhập lại mật khẩu mới</label>
+                    <label for="confrim-password">{{ __('Confirm Password') }}</label>
                     <input id="confrim-password" name="confrim-password" type="password" class="form-control"
-                        placeholder="Nhập lại mật khẩu mới" required>
+                        placeholder="{{ __('Re-enter new password') }}" required>
                 </div>
-                <button type="submit" class="btn btn-primary">Cập nhật mật khẩu</button>
+                <button type="submit" class="btn btn-primary">{{ __('Update password') }}</button>
             </form>
         </div>
     </div>
@@ -298,8 +298,8 @@
                 if (!hasChanged) {
                     Swal.fire({
                         icon: 'info',
-                        title: 'Không có thay đổi nào!',
-                        text: 'Bạn chưa thay đổi thông tin nào.',
+                        title: 'No changes!',
+                        text: 'You have not changed any information.',
                     });
                     return;
                 }
@@ -315,8 +315,8 @@
                     },
                     beforeSend: function () {
                         Swal.fire({
-                            title: "Đang xử lý...",
-                            text: "Vui lòng đợi trong giây lát!",
+                            title: "Processing...",
+                            text: "Please wait a moment!",
                             allowOutsideClick: false,
                             showConfirmButton: false,
                             willOpen: () => {
@@ -327,7 +327,7 @@
                     success: function (response) {
                         Swal.fire({
                             icon: 'success',
-                            title: 'Cập nhật thành công!',
+                            title: 'Update successful!',
                             text: response.message,
                             confirmButtonText: 'OK'
                         }).then(() => {
@@ -347,8 +347,8 @@
                         Swal.close();
                         Swal.fire({
                             icon: 'error',
-                            title: 'Lỗi!',
-                            text: xhr.responseJSON?.message || 'Có lỗi xảy ra, vui lòng thử lại.',
+                            title: 'Error!',
+                            text: xhr.responseJSON?.message || 'An error occurred, please try again.',
                         });
                     }
                 });
@@ -381,8 +381,8 @@
                 if (newPassword !== confirmPassword) {
                     Swal.fire({
                         icon: 'error',
-                        title: 'Lỗi!',
-                        text: 'Mật khẩu mới không khớp, vui lòng nhập lại.',
+                        title: 'Error!',
+                        text: 'New password does not match, please re-enter.',
                     });
                     return;
                 }
@@ -397,8 +397,8 @@
                     },
                     beforeSend: function () {
                         Swal.fire({
-                            title: "Đang xử lý...",
-                            text: "Vui lòng đợi trong giây lát!",
+                            title: "Processing...",
+                            text: "Please wait a moment!",
                             allowOutsideClick: false,
                             showConfirmButton: false,
                             willOpen: () => {
@@ -409,7 +409,7 @@
                     success: function (response) {
                         Swal.fire({
                             icon: 'success',
-                            title: 'Thành công!',
+                            title: 'Success!',
                             text: response.message,
                         }).then(() => {
                             $('#password-form')[0].reset();
@@ -419,8 +419,8 @@
                         Swal.close();
                         Swal.fire({
                             icon: 'error',
-                            title: 'Lỗi!',
-                            text: xhr.responseJSON.message || 'Có lỗi xảy ra, vui lòng thử lại.',
+                            title: 'Error!',
+                            text: xhr.responseJSON.message || 'An error occurred, please try again.',
                         });
                     }
                 });
@@ -433,12 +433,12 @@
         // Chọn loại thanh toán 
         function handlePayment(items) {
             Swal.fire({
-                title: "Chọn phương thức thanh toán",
+                title: "Choose payment method",
                 showDenyButton: true,
                 showCancelButton: true,
                 confirmButtonText: "VNPAY",
-                denyButtonText: "Trực tiếp",
-                cancelButtonText: "Hủy",
+                denyButtonText: "Direct",
+                cancelButtonText: "Cancel",
                 icon: "question"
             }).then((result) => {
                 if (result.isConfirmed) {
@@ -458,15 +458,15 @@
             };
 
             return Swal.fire({
-                title: "Nhập thông tin mua hàng",
+                title: "Enter purchase information",
                 html: `
-                    <input id="swal-phone" class="swal2-input" placeholder="Số điện thoại" type="phone" value="${paymentInfo.phone}">
-                    <input id="swal-address" class="swal2-input" placeholder="Địa chỉ" value="${paymentInfo.address}">
+                    <input id="swal-phone" class="swal2-input" placeholder="Phone number" type="phone" value="${paymentInfo.phone}">
+                    <input id="swal-address" class="swal2-input" placeholder="Address" value="${paymentInfo.address}">
                 `,
                 focusConfirm: false,
                 showCancelButton: true,
-                confirmButtonText: "Xác nhận",
-                cancelButtonText: "Hủy",
+                confirmButtonText: "Confirm",
+                cancelButtonText: "Cancel",
                 preConfirm: () => {
                     return {
                         phone: document.getElementById("swal-phone").value,
@@ -493,8 +493,8 @@
                     data: JSON.stringify({ items: items, method: method, paymentInfo: paymentInfo }),
                     beforeSend: function () {
                         Swal.fire({
-                            title: "Đang xử lý...",
-                            text: "Vui lòng đợi trong giây lát!",
+                            title: "Processing...",
+                            text: "Please wait a moment!",
                             allowOutsideClick: false,
                             showConfirmButton: false,
                             willOpen: () => {
@@ -509,8 +509,8 @@
                             } else {
                                 Swal.fire({
                                     icon: "success",
-                                    title: "Thanh toán thành công!",
-                                    text: "Các sản phẩm đã được thanh toán.",
+                                    title: "Payment successful!",
+                                    text: "The products have been paid.",
                                     confirmButtonText: "OK"
                                 }).then(() => {
                                     window.location.href = "{{ route('web.profile') }}#orders"; // Chuyển hướng về trang đơn hàng
@@ -519,8 +519,8 @@
                         } else {
                             Swal.fire({
                                 icon: "error",
-                                title: "Lỗi thanh toán!",
-                                text: data.message || "Có lỗi xảy ra khi thanh toán.",
+                                title: "Payment error!",
+                                text: data.message || "An error occurred during payment.",
                                 confirmButtonText: "OK"
                             });
                         }
@@ -528,11 +528,11 @@
                     error: function (xhr, status, error) {
                         Swal.fire({
                             icon: "error",
-                            title: "Lỗi kết nối!",
-                            text: "Không thể kết nối đến server, vui lòng kiểm tra lại.",
+                            title: "Connection error!",
+                            text: "Cannot connect to the server, please check again.",
                             confirmButtonText: "OK"
                         });
-                        console.error("Lỗi:", xhr.responseJSON);
+                        console.error("Error:", xhr.responseJSON);
                     }
                 });
             });
@@ -583,22 +583,22 @@
                 if (selectedItems.length < 2) {
                     Swal.fire({
                         icon: "warning",
-                        title: "Chọn ít nhất 2 sản phẩm",
-                        text: "Bạn cần chọn ít nhất 2 sản phẩm để thanh toán!",
+                        title: "Select at least 2 products",
+                        text: "You need to select at least 2 products to pay!",
                         confirmButtonText: "OK"
                     });
                     return;
                 }
 
                 Swal.fire({
-                    title: "Xác nhận thanh toán?",
-                    text: `Bạn đang thanh toán ${selectedItems.length} sản phẩm.`,
+                    title: "Confirm payment?",
+                    text: `You are paying for ${selectedItems.length} products.`,
                     icon: "question",
                     showCancelButton: true,
                     confirmButtonColor: "#28a745",
                     cancelButtonColor: "#d33",
-                    confirmButtonText: "Thanh toán",
-                    cancelButtonText: "Hủy"
+                    confirmButtonText: "Pay",
+                    cancelButtonText: "Cancel"
                 }).then((result) => {
                     if (result.isConfirmed) {
                         handlePayment(selectedItems);
@@ -626,12 +626,12 @@
                     formHtml += `
                         <div class="payment-item">
                             <h5>${item.name}</h5>
-                            <label>Số lượng:</label>
+                            <label>Quantity:</label>
                             <input type="number" class="swal2-input" name="quantity_${item.id}" value="${item.quantity}" min="1">
                             ${item.end !== '-' ? `
-                                <label>Ngày thuê:</label>
+                                <label>Rental Date:</label>
                                 <input type="date" class="swal2-input" name="start_${item.id}" value="${formatDateForInput(item.start)}">
-                                <label>Ngày trả:</label>
+                                <label>Return Date:</label>
                                 <input type="date" class="swal2-input" name="end_${item.id}" value="${formatDateForInput(item.end)}">
                             ` : ""}
                             <input type="hidden" name="id_${item.id}" value="${item.id}">
@@ -646,11 +646,11 @@
                 formHtml += `</form>`;
 
                 Swal.fire({
-                    title: "Chỉnh sửa thông tin trước khi thanh toán",
+                    title: "Edit information before payment",
                     html: formHtml,
                     showCancelButton: true,
-                    confirmButtonText: "Xác nhận",
-                    cancelButtonText: "Hủy",
+                    confirmButtonText: "Confirm",
+                    cancelButtonText: "Cancel",
                     preConfirm: () => {
                         let updatedItems = [];
                         items.forEach(item => {
