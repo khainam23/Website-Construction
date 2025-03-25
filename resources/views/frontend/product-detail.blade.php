@@ -46,24 +46,28 @@
                             <div class="col-12 mt-3">
                                 <div class="d-flex justify-content">
                                     @foreach ($product->images as $image)
-                                        <img src="{{asset($image->path)}}" class="thumb-img " width="70" onclick="changeImage(this)">
+                                        <img src="{{asset($image->path)}}" class="thumb-img " width="70"
+                                            onclick="changeImage(this)">
                                     @endforeach
                                 </div>
                             </div>
                             <div class="col-12 mt-3">
-                                <h2>{{ __('Stock quantity') }}: <span>{{ $product->productInventories->quantity }}</span></h2>
-                                <h4>{{ __('Price') }} {{ $product->type == 'sale' ? __('Sale') : __('Rental') }}:
-                                    {{ number_format($product->price, 0, ',', '.') }} đ
-                                </h4>
+                                @if($product->producInventories?->quantity > 0)
+                                    <h2>{{ __('Stock quantity') }}: <span>{{ $product->productInventories->quantity }}</span>
+                                    </h2>
+                                    <h4>{{ __('Price') }} {{ $product->type == 'sale' ? __('Sale') : __('Rental') }}:
+                                        {{ number_format($product->price, 0, ',', '.') }} đ
+                                    </h4>
+                                @endif
                             </div>
                         </div>
                         <div class="row">
-                            @if ($product->productInventories->quantity)
+                            @if ($product->productInventories?->quantity > 0)
                                 <div class="col-12 mt-3">
                                     <button class="btn btn-primary" onclick="addCart()">{{ __('Add to Cart') }}</button>
                                 </div>
                             @else
-                                <span class="text-danger">{{ __('Sold out') }}</span>
+                                <div class="alert alert-danger p-2 m-0 d-inline-block">{{ __('Sold out') }}</div>
                             @endif
                         </div>
                     </div>
@@ -136,7 +140,9 @@
                                         <img src="{{asset($relateProduct->avatar)}}" alt="{{$relateProduct->name}}">
                                     </div>
                                     <h4 class="name-product-1">{{$relateProduct->name}}</h4>
-                                    <p class="content-product-1">{!! Str::limit(strip_tags($relateProduct->description), 80, '...') !!}</p>
+                                    <p class="content-product-1">
+                                        {!! Str::limit(strip_tags($relateProduct->description), 80, '...') !!}
+                                    </p>
                                 </a>
                             </div>
                         @endforeach
@@ -216,31 +222,31 @@
             Swal.fire({
                 title: "{{ __('Confirm Payment') }}",
                 html: `
-                    <div class="text-start">
-                        <label class="fw-bold">{{ __('Product Name:') }}</label>
-                        <input type="text" id="product_name" class="form-control mb-2" value="{{ $product->name }}" readonly>
+                                <div class="text-start">
+                                    <label class="fw-bold">{{ __('Product Name:') }}</label>
+                                    <input type="text" id="product_name" class="form-control mb-2" value="{{ $product->name }}" readonly>
 
-                        <label class="fw-bold">{{ __('Product Price:') }}</label>
-                        <input type="text" id="product_price" class="form-control mb-2" value="{{ number_format($product->price, 0, ',', '.') }} đ" readonly>
+                                    <label class="fw-bold">{{ __('Product Price:') }}</label>
+                                    <input type="text" id="product_price" class="form-control mb-2" value="{{ number_format($product->price, 0, ',', '.') }} đ" readonly>
 
-                        <label class="fw-bold">{{ __('Quantity:') }}</label>
-                        <input type="number" id="quantity" class="form-control mb-2" value="1" 
-                            min="1" max="{{ $product->productInventories->quantity }}"
-                            oninput="updateTotalPrice()" 
-                            onkeypress="return event.charCode >= 48 && event.charCode <= 57">
+                                    <label class="fw-bold">{{ __('Quantity:') }}</label>
+                                    <input type="number" id="quantity" class="form-control mb-2" value="1" 
+                                        min="1" max="{{ $product->productInventories->quantity }}"
+                                        oninput="updateTotalPrice()" 
+                                        onkeypress="return event.charCode >= 48 && event.charCode <= 57">
 
-                        @if($product->type == 'rental')
-                            <label class="fw-bold">{{ __('Start Date:') }}</label>
-                            <input type="date" id="rental_start" class="form-control mb-2">
+                                    @if($product->type == 'rental')
+                                        <label class="fw-bold">{{ __('Start Date:') }}</label>
+                                        <input type="date" id="rental_start" class="form-control mb-2">
 
-                            <label class="fw-bold">{{ __('End Date:') }}</label>
-                            <input type="date" id="rental_end" class="form-control mb-2" onchange="updateTotalPrice()">
-                        @endif
+                                        <label class="fw-bold">{{ __('End Date:') }}</label>
+                                        <input type="date" id="rental_end" class="form-control mb-2" onchange="updateTotalPrice()">
+                                    @endif
 
-                        <label class="fw-bold">{{ __('Total Price:') }}</label>
-                        <input type="text" id="total_price" class="form-control mb-2" value="{{ number_format($product->price, 0, ',', '.') }} đ" readonly>
-                    </div>
-                `,
+                                    <label class="fw-bold">{{ __('Total Price:') }}</label>
+                                    <input type="text" id="total_price" class="form-control mb-2" value="{{ number_format($product->price, 0, ',', '.') }} đ" readonly>
+                                </div>
+                            `,
                 showCancelButton: true,
                 confirmButtonText: "{{ __('Add to Cart') }}",
                 cancelButtonText: "{{ __('Cancel') }}",
@@ -286,7 +292,7 @@
                         processData: false,
                         success: function (response) {
                             Swal.fire({
-                                icon: 'success',    
+                                icon: 'success',
                                 title: '{{ __('Product added to cart successfully') }}',
                                 showConfirmButton: false,
                                 timer: 1500

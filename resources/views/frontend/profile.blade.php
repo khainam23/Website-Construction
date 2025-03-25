@@ -451,10 +451,10 @@
 
         function enterPaymentInfo() {
             let paymentInfo = {
-                name: "Nguyen Nam",
-                email: "khainam23@gmail.com",
-                phone: "03955",
-                address: "HCM"
+                name: "{{ $infoUser->last_name }}",
+                email: "{{ $infoUser->email }}",
+                phone: "{{ $infoUser->phone }}",
+                address: "{{ $infoUser->address }}"
             };
 
             return Swal.fire({

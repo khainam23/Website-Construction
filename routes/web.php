@@ -109,7 +109,7 @@ Route::middleware([LanguageMiddleware::class])->group(function () {
     });
 
     // Dành cho sale
-    Route::middleware([RoleMiddleware::class . ':admin, sale'])->group(function () {
+    Route::middleware([RoleMiddleware::class . ':admin,sale'])->group(function () {
         Route::get('/sale/dashboard', [SalesController::class, 'dashboard'])->name('sale.dashboard');
         Route::get('/sale/sales/revenue', [RevenueController::class, 'index'])->name('sale.sales.revenue');
         Route::get('/sale/sales/product-sales', [SalesController::class, 'productSales'])->name('sale.sales.productSales');

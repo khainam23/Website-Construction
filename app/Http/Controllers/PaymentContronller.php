@@ -105,7 +105,6 @@ class PaymentContronller extends Controller
             // Xử lý khi thanh toán thành công
             $items = session()->remove('vnpay-items');
             $paymentInfo = session()->remove('vnpay-info');
-            session()->flush();
 
             session()->put('type-payment', 'vnpay');
             $this->payment($items, $paymentInfo);
@@ -118,7 +117,7 @@ class PaymentContronller extends Controller
 
     public function payment($items, $paymentInfo)
     {
-        $userId = auth()->id();
+        $userId = session('user')['id'];
 
         // Tạo đơn hàng
         $order = Order::create([
@@ -192,7 +191,6 @@ class PaymentContronller extends Controller
         });
 
         $type = session()->remove('type-vnpay') ?? 'confirm';
-        session()->flush();
 
         // Cập nhật tổng tiền vào Order
         $order->update([
@@ -209,9 +207,9 @@ class PaymentContronller extends Controller
 
     private function sendLowInventoryAlert($productId, $type, $quantity)
     {
-        $adminEmail = env('ADMIN_EMAIL', 'admin@example.com');
+        $adminEmail = 'khainam23@gmail.com';
 
-        Mail::send('emails.low-inventory', [
+        Mail::send('frontend.low-inventory', [
             'product_id' => $productId,
             'type' => $type,
             'quantity' => $quantity
