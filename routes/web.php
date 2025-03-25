@@ -80,13 +80,14 @@ Route::middleware([LanguageMiddleware::class])->group(function () {
         Route::post('/admin/products/{id}', [AssetController::class, 'update'])->name('admin.api.products.update');
         Route::delete('/admin/products/{product}', [AssetController::class, 'delete'])->name('admin.products.delete');
         Route::post('/admin/product/add/image', [AssetController::class, 'uploadImages'])->name('admin.api.product.upload.images');
-        Route::delete('/admin/product/delete/image/{id}', [AssetController::class, 'deleteImage'])->name('admin.api.product.delete.image');
+        Route::delete('/admin.product/delete/image/{id}', [AssetController::class, 'deleteImage'])->name('admin.api.product.delete.image');
         Route::get('/admin/prodduct/search/{name}', [AssetController::class, 'search'])->name('admin.api.product.search');
     });
 
     // Dành cho admin
     Route::middleware([RoleMiddleware::class . ':admin'])->group(function () {
         Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
+        Route::get('/admin/revenue', [AdminController::class, 'revenue'])->name('admin.revenue');
 
         // User Management
         Route::get('/admin/users', [AccountController::class, 'loadAccount'])->name('admin.users.index');
@@ -108,7 +109,7 @@ Route::middleware([LanguageMiddleware::class])->group(function () {
     });
 
     // Dành cho sale
-    Route::middleware([RoleMiddleware::class . ':sale'])->group(function () {
+    Route::middleware([RoleMiddleware::class . ':admin, sale'])->group(function () {
         Route::get('/sale/dashboard', [SalesController::class, 'dashboard'])->name('sale.dashboard');
         Route::get('/sale/sales/revenue', [RevenueController::class, 'index'])->name('sale.sales.revenue');
         Route::get('/sale/sales/product-sales', [SalesController::class, 'productSales'])->name('sale.sales.productSales');

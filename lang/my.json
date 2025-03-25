@@ -1105,5 +1105,10 @@
     "Total Revenue": "စုစုပေါင်း ဝင်ငွေ",
     "Revenue Statistics": "ဝင်ငွေ စီစစ်ချက်",
       "Product Sales": "ကုန်ပစ္စည်း ရောင်းချခြင်း",
-      "Order ID": "အော်ဒါအိုင်ဒီ"
+      "Order ID": "အော်ဒါအိုင်ဒီ",
+      "Search products...": "ကုန်ပစ္စည်းများရှာဖွေပါ...",
+      "All Categories": "အမျိုးအစားများအားလုံး",
+      "Found": "တွေ့ရှိပါသည်",
+      "products": "ကုန်ပစ္စည်းများ",
+      "No products found matching your criteria.": "သင့်လိုအပ်ချက်နှင့်ကိုက်ညီသောကုန်ပစ္စည်းများမတွေ့ပါ။"
 }

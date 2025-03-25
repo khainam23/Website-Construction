@@ -10,14 +10,30 @@ use Illuminate\Support\Facades\Log;
 class ProductController extends Controller
 {
 
-    public function viewAll($type)
+    public function viewAll(Request $request, $type)
     {
-        $products = null;
-        if ($type == 'all') {
-            $products = Product::all();
-        } else {
-            $products = Product::whereRaw("LOWER(type) = ?", [strtolower($type)])->get();
+        $query = Product::query();
+        
+        // Filter by type
+        if ($type != 'all') {
+            $query->whereRaw("LOWER(type) = ?", [strtolower($type)]);
         }
+        
+        // Search functionality
+        if ($request->has('search') && $request->search) {
+            $search = $request->search;
+            $query->where(function($q) use ($search) {
+                $q->where('name', 'LIKE', "%{$search}%")
+                  ->orWhere('description', 'LIKE', "%{$search}%");
+            });
+        }
+        
+        // Filter by category
+        if ($request->has('category') && $request->category) {
+            $query->where('category_id', $request->category);
+        }
+        
+        $products = $query->get();
         $categories = Category::all();
 
         return view("frontend.product", compact("products", "categories"));

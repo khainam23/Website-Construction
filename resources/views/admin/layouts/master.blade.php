@@ -226,6 +226,12 @@
                                 <i class="fas fa-list"></i> {{ __('Category Management') }}
                             </a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link {{ request()->routeIs('admin.revenue') ? 'active' : '' }}"
+                                href="{{ route('admin.revenue') }}">
+                                <i class="fas fa-chart-line"></i> {{ __('Revenue Statistics') }}
+                            </a>
+                        </li>
                         <!-- Add more sidebar items here -->
                     </ul>
                     <ul class="nav flex-column">

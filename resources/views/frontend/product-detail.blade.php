@@ -129,16 +129,14 @@
                 </div>
                 <div class="swiper mySwiper1">
                     <div class="swiper-wrapper">
-                        <!-- Xin lỗi -->
                         @foreach($relatedProducts as $relateProduct)
                             <div class="swiper-slide">
                                 <a class="link" href="{{ route('web.product.detail', ['id' => $relateProduct->id]) }}">
-                                    <div>
-                                        <img class="img-slide" src="{{asset($relateProduct->avatar)}}"
-                                            alt="Phụ gia bê tông BMQ - Plas 02">
+                                    <div class="img-slide">
+                                        <img src="{{asset($relateProduct->avatar)}}" alt="{{$relateProduct->name}}">
                                     </div>
                                     <h4 class="name-product-1">{{$relateProduct->name}}</h4>
-                                    <p class="content-product-1">{!!$relateProduct->description!!}</p>
+                                    <p class="content-product-1">{!! Str::limit(strip_tags($relateProduct->description), 80, '...') !!}</p>
                                 </a>
                             </div>
                         @endforeach
@@ -147,8 +145,6 @@
                     <!-- Nút điều hướng -->
                     <div class="swiper-button-next"></div>
                     <div class="swiper-button-prev"></div>
-
-                    <!-- Thanh phân trang -->
                 </div>
             </div>
         </div>
