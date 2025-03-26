@@ -41,7 +41,7 @@
                 </div>
                 <div class="mb-3">
                     <label class="form-label">{{ __('Date of Birth') }}</label>
-                    <input type="date" class="form-control" name="date_of_birth" required max="6-6-2007">
+                    <input type="date" class="form-control" name="date_of_birth" required max="2007-06-06">
                 </div>
                 <div class="mb-3">
                     <label class="form-label">{{ __('Gender') }}</label>
@@ -73,10 +73,24 @@
 @section('js')
     <script>
         $(document).ready(function () {
+            function isValidPhoneNumber(phone) {
+                return /^(84|0[3|5|7|8|9])+([0-9]{8})\b/.test(phone);
+            }
+
             $('#register').on('submit', function (event) {
                 event.preventDefault();
 
                 let formData = new FormData(this);
+                let phone = formData.get('phone');
+
+                if (!isValidPhoneNumber(phone)) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: '{{ __("Invalid Phone Number") }}',
+                        text: '{{ __("Please enter a valid Vietnamese phone number") }}'
+                    });
+                    return;
+                }
 
                 $.ajax({
                     url: "{{ route('api.register') }}",
