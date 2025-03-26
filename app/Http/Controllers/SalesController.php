@@ -6,12 +6,27 @@ use App\Models\Order;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Product;
+use Carbon\Carbon;
 
 class SalesController extends Controller
 {
     public function dashboard()
     {
-        return view('sale.dashboard');
+        // Get today's revenue
+        $todayRevenue = Order::whereDate('created_at', Carbon::today())->sum('total');
+        
+        // Get weekly revenue
+        $weeklyRevenue = Order::whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])->sum('total');
+        
+        // Get monthly revenue
+        $monthlyRevenue = Order::whereYear('created_at', Carbon::now()->year)
+            ->whereMonth('created_at', Carbon::now()->month)
+            ->sum('total');
+            
+        // Get yearly revenue
+        $yearlyRevenue = Order::whereYear('created_at', Carbon::now()->year)->sum('total');
+        
+        return view('sale.dashboard', compact('todayRevenue', 'weeklyRevenue', 'monthlyRevenue', 'yearlyRevenue'));
     }
 
     public function index()
@@ -42,10 +57,37 @@ class SalesController extends Controller
 
     public function revenueStatistics()
     {
+        // Calculate daily revenue for current month
+        $dailyRevenue = Order::select(DB::raw("DATE_FORMAT(created_at, '%Y-%m-%d') as date"), DB::raw('SUM(total) as revenue'))
+            ->whereMonth('created_at', Carbon::now()->month)
+            ->whereYear('created_at', Carbon::now()->year)
+            ->groupBy('date')
+            ->orderBy('date')
+            ->get();
+
+        // Calculate weekly revenue
+        $weeklyRevenue = Order::select(DB::raw("CONCAT(YEAR(created_at), '-', WEEK(created_at)) as week"), 
+            DB::raw("DATE_FORMAT(MIN(created_at), '%Y-%m-%d') as start_date"),
+            DB::raw("DATE_FORMAT(MAX(created_at), '%Y-%m-%d') as end_date"),
+            DB::raw('SUM(total) as revenue'))
+            ->groupBy('week')
+            ->orderBy('week', 'desc')
+            ->take(10)
+            ->get();
+
         // Calculate monthly revenue
         $monthlyRevenue = Order::select(DB::raw("DATE_FORMAT(created_at, '%Y-%m') as month"), DB::raw('SUM(total) as revenue'))
             ->groupBy('month')
             ->orderBy('month')
+            ->get();
+
+        // Calculate quarterly revenue
+        $quarterlyRevenue = Order::select(
+            DB::raw("CONCAT(YEAR(created_at), '-Q', QUARTER(created_at)) as quarter"),
+            DB::raw('SUM(total) as revenue'))
+            ->groupBy('quarter')
+            ->orderBy(DB::raw("YEAR(created_at)"), 'desc')
+            ->orderBy(DB::raw("QUARTER(created_at)"), 'desc')
             ->get();
 
         // Calculate yearly revenue
@@ -54,7 +96,13 @@ class SalesController extends Controller
             ->orderBy('year')
             ->get();
 
-        return view('sale.sales.revenue', compact('monthlyRevenue', 'yearlyRevenue'));
+        return view('sale.sales.revenue', compact(
+            'dailyRevenue', 
+            'weeklyRevenue', 
+            'monthlyRevenue', 
+            'quarterlyRevenue', 
+            'yearlyRevenue'
+        ));
     }
 
     public function productSales()

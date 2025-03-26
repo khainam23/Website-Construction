@@ -199,7 +199,7 @@
                         <li class="nav-item">
                             <a class="nav-link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}"
                                 href="{{ route('admin.dashboard') }}">
-                                <i class="fas fa-tachometer-alt"></i> {{ __('Dashboard') }}
+                                <i class="fas fa-tachometer-alt"></i> {{ __('Admin Panel') }}
                             </a>
                         </li>
                         <li class="nav-item">
@@ -227,12 +227,11 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link {{ request()->routeIs('admin.revenue') ? 'active' : '' }}"
-                                href="{{ route('admin.revenue') }}">
+                            <a class="nav-link {{ request()->routeIs('sale.sales.revenue') ? 'active' : '' }}"
+                                href="{{ route('sale.sales.revenue') }}">
                                 <i class="fas fa-chart-line"></i> {{ __('Revenue Statistics') }}
                             </a>
                         </li>
-                        <!-- Add more sidebar items here -->
                     </ul>
                     <ul class="nav flex-column">
                         <li class="nav-item">

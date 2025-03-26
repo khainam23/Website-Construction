@@ -1,12 +1,14 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title') - {{ __('Sale Dashboard') }}</title>
     <link rel="stylesheet" href="{{ asset('frontendcss/bootstrap_4.6/css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    @yield('styles')
     <style>
         body {
             font-family: 'Be Vietnam Pro', sans-serif;
@@ -196,13 +198,13 @@
                         <li class="nav-item">
                             <a class="nav-link {{ request()->routeIs('sale.dashboard') ? 'active' : '' }}"
                                 href="{{ route('sale.dashboard') }}">
-                                <i class="fas fa-tachometer-alt"></i> {{ __('Bảng điều khiển') }}
+                                <i class="fas fa-tachometer-alt"></i> {{ __('Sale Dashboard') }}
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link {{ request()->routeIs('sale.sales.index') ? 'active' : '' }}"
                                 href="{{ route('sale.sales.index') }}">
-                                <i class="fas fa-chart-bar"></i> {{ __('Quản lý bán hàng') }}
+                                <i class="fas fa-chart-bar"></i> {{ __('Sales Management') }}
                             </a>
                         </li>
                         <li class="nav-item">
@@ -214,13 +216,13 @@
                         <li class="nav-item">
                             <a class="nav-link {{ request()->routeIs('sale.sales.revenue') ? 'active' : '' }}"
                                 href="{{ route('sale.sales.revenue') }}">
-                                <i class="fas fa-chart-line"></i> {{ __('Thống kê doanh thu') }}
+                                <i class="fas fa-chart-line"></i> {{ __('Revenue Statistics') }}
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link {{ request()->routeIs('sale.sales.productSales') ? 'active' : '' }}"
                                 href="{{ route('sale.sales.productSales') }}">
-                                <i class="fas fa-boxes"></i> {{ __('Bán hàng sản phẩm') }}
+                                <i class="fas fa-boxes"></i> {{ __('Product Sales') }}
                             </a>
                         </li>
                         <!-- Add more sidebar items here -->
@@ -244,7 +246,13 @@
         </div>
     </div>
 
-    <script src="{{ asset('frontendcss/bootstrap_4.6/js/bootstrap.min.js') }}"></script>
+    <!-- Core scripts -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="{{ asset('frontendcss/bootstrap_4.6/js/bootstrap.bundle.min.js') }}"></script>
+    
+    <!-- Additional scripts -->
+    @yield('scripts')
+    
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             var currentRoute = window.location.href;
@@ -257,9 +265,11 @@
                     link.classList.remove('active');
                 }
             });
+            
+            // Log any chart loading for debugging
+            console.log('Master layout loaded');
         });
     </script>
-    @yield('js')
 </body>
 
 </html>

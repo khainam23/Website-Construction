@@ -78,16 +78,19 @@ Route::middleware([LanguageMiddleware::class])->group(function () {
         });
         Route::post('/admin/product/store', [AssetController::class, 'store'])->name('admin.api.product.store');
         Route::post('/admin/products/{id}', [AssetController::class, 'update'])->name('admin.api.products.update');
-        Route::delete('/admin/products/{product}', [AssetController::class, 'delete'])->name('admin.products.delete');
+        Route::delete('/admin.products/{product}', [AssetController::class, 'delete'])->name('admin.products.delete');
         Route::post('/admin/product/add/image', [AssetController::class, 'uploadImages'])->name('admin.api.product.upload.images');
         Route::delete('/admin.product/delete/image/{id}', [AssetController::class, 'deleteImage'])->name('admin.api.product.delete.image');
-        Route::get('/admin/prodduct/search/{name}', [AssetController::class, 'search'])->name('admin.api.product.search');
+        Route::get('/admin/product/search/{name}', [AssetController::class, 'search'])->name('admin.api.product.search');
+        
+        // Shared revenue route for admin and sale
+        Route::get('/admin/sales/revenue', [RevenueController::class, 'index'])->name('admin.sales.revenue');
+        Route::get('/sale/sales/revenue', [RevenueController::class, 'index'])->name('sale.sales.revenue');
     });
 
     // Dành cho admin
     Route::middleware([RoleMiddleware::class . ':admin'])->group(function () {
         Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
-        Route::get('/admin/revenue', [AdminController::class, 'revenue'])->name('admin.revenue');
 
         // User Management
         Route::get('/admin/users', [AccountController::class, 'loadAccount'])->name('admin.users.index');
@@ -96,13 +99,13 @@ Route::middleware([LanguageMiddleware::class])->group(function () {
 
         // Order Management
         Route::get('/admin/orders', [OrderController::class, 'index'])->name('admin.orders.index');
-        Route::get('/admin/orders/{order}', [OrderController::class, 'show'])->name('admin.orders.show');
+        Route::get('/admin.orders/{order}', [OrderController::class, 'show'])->name('admin.orders.show');
         Route::post('/admin/order/update/status', [OrderController::class, 'updateStatus'])->name('admin.api.order.update.status');
 
         // Category Management Routes
         Route::get('/admin/categories', [CategoryController::class, 'index'])->name('admin.categories.index');
         Route::get('/admin/categories/create', [CategoryController::class, 'create'])->name('admin.categories.create');
-        Route::post('/admin/categories', [CategoryController::class, 'store'])->name('admin.categories.store');
+        Route::post('/admin.categories', [CategoryController::class, 'store'])->name('admin.categories.store');
         Route::get('/admin.categories/{category}/edit', [CategoryController::class, 'edit'])->name('admin.categories.edit');
         Route::put('/admin.categories/{category}', [CategoryController::class, 'update'])->name('admin.categories.update');
         Route::delete('/admin.categories/{category}', [CategoryController::class, 'delete'])->name('admin.categories.delete');
@@ -111,7 +114,6 @@ Route::middleware([LanguageMiddleware::class])->group(function () {
     // Dành cho sale
     Route::middleware([RoleMiddleware::class . ':admin,sale'])->group(function () {
         Route::get('/sale/dashboard', [SalesController::class, 'dashboard'])->name('sale.dashboard');
-        Route::get('/sale/sales/revenue', [RevenueController::class, 'index'])->name('sale.sales.revenue');
         Route::get('/sale/sales/product-sales', [SalesController::class, 'productSales'])->name('sale.sales.productSales');
         Route::get('/sale/sales', [SalesController::class, 'index'])->name('sale.sales.index');
     });
