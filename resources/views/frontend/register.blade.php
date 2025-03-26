@@ -41,7 +41,7 @@
                 </div>
                 <div class="mb-3">
                     <label class="form-label">{{ __('Date of Birth') }}</label>
-                    <input type="date" class="form-control" name="date_of_birth" required>
+                    <input type="date" class="form-control" name="date_of_birth" required max="6-6-2007">
                 </div>
                 <div class="mb-3">
                     <label class="form-label">{{ __('Gender') }}</label>

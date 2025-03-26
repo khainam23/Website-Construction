@@ -96,7 +96,7 @@ class DatabaseSeeder extends Seeder
                 'category_id' => 9, // Xe tải nặng
                 'description' => 'Xe tải cẩu 8 tấn Dongfeng 4 chân với sức nâng mạnh mẽ, phù hợp cho công trình lớn.',
                 'avatar' => 'products/1.jpg',
-                'price' => 1500000.00,
+                'price' => 1500000000,
                 'type' => 'sale',
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -106,7 +106,7 @@ class DatabaseSeeder extends Seeder
                 'category_id' => 6, // Xe cẩu tự hành
                 'description' => 'Cần cẩu mini 5 tấn, thích hợp cho không gian hẹp',
                 'avatar' => 'products/2.jpg',
-                'price' => 800000.00,
+                'price' => 800000000,
                 'type' => 'rental',
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -116,7 +116,7 @@ class DatabaseSeeder extends Seeder
                 'category_id' => 4, // Xe cẩu bánh xích
                 'description' => 'Xe cẩu bánh xích chuyên dụng cho địa hình khó',
                 'avatar' => 'products/3.jpg',
-                'price' => 2000000.00,
+                'price' => 2000000000,
                 'type' => 'sale',
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -126,7 +126,7 @@ class DatabaseSeeder extends Seeder
                 'category_id' => 6, // Xe cẩu tự hành
                 'description' => 'Xe cẩu tự hành công suất lớn',
                 'avatar' => 'products/4.jpg',
-                'price' => 2500000.00,
+                'price' => 2500000000,
                 'type' => 'rental',
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -136,7 +136,7 @@ class DatabaseSeeder extends Seeder
                 'category_id' => 5, // Xe cẩu bánh lốp
                 'description' => 'Xe cẩu gấp nhỏ gọn, linh hoạt',
                 'avatar' => 'products/5.jpg',
-                'price' => 1200000.00,
+                'price' => 1200000000,
                 'type' => 'sale',
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -146,7 +146,7 @@ class DatabaseSeeder extends Seeder
                 'category_id' => 5, // Xe cẩu bánh lốp
                 'description' => 'Xe cẩu container chuyên dụng cho cảng biển',
                 'avatar' => 'products/6.jpg',
-                'price' => 3500000.00,
+                'price' => 3500000000,
                 'type' => 'rental',
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -156,7 +156,7 @@ class DatabaseSeeder extends Seeder
                 'category_id' => 5, // Xe cẩu bánh lốp
                 'description' => 'Xe cẩu bánh lốp đa năng',
                 'avatar' => 'products/7.jpg',
-                'price' => 2800000.00,
+                'price' => 2800000000,
                 'type' => 'sale',
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -166,7 +166,7 @@ class DatabaseSeeder extends Seeder
                 'category_id' => 6, // Xe cẩu tự hành
                 'description' => 'Xe cẩu tháp cho công trình cao tầng',
                 'avatar' => 'products/8.jpg',
-                'price' => 4000000.00,
+                'price' => 4000000000,
                 'type' => 'rental',
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -184,7 +184,7 @@ class DatabaseSeeder extends Seeder
 
                                 Sửa chữa hệ thống thủy lực xe cẩu – Công ty JCT Việt Nam',
                 'avatar' => 'https://jct.com.vn/wp-content/uploads/2021/10/xe-cau-mini-5-tan-komatsu-lc785-6-1-.jpg',
-                'price' => 200000.00,
+                'price' => 200000000,
                 'type' => 'rental',
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -202,7 +202,7 @@ class DatabaseSeeder extends Seeder
 
                                 Sửa chữa hệ thống thủy lực xe cẩu – Công ty JCT Việt Nam',
                 'avatar' => 'https://jct.com.vn/wp-content/uploads/2021/10/xe-cau-mini-5-tan-komatsu-lc785-6-1-.jpg',
-                'price' => 200000.00,
+                'price' => 200000000,
                 'type' => 'rental',
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -212,7 +212,7 @@ class DatabaseSeeder extends Seeder
                 'category_id' => 16, // Máy ủi cỡ lớn
                 'description' => 'Máy ủi Caterpillar D6 mạnh mẽ và bền bỉ.',
                 'avatar' => 'products/11.jpg',
-                'price' => 5500000.00,
+                'price' => 5500000000,
                 'type' => 'sale',
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -222,7 +222,7 @@ class DatabaseSeeder extends Seeder
                 'category_id' => 17, // Máy san gạt tự hành
                 'description' => 'Máy san gạt John Deere 672G hiệu suất cao.',
                 'avatar' => 'products/12.jpg',
-                'price' => 6200000.00,
+                'price' => 6200000000,
                 'type' => 'rental',
                 'created_at' => now(),
                 'updated_at' => now(),

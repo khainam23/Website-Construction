@@ -134,48 +134,48 @@
                         </thead>
                         <tbody>
                             @foreach($orders as $order)
-                                            <tr>
-                                                <td>{{ $order['id'] }}</td>
-                                                <td>{{ number_format($order['total'], 0, ',', '.') }} đ</td>
-                                                <td>
-                                                    @php
-                                                        $statusClasses = [
-                                                            'pending' => 'badge bg-secondary',  // Chờ xử lý (màu xám)
-                                                            'confirm' => 'badge bg-primary',    // Đã xác nhận (xanh dương)
-                                                            'ship' => 'badge bg-warning text-dark',  // Đang giao hàng (vàng cam)
-                                                            'delivery' => 'badge bg-success',   // Đã giao hàng (xanh lá)
-                                                            'return' => 'badge bg-info text-dark', // Trả hàng (xanh nhạt)
-                                                            'cancel' => 'badge bg-danger',      // Đã hủy (đỏ)
-                                                        ];
-                                                        $statusClass = $statusClasses[$order['status']] ?? 'badge bg-dark'; // Mặc định nếu trạng thái không hợp lệ
-                                                    @endphp
+                                <tr>
+                                    <td>{{ $order['id'] }}</td>
+                                    <td>{{ number_format($order['total'], 0, ',', '.') }} đ</td>
+                                    <td>
+                                        @php
+                                            $statusClasses = [
+                                                'pending' => 'badge bg-secondary',  // Chờ xử lý (màu xám)
+                                                'confirm' => 'badge bg-primary',    // Đã xác nhận (xanh dương)
+                                                'ship' => 'badge bg-warning text-dark',  // Đang giao hàng (vàng cam)
+                                                'delivery' => 'badge bg-success',   // Đã giao hàng (xanh lá)
+                                                'return' => 'badge bg-info text-dark', // Trả hàng (xanh nhạt)
+                                                'cancel' => 'badge bg-danger',      // Đã hủy (đỏ)
+                                            ];
+                                            $statusClass = $statusClasses[$order['status']] ?? 'badge bg-dark'; // Mặc định nếu trạng thái không hợp lệ
+                                        @endphp
 
-                                                    <span class="{{ $statusClass }}">
-                                                        {{ ucfirst($order['status']) }}
-                                                    </span>
-                                                </td>
+                                        <span class="{{ $statusClass }}">
+                                            {{ ucfirst($order['status']) }}
+                                        </span>
+                                    </td>
 
-                                                <td>{{ $order['address'] }}</td>
-                                                <td>{{ $order['phone'] }}</td>
-                                                <td>
-                                                    <ul>
-                                                        @foreach($order['details'] as $detail)
-                                                            <li>
-                                                                {{ $detail['product']['name'] }} - {{ $detail['quantity'] }} x
-                                                                {{ number_format($detail['product']['price'], 0, ',', '.') }} đ
-                                                                @if(!empty($detail['rental_end_date']))
-                                                                    - {{ __('Rental Date') }}: {{ $detail['rental_start_date'] }}
-                                                                    {{ __('and Return Date') }}:
-                                                                    {{ $detail['rental_end_date'] }}
-                                                                @endif
-                                                            </li>
-                                                        @endforeach
-                                                    </ul>
-                                                </td>
-                                                <td>
-                                                    <button class="btn btn-danger">Hủy</button>
-                                                </td>
-                                            </tr>
+                                    <td>{{ $order['address'] }}</td>
+                                    <td>{{ $order['phone'] }}</td>
+                                    <td>
+                                        <ul>
+                                            @foreach($order['details'] as $detail)
+                                                <li>
+                                                    {{ $detail['product']['name'] }} - {{ $detail['quantity'] }} x
+                                                    {{ number_format($detail['product']['price'], 0, ',', '.') }} đ
+                                                    @if(!empty($detail['rental_end_date']))
+                                                        - {{ __('Rental Date') }}: {{ $detail['rental_start_date'] }}
+                                                        {{ __('and Return Date') }}:
+                                                        {{ $detail['rental_end_date'] }}
+                                                    @endif
+                                                </li>
+                                            @endforeach
+                                        </ul>
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-danger">Hủy</button>
+                                    </td>
+                                </tr>
                             @endforeach
                         </tbody>
                     </table>
@@ -467,9 +467,9 @@
             return Swal.fire({
                 title: "Enter purchase information",
                 html: `
-                            <input id="swal-phone" class="swal2-input" placeholder="Phone number" type="phone" value="${paymentInfo.phone}">
-                            <input id="swal-address" class="swal2-input" placeholder="Address" value="${paymentInfo.address}">
-                        `,
+                    <input id="swal-phone" class="swal2-input" placeholder="Phone number" type="phone" value="${paymentInfo.phone}">
+                    <input id="swal-address" class="swal2-input" placeholder="Address" value="${paymentInfo.address}">
+                `,
                 focusConfirm: false,
                 showCancelButton: true,
                 confirmButtonText: "Confirm",
@@ -633,24 +633,24 @@
                 let formHtml = `<form id="editPaymentForm">`;
                 items.forEach(item => {
                     formHtml += `
-                                <div class="payment-item">
-                                    <h5>${item.name}</h5>
-                                    <label>Quantity:</label>
-                                    <input type="number" class="swal2-input" name="quantity_${item.id}" value="${item.quantity}" min="1">
-                                    ${item.end !== '-' ? `
-                                        <label>Rental Date:</label>
-                                        <input type="date" class="swal2-input" name="start_${item.id}" value="${formatDateForInput(item.start)}">
-                                        <label>Return Date:</label>
-                                        <input type="date" class="swal2-input" name="end_${item.id}" value="${formatDateForInput(item.end)}">
-                                    ` : ""}
-                                    <input type="hidden" name="id_${item.id}" value="${item.id}">
-                                    <input type="hidden" name="old_quantity_${item.id}" value="${item.quantity}">
-                                    ${item.end !== '-' ? `
-                                        <input type="hidden" name="old_start_${item.id}" value="${formatDateForInput(item.start)}">
-                                        <input type="hidden" name="old_end_${item.id}" value="${formatDateForInput(item.end)}">
-                                    ` : ""}
-                                </div>
-                                <hr>`;
+                    <div class="payment-item">
+                        <h5>${item.name}</h5>
+                        <label>Quantity:</label>
+                        <input type="number" class="swal2-input" name="quantity_${item.id}" value="${item.quantity}" min="1">
+                        ${item.end !== '-' ? `
+                            <label>Rental Date:</label>
+                            <input type="date" class="swal2-input" name="start_${item.id}" value="${formatDateForInput(item.start)}">
+                            <label>Return Date:</label>
+                            <input type="date" class="swal2-input" name="end_${item.id}" value="${formatDateForInput(item.end)}">
+                        ` : ""}
+                        <input type="hidden" name="id_${item.id}" value="${item.id}">
+                        <input type="hidden" name="old_quantity_${item.id}" value="${item.quantity}">
+                        ${item.end !== '-' ? `
+                            <input type="hidden" name="old_start_${item.id}" value="${formatDateForInput(item.start)}">
+                            <input type="hidden" name="old_end_${item.id}" value="${formatDateForInput(item.end)}">
+                        ` : ""}
+                    </div>
+                    <hr>`;
                 });
                 formHtml += `</form>`;
 
