@@ -237,10 +237,10 @@
 
                         @if($product->type == 'rental')
                             <label class="fw-bold">{{ __('Start Date:') }}</label>
-                            <input type="date" id="rental_start" class="form-control mb-2" min="${new Date()}">
+                    <input type="date" id="rental_start" class="form-control mb-2">
 
-                            <label class="fw-bold">{{ __('End Date:') }}</label>
-                            <input type="date" id="rental_end" class="form-control mb-2" onchange="updateTotalPrice()"  min="${new Date()}">
+                    <label class="fw-bold">{{ __('End Date:') }}</label>
+                    <input type="date" id="rental_end" class="form-control mb-2" onchange="updateTotalPrice()">
                         @endif
 
                         <label class="fw-bold">{{ __('Total Price:') }}</label>
@@ -252,6 +252,21 @@
                 cancelButtonText: "{{ __('Cancel') }}",
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
+                didOpen: () => {
+            let tomorrow = new Date();
+            tomorrow.setDate(tomorrow.getDate() + 1);
+            let tomorrowDate = tomorrow.toISOString().split('T')[0];
+
+            let startInput = document.getElementById("rental_start");
+            let endInput = document.getElementById("rental_end");
+
+            if (startInput && endInput) {
+                startInput.min = tomorrowDate;
+                startInput.value = tomorrowDate;
+                endInput.min = tomorrowDate;
+                endInput.value = tomorrowDate;
+            }
+        },
                 preConfirm: () => {
                     let data = {
                         product_id: {{ $product->id }},
