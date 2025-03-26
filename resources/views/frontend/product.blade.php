@@ -84,6 +84,7 @@
                                                                 <p class="card-text">
                                                                     {{ Str::limit(strip_tags($product->description), 50, '...') }}
                                                                 </p>
+                                                                <span>{{ $product->price }} {{ __('Type pice') }}</span>
                                                             </div>
                                                         </div>
                                                     </a>
