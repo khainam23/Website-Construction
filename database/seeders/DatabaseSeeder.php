@@ -261,7 +261,7 @@ class DatabaseSeeder extends Seeder
             ],
             [
                 'product_id' => 5,
-                'type' => 'rental',
+                'type' => 'sale',
                 'quantity' => 10,
                 'created_at' => now(),
                 'updated_at' => now(),

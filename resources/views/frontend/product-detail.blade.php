@@ -52,7 +52,7 @@
                                 </div>
                             </div>
                             <div class="col-12 mt-3">
-                                @if($product->producInventories?->quantity > 0)
+                                @if($product->productInventories?->quantity > 0)
                                     <h2>{{ __('Stock quantity') }}: <span>{{ $product->productInventories->quantity }}</span>
                                     </h2>
                                     <h4>{{ __('Price') }} {{ $product->type == 'sale' ? __('Sale') : __('Rental') }}:

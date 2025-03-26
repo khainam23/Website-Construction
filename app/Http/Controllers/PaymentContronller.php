@@ -168,6 +168,7 @@ class PaymentContronller extends Controller
             // Update inventory
             $productId = $item['product_id'] ?? $item['productId'] ?? $cart->product_id;
             $type = empty($item['end']) ? 'sale' : 'rental';
+            // Lấy số lượng tồn kho trong database 
             $inventory = ProductInventory::where([
                 'product_id' => $productId,
                 'type' => $type
@@ -179,7 +180,7 @@ class PaymentContronller extends Controller
 
                 // Check if inventory is low (less than 3)
                 if ($newQuantity < 3) {
-                    $this->sendLowInventoryAlert($productId, $type, $newQuantity);
+                    dispatch_sync($this->sendLowInventoryAlert($productId, $type, $newQuantity));
                 }
             }
 
