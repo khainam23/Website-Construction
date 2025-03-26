@@ -83,7 +83,7 @@ return new class extends Migration {
             $table->id();
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->foreignId('product_id')->constrained('products')->onDelete('cascade');
-            $table->unsignedBigInteger('cost', 10, 2);
+            $table->unsignedBigInteger('cost');
             $table->integer('quantity');
             $table->date('rental_start_date')->nullable();
             $table->date('rental_end_date')->nullable();
@@ -94,7 +94,7 @@ return new class extends Migration {
             $table->id();
             $table->enum('type', ['normal', 'vnpay'])->default('normal');
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
-            $table->unsignedBigInteger('total', 10, 2);
+            $table->unsignedBigInteger('total');
             $table->enum('status', ['pending', 'confirm', 'ship', 'delivery', 'return', 'cancel'])->default('pending');
             $table->text('address');
             $table->text('phone');
@@ -105,7 +105,7 @@ return new class extends Migration {
             $table->id();
             $table->foreignId('order_id')->constrained('orders')->onDelete('cascade');
             $table->foreignId('product_id')->constrained('products')->onDelete('cascade');
-            $table->unsignedBigInteger('cost', 10, 2);
+            $table->unsignedBigInteger('cost');
             $table->integer('quantity');
             $table->date('rental_start_date')->nullable();
             $table->date('rental_end_date')->nullable();
