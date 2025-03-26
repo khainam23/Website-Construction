@@ -433,12 +433,12 @@
         // Chọn loại thanh toán 
         function handlePayment(items) {
             Swal.fire({
-                title: "Choose payment method",
+                title: "{{ __('Choose payment method') }}",
                 showDenyButton: true,
                 showCancelButton: true,
-                confirmButtonText: "VNPAY",
-                denyButtonText: "Direct",
-                cancelButtonText: "Cancel",
+                confirmButtonText: "{{ __('VNPAY') }}",
+                denyButtonText: "{{ __('Direct') }}",
+                cancelButtonText: "{{ __('Cancel') }}",
                 icon: "question"
             }).then((result) => {
                 if (result.isConfirmed) {
@@ -458,15 +458,15 @@
             };
 
             return Swal.fire({
-                title: "Enter purchase information",
+                title: "{{ __('Enter purchase information') }}",
                 html: `
-                    <input id="swal-phone" class="swal2-input" placeholder="Phone number" type="phone" value="${paymentInfo.phone}">
-                    <input id="swal-address" class="swal2-input" placeholder="Address" value="${paymentInfo.address}">
+                    <input id="swal-phone" class="swal2-input" placeholder="{{ __('Phone number') }}" type="phone" value="${paymentInfo.phone}">
+                    <input id="swal-address" class="swal2-input" placeholder="{{ __('Address') }}" value="${paymentInfo.address}">
                 `,
                 focusConfirm: false,
                 showCancelButton: true,
-                confirmButtonText: "Confirm",
-                cancelButtonText: "Cancel",
+                confirmButtonText: "{{ __('Confirm') }}",
+                cancelButtonText: "{{ __('Cancel') }}",
                 preConfirm: () => {
                     return {
                         phone: document.getElementById("swal-phone").value,
@@ -493,8 +493,8 @@
                     data: JSON.stringify({ items: items, method: method, paymentInfo: paymentInfo }),
                     beforeSend: function () {
                         Swal.fire({
-                            title: "Processing...",
-                            text: "Please wait a moment!",
+                            title: "{{ __('Processing...') }}",
+                            text: "{{ __('Please wait a moment!') }}",
                             allowOutsideClick: false,
                             showConfirmButton: false,
                             willOpen: () => {
@@ -509,8 +509,8 @@
                             } else {
                                 Swal.fire({
                                     icon: "success",
-                                    title: "Payment successful!",
-                                    text: "The products have been paid.",
+                                    title: "{{ __('Payment successful!') }}",
+                                    text: "{{ __('The products have been paid.') }}",
                                     confirmButtonText: "OK"
                                 }).then(() => {
                                     window.location.href = "{{ route('web.profile') }}#orders"; // Chuyển hướng về trang đơn hàng
@@ -519,8 +519,8 @@
                         } else {
                             Swal.fire({
                                 icon: "error",
-                                title: "Payment error!",
-                                text: data.message || "An error occurred during payment.",
+                                title: "{{ __('Payment error!') }}",
+                                text: data.message || "{{ __('An error occurred during payment.') }}",
                                 confirmButtonText: "OK"
                             });
                         }
@@ -528,8 +528,8 @@
                     error: function (xhr, status, error) {
                         Swal.fire({
                             icon: "error",
-                            title: "Connection error!",
-                            text: "Cannot connect to the server, please check again.",
+                            title: "{{ __('Connection error!') }}",
+                            text: "{{ __('Cannot connect to the server, please check again.') }}",
                             confirmButtonText: "OK"
                         });
                         console.error("Error:", xhr.responseJSON);
@@ -583,22 +583,22 @@
                 if (selectedItems.length < 2) {
                     Swal.fire({
                         icon: "warning",
-                        title: "Select at least 2 products",
-                        text: "You need to select at least 2 products to pay!",
+                        title: "{{ __('Select at least 2 products') }}",
+                        text: "{{ __('You need to select at least 2 products to pay!') }}",
                         confirmButtonText: "OK"
                     });
                     return;
                 }
 
                 Swal.fire({
-                    title: "Confirm payment?",
-                    text: `You are paying for ${selectedItems.length} products.`,
+                    title: "{{ __('Confirm payment?') }}",
+                    text: `{{ __('You are paying for') }} ${selectedItems.length} {{ __('products.') }}`,
                     icon: "question",
                     showCancelButton: true,
                     confirmButtonColor: "#28a745",
                     cancelButtonColor: "#d33",
-                    confirmButtonText: "Pay",
-                    cancelButtonText: "Cancel"
+                    confirmButtonText: "{{ __('Pay') }}",
+                    cancelButtonText: "{{ __('Cancel') }}"
                 }).then((result) => {
                     if (result.isConfirmed) {
                         handlePayment(selectedItems);
@@ -626,12 +626,12 @@
                     formHtml += `
                         <div class="payment-item">
                             <h5>${item.name}</h5>
-                            <label>Quantity:</label>
+                            <label>{{ __('Quantity:') }}</label>
                             <input type="number" class="swal2-input" name="quantity_${item.id}" value="${item.quantity}" min="1">
                             ${item.end !== '-' ? `
-                                <label>Rental Date:</label>
+                                <label>{{ __('Rental Date:') }}</label>
                                 <input type="date" class="swal2-input" name="start_${item.id}" value="${formatDateForInput(item.start)}">
-                                <label>Return Date:</label>
+                                <label>{{ __('Return Date:') }}</label>
                                 <input type="date" class="swal2-input" name="end_${item.id}" value="${formatDateForInput(item.end)}">
                             ` : ""}
                             <input type="hidden" name="id_${item.id}" value="${item.id}">
@@ -646,11 +646,11 @@
                 formHtml += `</form>`;
 
                 Swal.fire({
-                    title: "Edit information before payment",
+                    title: "{{ __('Edit information before payment') }}",
                     html: formHtml,
                     showCancelButton: true,
-                    confirmButtonText: "Confirm",
-                    cancelButtonText: "Cancel",
+                    confirmButtonText: "{{ __('Confirm') }}",
+                    cancelButtonText: "{{ __('Cancel') }}",
                     preConfirm: () => {
                         let updatedItems = [];
                         items.forEach(item => {
