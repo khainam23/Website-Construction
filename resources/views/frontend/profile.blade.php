@@ -49,7 +49,7 @@
                 </div>
                 <div class="form-group">
                     <label>{{ __('Date of Birth') }}:</label>
-                    <input type="date" class="form-control" name="date_of_birth" value="{{ $infoUser->date_of_birth }}" min="2007-06-06">
+                    <input type="date" class="form-control" name="date_of_birth" value="{{ $infoUser->date_of_birth }}" max="2007-06-06">
                 </div>
                 <div class="form-group">
                     <label>{{ __('Gender') }}:</label>
@@ -305,8 +305,8 @@
                 if (!hasChanged) {
                     Swal.fire({
                         icon: 'info',
-                        title: "{{ __('No changes!') }}",
-                        text: "{{ __('Not Found')) }}",
+                        title: "{{ __('No changes') }}",
+                        text: "{{ __('Not Found') }}",
                     });
                     return;
                 }
