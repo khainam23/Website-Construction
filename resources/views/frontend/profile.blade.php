@@ -49,7 +49,7 @@
                 </div>
                 <div class="form-group">
                     <label>{{ __('Date of Birth') }}:</label>
-                    <input type="date" class="form-control" name="date_of_birth" value="{{ $infoUser->date_of_birth }}">
+                    <input type="date" class="form-control" name="date_of_birth" value="{{ $infoUser->date_of_birth }}" min="2007-06-06">
                 </div>
                 <div class="form-group">
                     <label>{{ __('Gender') }}:</label>
@@ -305,8 +305,8 @@
                 if (!hasChanged) {
                     Swal.fire({
                         icon: 'info',
-                        title: 'No changes!',
-                        text: 'You have not changed any information.',
+                        title: "{{ __('No changes!') }}",
+                        text: "{{ __('Not Found')) }}",
                     });
                     return;
                 }
@@ -321,9 +321,9 @@
                         'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
                     },
                     beforeSend: function () {
-                        Swal.fire({
-                            title: "Processing...",
-                            text: "Please wait a moment!",
+                         Swal.fire({
+                            title: "{{ __('Processing...') }}",
+                            text: "{{ __('Please wait a moment!') }}",
                             allowOutsideClick: false,
                             showConfirmButton: false,
                             willOpen: () => {
@@ -403,9 +403,9 @@
                         _token: "{{ csrf_token() }}"
                     },
                     beforeSend: function () {
-                        Swal.fire({
-                            title: "Processing...",
-                            text: "Please wait a moment!",
+                         Swal.fire({
+                            title: "{{ __('Processing...') }}",
+                            text: "{{ __('Please wait a moment!') }}",
                             allowOutsideClick: false,
                             showConfirmButton: false,
                             willOpen: () => {
