@@ -87,7 +87,6 @@
         function exportExcel() {
             // Dữ liệu từ Laravel Blade
             let products = @json($products);
-            products = products.data;
 
             // Chuyển đổi dữ liệu thành mảng JSON
             let data = products.map((product, index) => ({
