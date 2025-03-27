@@ -1053,5 +1053,7 @@
   "Search by ID, Customer Name...": "ຄົ້ນຫາໂດຍ ID, ຊື່ລູກຄ້າ...",
   "Customer": "ລູກຄ້າ",
   "Seller": "ບົດບາດຂາຍ",
-  "All Roles": "ບົດບາດທັງໝົດ"
+  "All Roles": "ບົດບາດທັງໝົດ",
+  "Search by Order ID, Customer Name...": "ຄົ້ນຫາໂດຍ ID ຄຳສັ່ງ, ຊື່ລູກຄ້າ...",
+  "All Statuses": "ສະຖານະທັງໝົດ"
 }

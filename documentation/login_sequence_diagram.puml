@@ -1,0 +1,66 @@
+@startuml Quy Trình Đăng Nhập
+title Sơ Đồ Tuần Tự Quy Trình Đăng Nhập
+
+actor "Người Dùng" as User
+participant "Trang Đăng Nhập\n(frontend.login.blade.php)" as LoginPage
+participant "Yêu Cầu AJAX" as Ajax
+participant "LoginController" as Controller
+participant "Facade Xác Thực" as Auth
+database "Cơ Sở Dữ Liệu" as DB
+participant "Phiên Làm Việc" as Session
+
+User -> LoginPage: Truy cập trang đăng nhập
+User -> LoginPage: Điền form đăng nhập (email, mật khẩu)
+User -> LoginPage: Gửi form đăng nhập
+activate LoginPage
+
+LoginPage -> Ajax: Gửi dữ liệu form qua AJAX
+activate Ajax
+Ajax -> Controller: Gửi yêu cầu POST đến route api.login
+activate Controller
+
+Controller -> Controller: Xác thực dữ liệu đầu vào
+Controller -> Auth: attempt(thông tin đăng nhập, is_active=1)
+activate Auth
+
+Auth -> DB: Truy vấn người dùng theo email và kiểm tra mật khẩu
+activate DB
+DB --> Auth: Trả về dữ liệu người dùng nếu tồn tại
+deactivate DB
+
+alt Xác thực thành công
+    Auth --> Controller: Trả về true
+    Controller -> Session: Lưu thông tin người dùng vào phiên
+    activate Session
+    Session --> Controller: Phiên được tạo
+    deactivate Session
+    
+    Controller -> Controller: Xác định chuyển hướng dựa trên vai trò
+    
+    alt Vai trò Admin
+        Controller --> Ajax: Trả về thành công với URL bảng điều khiển admin
+    else Vai trò Sale
+        Controller --> Ajax: Trả về thành công với URL bảng điều khiển sale
+    else Vai trò Kho
+        Controller --> Ajax: Trả về thành công với URL bảng điều khiển kho
+    else Vai trò Khách hàng
+        Controller --> Ajax: Trả về thành công với URL trang chủ
+    end
+    
+    Ajax --> LoginPage: Hiển thị thông báo thành công
+    LoginPage --> User: Hiển thị thông báo thành công
+    LoginPage --> User: Chuyển hướng đến trang thích hợp
+
+else Xác thực thất bại
+    Auth --> Controller: Trả về false
+    Controller --> Ajax: Trả về lỗi (403 Forbidden)
+    Ajax --> LoginPage: Hiển thị thông báo lỗi
+    LoginPage --> User: Hiển thị thông báo thông tin đăng nhập không hợp lệ
+end
+
+deactivate Auth
+deactivate Controller
+deactivate Ajax
+deactivate LoginPage
+
+@enduml

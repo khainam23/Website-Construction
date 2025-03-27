@@ -982,5 +982,7 @@
     "Search by ID, Customer Name...": "Search by ID, Customer Name...",
     "Customer": "Customer",
     "Seller": "Saler",
-    "All Roles": "All Roles"
+    "All Roles": "All Roles",
+    "Search by Order ID, Customer Name...": "Search by Order ID, Customer Name...",
+    "All Statuses": "All Statuses"
 }

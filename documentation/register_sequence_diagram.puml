@@ -1,0 +1,63 @@
+@startuml Quy Trình Đăng Ký
+title Sơ Đồ Tuần Tự Quy Trình Đăng Ký
+
+actor "Người Dùng" as User
+participant "Trang Đăng Ký\n(frontend.register.blade.php)" as RegisterPage
+participant "Xác Thực Form\n(JavaScript)" as FormJS
+participant "Yêu Cầu AJAX" as Ajax
+participant "RegisterController" as Controller
+database "Cơ Sở Dữ Liệu" as DB
+participant "Dịch Vụ Email" as Email
+
+User -> RegisterPage: Truy cập trang đăng ký
+User -> RegisterPage: Điền form đăng ký
+User -> RegisterPage: Gửi form đăng ký
+activate RegisterPage
+
+RegisterPage -> FormJS: Xác thực định dạng số điện thoại
+activate FormJS
+
+alt Số điện thoại không hợp lệ
+    FormJS --> RegisterPage: Hiển thị lỗi xác thực số điện thoại
+    RegisterPage --> User: Hiển thị thông báo lỗi
+else Số điện thoại hợp lệ
+    FormJS -> Ajax: Gửi dữ liệu form qua AJAX
+    activate Ajax
+    Ajax -> Controller: Gửi yêu cầu POST đến route api.register
+    activate Controller
+    
+    Controller -> Controller: Xác thực dữ liệu đầu vào
+    
+    alt Xác thực thất bại
+        Controller --> Ajax: Trả về lỗi xác thực
+        Ajax --> RegisterPage: Hiển thị lỗi xác thực
+        RegisterPage --> User: Hiển thị thông báo lỗi
+    else Xác thực thành công
+        opt Người dùng tải lên avatar
+            Controller -> Controller: Xử lý và lưu file avatar
+        end
+        
+        Controller -> DB: Tạo người dùng mới (is_active=0)
+        activate DB
+        DB --> Controller: Trả về người dùng đã tạo
+        deactivate DB
+        
+        Controller -> Email: Gửi email xác thực
+        activate Email
+        Email --> Controller: Email đã gửi
+        deactivate Email
+        
+        Controller --> Ajax: Trả về phản hồi thành công
+        Ajax --> RegisterPage: Hiển thị thông báo thành công
+        RegisterPage --> User: Hiển thị thông báo đăng ký thành công
+        RegisterPage --> User: Chuyển hướng đến trang đăng nhập
+    end
+    
+    deactivate Controller
+    deactivate Ajax
+end
+
+deactivate FormJS
+deactivate RegisterPage
+
+@enduml

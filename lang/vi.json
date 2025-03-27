@@ -1038,5 +1038,7 @@
     "Search by ID, Customer Name...": "Tìm kiếm theo ID, Tên Khách Hàng...",
     "Customer": "Khách Hàng",
     "Seller": "Người Bán Hàng",
-    "All Roles": "Tất Cả Vai Trò"
+    "All Roles": "Tất Cả Vai Trò",
+    "Search by Order ID, Customer Name...": "Tìm kiếm theo ID Đơn Hàng, Tên Khách Hàng...",
+    "All Statuses": "Tất Cả Trạng Thái"
 }
