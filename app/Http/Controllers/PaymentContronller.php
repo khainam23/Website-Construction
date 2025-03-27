@@ -9,6 +9,7 @@ use App\Models\OrderDetail;
 use App\Models\Crat;
 use App\Models\ProductInventory;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Queue;
 
 class PaymentContronller extends Controller
 {
@@ -134,8 +135,8 @@ class PaymentContronller extends Controller
         // Xử lý từng sản phẩm trong giỏ hàng
         collect($items)->each(function ($item) use ($order, &$totalAmount, $userId) {
             $cart = null;
-
-            if (empty($item['end'])) {
+            // Kiểm tra nếu có điều chỉnh
+            if (isset($item['end'])) {
                 // Nếu không có điều chỉnh, lấy thông tin từ giỏ hàng
                 $cart = Cart::where([
                     'id' => $item['id'],
@@ -180,7 +181,7 @@ class PaymentContronller extends Controller
 
                 // Check if inventory is low (less than 3)
                 if ($newQuantity < 3) {
-                    dispatch_sync($this->sendLowInventoryAlert($productId, $type, $newQuantity));
+                    $this->sendLowInventoryAlert($productId, $type, $newQuantity);
                 }
             }
 

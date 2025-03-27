@@ -16,7 +16,15 @@ class ProfileController extends Controller
 
         $infoUser = User::where('id', $userId)->first()->makeHidden(['password', 'verification_token', 'role', 'is_active', 'last_login', 'email_verified_at']);
 
-        $cartItems = Cart::where('user_id', $userId)->get();
+        $cartItems = Cart::where('user_id', $userId)
+            ->with(['product.productInventories' => function ($query) {
+                $query->select('product_id', 'quantity');
+            }])
+            ->get()
+            ->map(function ($item) {
+                $item->max_quantity = $item->product->productInventories->quantity ?? 0;
+                return $item;
+            });
 
         $orders = Order::where('user_id', $userId)
             ->where('status', '!=', 'pending') // Loại bỏ đơn hàng có status là pending

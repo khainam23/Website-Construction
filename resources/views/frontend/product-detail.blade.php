@@ -237,10 +237,10 @@
 
                         @if($product->type == 'rental')
                             <label class="fw-bold">{{ __('Start Date:') }}</label>
-                    <input type="date" id="rental_start" class="form-control mb-2">
+                            <input type="date" id="rental_start" class="form-control mb-2">
 
-                    <label class="fw-bold">{{ __('End Date:') }}</label>
-                    <input type="date" id="rental_end" class="form-control mb-2" onchange="updateTotalPrice()">
+                            <label class="fw-bold">{{ __('End Date:') }}</label>
+                            <input type="date" id="rental_end" class="form-control mb-2" onchange="updateTotalPrice()">
                         @endif
 
                         <label class="fw-bold">{{ __('Total Price:') }}</label>
