@@ -57,4 +57,12 @@ class OrderController extends Controller
 
         return response()->json(['success' => true]);
     }
+
+    public function cancel(Request $request)
+    {
+        $order = Order::find($request->orderId);
+        $order->status = 'cancel';
+        $order->save();
+        return response()->json(['success' => true]);
+    }
 }

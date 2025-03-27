@@ -173,7 +173,10 @@
                             </ul>
                         </td>
                         <td>
-                            <button class="btn btn-danger">Hủy</button>
+                            <button id="cancel" class="btn {{ $order['status']=='confirm' ? 'btn-danger' : 'btn-secondary' }}"
+                                {{ $order['status']=='confirm' ? '' : 'disabled' }}>
+                                Hủy
+                            </button>
                         </td>
                     </tr>
                     @endforeach
@@ -760,5 +763,58 @@
             }]);
         });
     });
+</script>
+
+<!-- Hủy đơn hàng -->
+<script>
+    $(document).ready(function() {
+        $("#cancel.btn-danger").on("click", function() {
+            let row = $(this).closest("tr");
+            let orderId = row.find("td:nth-child(1)").text().trim();
+
+            Swal.fire({
+                title: "{{ __('Are you sure?') }}",
+                text: "{{ __('You will not be able to recover this order!') }}",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#d33",
+                cancelButtonColor: "#3085d6",
+                confirmButtonText: "{{ __('Yes, cancel it!') }}"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: "{{ route('api.order.cancel') }}",
+                        type: "POST",
+                        headers: {
+                            "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content")
+                        },
+                        contentType: "application/json",
+                        data: JSON.stringify({
+                            orderId: orderId
+                        }),
+                        success: function(data) {
+                            Swal.fire({
+                                icon: "success",
+                                title: "{{ __('Order canceled!') }}",
+                                text: "{{ __('The order has been canceled.') }}",
+                                confirmButtonText: "OK"
+                            }).then(() => {
+                                window.location.reload();
+                            });
+                        },
+                        error: function(xhr, status, error) {
+                            Swal.fire({
+                                icon: "error",
+                                title: "{{ __('Error!') }}",
+                                text: "{{ __('An error occurred while canceling the order.') }}",
+                                confirmButtonText: "OK"
+                            });
+                            console.error("Error:", xhr.responseText);
+                        }
+                    })
+                }
+            })
+        })
+    })
 </script>
 @endsection

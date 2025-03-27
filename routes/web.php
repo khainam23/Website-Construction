@@ -66,6 +66,7 @@ Route::middleware([LanguageMiddleware::class])->group(function () {
         Route::post('/cart/add', [CartController::class, 'add'])->name('api.cart.add');
         Route::post('/cart/payment', [PaymentContronller::class, 'all'])->name('api.payment');
         Route::get('/payment/vnpay/return', [PaymentContronller::class, 'vnpayReturn'])->name('api.payment.vnpay.return');
+        Route::post('/order/cancel', [OrderController::class, 'cancel'])->name('api.order.cancel');
     });
 
     // Dành cho việc điều hành sản phẩm
