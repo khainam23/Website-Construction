@@ -9,18 +9,13 @@ class OrderController extends Controller
 {
     public function index(Request $request)
     {
-        $search = $request->input('search');
-        $orders = Order::query()
-            ->when($search, function ($query, $search) {
-                return $query->where('id', 'like', "%{$search}%")
-                    ->orWhereHas('user', function ($userQuery) use ($search) {
-                        $userQuery->where('first_name', 'like', "%{$search}%")
-                            ->orWhere('last_name', 'like', "%{$search}%");
-                    });
-            })
-            ->paginate(10);
+        // Get all orders without filtering for client-side filtering
+        $orders = Order::with(['user', 'details.product'])->paginate(10);
 
-        return view('admin.orders.index', compact('orders'));
+        // Get all available statuses for filter dropdown
+        $statuses = ['pending', 'confirm', 'ship', 'delivery', 'return', 'cancel'];
+
+        return view('admin.orders.index', compact('orders', 'statuses'));
     }
 
     public function show(Order $order)
