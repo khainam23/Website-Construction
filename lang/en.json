@@ -935,7 +935,7 @@
     "No data available": "No data available",
     "Week": "Week",
     "rental": "rental",
-    "staff": "staff",
+    "sale": "sale",
     "N/A": "N/A",
     "Rental Revenue": "Rental Revenue",
     "Sales Revenue": "Sales Revenue",
@@ -982,5 +982,7 @@
     "Search by ID, Customer Name...": "Search by ID, Customer Name...",
     "Customer": "Customer",
     "Seller": "Saler",
-    "All Roles": "All Roles"
+    "All Roles": "All Roles",
+    "Search by Order ID, Customer Name...": "Search by Order ID, Customer Name...",
+    "All Statuses": "All Statuses"
 }
