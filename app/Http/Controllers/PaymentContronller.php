@@ -6,10 +6,11 @@ use Illuminate\Http\Request;
 use App\Models\Cart;
 use App\Models\Order;
 use App\Models\OrderDetail;
-use App\Models\Crat;
 use App\Models\ProductInventory;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Queue;
+use App\Models\Product; // Added for product name lookup
+use Illuminate\Support\Facades\Log; // Added for logging
 
 class PaymentContronller extends Controller
 {
@@ -131,35 +132,40 @@ class PaymentContronller extends Controller
         ]);
 
         $totalAmount = 0; // Tổng tiền đơn hàng
+        $processedCartIds = []; // Track cart IDs to delete later
 
         // Xử lý từng sản phẩm trong giỏ hàng
-        collect($items)->each(function ($item) use ($order, &$totalAmount, $userId) {
+        collect($items)->each(function ($item) use ($order, &$totalAmount, $userId, &$processedCartIds) {
             $cart = null;
-            // Kiểm tra nếu có điều chỉnh
-            if (isset($item['end'])) {
-                // Nếu không có điều chỉnh, lấy thông tin từ giỏ hàng
-                $cart = Cart::where([
-                    'id' => $item['id'],
-                    'user_id' => $userId,
-                    'product_id' => $item['product_id'] ?? $item['productId'],
-                ])->first();
+            $itemId = $item['id'] ?? null;
+            $productId = $item['product_id'] ?? $item['productId'] ?? null;
+            
+            // Find cart item regardless of whether there's end date or not
+            $cart = Cart::where([
+                'id' => $itemId,
+                'user_id' => $userId,
+            ])->first();
 
-                if (!$cart)
-                    return; // Bỏ qua nếu giỏ hàng không tồn tại
-
-                // Cập nhật lại thông tin từ giỏ hàng
-                $item = array_merge($item, [
-                    'quantity' => optional($cart)->quantity ?? 0,
-                    'cost' => optional($cart)->cost ?? 0,
-                    'start' => optional($cart)->rental_start_date,
-                    'end' => optional($cart)->rental_end_date,
-                ]);
+            // If we found a valid cart, add its ID to processed list
+            if ($cart) {
+                $processedCartIds[] = $cart->id;
+                
+                // If product ID wasn't set in the item, get it from cart
+                if (!$productId) {
+                    $productId = $cart->product_id;
+                }
+                
+                // Use cart values if not provided in the item
+                if (!isset($item['quantity'])) $item['quantity'] = $cart->quantity;
+                if (!isset($item['cost'])) $item['cost'] = $cart->cost;
+                if (!isset($item['start'])) $item['start'] = $cart->rental_start_date;
+                if (!isset($item['end'])) $item['end'] = $cart->rental_end_date;
             }
 
             // Tạo OrderDetail
             OrderDetail::create([
                 'order_id' => $order->id,
-                'product_id' => $item['product_id'] ?? $item['productId'] ?? $cart->product_id,
+                'product_id' => $productId,
                 'quantity' => $item['quantity'],
                 'cost' => $item['cost'],
                 'rental_start_date' => $item['start'] ?? null,
@@ -167,7 +173,6 @@ class PaymentContronller extends Controller
             ]);
 
             // Update inventory
-            $productId = $item['product_id'] ?? $item['productId'] ?? $cart->product_id;
             $type = empty($item['end']) ? 'sale' : 'rental';
             // Lấy số lượng tồn kho trong database 
             $inventory = ProductInventory::where([
@@ -185,12 +190,15 @@ class PaymentContronller extends Controller
                 }
             }
 
-            // Xóa sản phẩm khỏi giỏ hàng nếu có
-            $cart?->delete();
-
             // Cộng dồn tổng tiền đơn hàng (chuyển `null` thành `0` nếu có)
             $totalAmount += (float) ($item['cost'] ?? 0);
         });
+        
+        // Delete all cart items processed in this order
+        if (!empty($processedCartIds)) {
+            Cart::whereIn('id', $processedCartIds)->delete();
+            Log::info('Deleted cart items after payment: ' . implode(', ', $processedCartIds));
+        }
 
         $type = session()->remove('type-vnpay') ?? 'confirm';
 
@@ -209,15 +217,29 @@ class PaymentContronller extends Controller
 
     private function sendLowInventoryAlert($productId, $type, $quantity)
     {
-        $adminEmail = env('MAIL_USERNAME');
-
-        Mail::send('frontend.low-inventory', [
-            'product_id' => $productId,
-            'type' => $type,
-            'quantity' => $quantity
-        ], function ($message) use ($adminEmail) {
-            $message->to($adminEmail)
-                ->subject('Cảnh báo: Hàng tồn kho thấp');
-        });
+        try {
+            $adminEmail = env('MAIL_USERNAME');
+            $product = Product::find($productId);
+            $productName = $product ? $product->name : "Product ID: $productId";
+            
+            $typeText = $type == 'sale' ? 'Bán' : 'Cho thuê';
+            
+            Log::info("Sending low inventory alert for product: $productId ($productName), type: $type, quantity: $quantity");
+            
+            Mail::send('frontend.low-inventory', [
+                'product_id' => $productId,
+                'product_name' => $productName,
+                'type' => $type,
+                'type_text' => $typeText,
+                'quantity' => $quantity
+            ], function ($message) use ($adminEmail, $productName) {
+                $message->to($adminEmail)
+                    ->subject("Cảnh báo: Hàng tồn kho thấp - $productName");
+            });
+            
+            Log::info("Low inventory email sent successfully");
+        } catch (\Exception $e) {
+            Log::error("Failed to send low inventory email: " . $e->getMessage());
+        }
     }
 }

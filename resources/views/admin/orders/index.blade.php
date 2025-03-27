@@ -236,7 +236,7 @@
                                     <div>{{ $order->user->first_name }} {{ $order->user->last_name }}</div>
                                 </td>
                                 <td>
-                                    <span class="fw-bold">{{ $order->total }}</span>
+                                    <span class="fw-bold">{{ number_format($order->calculated_total, 0, ',', '.') }} đ</span>
                                 </td>
                                 <td>
                                     @php
@@ -264,10 +264,14 @@
                                         @foreach($order->details as $detail)
                                             <div class="order-item">
                                                 <strong>{{ $detail->product->name }}</strong> × {{ $detail->quantity }}
-                                                <div class="text-muted small">{{ $detail->cost }}</div>
-                                                @if($detail->rental_start && $detail->rental_end && $detail->duration)
+                                                <div class="text-muted small">{{ number_format($detail->cost * $detail->quantity, 0, ',', '.') }} đ</div>
+                                                @if($detail->rental_start_date && $detail->rental_end_date)
                                                     <div class="small text-primary">
-                                                        <i class="far fa-calendar-alt me-1"></i> {{ $detail->rental_start }} → {{ $detail->rental_end }} ({{ $detail->duration }})
+                                                        <i class="far fa-calendar-alt me-1"></i> 
+                                                        {{ $detail->rental_start_date }} → {{ $detail->rental_end_date }}
+                                                        @if($detail->duration)
+                                                            ({{ $detail->duration }})
+                                                        @endif
                                                     </div>
                                                 @endif
                                             </div>

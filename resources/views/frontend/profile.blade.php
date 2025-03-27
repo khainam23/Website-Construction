@@ -67,6 +67,11 @@
         <div id="cart" class="content-section">
             <h2>{{ __('Cart') }}</h2>
             @if($cartItems)
+            <div class="cart-actions mb-3">
+                <button id="deleteSelectedBtn" class="btn btn-danger" disabled>
+                    <i class="bi bi-trash"></i> {{ __('Delete Selected') }}
+                </button>
+            </div>
             <table>
                 <thead>
                     <tr>
@@ -78,7 +83,7 @@
                         <th>{{ __('Quantity') }}</th>
                         <th>{{ __('Rental Date') }}</th>
                         <th>{{ __('Return Date') }}</th>
-                        <th>{{ __('Payment') }}</th>
+                        <th>{{ __('Actions') }}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -101,18 +106,25 @@
                         <td>{{ $item->rental_end_date ? \Carbon\Carbon::parse($item->rental_end_date)->format('d/m/Y') : '-' }}
                         </td>
                         <td>
-                            <button class="btn btn-success">
-                                <i class="bi bi-credit-card"></i> {{ __('Payment') }}
-                            </button>
+                            <div class="btn-group">
+                                <button class="btn btn-success payment-btn">
+                                    <i class="bi bi-credit-card"></i> {{ __('Payment') }}
+                                </button>
+                                <button class="btn btn-danger delete-btn" data-id="{{ $item->id }}">
+                                    <i class="bi bi-trash"></i> {{ __('Delete') }}
+                                </button>
+                            </div>
                         </td>
                     </tr>
                     @endforeach
                 </tbody>
             </table>
 
-            <button id="bulkPaymentBtn" class="btn btn-primary mt-3">
-                <i class="bi bi-cash"></i> {{ __('Pay for selected products') }}
-            </button>
+            <div class="cart-actions mt-3">
+                <button id="bulkPaymentBtn" class="btn btn-primary">
+                    <i class="bi bi-cash"></i> {{ __('Pay for selected products') }}
+                </button>
+            </div>
             @else
             <span>{{ __('The cart is empty') }}</span>
             @endIf
@@ -175,7 +187,7 @@
                         <td>
                             <button id="cancel" class="btn {{ $order['status']=='confirm' ? 'btn-danger' : 'btn-secondary' }}"
                                 {{ $order['status']=='confirm' ? '' : 'disabled' }}>
-                                Hủy
+                                {{ __('Cancel') }}
                             </button>
                         </td>
                     </tr>
@@ -737,7 +749,7 @@
             });
         }
 
-        $(".btn-success").on("click", function() {
+        $(".payment-btn").on("click", function() {
             let row = $(this).closest("tr");
             let itemCheckbox = row.find(".selectItem");
             let itemId = itemCheckbox.val();
@@ -762,6 +774,117 @@
                 maxQuantity: maxQuantity
             }]);
         });
+    });
+</script>
+
+<!-- Xóa giỏ hàng -->
+<script>
+    $(document).ready(function() {
+        const selectAllCheckbox = $("#selectAll");
+        const itemCheckboxes = $(".selectItem");
+        const bulkPaymentBtn = $("#bulkPaymentBtn");
+        const deleteSelectedBtn = $("#deleteSelectedBtn");
+
+        function updateButtonState() {
+            let selectedCount = $(".selectItem:checked").length;
+            bulkPaymentBtn.prop("disabled", selectedCount < 2);
+            deleteSelectedBtn.prop("disabled", selectedCount === 0);
+            selectAllCheckbox.prop("checked", selectedCount === itemCheckboxes.length && selectedCount > 0);
+        }
+
+        // Khi nhấn chọn tất cả
+        selectAllCheckbox.on("change", function() {
+            itemCheckboxes.prop("checked", this.checked);
+            updateButtonState();
+        });
+
+        // Khi chọn từng sản phẩm
+        itemCheckboxes.on("change", updateButtonState);
+
+        // Xử lý xóa từng sản phẩm
+        $(".delete-btn").on("click", function() {
+            const itemId = $(this).data("id");
+            deleteCartItems([itemId]);
+        });
+
+        // Xử lý xóa nhiều sản phẩm
+        $("#deleteSelectedBtn").on("click", function() {
+            let selectedItems = $(".selectItem:checked").map(function() {
+                return $(this).val();
+            }).get();
+
+            if (selectedItems.length === 0) {
+                Swal.fire({
+                    icon: "warning",
+                    title: "{{ __('No items selected') }}",
+                    text: "{{ __('Please select at least one item to delete.') }}",
+                    confirmButtonText: "OK"
+                });
+                return;
+            }
+
+            deleteCartItems(selectedItems);
+        });
+
+        // Hàm xóa giỏ hàng
+        function deleteCartItems(itemIds) {
+            Swal.fire({
+                title: "{{ __('Are you sure?') }}",
+                text: itemIds.length > 1 
+                    ? "{{ __('You are about to delete') }} " + itemIds.length + " {{ __('items from your cart.') }}"
+                    : "{{ __('You are about to delete this item from your cart.') }}",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#d33",
+                cancelButtonColor: "#3085d6",
+                confirmButtonText: "{{ __('Yes, delete it!') }}",
+                cancelButtonText: "{{ __('Cancel') }}"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: "{{ route('api.cart.delete') }}",
+                        type: "POST",
+                        data: {
+                            ids: itemIds,
+                            _token: "{{ csrf_token() }}"
+                        },
+                        beforeSend: function() {
+                            Swal.fire({
+                                title: "{{ __('Processing...') }}",
+                                text: "{{ __('Please wait a moment!') }}",
+                                allowOutsideClick: false,
+                                showConfirmButton: false,
+                                willOpen: () => {
+                                    Swal.showLoading();
+                                }
+                            });
+                        },
+                        success: function(response) {
+                            Swal.fire({
+                                icon: "success",
+                                title: "{{ __('Deleted!') }}",
+                                text: response.message || "{{ __('Cart items have been deleted.') }}",
+                                confirmButtonText: "OK"
+                            }).then(() => {
+                                // Reload the page to refresh cart
+                                window.location.reload();
+                            });
+                        },
+                        error: function(xhr) {
+                            Swal.fire({
+                                icon: "error",
+                                title: "{{ __('Error!') }}",
+                                text: xhr.responseJSON?.message || "{{ __('An error occurred while deleting items.') }}",
+                                confirmButtonText: "OK"
+                            });
+                        }
+                    });
+                }
+            });
+        }
+
+        // Update button states on page load
+        updateButtonState();
     });
 </script>
 

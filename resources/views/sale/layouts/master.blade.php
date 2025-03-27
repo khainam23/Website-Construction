@@ -286,10 +286,73 @@
             var navLinks = document.querySelectorAll('.sidebar .nav-link');
 
             navLinks.forEach(function (link) {
-                if (link.href === currentRoute) {
-                    link.classList.add('active');
-                } else {
-                    link.classList.remove('active');
+                if (!link.classList.contains('logout-button')) {
+                    try {
+                        // Extract URLs for comparison
+                        var linkUrl = new URL(link.href);
+                        var currentUrl = new URL(currentRoute);
+                        
+                        // Get clean path segments
+                        var linkPath = linkUrl.pathname.replace(/\/+$/, '');
+                        var currentPath = currentUrl.pathname.replace(/\/+$/, '');
+                        
+                        // Split paths into segments for more accurate comparison
+                        var linkSegments = linkPath.split('/').filter(Boolean);
+                        var currentSegments = currentPath.split('/').filter(Boolean);
+                        
+                        // Initialize active state as false
+                        var isActive = false;
+                        
+                        // Extract menu identifier from the link (what specific page it's for)
+                        var linkIdentifier = '';
+                        if (link.getAttribute('href').includes('dashboard')) {
+                            linkIdentifier = 'dashboard';
+                        } else if (link.getAttribute('href').includes('sales.index')) {
+                            linkIdentifier = 'sales';
+                        } else if (link.getAttribute('href').includes('products')) {
+                            linkIdentifier = 'products';
+                        } else if (link.getAttribute('href').includes('revenue')) {
+                            linkIdentifier = 'revenue';
+                        } else if (link.getAttribute('href').includes('productSales')) {
+                            linkIdentifier = 'productSales';
+                        }
+                        
+                        // Case 1: Exact path match
+                        if (currentPath === linkPath) {
+                            isActive = true;
+                        } 
+                        // Case 2: More specific matching for each section
+                        else {
+                            switch (linkIdentifier) {
+                                case 'dashboard':
+                                    isActive = currentPath.endsWith('dashboard') || currentPath.endsWith('sale/dashboard');
+                                    break;
+                                case 'sales':
+                                    isActive = (currentPath.includes('/sales') || currentPath.includes('sale.sales')) && 
+                                              !currentPath.includes('revenue') && 
+                                              !currentPath.includes('productSales');
+                                    break;
+                                case 'products':
+                                    isActive = currentPath.includes('products');
+                                    break;
+                                case 'revenue':
+                                    isActive = currentPath.includes('revenue');
+                                    break;
+                                case 'productSales':
+                                    isActive = currentPath.includes('productSales');
+                                    break;
+                            }
+                        }
+                        
+                        // Apply active class based on determination
+                        if (isActive) {
+                            link.classList.add('active');
+                        } else {
+                            link.classList.remove('active');
+                        }
+                    } catch (e) {
+                        console.error("Error in active link detection:", e);
+                    }
                 }
             });
             

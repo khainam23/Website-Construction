@@ -23,9 +23,9 @@ class RevenueController extends Controller
         $startDate = $request->input('start_date', Carbon::now()->subDays(30)->format('Y-m-d'));
         $endDate = $request->input('end_date', Carbon::now()->format('Y-m-d'));
         
-        // Convert strings to Carbon instances
-        $startDateCarbon = Carbon::parse($startDate);
-        $endDateCarbon = Carbon::parse($endDate);
+        // Convert strings to Carbon instances and ensure end date includes current time
+        $startDateCarbon = Carbon::parse($startDate)->startOfDay();
+        $endDateCarbon = Carbon::parse($endDate)->endOfDay(); // Changed to end of day
         
         // Get revenue data with date filters
         $dailyRevenue = $this->getDailyRevenue($startDateCarbon, $endDateCarbon);
@@ -74,43 +74,44 @@ class RevenueController extends Controller
     // Get summary statistics for immediate display
     private function getSummaryStatistics($startDate, $endDate)
     {
-        $totalRevenue = OrderDetail::whereBetween('created_at', [$startDate, $endDate])
+        $totalRevenue = OrderDetail::whereBetween('created_at', [$startDate->toDateTimeString(), $endDate->toDateTimeString()])
             ->sum(DB::raw('cost * quantity'));
             
-        $totalOrders = Order::whereBetween('created_at', [$startDate, $endDate])
+        $totalOrders = Order::whereBetween('created_at', [$startDate->toDateTimeString(), $endDate->toDateTimeString()])
             ->count();
             
-        $totalSalesRevenue = OrderDetail::whereBetween('created_at', [$startDate, $endDate])
+        $totalSalesRevenue = OrderDetail::whereBetween('created_at', [$startDate->toDateTimeString(), $endDate->toDateTimeString()])
             ->whereNull('rental_start_date')
             ->sum(DB::raw('cost * quantity'));
             
-        $totalRentalRevenue = OrderDetail::whereBetween('created_at', [$startDate, $endDate])
+        $totalRentalRevenue = OrderDetail::whereBetween('created_at', [$startDate->toDateTimeString(), $endDate->toDateTimeString()])
             ->whereNotNull('rental_start_date')
             ->sum(DB::raw('cost * quantity'));
             
         $averageOrderValue = $totalOrders > 0 ? $totalRevenue / $totalOrders : 0;
 
-        // Get today's revenue
+        // Get today's revenue - use current time
         $today = Carbon::today();
-        $todayRevenue = OrderDetail::whereDate('created_at', $today)
+        $todayEnd = Carbon::today()->endOfDay();
+        $todayRevenue = OrderDetail::whereBetween('created_at', [$today->toDateTimeString(), $todayEnd->toDateTimeString()])
             ->sum(DB::raw('cost * quantity'));
             
-        // Get this week's revenue
+        // Get this week's revenue - use current time
         $startOfWeek = Carbon::now()->startOfWeek();
-        $endOfWeek = Carbon::now()->endOfWeek();
-        $thisWeekRevenue = OrderDetail::whereBetween('created_at', [$startOfWeek, $endOfWeek])
+        $endOfWeek = Carbon::now(); // Current time, not end of week
+        $thisWeekRevenue = OrderDetail::whereBetween('created_at', [$startOfWeek->toDateTimeString(), $endOfWeek->toDateTimeString()])
             ->sum(DB::raw('cost * quantity'));
             
-        // Get this month's revenue
+        // Get this month's revenue - use current time
         $startOfMonth = Carbon::now()->startOfMonth();
-        $endOfMonth = Carbon::now()->endOfMonth();
-        $thisMonthRevenue = OrderDetail::whereBetween('created_at', [$startOfMonth, $endOfMonth])
+        $endOfMonth = Carbon::now(); // Current time, not end of month
+        $thisMonthRevenue = OrderDetail::whereBetween('created_at', [$startOfMonth->toDateTimeString(), $endOfMonth->toDateTimeString()])
             ->sum(DB::raw('cost * quantity'));
             
-        // Get this year's revenue
+        // Get this year's revenue - use current time
         $startOfYear = Carbon::now()->startOfYear();
-        $endOfYear = Carbon::now()->endOfYear();
-        $thisYearRevenue = OrderDetail::whereBetween('created_at', [$startOfYear, $endOfYear])
+        $endOfYear = Carbon::now(); // Current time, not end of year
+        $thisYearRevenue = OrderDetail::whereBetween('created_at', [$startOfYear->toDateTimeString(), $endOfYear->toDateTimeString()])
             ->sum(DB::raw('cost * quantity'));
             
         return [
@@ -145,7 +146,7 @@ class RevenueController extends Controller
     // Get revenue by category for immediate display
     private function getRevenueByCategory($startDate, $endDate)
     {
-        return OrderDetail::whereBetween('order_details.created_at', [$startDate, $endDate])
+        return OrderDetail::whereBetween('order_details.created_at', [$startDate->toDateTimeString(), $endDate->toDateTimeString()])
             ->join('products', 'order_details.product_id', '=', 'products.id')
             ->join('categories', 'products.category_id', '=', 'categories.id')
             ->select(
@@ -163,12 +164,12 @@ class RevenueController extends Controller
     {
         $daysDifference = $endDate->diffInDays($startDate);
         $previousStartDate = (clone $startDate)->subDays($daysDifference + 1);
-        $previousEndDate = (clone $startDate)->subDay();
+        $previousEndDate = (clone $startDate)->subDay()->endOfDay(); // Add endOfDay()
         
-        $currentPeriodRevenue = OrderDetail::whereBetween('created_at', [$startDate, $endDate])
+        $currentPeriodRevenue = OrderDetail::whereBetween('created_at', [$startDate->toDateTimeString(), $endDate->toDateTimeString()])
             ->sum(DB::raw('cost * quantity'));
             
-        $previousPeriodRevenue = OrderDetail::whereBetween('created_at', [$previousStartDate, $previousEndDate])
+        $previousPeriodRevenue = OrderDetail::whereBetween('created_at', [$previousStartDate->toDateTimeString(), $previousEndDate->toDateTimeString()])
             ->sum(DB::raw('cost * quantity'));
             
         $percentageChange = 0;
@@ -190,7 +191,7 @@ class RevenueController extends Controller
     public function getDailyRevenue($startDate, $endDate)
     {
         try {
-            $result = OrderDetail::whereBetween('created_at', [$startDate, $endDate])
+            $result = OrderDetail::whereBetween('created_at', [$startDate->toDateTimeString(), $endDate->toDateTimeString()])
                 ->select(
                     DB::raw("DATE_FORMAT(created_at, '%Y-%m-%d') as date"),
                     DB::raw('SUM(cost * quantity) as revenue')
@@ -216,7 +217,7 @@ class RevenueController extends Controller
 
     public function getWeeklyRevenue($startDate, $endDate)
     {
-        $result = OrderDetail::whereBetween('created_at', [$startDate, $endDate])
+        $result = OrderDetail::whereBetween('created_at', [$startDate->toDateTimeString(), $endDate->toDateTimeString()])
             ->select(
                 DB::raw("CONCAT(YEAR(created_at), '-', WEEK(created_at)) as week"), 
                 DB::raw("DATE_FORMAT(MIN(created_at), '%Y-%m-%d') as start_date"),
@@ -241,7 +242,7 @@ class RevenueController extends Controller
         $query = OrderDetail::query();
         
         if ($startDate && $endDate) {
-            $query->whereBetween('created_at', [$startDate, $endDate]);
+            $query->whereBetween('created_at', [$startDate->toDateTimeString(), $endDate->toDateTimeString()]);
         }
         
         $rentalRevenue = $query->clone()->whereNotNull('rental_start_date')
@@ -297,7 +298,7 @@ class RevenueController extends Controller
         $query = OrderDetail::query();
         
         if ($startDate && $endDate) {
-            $query->whereBetween('created_at', [$startDate, $endDate]);
+            $query->whereBetween('created_at', [$startDate->toDateTimeString(), $endDate->toDateTimeString()]);
         }
         
         $rentalRevenue = $query->clone()->whereNotNull('rental_start_date')
@@ -350,7 +351,7 @@ class RevenueController extends Controller
         $query = OrderDetail::query();
         
         if ($startDate && $endDate) {
-            $query->whereBetween('order_details.created_at', [$startDate, $endDate]);
+            $query->whereBetween('order_details.created_at', [$startDate->toDateTimeString(), $endDate->toDateTimeString()]);
         }
         
         // Check if Product model exists
@@ -426,9 +427,9 @@ class RevenueController extends Controller
         $startDate = $request->input('start_date', Carbon::now()->subDays(30)->format('Y-m-d'));
         $endDate = $request->input('end_date', Carbon::now()->format('Y-m-d'));
         
-        // Convert strings to Carbon instances
-        $startDateCarbon = Carbon::parse($startDate);
-        $endDateCarbon = Carbon::parse($endDate);
+        // Convert strings to Carbon instances and ensure end date includes current time
+        $startDateCarbon = Carbon::parse($startDate)->startOfDay();
+        $endDateCarbon = Carbon::parse($endDate)->endOfDay(); // Changed to end of day
         
         // Get data for export
         $dailyRevenue = $this->getDailyRevenue($startDateCarbon, $endDateCarbon);

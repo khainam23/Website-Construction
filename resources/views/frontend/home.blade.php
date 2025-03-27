@@ -65,8 +65,9 @@
                     <img src="{{$product->avatar}}" alt="" class="img-fluid rounded">
                     <h1 class="fs-5 text-dark mt-2">{{$product->name}}</h1>
                     <p class="text-muted flex-grow-1">{{ Str::words(strip_tags($product->description), 20, '...') }}</p>
-                    <span class="badge bg-success-subtle text-success border border-success mt-auto">
-                        {{ $product->price }} {{ __('Type pice') }}
+                    <span class="product-price">
+                        <i class="fas fa-tag" style="font-size: 14px; margin-right: 5px; opacity: 0.7;"></i>
+                        {{ $product->price }}<span class="product-price-currency">{{ __('Type pice') }}</span>
                     </span>
                 </div>
             </a>

@@ -263,10 +263,81 @@
             var navLinks = document.querySelectorAll('.sidebar .nav-link');
 
             navLinks.forEach(function (link) {
-                if (link.href === currentRoute) {
-                    link.classList.add('active');
-                } else {
-                    link.classList.remove('active');
+                if (!link.classList.contains('logout-button')) {
+                    try {
+                        // Extract URLs for comparison
+                        var linkUrl = new URL(link.href);
+                        var currentUrl = new URL(currentRoute);
+                        
+                        // Get clean path segments
+                        var linkPath = linkUrl.pathname.replace(/\/+$/, '');
+                        var currentPath = currentUrl.pathname.replace(/\/+$/, '');
+                        
+                        // Split paths into segments for more accurate comparison
+                        var linkSegments = linkPath.split('/').filter(Boolean);
+                        var currentSegments = currentPath.split('/').filter(Boolean);
+                        
+                        // Initialize active state as false
+                        var isActive = false;
+                        
+                        // Case 1: Exact path match
+                        if (currentPath === linkPath) {
+                            isActive = true;
+                        } 
+                        // Case 2: Current path is a sub-path of the link path
+                        else if (currentPath.startsWith(linkPath + '/')) {
+                            isActive = true;
+                        }
+                        // Case 3: Special case for URLs with dots (admin.orders/1, etc.)
+                        else if (currentSegments.length > 0 && linkSegments.length > 0) {
+                            // For URLs with dot notation, extract the main part before any ID
+                            var currentMainPath = currentSegments[0];
+                            var linkMainPath = linkSegments[0];
+                            
+                            // Handle case when URL contains dots (admin.orders)
+                            if (currentMainPath.includes('.')) {
+                                var currentParts = currentMainPath.split('.');
+                                var linkParts = linkMainPath.split('.');
+                                
+                                // If both have the same pattern (admin.X)
+                                if (currentParts.length > 1 && linkParts.length > 1) {
+                                    if (currentParts[0] === linkParts[0] && currentParts[1] === linkParts[1]) {
+                                        isActive = true;
+                                    }
+                                }
+                            }
+                            
+                            // For route URL pattern checking
+                            if (link.getAttribute('href').includes('orders') && 
+                                currentPath.includes('admin.orders')) {
+                                isActive = true;
+                            }
+                            
+                            if (link.getAttribute('href').includes('products') && 
+                                currentPath.includes('admin.products')) {
+                                isActive = true;
+                            }
+                            
+                            if (link.getAttribute('href').includes('users') && 
+                                currentPath.includes('admin.users')) {
+                                isActive = true;
+                            }
+                            
+                            if (link.getAttribute('href').includes('categories') && 
+                                currentPath.includes('admin.categories')) {
+                                isActive = true;
+                            }
+                        }
+                        
+                        // Apply active class based on determination
+                        if (isActive) {
+                            link.classList.add('active');
+                        } else {
+                            link.classList.remove('active');
+                        }
+                    } catch (e) {
+                        console.error("Error in active link detection:", e);
+                    }
                 }
             });
         });

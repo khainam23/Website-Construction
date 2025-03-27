@@ -13,7 +13,7 @@
                         {{ __('Total Revenue') }}
                     </div>
                     <div class="card-body">
-                        {{ $totalRevenue }}
+                        {{ number_format($totalRevenue, 0, ',', '.') }} đ
                     </div>
                 </div>
             </div>
@@ -24,7 +24,7 @@
                         {{ __('Total Orders') }}
                     </div>
                     <div class="card-body">
-                        {{ $totalOrders }}
+                        {{ number_format($totalOrders) }}
                     </div>
                 </div>
             </div>
@@ -35,7 +35,7 @@
                         {{ __('Average Order Value') }}
                     </div>
                     <div class="card-body">
-                        {{ $averageOrderValue }}
+                        {{ number_format($averageOrderValue, 0, ',', '.') }} đ
                     </div>
                 </div>
             </div>
@@ -51,6 +51,7 @@
                         <tr>
                             <th>{{ __('Order ID') }}</th>
                             <th>{{ __('Total') }}</th>
+                            <th>{{ __('Status') }}</th>
                             <th>{{ __('Created At') }}</th>
                         </tr>
                     </thead>
@@ -58,8 +59,24 @@
                         @foreach ($recentOrders as $order)
                             <tr>
                                 <td>{{ $order->id }}</td>
-                                <td>{{ $order->total }}</td>
-                                <td>{{ $order->created_at }}</td>
+                                <td>{{ number_format($order->calculated_total, 0, ',', '.') }} đ</td>
+                                <td>
+                                    @php
+                                        $statusClasses = [
+                                            'pending' => 'badge bg-secondary',
+                                            'confirm' => 'badge bg-primary',
+                                            'ship' => 'badge bg-warning text-dark',
+                                            'delivery' => 'badge bg-success',
+                                            'return' => 'badge bg-info text-dark',
+                                            'cancel' => 'badge bg-danger',
+                                        ];
+                                        $statusClass = $statusClasses[$order->status] ?? 'badge bg-dark';
+                                    @endphp
+                                    <span class="{{ $statusClass }}">
+                                        {{ ucfirst($order->status) }}
+                                    </span>
+                                </td>
+                                <td>{{ $order->created_at->format('d/m/Y H:i') }}</td>
                             </tr>
                         @endforeach
                     </tbody>
@@ -83,7 +100,7 @@
                         @foreach ($salesByCategory as $category)
                             <tr>
                                 <td>{{ $category->category_name }}</td>
-                                <td>{{ $category->total_sales }}</td>
+                                <td>{{ number_format($category->total_sales, 0, ',', '.') }} đ</td>
                             </tr>
                         @endforeach
                     </tbody>

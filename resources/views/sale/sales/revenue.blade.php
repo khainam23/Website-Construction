@@ -601,8 +601,10 @@ document.addEventListener('DOMContentLoaded', function() {
                         label: function(context) {
                             const label = context.label || '';
                             const value = formatCurrency(context.raw || 0);
-                            const total = context.chart.data.datasets[0].data.reduce((a, b) => a + b, 0);
+                            const total = context.chart.data.datasets[0].data.reduce((a, b) => a + (b || 0), 0);
+                            console.log("Total revenue:", total); // Debugging: Log the total revenue
                             const percentage = total > 0 ? Math.round((context.raw / total) * 100) : 0;
+                            console.log("Category:", label, "Value:", context.raw, "Percentage:", percentage); // Debugging: Log category, value, and percentage
                             return `${label}: ${value} (${percentage}%)`;
                         }
                     }
@@ -794,8 +796,10 @@ document.addEventListener('DOMContentLoaded', function() {
                                 label: function(context) {
                                     const label = context.label || '';
                                     const value = formatCurrency(context.raw || 0);
-                                    const total = context.chart.data.datasets[0].data.reduce((a, b) => a + b, 0);
+                                    const total = context.chart.data.datasets[0].data.reduce((a, b) => a + (b || 0), 0);
+                                    console.log("Total revenue:", total); // Debugging: Log the total revenue
                                     const percentage = total > 0 ? Math.round((context.raw / total) * 100) : 0;
+                                    console.log("Category:", label, "Value:", context.raw, "Percentage:", percentage); // Debugging: Log category, value, and percentage
                                     return `${label}: ${value} (${percentage}%)`;
                                 }
                             }

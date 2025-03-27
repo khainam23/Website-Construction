@@ -12,39 +12,61 @@ class SalesController extends Controller
 {
     public function dashboard()
     {
-        // Get today's revenue
-        $todayRevenue = Order::whereDate('created_at', Carbon::today())->sum('total');
+        // Get today's revenue up to the current moment
+        $todayRevenue = Order::whereDate('orders.created_at', Carbon::today())
+            ->where('orders.status', 'delivery')
+            ->join('order_details', 'orders.id', '=', 'order_details.order_id')
+            ->sum(DB::raw('order_details.cost * order_details.quantity'));
         
-        // Get weekly revenue
-        $weeklyRevenue = Order::whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])->sum('total');
+        // Get weekly revenue up to the current moment
+        $weeklyRevenue = Order::where('orders.status', 'delivery')
+            ->whereBetween('orders.created_at', [Carbon::now()->startOfWeek(), Carbon::now()])
+            ->join('order_details', 'orders.id', '=', 'order_details.order_id')
+            ->sum(DB::raw('order_details.cost * order_details.quantity'));
         
-        // Get monthly revenue
-        $monthlyRevenue = Order::whereYear('created_at', Carbon::now()->year)
-            ->whereMonth('created_at', Carbon::now()->month)
-            ->sum('total');
+        // Get monthly revenue up to the current moment
+        $monthlyRevenue = Order::where('orders.status', 'delivery')
+            ->whereYear('orders.created_at', Carbon::now()->year)
+            ->whereMonth('orders.created_at', Carbon::now()->month)
+            ->join('order_details', 'orders.id', '=', 'order_details.order_id')
+            ->sum(DB::raw('order_details.cost * order_details.quantity'));
             
-        // Get yearly revenue
-        $yearlyRevenue = Order::whereYear('created_at', Carbon::now()->year)->sum('total');
+        // Get yearly revenue up to the current moment
+        $yearlyRevenue = Order::where('orders.status', 'delivery')
+            ->whereYear('orders.created_at', Carbon::now()->year)
+            ->join('order_details', 'orders.id', '=', 'order_details.order_id')
+            ->sum(DB::raw('order_details.cost * order_details.quantity'));
+            
+        // Add timestamp when the data was generated
+        $generatedAt = Carbon::now()->format('Y-m-d H:i:s');
         
-        return view('sale.dashboard', compact('todayRevenue', 'weeklyRevenue', 'monthlyRevenue', 'yearlyRevenue'));
+        return view('sale.dashboard', compact('todayRevenue', 'weeklyRevenue', 'monthlyRevenue', 'yearlyRevenue', 'generatedAt'));
     }
 
     public function index()
     {
         // Calculate total revenue
-        $totalRevenue = Order::sum('total');
+        $totalRevenue = Order::where('orders.status', 'delivery')
+            ->join('order_details', 'orders.id', '=', 'order_details.order_id')
+            ->sum(DB::raw('order_details.cost * order_details.quantity'));
 
         // Calculate total orders
-        $totalOrders = Order::count();
+        $totalOrders = Order::where('orders.status', 'delivery')->count();
 
         // Calculate average order value
         $averageOrderValue = $totalOrders > 0 ? $totalRevenue / $totalOrders : 0;
 
-        // Get recent orders
-        $recentOrders = Order::latest()->take(5)->get();
+        // Get recent orders with calculated total
+        $recentOrders = Order::select('orders.*', DB::raw('SUM(order_details.cost * order_details.quantity) as calculated_total'))
+            ->join('order_details', 'orders.id', '=', 'order_details.order_id')
+            ->groupBy('orders.id')
+            ->latest('orders.created_at')
+            ->take(5)
+            ->get();
 
         // Get sales by product category
         $salesByCategory = DB::table('orders')
+            ->where('orders.status', 'delivery')
             ->join('order_details', 'orders.id', '=', 'order_details.order_id')
             ->join('products', 'order_details.product_id', '=', 'products.id')
             ->join('categories', 'products.category_id', '=', 'categories.id')
@@ -57,41 +79,73 @@ class SalesController extends Controller
 
     public function revenueStatistics()
     {
-        // Calculate daily revenue for current month
-        $dailyRevenue = Order::select(DB::raw("DATE_FORMAT(created_at, '%Y-%m-%d') as date"), DB::raw('SUM(total) as revenue'))
-            ->whereMonth('created_at', Carbon::now()->month)
-            ->whereYear('created_at', Carbon::now()->year)
+        // Track when statistics were generated
+        $generatedAt = Carbon::now()->format('Y-m-d H:i:s');
+        
+        // Calculate daily revenue for current month up to current moment
+        $dailyRevenue = Order::where('orders.status', 'delivery')
+            ->join('order_details', 'orders.id', '=', 'order_details.order_id')
+            ->select(
+                DB::raw("DATE_FORMAT(orders.created_at, '%Y-%m-%d') as date"), 
+                DB::raw('SUM(order_details.cost * order_details.quantity) as revenue')
+            )
+            ->where(function($query) {
+                $query->whereMonth('orders.created_at', '<', Carbon::now()->month)
+                      ->whereYear('orders.created_at', '=', Carbon::now()->year)
+                      ->orWhere(function($q) {
+                          $q->whereMonth('orders.created_at', '=', Carbon::now()->month)
+                            ->whereYear('orders.created_at', '=', Carbon::now()->year)
+                            ->where('orders.created_at', '<=', Carbon::now());
+                      });
+            })
             ->groupBy('date')
             ->orderBy('date')
             ->get();
 
         // Calculate weekly revenue
-        $weeklyRevenue = Order::select(DB::raw("CONCAT(YEAR(created_at), '-', WEEK(created_at)) as week"), 
-            DB::raw("DATE_FORMAT(MIN(created_at), '%Y-%m-%d') as start_date"),
-            DB::raw("DATE_FORMAT(MAX(created_at), '%Y-%m-%d') as end_date"),
-            DB::raw('SUM(total) as revenue'))
+        $weeklyRevenue = Order::where('orders.status', 'delivery')
+            ->join('order_details', 'orders.id', '=', 'order_details.order_id')
+            ->select(
+                DB::raw("CONCAT(YEAR(orders.created_at), '-', WEEK(orders.created_at)) as week"), 
+                DB::raw("DATE_FORMAT(MIN(orders.created_at), '%Y-%m-%d') as start_date"),
+                DB::raw("DATE_FORMAT(MAX(orders.created_at), '%Y-%m-%d') as end_date"),
+                DB::raw('SUM(order_details.cost * order_details.quantity) as revenue')
+            )
             ->groupBy('week')
             ->orderBy('week', 'desc')
             ->take(10)
             ->get();
 
         // Calculate monthly revenue
-        $monthlyRevenue = Order::select(DB::raw("DATE_FORMAT(created_at, '%Y-%m') as month"), DB::raw('SUM(total) as revenue'))
+        $monthlyRevenue = Order::where('orders.status', 'delivery')
+            ->join('order_details', 'orders.id', '=', 'order_details.order_id')
+            ->select(
+                DB::raw("DATE_FORMAT(orders.created_at, '%Y-%m') as month"), 
+                DB::raw('SUM(order_details.cost * order_details.quantity) as revenue')
+            )
             ->groupBy('month')
             ->orderBy('month')
             ->get();
 
         // Calculate quarterly revenue
-        $quarterlyRevenue = Order::select(
-            DB::raw("CONCAT(YEAR(created_at), '-Q', QUARTER(created_at)) as quarter"),
-            DB::raw('SUM(total) as revenue'))
+        $quarterlyRevenue = Order::where('orders.status', 'delivery')
+            ->join('order_details', 'orders.id', '=', 'order_details.order_id')
+            ->select(
+                DB::raw("CONCAT(YEAR(orders.created_at), '-Q', QUARTER(orders.created_at)) as quarter"),
+                DB::raw('SUM(order_details.cost * order_details.quantity) as revenue')
+            )
             ->groupBy('quarter')
-            ->orderBy(DB::raw("YEAR(created_at)"), 'desc')
-            ->orderBy(DB::raw("QUARTER(created_at)"), 'desc')
+            ->orderBy(DB::raw("YEAR(orders.created_at)"), 'desc')
+            ->orderBy(DB::raw("QUARTER(orders.created_at)"), 'desc')
             ->get();
 
         // Calculate yearly revenue
-        $yearlyRevenue = Order::select(DB::raw("DATE_FORMAT(created_at, '%Y') as year"), DB::raw('SUM(total) as revenue'))
+        $yearlyRevenue = Order::where('orders.status', 'delivery')
+            ->join('order_details', 'orders.id', '=', 'order_details.order_id')
+            ->select(
+                DB::raw("DATE_FORMAT(orders.created_at, '%Y') as year"), 
+                DB::raw('SUM(order_details.cost * order_details.quantity) as revenue')
+            )
             ->groupBy('year')
             ->orderBy('year')
             ->get();
@@ -101,7 +155,8 @@ class SalesController extends Controller
             'weeklyRevenue', 
             'monthlyRevenue', 
             'quarterlyRevenue', 
-            'yearlyRevenue'
+            'yearlyRevenue',
+            'generatedAt'
         ));
     }
 
@@ -109,8 +164,14 @@ class SalesController extends Controller
     {
         // Get top selling products
         $topSellingProducts = DB::table('order_details')
+            ->join('orders', 'order_details.order_id', '=', 'orders.id')
+            ->where('orders.status', 'delivery')
             ->join('products', 'order_details.product_id', '=', 'products.id')
-            ->select('products.name as product_name', DB::raw('SUM(order_details.quantity) as total_quantity'))
+            ->select(
+                'products.name as product_name', 
+                DB::raw('SUM(order_details.quantity) as total_quantity'),
+                DB::raw('SUM(order_details.cost * order_details.quantity) as total_revenue')
+            )
             ->groupBy('products.name')
             ->orderByDesc('total_quantity')
             ->take(10)
@@ -118,8 +179,16 @@ class SalesController extends Controller
 
         // Get recently sold products
         $recentlySoldProducts = DB::table('order_details')
+            ->join('orders', 'order_details.order_id', '=', 'orders.id')
+            ->where('orders.status', 'delivery')
             ->join('products', 'order_details.product_id', '=', 'products.id')
-            ->select('products.name as product_name', 'order_details.created_at')
+            ->select(
+                'products.name as product_name', 
+                'order_details.created_at',
+                'order_details.quantity',
+                'order_details.cost',
+                DB::raw('order_details.cost * order_details.quantity as total_cost')
+            )
             ->orderByDesc('order_details.created_at')
             ->take(5)
             ->get();

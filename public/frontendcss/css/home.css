@@ -166,6 +166,99 @@
     color: black;
 }
 
+/* Enhanced styling for product price tags */
+.product-card .badge {
+    display: inline-block;
+    padding: 8px 12px;
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+    margin-top: 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+.product-card .bg-success-subtle {
+    background-color: rgba(25, 135, 84, 0.1) !important;
+}
+
+.product-card .text-success {
+    color: #15803d !important;
+}
+
+.product-card .border-success {
+    border-color: rgba(25, 135, 84, 0.3) !important;
+    border-width: 1.5px !important;
+}
+
+.product-card .badge:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+/* Price format with currency symbol */
+.product-card .price-amount {
+    position: relative;
+    font-weight: 700;
+}
+
+/* Price styling from product page */
+.product-price {
+    font-weight: 700;
+    color: #e74c3c;
+    font-size: 20px;
+    display: inline-block;
+    margin-top: 12px;
+    padding: 8px 12px;
+    border-radius: 4px;
+    background: linear-gradient(135deg, #fff8f8 0%, #fff 100%);
+    border-left: 4px solid #e74c3c;
+    box-shadow: 0 2px 5px rgba(231, 76, 60, 0.1);
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.product-price::before {
+    content: "";
+    position: absolute;
+    left: -4px;
+    top: -4px;
+    width: 8px;
+    height: 8px;
+    background-color: #e74c3c;
+    border-radius: 50%;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.product-price-currency {
+    font-size: 14px;
+    color: #7f8c8d;
+    font-weight: 400;
+    margin-left: 4px;
+    position: relative;
+    top: -1px;
+}
+
+a:hover .product-price {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(231, 76, 60, 0.2);
+    background: linear-gradient(135deg, #fff0f0 0%, #fff 100%);
+}
+
+a:hover .product-price::before {
+    opacity: 1;
+}
+
+/* Responsive adjustments for price tags */
+@media (max-width: 768px) {
+    .product-card .badge {
+        padding: 6px 10px;
+        font-size: 14px;
+    }
+}
+
 /* certifications  */
 .certifications {
     background-image: var(--commit-bg-image-certifications);

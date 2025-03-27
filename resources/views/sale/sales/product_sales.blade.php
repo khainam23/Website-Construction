@@ -16,13 +16,15 @@
                         <tr>
                             <th>{{ __('Product Name') }}</th>
                             <th>{{ __('Total Quantity Sold') }}</th>
+                            <th>{{ __('Total Revenue') }}</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach ($topSellingProducts as $product)
                             <tr>
                                 <td>{{ $product->product_name }}</td>
-                                <td>{{ $product->total_quantity }}</td>
+                                <td>{{ number_format($product->total_quantity) }}</td>
+                                <td>{{ number_format($product->total_revenue, 0, ',', '.') }} đ</td>
                             </tr>
                         @endforeach
                     </tbody>
@@ -39,6 +41,9 @@
                     <thead>
                         <tr>
                             <th>{{ __('Product Name') }}</th>
+                            <th>{{ __('Quantity') }}</th>
+                            <th>{{ __('Unit Price') }}</th>
+                            <th>{{ __('Total') }}</th>
                             <th>{{ __('Sold At') }}</th>
                         </tr>
                     </thead>
@@ -46,7 +51,10 @@
                         @foreach ($recentlySoldProducts as $product)
                             <tr>
                                 <td>{{ $product->product_name }}</td>
-                                <td>{{ $product->created_at }}</td>
+                                <td>{{ $product->quantity }}</td>
+                                <td>{{ number_format($product->cost, 0, ',', '.') }} đ</td>
+                                <td>{{ number_format($product->total_cost, 0, ',', '.') }} đ</td>
+                                <td>{{ \Carbon\Carbon::parse($product->created_at)->format('d/m/Y H:i') }}</td>
                             </tr>
                         @endforeach
                     </tbody>
