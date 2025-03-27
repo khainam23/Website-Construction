@@ -10,7 +10,7 @@ class AssetController extends Controller
 {
     public function loadProduct()
     {
-        $products = Product::with(['category', 'productInventories'])->orderBy("id")->paginate(10);
+        $products = Product::with(['category', 'productInventories'])->orderBy("id")->get();
         return view('admin.products.index', compact('products'));
     }
 

@@ -46,24 +46,28 @@
                             <div class="col-12 mt-3">
                                 <div class="d-flex justify-content">
                                     @foreach ($product->images as $image)
-                                        <img src="{{asset($image->path)}}" class="thumb-img " width="70" onclick="changeImage(this)">
+                                        <img src="{{asset($image->path)}}" class="thumb-img " width="70"
+                                            onclick="changeImage(this)">
                                     @endforeach
                                 </div>
                             </div>
                             <div class="col-12 mt-3">
-                                <h2>{{ __('Stock quantity') }}: <span>{{ $product->productInventories->quantity }}</span></h2>
-                                <h4>{{ __('Price') }} {{ $product->type == 'sale' ? __('Sale') : __('Rental') }}:
-                                    {{ number_format($product->price, 0, ',', '.') }} đ
-                                </h4>
+                                @if($product->productInventories?->quantity > 0)
+                                    <h2>{{ __('Stock quantity') }}: <span>{{ $product->productInventories->quantity }}</span>
+                                    </h2>
+                                    <h4>{{ __('Price') }} {{ $product->type == 'sale' ? __('Sale') : __('Rental') }}:
+                                        {{ number_format($product->price, 0, ',', '.') }} đ
+                                    </h4>
+                                @endif
                             </div>
                         </div>
                         <div class="row">
-                            @if ($product->productInventories->quantity)
+                            @if ($product->productInventories?->quantity > 0)
                                 <div class="col-12 mt-3">
                                     <button class="btn btn-primary" onclick="addCart()">{{ __('Add to Cart') }}</button>
                                 </div>
                             @else
-                                <span class="text-danger">{{ __('Sold out') }}</span>
+                                <div class="alert alert-danger p-2 m-0 d-inline-block">{{ __('Sold out') }}</div>
                             @endif
                         </div>
                     </div>
@@ -136,7 +140,9 @@
                                         <img src="{{asset($relateProduct->avatar)}}" alt="{{$relateProduct->name}}">
                                     </div>
                                     <h4 class="name-product-1">{{$relateProduct->name}}</h4>
-                                    <p class="content-product-1">{!! Str::limit(strip_tags($relateProduct->description), 80, '...') !!}</p>
+                                    <p class="content-product-1">
+                                        {!! Str::limit(strip_tags($relateProduct->description), 80, '...') !!}
+                                    </p>
                                 </a>
                             </div>
                         @endforeach
@@ -240,12 +246,27 @@
                         <label class="fw-bold">{{ __('Total Price:') }}</label>
                         <input type="text" id="total_price" class="form-control mb-2" value="{{ number_format($product->price, 0, ',', '.') }} đ" readonly>
                     </div>
-                `,
+                            `,
                 showCancelButton: true,
                 confirmButtonText: "{{ __('Add to Cart') }}",
                 cancelButtonText: "{{ __('Cancel') }}",
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
+                didOpen: () => {
+            let tomorrow = new Date();
+            tomorrow.setDate(tomorrow.getDate() + 1);
+            let tomorrowDate = tomorrow.toISOString().split('T')[0];
+
+            let startInput = document.getElementById("rental_start");
+            let endInput = document.getElementById("rental_end");
+
+            if (startInput && endInput) {
+                startInput.min = tomorrowDate;
+                startInput.value = tomorrowDate;
+                endInput.min = tomorrowDate;
+                endInput.value = tomorrowDate;
+            }
+        },
                 preConfirm: () => {
                     let data = {
                         product_id: {{ $product->id }},
@@ -286,7 +307,7 @@
                         processData: false,
                         success: function (response) {
                             Swal.fire({
-                                icon: 'success',    
+                                icon: 'success',
                                 title: '{{ __('Product added to cart successfully') }}',
                                 showConfirmButton: false,
                                 timer: 1500

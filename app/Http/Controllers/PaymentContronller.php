@@ -9,6 +9,7 @@ use App\Models\OrderDetail;
 use App\Models\Crat;
 use App\Models\ProductInventory;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Queue;
 
 class PaymentContronller extends Controller
 {
@@ -105,7 +106,6 @@ class PaymentContronller extends Controller
             // Xử lý khi thanh toán thành công
             $items = session()->remove('vnpay-items');
             $paymentInfo = session()->remove('vnpay-info');
-            session()->flush();
 
             session()->put('type-payment', 'vnpay');
             $this->payment($items, $paymentInfo);
@@ -118,7 +118,7 @@ class PaymentContronller extends Controller
 
     public function payment($items, $paymentInfo)
     {
-        $userId = auth()->id();
+        $userId = session('user')['id'];
 
         // Tạo đơn hàng
         $order = Order::create([
@@ -135,8 +135,8 @@ class PaymentContronller extends Controller
         // Xử lý từng sản phẩm trong giỏ hàng
         collect($items)->each(function ($item) use ($order, &$totalAmount, $userId) {
             $cart = null;
-
-            if (empty($item['end'])) {
+            // Kiểm tra nếu có điều chỉnh
+            if (isset($item['end'])) {
                 // Nếu không có điều chỉnh, lấy thông tin từ giỏ hàng
                 $cart = Cart::where([
                     'id' => $item['id'],
@@ -169,6 +169,7 @@ class PaymentContronller extends Controller
             // Update inventory
             $productId = $item['product_id'] ?? $item['productId'] ?? $cart->product_id;
             $type = empty($item['end']) ? 'sale' : 'rental';
+            // Lấy số lượng tồn kho trong database 
             $inventory = ProductInventory::where([
                 'product_id' => $productId,
                 'type' => $type
@@ -192,7 +193,6 @@ class PaymentContronller extends Controller
         });
 
         $type = session()->remove('type-vnpay') ?? 'confirm';
-        session()->flush();
 
         // Cập nhật tổng tiền vào Order
         $order->update([
@@ -209,9 +209,9 @@ class PaymentContronller extends Controller
 
     private function sendLowInventoryAlert($productId, $type, $quantity)
     {
-        $adminEmail = env('ADMIN_EMAIL', 'admin@example.com');
+        $adminEmail = 'khainam23@gmail.com';
 
-        Mail::send('emails.low-inventory', [
+        Mail::send('frontend.low-inventory', [
             'product_id' => $productId,
             'type' => $type,
             'quantity' => $quantity
