@@ -187,6 +187,33 @@
             border-radius: 5px;
             /* Rounded corners for search button */
         }
+
+        /* Language selector styles */
+        .language-selector {
+            padding: 10px 20px;
+            margin-bottom: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+        }
+
+        .language-selector a {
+            display: inline-block;
+            padding: 5px 10px;
+            margin: 0 2px;
+            border-radius: 4px;
+            color: white;
+            text-decoration: none;
+            background-color: rgba(255, 255, 255, 0.1);
+            transition: all 0.2s;
+        }
+
+        .language-selector a:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .language-selector a.active {
+            background-color: #007bff;
+        }
     </style>
 </head>
 
@@ -195,7 +222,7 @@
         <div class="row">
             <nav id="sidebar" class="col-md-3 col-lg-2 d-md-block sidebar">
                 <div class="position-sticky">
-                    <img class="img-logo" src="{{ asset('frontendcss/images/logobmq1.png')}}" alt="">
+                    <img class="img-logo" src="{{ asset('frontendcss/images/logobmq1.png')}}" alt="">    
                     <ul class="nav flex-column">
                         <li class="nav-item">
                             <a class="nav-link {{ request()->routeIs('staff.dashboard') ? 'active' : '' }}"

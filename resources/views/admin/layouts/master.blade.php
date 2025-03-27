@@ -6,10 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title') - {{ __('Admin Panel') }}</title>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/moment@2.29.1/moment.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.17.2/dist/sweetalert2.all.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.17.2/dist/sweetalert2.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('frontendcss/bootstrap_4.6/css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    @yield('styles')
     <style>
         body {
             font-family: 'Be Vietnam Pro', sans-serif;
@@ -227,8 +230,8 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link {{ request()->routeIs('staff.sales.revenue') ? 'active' : '' }}"
-                                href="{{ route('staff.sales.revenue') }}">
+                            <a class="nav-link {{ request()->routeIs('admin.sales.revenue') ? 'active' : '' }}"
+                                href="{{ route('admin.sales.revenue') }}">
                                 <i class="fas fa-chart-line"></i> {{ __('Revenue Statistics') }}
                             </a>
                         </li>
@@ -252,11 +255,8 @@
         </div>
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script src="{{ asset('frontendcss/bootstrap_4.6/js/bootstrap.min.js') }}"></script>
     <script src="{{ asset('assets/swiper/swiper-bundle.min.js') }}"></script>
-    <script src="{{ asset('frontendcss/bootstrap_4.6/js/bootstrap.min.js') }}"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             var currentRoute = window.location.href;

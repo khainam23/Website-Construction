@@ -1,4 +1,4 @@
-@extends('admin.layouts.master')
+@extends('sale.layouts.master')
 
 @section('title', __('Revenue Statistics'))
 
@@ -137,19 +137,25 @@
             </div>
         </div>
         <div class="card-body">
-            <form method="GET" action="{{ route('sale.sales.revenue') }}" class="row g-3">
-                <div class="col-md-4">
-                    <label for="start_date" class="form-label">{{ __('Start Date') }}</label>
-                    <input type="date" class="form-control" id="start_date" name="start_date" value="{{ $startDate ?? '' }}">
+            <form method="GET" action="{{ route('sale.sales.revenue') }}" class="row">
+                <div class="col-md-5">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fas fa-calendar"></i></span>
+                        </div>
+                        <input type="text" class="form-control" id="daterange" name="daterange" 
+                            value="{{ \Carbon\Carbon::parse($startDate)->format('m/d/Y') }} - {{ \Carbon\Carbon::parse($endDate)->format('m/d/Y') }}">
+                        <input type="hidden" id="start_date" name="start_date" value="{{ $startDate }}">
+                        <input type="hidden" id="end_date" name="end_date" value="{{ $endDate }}">
+                    </div>
                 </div>
-                <div class="col-md-4">
-                    <label for="end_date" class="form-label">{{ __('End Date') }}</label>
-                    <input type="date" class="form-control" id="end_date" name="end_date" value="{{ $endDate ?? '' }}">
-                </div>
-                <div class="col-md-4 d-flex align-items-end">
-                    <button type="submit" class="btn btn-primary">{{ __('Apply Filter') }}</button>
-                    <a href="{{ route('sale.sales.revenue') }}" class="btn btn-secondary ms-2">{{ __('Reset') }}</a>
-                    <button type="button" class="btn btn-success ml-3" onclick="exportExcel()">{{ __('Export File') }}</button>
+                <div class="col-md-7">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-filter"></i> {{ __('Apply Filter') }}
+                    </button>
+                    <a href="{{ route('sale.sales.revenue') }}" class="btn btn-secondary ml-2">
+                        <i class="fas fa-sync-alt"></i> {{ __('Reset') }}
+                    </a>
                 </div>
             </form>
         </div>
@@ -426,29 +432,13 @@
 </div>
 @endsection
 
-@section('js')
+@section('scripts')
 <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/moment/min/moment.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-moment/dist/chartjs-adapter-moment.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 <script>
-    function exportExcel() {
-        // Check if there's any data to export
-        const hasDaily = document.querySelectorAll('#dailyRevenueTable tbody tr td:not(.text-center)').length > 0;
-        const hasWeekly = document.querySelectorAll('#weeklyRevenueTable tbody tr td:not(.text-center)').length > 0;
-        const hasMonthly = document.querySelectorAll('#monthlyRevenueTable tbody tr').length > 0;
-        const hasYearly = document.querySelectorAll('#yearlyRevenueTable tbody tr').length > 0;
-
-        if (!hasDaily && !hasWeekly && !hasMonthly && !hasYearly) {
-            Swal.fire({
-                icon: 'warning',
-                title: '{{ __("No Data Available") }}',
-                text: '{{ __("There is no data to export") }}',
-                confirmButtonText: 'OK'
-            });
-            return;
-        }
-
+document.addEventListener('DOMContentLoaded', function() {
     // Set daterangepicker locale to match app locale
     const currentLocale = '{{ app()->getLocale() }}';
     if (currentLocale === 'vi') {
@@ -461,73 +451,48 @@
         });
     }
     
-    // Debug log để kiểm tra
-    console.log('Starting daterangepicker initialization');
-    console.log('jQuery version:', jQuery.fn.jquery);
-    console.log('Moment version:', moment.version);
-    
-    try {
-        // Khởi tạo daterangepicker với debug
-        $('#daterange').daterangepicker({
-            startDate: moment('{{ $startDate }}'),
-            endDate: moment('{{ $endDate }}'),
-            locale: {
-                format: 'DD/MM/YYYY',
-                applyLabel: '{{ __("Apply Filter") }}',
-                cancelLabel: '{{ __("Reset") }}',
-                customRangeLabel: '{{ __("Custom Range") }}',
-                daysOfWeek: currentLocale === 'vi' ? ['CN', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7'] : ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'],
-                monthNames: currentLocale === 'vi' ? 
-                    ['Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5', 'Tháng 6', 'Tháng 7', 'Tháng 8', 'Tháng 9', 'Tháng 10', 'Tháng 11', 'Tháng 12'] :
-                    ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
-            },
-            ranges: {
-               '{{ __("Today") }}': [moment(), moment()],
-               '{{ __("Yesterday") }}': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
-               '{{ __("Last 7 days") }}': [moment().subtract(6, 'days'), moment()],
-               '{{ __("Last 30 days") }}': [moment().subtract(29, 'days'), moment()],
-               '{{ __("This Month") }}': [moment().startOf('month'), moment().endOf('month')],
-               '{{ __("Last Month") }}': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
-            }
-        }, function(start, end) {
-            console.log('Date range selected:', start.format('YYYY-MM-DD'), 'to', end.format('YYYY-MM-DD'));
-            $('#start_date').val(start.format('YYYY-MM-DD'));
-            $('#end_date').val(end.format('YYYY-MM-DD'));
-        });
-        
-        console.log('DateRangePicker initialized successfully');
-    } catch(e) {
-        console.error('Error initializing daterangepicker:', e);
-    }
+    // Initialize date range picker with localized labels
+    $('#daterange').daterangepicker({
+        startDate: moment('{{ $startDate }}'),
+        endDate: moment('{{ $endDate }}'),
+        locale: {
+            format: 'DD/MM/YYYY',
+            applyLabel: '{{ __("Apply Filter") }}',
+            cancelLabel: '{{ __("Reset") }}',
+            customRangeLabel: '{{ __("Custom Range") }}',
+            daysOfWeek: currentLocale === 'vi' ? ['CN', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7'] : ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'],
+            monthNames: currentLocale === 'vi' ? 
+                ['Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5', 'Tháng 6', 'Tháng 7', 'Tháng 8', 'Tháng 9', 'Tháng 10', 'Tháng 11', 'Tháng 12'] :
+                ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+        },
+        ranges: {
+           '{{ __("Today") }}': [moment(), moment()],
+           '{{ __("Yesterday") }}': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+           '{{ __("Last 7 days") }}': [moment().subtract(6, 'days'), moment()],
+           '{{ __("Last 30 days") }}': [moment().subtract(29, 'days'), moment()],
+           '{{ __("This Month") }}': [moment().startOf('month'), moment().endOf('month')],
+           '{{ __("Last Month") }}': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+        }
+    }, function(start, end) {
+        $('#start_date').val(start.format('YYYY-MM-DD'));
+        $('#end_date').val(end.format('YYYY-MM-DD'));
+    });
 
-    // Handle period buttons với debug
+    // Handle period buttons
     $('.period-btn').on('click', function() {
         const days = $(this).data('days');
         const end = moment();
         const start = moment().subtract(days - 1, 'days');
         
-        console.log('Period button clicked:', days, 'days');
-        console.log('Setting date range:', start.format('YYYY-MM-DD'), 'to', end.format('YYYY-MM-DD'));
+        $('#daterange').data('daterangepicker').setStartDate(start);
+        $('#daterange').data('daterangepicker').setEndDate(end);
         
-        try {
-            const picker = $('#daterange').data('daterangepicker');
-            if (picker) {
-                picker.setStartDate(start);
-                picker.setEndDate(end);
-                
-                $('#start_date').val(start.format('YYYY-MM-DD'));
-                $('#end_date').val(end.format('YYYY-MM-DD'));
-                
-                console.log('Form submitting...');
-                $('form').submit();
-            } else {
-                console.error('DateRangePicker not initialized');
-            }
-        } catch(e) {
-            console.error('Error with period button:', e);
-        }
+        $('#start_date').val(start.format('YYYY-MM-DD'));
+        $('#end_date').val(end.format('YYYY-MM-DD'));
+        
+        $('form').submit();
     });
-    
+
     // Global chart plugin to display "No data available" message
     Chart.register({
         id: 'noDataPlugin',
@@ -1062,13 +1027,13 @@
         document.getElementById('yearlyRevenueLoader').style.display = 'none';
     }
 
-    // Export functionality - Use admin routes for exports
+    // Export functionality
     $('#exportExcel').click(function() {
-        window.location.href = "{{ route('admin.sales.export', ['type' => 'excel']) }}?start_date={{ $startDate }}&end_date={{ $endDate }}";
+        window.location.href = "{{ route('sale.sales.export', ['type' => 'excel']) }}?start_date={{ $startDate }}&end_date={{ $endDate }}";
     });
     
     $('#exportPDF').click(function() {
-        window.location.href = "{{ route('admin.sales.export', ['type' => 'pdf']) }}?start_date={{ $startDate }}&end_date={{ $endDate }}";
+        window.location.href = "{{ route('sale.sales.export', ['type' => 'pdf']) }}?start_date={{ $startDate }}&end_date={{ $endDate }}";
     });
 
     // Export chart as image

@@ -86,7 +86,11 @@ Route::middleware([LanguageMiddleware::class])->group(function () {
         
         // Shared revenue route for admin and staff
         Route::get('/admin/sales/revenue', [RevenueController::class, 'index'])->name('admin.sales.revenue');
-        Route::get('/staff/sales/revenue', [RevenueController::class, 'index'])->name('staff.sales.revenue');
+        Route::get('/sale/sales/revenue', [RevenueController::class, 'index'])->name('sale.sales.revenue');
+        
+        // Add export routes for revenue data
+        Route::get('/sale/sales/export/{type}', [RevenueController::class, 'exportRevenue'])->name('sale.sales.export');
+        Route::get('/admin/sales/export/{type}', [RevenueController::class, 'exportRevenue'])->name('admin.sales.export');
     });
 
     // Dành cho admin
