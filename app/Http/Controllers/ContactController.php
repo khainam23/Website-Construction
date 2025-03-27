@@ -13,8 +13,8 @@ class ContactController extends Controller
         $number = $request->number;
         $description = $request->description;
 
-        // $email = env('MAIL_USERNAME');
-        $email = 'khainam23@gmail.com';
+        $email = env('MAIL_USERNAME');
+        // $email = 'khainam23@gmail.com';
 
         // Gửi email tới thông báo
         Mail::to($email)->send(new ContactMail($lastName, $number, $description));

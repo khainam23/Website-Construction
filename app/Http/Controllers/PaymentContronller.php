@@ -209,7 +209,7 @@ class PaymentContronller extends Controller
 
     private function sendLowInventoryAlert($productId, $type, $quantity)
     {
-        $adminEmail = 'khainam23@gmail.com';
+        $adminEmail = env('MAIL_USERNAME');
 
         Mail::send('frontend.low-inventory', [
             'product_id' => $productId,

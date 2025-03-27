@@ -14,7 +14,7 @@ return new class extends Migration {
             $table->string('email')->unique();
             $table->string('password');
             $table->string('verification_token')->nullable();
-            $table->enum('role', ['admin', 'sale', 'customer', 'warehouse'])->default('customer');
+            $table->enum('role', ['admin', 'sale', 'customer'])->default('customer');
             $table->string('phone')->nullable();
             $table->text('address')->nullable();
             $table->date('date_of_birth')->nullable();
