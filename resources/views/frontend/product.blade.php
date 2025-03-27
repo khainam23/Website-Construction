@@ -84,7 +84,10 @@
                                                                 <p class="card-text">
                                                                     {{ Str::limit(strip_tags($product->description), 50, '...') }}
                                                                 </p>
-                                                                <span>{{ $product->price }} {{ __('Type pice') }}</span>
+                                                                <span class="product-price">
+                                                                    <i class="fas fa-tag" style="font-size: 14px; margin-right: 5px; opacity: 0.7;"></i>
+                                                                    {{ $product->price }}<span class="product-price-currency">{{ __('Type pice') }}</span>
+                                                                </span>
                                                             </div>
                                                         </div>
                                                     </a>
