@@ -1,4 +1,4 @@
-@extends('sale.layouts.master')
+@extends('staff.layouts.master')
 
 @section('title', __('Product Sales'))
 

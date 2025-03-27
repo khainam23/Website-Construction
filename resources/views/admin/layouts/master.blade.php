@@ -227,8 +227,8 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link {{ request()->routeIs('sale.sales.revenue') ? 'active' : '' }}"
-                                href="{{ route('sale.sales.revenue') }}">
+                            <a class="nav-link {{ request()->routeIs('staff.sales.revenue') ? 'active' : '' }}"
+                                href="{{ route('staff.sales.revenue') }}">
                                 <i class="fas fa-chart-line"></i> {{ __('Revenue Statistics') }}
                             </a>
                         </li>

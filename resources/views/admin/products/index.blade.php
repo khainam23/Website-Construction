@@ -1,5 +1,5 @@
 @php
-    $layout = session('user')['role'] == 'admin' ? 'admin.layouts.master' : 'sale.layouts.master';
+    $layout = session('user')['role'] == 'admin' ? 'admin.layouts.master' : 'staff.layouts.master';
 @endphp
 
 @extends($layout)

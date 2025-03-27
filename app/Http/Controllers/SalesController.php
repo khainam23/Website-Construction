@@ -26,7 +26,7 @@ class SalesController extends Controller
         // Get yearly revenue
         $yearlyRevenue = Order::whereYear('created_at', Carbon::now()->year)->sum('total');
         
-        return view('sale.dashboard', compact('todayRevenue', 'weeklyRevenue', 'monthlyRevenue', 'yearlyRevenue'));
+        return view('staff.dashboard', compact('todayRevenue', 'weeklyRevenue', 'monthlyRevenue', 'yearlyRevenue'));
     }
 
     public function index()
@@ -52,7 +52,7 @@ class SalesController extends Controller
             ->groupBy('categories.name')
             ->get();
 
-        return view('sale.sales.index', compact('totalRevenue', 'totalOrders', 'averageOrderValue', 'recentOrders', 'salesByCategory'));
+        return view('staff.sales.index', compact('totalRevenue', 'totalOrders', 'averageOrderValue', 'recentOrders', 'salesByCategory'));
     }
 
     public function revenueStatistics()
@@ -96,7 +96,7 @@ class SalesController extends Controller
             ->orderBy('year')
             ->get();
 
-        return view('sale.sales.revenue', compact(
+        return view('staff.sales.revenue', compact(
             'dailyRevenue', 
             'weeklyRevenue', 
             'monthlyRevenue', 
@@ -124,6 +124,6 @@ class SalesController extends Controller
             ->take(5)
             ->get();
 
-        return view('sale.sales.product_sales', compact('topSellingProducts', 'recentlySoldProducts'));
+        return view('staff.sales.product_sales', compact('topSellingProducts', 'recentlySoldProducts'));
     }
 }

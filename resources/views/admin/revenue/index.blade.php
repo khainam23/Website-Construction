@@ -15,7 +15,7 @@
             {{ __('Filter by Date Range') }}
         </div>
         <div class="card-body">
-            <form method="GET" action="{{ route('sale.sales.revenue') }}" class="row g-3">
+            <form method="GET" action="{{ route('staff.sales.revenue') }}" class="row g-3">
                 <div class="col-md-4">
                     <label for="start_date" class="form-label">{{ __('Start Date') }}</label>
                     <input type="date" class="form-control" id="start_date" name="start_date" value="{{ $startDate ?? '' }}">
@@ -26,7 +26,7 @@
                 </div>
                 <div class="col-md-4 d-flex align-items-end">
                     <button type="submit" class="btn btn-primary">{{ __('Apply Filter') }}</button>
-                    <a href="{{ route('sale.sales.revenue') }}" class="btn btn-secondary ms-2">{{ __('Reset') }}</a>
+                    <a href="{{ route('staff.sales.revenue') }}" class="btn btn-secondary ms-2">{{ __('Reset') }}</a>
                     <button type="button" class="btn btn-success ml-3" onclick="exportExcel()">{{ __('Export File') }}</button>
                 </div>
             </form>
@@ -180,8 +180,8 @@
         if (!hasDaily && !hasWeekly && !hasMonthly && !hasYearly) {
             Swal.fire({
                 icon: 'warning',
-                title: '{{ __("No Data Available") }}',
-                text: '{{ __("There is no data to export") }}',
+                title: "{{ __('Not Found') }}",
+                text: "{{ __('No Data') }}",
                 confirmButtonText: 'OK'
             });
             return;

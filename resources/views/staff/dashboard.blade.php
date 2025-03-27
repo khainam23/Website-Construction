@@ -1,4 +1,4 @@
-@extends('sale.layouts.master')
+@extends('staff.layouts.master')
 
 @section('title', __('Sale Dashboard'))
 
@@ -60,7 +60,7 @@
                     </div>
                     <div class="card-body">
                         <p>{{ __('For detailed revenue statistics, visit the') }} 
-                           <a href="{{ route('sale.sales.revenue') }}">{{ __('Revenue Statistics') }}</a> 
+                           <a href="{{ route('staff.sales.revenue') }}">{{ __('Revenue Statistics') }}</a> 
                            {{ __('page.') }}
                         </p>
                     </div>

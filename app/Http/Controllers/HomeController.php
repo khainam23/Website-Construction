@@ -13,10 +13,8 @@ class HomeController extends Controller
     
         if($role == 'admin') {
             return redirect()->route('admin.dashboard');
-        } else if($role == 'sale') {
-            return view('sale.dashboard');
-        } else if($role == 'warehouse') {
-            // Chưa có
+        } else if($role == 'staff') {
+            return view('staff.dashboard');
         } else {
             // Get popular products from orders
             $popularProducts = Product::select('products.*', DB::raw('COUNT(order_details.product_id) as order_count'))

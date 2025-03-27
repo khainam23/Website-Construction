@@ -37,10 +37,10 @@ class LoginController extends Controller
                     'message' => __('Redirecting to admin page'),
                     'url' => route('admin.dashboard')
                 ], 200);
-            } else if($user->role == 'sale'){
+            } else if($user->role == 'staff'){
                 return response()->json([
                     'message' => __('Redirecting to sales page'),
-                    'url' => route('sale.dashboard')
+                    'url' => route('staff.dashboard')
                 ], 200);
             } else if($user->role == 'warehouse'){
                 return response()->json([

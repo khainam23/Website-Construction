@@ -50,8 +50,8 @@ class RevenueController extends Controller
             return view('admin.revenue.index', $data);
         }
         
-        // Default to sale view
-        return view('sale.sales.revenue', $data);
+        // Default to staff view
+        return view('staff.sales.revenue', $data);
     }
 
     public function getDailyRevenue($startDate, $endDate)
@@ -143,7 +143,7 @@ class RevenueController extends Controller
             $combinedRevenue[$productSale['month']][] = [
                 'month' => $productSale['month'],
                 'revenue' => (float) $productSale['revenue'],
-                'type' => 'sale'
+                'type' => 'staff'
             ];
         }
 
@@ -201,7 +201,7 @@ class RevenueController extends Controller
             $combinedRevenue[$productSale['year']][] = [
                 'year' => $productSale['year'],
                 'revenue' => (float) $productSale['revenue'],
-                'type' => 'sale'
+                'type' => 'staff'
             ];
         }
 

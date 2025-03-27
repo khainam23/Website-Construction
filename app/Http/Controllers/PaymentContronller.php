@@ -168,7 +168,7 @@ class PaymentContronller extends Controller
 
             // Update inventory
             $productId = $item['product_id'] ?? $item['productId'] ?? $cart->product_id;
-            $type = empty($item['end']) ? 'sale' : 'rental';
+            $type = empty($item['end']) ? 'staff' : 'rental';
             // Lấy số lượng tồn kho trong database 
             $inventory = ProductInventory::where([
                 'product_id' => $productId,

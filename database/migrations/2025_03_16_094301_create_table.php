@@ -14,7 +14,7 @@ return new class extends Migration {
             $table->string('email')->unique();
             $table->string('password');
             $table->string('verification_token')->nullable();
-            $table->enum('role', ['admin', 'sale', 'customer', 'warehouse'])->default('customer');
+            $table->enum('role', ['admin', 'staff', 'customer'])->default('customer');
             $table->string('phone')->nullable();
             $table->text('address')->nullable();
             $table->date('date_of_birth')->nullable();
@@ -51,7 +51,7 @@ return new class extends Migration {
             $table->foreignId('category_id')->constrained('categories')->onDelete('cascade');
             $table->text('description')->nullable();
             $table->unsignedBigInteger('price');
-            $table->enum('type', ['sale', 'rental'])->default('sale');
+            $table->enum('type', ['staff', 'rental'])->default('staff');
             $table->enum('status', ['show', 'hide'])->default('show');
             $table->timestamps();
         });
@@ -59,7 +59,7 @@ return new class extends Migration {
         Schema::create('product_inventories', function (Blueprint $table) {
             $table->id();
             $table->foreignId('product_id')->constrained('products')->onDelete('cascade');
-            $table->enum('type', ['sale', 'rental'])->default('sale');
+            $table->enum('type', ['staff', 'rental'])->default('staff');
             $table->integer('quantity')->default(0);
             $table->timestamps();
         });

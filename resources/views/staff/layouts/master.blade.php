@@ -8,6 +8,8 @@
     <title>@yield('title') - {{ __('Sale Dashboard') }}</title>
     <link rel="stylesheet" href="{{ asset('frontendcss/bootstrap_4.6/css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.17.2/dist/sweetalert2.all.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.17.2/dist/sweetalert2.min.css" rel="stylesheet">
     @yield('styles')
     <style>
         body {
@@ -196,14 +198,14 @@
                     <img class="img-logo" src="{{ asset('frontendcss/images/logobmq1.png')}}" alt="">
                     <ul class="nav flex-column">
                         <li class="nav-item">
-                            <a class="nav-link {{ request()->routeIs('sale.dashboard') ? 'active' : '' }}"
-                                href="{{ route('sale.dashboard') }}">
+                            <a class="nav-link {{ request()->routeIs('staff.dashboard') ? 'active' : '' }}"
+                                href="{{ route('staff.dashboard') }}">
                                 <i class="fas fa-tachometer-alt"></i> {{ __('Sale Dashboard') }}
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link {{ request()->routeIs('sale.sales.index') ? 'active' : '' }}"
-                                href="{{ route('sale.sales.index') }}">
+                            <a class="nav-link {{ request()->routeIs('staff.sales.index') ? 'active' : '' }}"
+                                href="{{ route('staff.sales.index') }}">
                                 <i class="fas fa-chart-bar"></i> {{ __('Sales Management') }}
                             </a>
                         </li>
@@ -214,14 +216,14 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link {{ request()->routeIs('sale.sales.revenue') ? 'active' : '' }}"
-                                href="{{ route('sale.sales.revenue') }}">
+                            <a class="nav-link {{ request()->routeIs('staff.sales.revenue') ? 'active' : '' }}"
+                                href="{{ route('staff.sales.revenue') }}">
                                 <i class="fas fa-chart-line"></i> {{ __('Revenue Statistics') }}
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link {{ request()->routeIs('sale.sales.productSales') ? 'active' : '' }}"
-                                href="{{ route('sale.sales.productSales') }}">
+                            <a class="nav-link {{ request()->routeIs('staff.sales.productSales') ? 'active' : '' }}"
+                                href="{{ route('staff.sales.productSales') }}">
                                 <i class="fas fa-boxes"></i> {{ __('Product Sales') }}
                             </a>
                         </li>
@@ -252,6 +254,7 @@
     
     <!-- Additional scripts -->
     @yield('scripts')
+    @yield('js')
     
     <script>
         document.addEventListener('DOMContentLoaded', function () {

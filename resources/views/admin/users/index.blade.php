@@ -39,7 +39,7 @@
                                 <td>{{ $user->email }}</td>
                                 <td>
                                     @switch($user->role)
-                                        @case('sale')
+                                        @case('staff')
                                             <span class="badge bg-primary">Người bán hàng</span>
                                             @break
                                         @case('warehouse')
@@ -89,7 +89,7 @@
 
                     <label for="roleSelect"><strong>Chọn vai trò:</strong></label>
                     <select id="roleSelect" class="swal2-select">
-                        <option value="sale" ${user.role === 'sale' ? 'selected' : ''}>Người bán hàng</option>
+                        <option value="staff" ${user.role === 'staff' ? 'selected' : ''}>Người bán hàng</option>
                         <option value="warehouse" ${user.role === 'warehouse' ? 'selected' : ''}>Quản lý kho</option>
                         <option value="customer" ${user.role === 'customer' ? 'selected' : ''}>Khách hàng</option>
                     </select>

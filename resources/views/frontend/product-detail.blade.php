@@ -32,7 +32,7 @@
                 <div class="section-heading">
                     <h5 class="name-product">{{$product->name}}</h5>
                     <div class="content-product">
-                        <p class="text-content"> {{ $product->type == 'sale' ? __('Sale') : __('Rental') }}</p>
+                        <p class="text-content"> {{ $product->type == 'staff' ? __('Sale') : __('Rental') }}</p>
                     </div>
                 </div>
             </div>
@@ -55,7 +55,7 @@
                                 @if($product->productInventories?->quantity > 0)
                                     <h2>{{ __('Stock quantity') }}: <span>{{ $product->productInventories->quantity }}</span>
                                     </h2>
-                                    <h4>{{ __('Price') }} {{ $product->type == 'sale' ? __('Sale') : __('Rental') }}:
+                                    <h4>{{ __('Price') }} {{ $product->type == 'staff' ? __('Sale') : __('Rental') }}:
                                         {{ number_format($product->price, 0, ',', '.') }} đ
                                     </h4>
                                 @endif

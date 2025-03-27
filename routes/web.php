@@ -34,7 +34,7 @@ Route::middleware([LanguageMiddleware::class])->group(function () {
     Route::view('/news', 'frontend.news')->name('web.news');
     Route::get('/language/{lang}', [LanguageController::class, 'changeLanguage'])->name('web.language');
     Route::get('/product/{type}', [ProductController::class, 'viewAll'])
-        ->where('type', 'sale|rental|all')
+        ->where('type', 'staff|rental|all')
         ->name('web.product');
     Route::get('/products/{id}', [ProductController::class, 'show'])->name('web.product.detail');
     Route::post('/add-contact', [ContactController::class, 'add'])->name('api.contract.add');
@@ -52,7 +52,7 @@ Route::middleware([LanguageMiddleware::class])->group(function () {
     Route::get('/email/verify/{id}/{hash}', [EmailController::class, 'verify'])->name('verification.verify');
 
     // Dành cho mọi tài khoản đăng nhập thành công 
-    Route::middleware([RoleMiddleware::class . ":customer,admin,sale,rental"])->group(function () {
+    Route::middleware([RoleMiddleware::class . ":customer,admin,staff,rental"])->group(function () {
         Route::get('logout', [LogoutController::class, 'logout'])->name('api.logout');
         Route::post('logout', [LogoutController::class, 'logout'])->name('api.logout.post');
     });
@@ -70,7 +70,7 @@ Route::middleware([LanguageMiddleware::class])->group(function () {
     });
 
     // Dành cho việc điều hành sản phẩm
-    Route::middleware([RoleMiddleware::class . ':admin,sale'])->group(function () {
+    Route::middleware([RoleMiddleware::class . ':admin,staff'])->group(function () {
         // Product Management, phần middleware giúp category chỉ cần gọi một lần hạn chế gọi nhiều 
         Route::middleware([CategoryMiddleware::class])->group(function () {
             Route::get('/admin/products', [AssetController::class, 'loadProduct'])->name('admin.products.index');
@@ -84,9 +84,9 @@ Route::middleware([LanguageMiddleware::class])->group(function () {
         Route::delete('/admin.product/delete/image/{id}', [AssetController::class, 'deleteImage'])->name('admin.api.product.delete.image');
         Route::get('/admin/product/search/{name}', [AssetController::class, 'search'])->name('admin.api.product.search');
         
-        // Shared revenue route for admin and sale
+        // Shared revenue route for admin and staff
         Route::get('/admin/sales/revenue', [RevenueController::class, 'index'])->name('admin.sales.revenue');
-        Route::get('/sale/sales/revenue', [RevenueController::class, 'index'])->name('sale.sales.revenue');
+        Route::get('/staff/sales/revenue', [RevenueController::class, 'index'])->name('staff.sales.revenue');
     });
 
     // Dành cho admin
@@ -112,11 +112,11 @@ Route::middleware([LanguageMiddleware::class])->group(function () {
         Route::delete('/admin.categories/{category}', [CategoryController::class, 'delete'])->name('admin.categories.delete');
     });
 
-    // Dành cho sale
-    Route::middleware([RoleMiddleware::class . ':admin,sale'])->group(function () {
-        Route::get('/sale/dashboard', [SalesController::class, 'dashboard'])->name('sale.dashboard');
-        Route::get('/sale/sales/product-sales', [SalesController::class, 'productSales'])->name('sale.sales.productSales');
-        Route::get('/sale/sales', [SalesController::class, 'index'])->name('sale.sales.index');
+    // Dành cho staff
+    Route::middleware([RoleMiddleware::class . ':admin,staff'])->group(function () {
+        Route::get('/staff/dashboard', [SalesController::class, 'dashboard'])->name('staff.dashboard');
+        Route::get('/staff/sales/product-sales', [SalesController::class, 'productSales'])->name('staff.sales.productSales');
+        Route::get('/staff/sales', [SalesController::class, 'index'])->name('staff.sales.index');
     });
 
     // Dành cho rental

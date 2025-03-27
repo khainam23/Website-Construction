@@ -12,7 +12,7 @@
                             <div class="collapse navbar-collapse" id="navbarNav1">
                                 <ul class="navbar-nav">
                                     <li class="nav-item dropdown">
-                                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                                        <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button"
                                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                             @if($lang == 'vi')
                                                 <img src="{{ asset('frontendcss/images/co-vi.png')}}" alt="">
@@ -70,8 +70,8 @@
                             </li>
                             <li
                                 class="nav-item 
-                                {{ (\Request::route()->getName() == 'web.product' && \Request::route('type') == 'sale') ? 'active' : '' }}">
-                                <a class="nav-link" href="{{ route('web.product', ['type' => 'sale']) }}">
+                                {{ (\Request::route()->getName() == 'web.product' && \Request::route('type') == 'staff') ? 'active' : '' }}">
+                                <a class="nav-link" href="{{ route('web.product', ['type' => 'staff']) }}">
                                     {{ __('Product_sale') }} <span class="sr-only">(current)</span>
                                 </a>
                             </li>
