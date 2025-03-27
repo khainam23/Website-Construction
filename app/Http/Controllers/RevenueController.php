@@ -75,10 +75,8 @@ class RevenueController extends Controller
                 ];
             }
             
-            \Log::info('Daily revenue data:', $formattedResult);
             return $formattedResult;
         } catch (\Exception $e) {
-            \Log::error('Error getting daily revenue: ' . $e->getMessage());
             return [];
         }
     }
