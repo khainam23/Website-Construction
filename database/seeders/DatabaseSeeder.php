@@ -227,6 +227,142 @@ class DatabaseSeeder extends Seeder
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
+            [
+                'name' => 'Xe Tải Cẩu 8 Tấn Dongfeng 4 Chân',
+                'category_id' => 9, // Xe tải nặng
+                'description' => 'Xe tải cẩu 8 tấn Dongfeng 4 chân với sức nâng mạnh mẽ, phù hợp cho công trình lớn.',
+                'avatar' => 'products/1.jpg',
+                'price' => 1500000000,
+                'type' => 'sale',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'name' => 'Xe Cẩu Mini 5 Tấn Komatsu LC785',
+                'category_id' => 6, // Xe cẩu tự hành
+                'description' => 'Cần cẩu mini 5 tấn, thích hợp cho không gian hẹp',
+                'avatar' => 'products/2.jpg',
+                'price' => 800000000,
+                'type' => 'rental',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'name' => 'Xe Cẩu Bánh Xích 10 Tấn Hitachi',
+                'category_id' => 4, // Xe cẩu bánh xích
+                'description' => 'Xe cẩu bánh xích chuyên dụng cho địa hình khó',
+                'avatar' => 'products/3.jpg',
+                'price' => 2000000000,
+                'type' => 'sale',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'name' => 'Xe Cẩu Tự Hành 15 Tấn XCMG',
+                'category_id' => 6, // Xe cẩu tự hành
+                'description' => 'Xe cẩu tự hành công suất lớn',
+                'avatar' => 'products/4.jpg',
+                'price' => 2500000000,
+                'type' => 'rental',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'name' => 'Xe Cẩu Gấp 3 Tấn Hyundai',
+                'category_id' => 5, // Xe cẩu bánh lốp
+                'description' => 'Xe cẩu gấp nhỏ gọn, linh hoạt',
+                'avatar' => 'products/5.jpg',
+                'price' => 1200000000,
+                'type' => 'sale',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'name' => 'Xe Cẩu Container 45 Tấn Kalmar',
+                'category_id' => 5, // Xe cẩu bánh lốp
+                'description' => 'Xe cẩu container chuyên dụng cho cảng biển',
+                'avatar' => 'products/6.jpg',
+                'price' => 3500000000,
+                'type' => 'rental',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'name' => 'Xe Cẩu Bánh Lốp 25 Tấn Grove',
+                'category_id' => 5, // Xe cẩu bánh lốp
+                'description' => 'Xe cẩu bánh lốp đa năng',
+                'avatar' => 'products/7.jpg',
+                'price' => 2800000000,
+                'type' => 'sale',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'name' => 'Xe Cẩu Tháp 50 Tấn Potain',
+                'category_id' => 6, // Xe cẩu tự hành
+                'description' => 'Xe cẩu tháp cho công trình cao tầng',
+                'avatar' => 'products/8.jpg',
+                'price' => 4000000000,
+                'type' => 'rental',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'name' => 'Xe cẩu 5 tấn mini Komatsu-LC785-6 - JCT Việt Nam',
+                'category_id' => 1,
+                'description' => 'Cần cẩu 5 tấn mini Komatsu-LC785-6 là dòng xe cẩu nhỏ chuyên để phục vụ nâng hạ hàng hóa trong kho xưởng hoặc trong những công trường có diện tích nhỏ và thấp. Cần trục mini 5 tấn được nhập khẩu trực tiếp từ Nhật Bản thông qua JCT Việt Nam, xe được bảo dưỡng toàn bộ hệ thống trước khi bàn giao.
+
+                                Khách hàng có nhu cầu mua hoặc thuê xe cẩu vui lòng liên hệ JCT Việt Nam để nhận báo giá tốt nhất và nhanh nhất.
+
+                                Khách hàng tham khảo thêm:
+
+                                Địa chỉ bán xe cẩu nhỏ đa dạng tải trọng – giá rẻ bất ngờ
+
+                                Sửa chữa hệ thống thủy lực xe cẩu – Công ty JCT Việt Nam',
+                'avatar' => 'https://jct.com.vn/wp-content/uploads/2021/10/xe-cau-mini-5-tan-komatsu-lc785-6-1-.jpg',
+                'price' => 200000000,
+                'type' => 'rental',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'name' => 'Xe cẩu 5 tấn mini Komatsu-LC785-6 - JCT Việt Nam',
+                'category_id' => 1,
+                'description' => 'Cần cẩu 5 tấn mini Komatsu-LC785-6 là dòng xe cẩu nhỏ chuyên để phục vụ nâng hạ hàng hóa trong kho xưởng hoặc trong những công trường có diện tích nhỏ và thấp. Cần trục mini 5 tấn được nhập khẩu trực tiếp từ Nhật Bản thông qua JCT Việt Nam, xe được bảo dưỡng toàn bộ hệ thống trước khi bàn giao.
+
+                                Khách hàng có nhu cầu mua hoặc thuê xe cẩu vui lòng liên hệ JCT Việt Nam để nhận báo giá tốt nhất và nhanh nhất.
+
+                                Khách hàng tham khảo thêm:
+
+                                Địa chỉ bán xe cẩu nhỏ đa dạng tải trọng – giá rẻ bất ngờ
+
+                                Sửa chữa hệ thống thủy lực xe cẩu – Công ty JCT Việt Nam',
+                'avatar' => 'https://jct.com.vn/wp-content/uploads/2021/10/xe-cau-mini-5-tan-komatsu-lc785-6-1-.jpg',
+                'price' => 200000000,
+                'type' => 'rental',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'name' => 'Máy Ủi Caterpillar D6',
+                'category_id' => 16, // Máy ủi cỡ lớn
+                'description' => 'Máy ủi Caterpillar D6 mạnh mẽ và bền bỉ.',
+                'avatar' => 'products/11.jpg',
+                'price' => 5500000000,
+                'type' => 'sale',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'name' => 'Máy San Gạt John Deere 672G',
+                'category_id' => 17, // Máy san gạt tự hành
+                'description' => 'Máy san gạt John Deere 672G hiệu suất cao.',
+                'avatar' => 'products/12.jpg',
+                'price' => 6200000000,
+                'type' => 'rental',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
         ]);
 
         // Tạo giá trị lưu kho
@@ -315,6 +451,90 @@ class DatabaseSeeder extends Seeder
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
+            [
+                'product_id' => 13,
+                'type' => 'sale',
+                'quantity' => 10,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'product_id' => 14,
+                'type' => 'rental',
+                'quantity' => 10,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'product_id' => 15,
+                'type' => 'sale',
+                'quantity' => 10,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'product_id' => 16,
+                'type' => 'rental',
+                'quantity' => 10,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'product_id' => 17,
+                'type' => 'sale',
+                'quantity' => 10,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'product_id' => 18,
+                'type' => 'sale',
+                'quantity' => 10,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'product_id' => 19,
+                'type' => 'sale',
+                'quantity' => 10,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'product_id' => 20,
+                'type' => 'rental',
+                'quantity' => 10,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'product_id' => 21,
+                'type' => 'rental',
+                'quantity' => 10,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'product_id' => 22,
+                'type' => 'sale',
+                'quantity' => 10,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'product_id' => 23,
+                'type' => 'sale',
+                'quantity' => 5,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'product_id' => 24,
+                'type' => 'rental',
+                'quantity' => 5,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
         ]);
 
         // Tạo Product Descriptions
@@ -344,29 +564,42 @@ class DatabaseSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'product_id' => 11,
-                'infomations' => 'Máy ủi Caterpillar D6 là sự lựa chọn hàng đầu cho các công trình lớn. Với sức mạnh vượt trội và độ bền cao, nó đáp ứng mọi yêu cầu công việc.',
-                'features' => '- Động cơ mạnh mẽ Caterpillar
-                            - Lưỡi ủi lớn, hiệu suất cao
-                            - Hệ thống điều khiển hiện đại
-                            - Khả năng làm việc liên tục
-                            - Bảo trì dễ dàng',
-                'applications' => 'Sử dụng trong các công trình xây dựng đường, san lấp mặt bằng, khai thác mỏ.',
+                'product_id' => 3,
+                'infomations' => 'Xe cẩu bánh xích Hitachi 10 tấn là thiết bị chuyên dụng cho các địa hình phức tạp. Được trang bị công nghệ tiên tiến và hệ thống an toàn đáng tin cậy.',
+                'features' => '- Tải trọng nâng tối đa: 10000 kg
+                      - Chiều cao nâng tối đa: 30m
+                      - Hệ thống bánh xích bền bỉ
+                      - Cabin điều khiển 360 độ
+                      - Hệ thống cân bằng tự động',
+                'applications' => 'Thích hợp cho các công trình xây dựng có địa hình khó khăn, khu vực đồi núi, và các dự án cơ sở hạ tầng.',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
-                'product_id' => 12,
-                'infomations' => 'Máy san gạt John Deere 672G là thiết bị không thể thiếu cho việc duy trì và xây dựng đường. Độ chính xác cao và khả năng vận hành linh hoạt.',
-                'features' => '- Hệ thống lái tự động
-                            - Lưỡi san có thể điều chỉnh
-                            - Động cơ tiết kiệm nhiên liệu
-                            - Cabin thoải mái cho người vận hành
-                            - Dễ dàng bảo trì',
-                'applications' => 'Dùng để san lấp đường, làm phẳng bề mặt, và duy trì đường sá.',
+                'product_id' => 4,
+                'infomations' => 'Xe cẩu tự hành XCMG 15 tấn là sự kết hợp hoàn hảo giữa công nghệ hiện đại và độ tin cậy cao. Thiết kế đa năng cho nhiều mục đích sử dụng.',
+                'features' => '- Sức nâng tối đa: 15000 kg
+                      - Chiều dài cần: 47m
+                      - Hệ thống điều khiển thông minh
+                      - Động cơ tiết kiệm nhiên liệu
+                      - Hệ thống an toàn tích hợp',
+                'applications' => 'Phù hợp cho các công trình xây dựng cao tầng, lắp đặt thiết bị công nghiệp, và các dự án cơ sở hạ tầng quy mô lớn.',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
+            [
+                'product_id' => 5,
+                'infomations' => 'Xe cẩu gấp Hyundai 3 tấn là thiết bị đa năng với thiết kế gọn nhẹ. Khả năng vận hành linh hoạt và hiệu quả cao.',
+                'features' => '- Tải trọng: 3000 kg
+                      - Bán kính hoạt động: 8m
+                      - Cần gấp thông minh
+                      - Hệ thống điều khiển từ xa
+                      - Tiết kiệm không gian',
+                'applications' => 'Thích hợp cho các công việc trong đô thị, khu công nghiệp, và các dự án xây dựng nhỏ.',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            // ... continue with existing entries ...
         ]);
 
         // Ảnh cho sản phẩm
@@ -427,6 +660,60 @@ class DatabaseSeeder extends Seeder
             ['product_id' => 12, 'path' => 'products/11.jpg'],
             ['product_id' => 12, 'path' => 'products/12.jpg'],
             ['product_id' => 12, 'path' => 'products/1.jpg'],
+
+            // Product 13 - 3 images
+            ['product_id' => 13, 'path' => 'products/2.jpg'],
+            ['product_id' => 13, 'path' => 'products/3.jpg'],
+            ['product_id' => 13, 'path' => 'products/4.jpg'],
+
+            // Product 14 - 2 images
+            ['product_id' => 14, 'path' => 'products/5.jpg'],
+            ['product_id' => 14, 'path' => 'products/6.jpg'],
+
+            // Product 15 - 3 images
+            ['product_id' => 15, 'path' => 'products/7.jpg'],
+            ['product_id' => 15, 'path' => 'products/8.jpg'],
+            ['product_id' => 15, 'path' => 'products/9.jpg'],
+
+            // Product 16 - 2 images
+            ['product_id' => 16, 'path' => 'products/10.jpg'],
+            ['product_id' => 16, 'path' => 'products/11.jpg'],
+
+            // Product 17 - 3 images
+            ['product_id' => 17, 'path' => 'products/12.jpg'],
+            ['product_id' => 17, 'path' => 'products/1.jpg'],
+            ['product_id' => 17, 'path' => 'products/2.jpg'],
+
+            // Product 18 - 2 images
+            ['product_id' => 18, 'path' => 'products/3.jpg'],
+            ['product_id' => 18, 'path' => 'products/4.jpg'],
+
+            // Product 19 - 3 images
+            ['product_id' => 19, 'path' => 'products/5.jpg'],
+            ['product_id' => 19, 'path' => 'products/6.jpg'],
+            ['product_id' => 19, 'path' => 'products/7.jpg'],
+
+            // Product 20 - 2 images
+            ['product_id' => 20, 'path' => 'products/8.jpg'],
+            ['product_id' => 20, 'path' => 'products/9.jpg'],
+
+            // Product 21 - 3 images
+            ['product_id' => 21, 'path' => 'products/10.jpg'],
+            ['product_id' => 21, 'path' => 'products/11.jpg'],
+            ['product_id' => 21, 'path' => 'products/12.jpg'],
+
+            // Product 22 - 2 images
+            ['product_id' => 22, 'path' => 'products/1.jpg'],
+            ['product_id' => 22, 'path' => 'products/2.jpg'],
+
+            // Product 23 - 3 images
+            ['product_id' => 23, 'path' => 'products/3.jpg'],
+            ['product_id' => 23, 'path' => 'products/4.jpg'],
+            ['product_id' => 23, 'path' => 'products/5.jpg'],
+
+            // Product 24 - 2 images
+            ['product_id' => 24, 'path' => 'products/6.jpg'],
+            ['product_id' => 24, 'path' => 'products/7.jpg'],
         ]);
 
         // Tạo Orders

@@ -33,7 +33,7 @@ Route::middleware([LanguageMiddleware::class])->group(function () {
     Route::view('/contact', 'frontend.contact')->name('web.contact');
     Route::view('/news', 'frontend.news')->name('web.news');
     Route::get('/language/{lang}', [LanguageController::class, 'changeLanguage'])->name('web.language');
-    Route::get('/product/{type}', [ProductController::class, 'viewAll'])
+    Route::get('/product/{type}/{page?}', [ProductController::class, 'viewAll'])
         ->where('type', 'sale|rental|all')
         ->name('web.product');
     Route::get('/products/{id}', [ProductController::class, 'show'])->name('web.product.detail');
@@ -65,6 +65,7 @@ Route::middleware([LanguageMiddleware::class])->group(function () {
 
         Route::post('/cart/add', [CartController::class, 'add'])->name('api.cart.add');
         Route::post('/cart/payment', [PaymentContronller::class, 'all'])->name('api.payment');
+        Route::post('/cart/delete', [CartController::class, 'delete'])->name('api.cart.delete');
         Route::get('/payment/vnpay/return', [PaymentContronller::class, 'vnpayReturn'])->name('api.payment.vnpay.return');
         Route::post('/order/cancel', [OrderController::class, 'cancel'])->name('api.order.cancel');
     });
@@ -83,11 +84,11 @@ Route::middleware([LanguageMiddleware::class])->group(function () {
         Route::post('/admin/product/add/image', [AssetController::class, 'uploadImages'])->name('admin.api.product.upload.images');
         Route::delete('/admin.product/delete/image/{id}', [AssetController::class, 'deleteImage'])->name('admin.api.product.delete.image');
         Route::get('/admin/product/search/{name}', [AssetController::class, 'search'])->name('admin.api.product.search');
-        
+
         // Shared revenue route for admin and sale
         Route::get('/admin/sales/revenue', [RevenueController::class, 'index'])->name('admin.sales.revenue');
         Route::get('/sale/sales/revenue', [RevenueController::class, 'index'])->name('sale.sales.revenue');
-        
+
         // Add export routes for revenue data
         Route::get('/sale/sales/export/{type}', [RevenueController::class, 'exportRevenue'])->name('sale.sales.export');
         Route::get('/admin/sales/export/{type}', [RevenueController::class, 'exportRevenue'])->name('admin.sales.export');
