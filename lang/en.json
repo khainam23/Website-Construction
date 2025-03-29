@@ -1021,5 +1021,8 @@
     "ORDER DETAILS": "ORDER DETAILS",
     "INVOICE": "INVOICE",
     "Maximum available quantity:": "Maximum available quantity",
-    "Available": "Available"
+    "Available": "Available",
+    "for rental duration": "for rental duration",
+    "Discount": "Discount",
+    "days": "days"
 }

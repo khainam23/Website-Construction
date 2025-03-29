@@ -252,6 +252,11 @@
 
                             <label class="fw-bold">{{ __('End Date:') }}</label>
                             <input type="date" id="rental_end" class="form-control mb-2" onchange="updateTotalPrice()">
+                            
+                            <!-- Add rental discount information display -->
+                            <div id="rental_discount" class="alert alert-info mb-2" style="display: none;">
+                                <i class="fas fa-tag"></i> <span id="discount_text"></span>
+                            </div>
                         @endif
 
                         <label class="fw-bold">{{ __('Total Price:') }}</label>
@@ -345,6 +350,7 @@
             let quantity = parseInt(quantityInput.value, 10);
             let maxQuantity = {{ $product->productInventories->quantity }};
             let price = {{ $product->price }}; // Get product price from PHP
+            let discountPercent = 0;
 
             // Ensure quantity is within valid range
             if (isNaN(quantity) || quantity < 1) {
@@ -358,7 +364,8 @@
             @if($product->type == 'rental')
                 let rentalStart = document.getElementById('rental_start').value;
                 let rentalEnd = document.getElementById('rental_end').value;
-
+                let discountElement = document.getElementById('rental_discount');
+                let discountText = document.getElementById('discount_text');
 
                 let startDate = new Date(rentalStart);
                 let endDate = new Date(rentalEnd);
@@ -366,12 +373,24 @@
                 let timeDiff = endDate - startDate; // Difference in milliseconds
                 let daysDiff = timeDiff / (1000 * 60 * 60 * 24); // Convert to days
 
+                // Reset discount display
+                discountElement.style.display = 'none';
+
                 if (daysDiff > 4 && daysDiff < 7) {
                     price *= 0.9; // 10% discount => multiply by 0.9
+                    discountPercent = 10;
                 } else if (daysDiff > 8 && daysDiff < 14) {
                     price *= 0.85; // 15% discount => multiply by 0.85
+                    discountPercent = 15;
                 } else if (daysDiff > 14) {
                     price *= 0.8; // 20% discount => multiply by 0.8
+                    discountPercent = 20;
+                }
+
+                // Display discount information if there is a discount
+                if (discountPercent > 0) {
+                    discountText.innerHTML = "{{ __('Discount') }}: " + discountPercent + "% {{ __('for rental duration') }} " + Math.ceil(daysDiff) + " {{ __('days') }}";
+                    discountElement.style.display = 'block';
                 }
             @endif
 

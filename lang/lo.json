@@ -1092,5 +1092,8 @@
   "ORDER DETAILS": "ລາຍລະອຽດຄໍາສັ່ງ",
   "INVOICE": "ໃບເກັບເງິນ",
   "Maximum available quantity:": "ຈຳນວນສູງສຸດ",
-  "Available": "ສົດໃໝ່"
+  "Available": "ສົດໃໝ່",
+  "for rental duration": "ສໍາລັບເວລາເຊົາ",
+  "Discount": "ສໍາລະບັດ",
+  "days": "ມື້"
 }

@@ -1103,5 +1103,8 @@
     "ORDER DETAILS": "အော်ဒါအသေးစိတ်",
     "INVOICE": "ငွေတောင်းခံလွှာ",
     "Maximum available quantity:": "အများဆုံးရရှိနိုင်သော အရေအတွက်",
-    "Available": "ရရှိနိုင်ပါသည်"
+    "Available": "ရရှိနိုင်ပါသည်",
+    "for rental duration": "ငှားရမ်းမှုကာလအတွက်",
+    "Discount": "လျှော့ဈေး",
+    "days": "ရက်"
 }
