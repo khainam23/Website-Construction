@@ -74,9 +74,7 @@
                         });
                     },
                     error: function (xhr) {
-                        // Đóng hộp thoại loading
-                        Swal.close();
-
+                        console.log(xhr)
                         Swal.fire({
                             icon: 'error',
                             title: '{{ __("Error") }}',

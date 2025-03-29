@@ -8,10 +8,10 @@ use Illuminate\Http\Request;
 
 class AssetController extends Controller
 {
-    public function loadProduct()
+    public function loadProduct($page = 1)
     {
         $products = Product::with(['category', 'productInventories'])->orderBy("id")->get();
-        return view('admin.products.index', compact('products'));
+        return view('admin.products.index', compact('products', "page"));
     }
 
     public function edit($id)

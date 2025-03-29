@@ -74,7 +74,7 @@ Route::middleware([LanguageMiddleware::class])->group(function () {
     Route::middleware([RoleMiddleware::class . ':admin,sale'])->group(function () {
         // Product Management, phần middleware giúp category chỉ cần gọi một lần hạn chế gọi nhiều 
         Route::middleware([CategoryMiddleware::class])->group(function () {
-            Route::get('/admin/products', [AssetController::class, 'loadProduct'])->name('admin.products.index');
+            Route::get('/admin/products/{page?}', [AssetController::class, 'loadProduct'])->name('admin.products.index');
             Route::get('/admin/products/{product}/edit', [AssetController::class, 'edit'])->name('admin.products.edit');
             Route::view('/admin/product/create', 'admin.products.create')->name('admin.products.create');
         });

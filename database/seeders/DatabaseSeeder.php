@@ -37,7 +37,8 @@ class DatabaseSeeder extends Seeder
                 'is_active' => true,
                 'last_login' => now(),
                 'created_at' => now(),
-                'updated_at' => now()
+                'updated_at' => now(),
+                'email_verified_at' => now()
             ],
             [
                 'first_name' => 'John',
@@ -52,7 +53,8 @@ class DatabaseSeeder extends Seeder
                 'is_active' => true,
                 'last_login' => now(),
                 'created_at' => now(),
-                'updated_at' => now()
+                'updated_at' => now(),
+                'email_verified_at' => now()
             ],
         ]);
 

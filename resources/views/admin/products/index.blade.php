@@ -46,7 +46,10 @@
                     </tr>
                 </thead>
                 <tbody id="product-table">
-                    @foreach($products as $product)
+                    @for($i = $page * 10 - 10; $i < $page * 10 && $i < count($products); $i++)
+                        @php
+                            $product = $products[$i]
+                        @endphp
                         <tr>
                             <td>{{ $product->id }}</td>
                             <td>{{ $product->name }}</td>
@@ -73,9 +76,37 @@
                                 </form>
                             </td>
                         </tr>
-                    @endforeach
+                    @endfor
                 </tbody>
             </table>
+
+            <nav>
+                <ul class="pagination">
+                    @php
+                        $totalPages = ceil(count($products) / 10);
+                    @endphp
+
+                    {{-- Nút Previous --}}
+                    <li class="page-item {{ ($page == 1) ? 'disabled' : '' }}">
+                        <a class="page-link"
+                            href="{{ route('admin.products.index', ['page' => max(1, $page - 1)]) }}" tabindex="-1">
+                            <</a>
+                    </li>
+
+                    {{-- Các số trang --}}
+                    @for ($i = 1; $i <= $totalPages; $i++)
+                        <li class="page-item {{ ($page == $i) ? 'active' : '' }}">
+                            <a class="page-link" href="{{ route('admin.products.index', ['page' => $i]) }}">{{ $i }}</a>
+                        </li>
+                    @endfor
+
+                    {{-- Nút Next --}}
+                    <li class="page-item {{ ($page == $totalPages) ? 'disabled' : '' }}">
+                        <a class="page-link"
+                            href="{{ route('admin.products.index', ['page' => min($totalPages, $page + 1)]) }}">></a>
+                    </li>
+                </ul>
+            </nav>
         </div>
     </div>
 @endsection
