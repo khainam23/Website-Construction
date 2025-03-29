@@ -814,82 +814,57 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('categoryRevenueLoader').style.display = 'none';
     }
 
-    // Monthly Revenue Chart - immediate display
+    // Monthly Revenue Chart - update to match weekly revenue chart format
     try {
-        // Process monthly data for chart
-        const monthlyData = {};
-        const monthLabels = [];
+        console.log('Processing monthly revenue data');
+        const monthlyLabels = [];
+        const monthlyTotalData = [];
         
         @if(isset($monthlyRevenue) && !empty($monthlyRevenue))
+            console.log('Monthly revenue data exists:', @json($monthlyRevenue));
+            
+            // Process data to get total revenue per month
             @foreach($monthlyRevenue as $month => $revenues)
-                monthlyData['{{ $month }}'] = {
-                    rental: 0,
-                    sale: 0,
-                    total: 0
-                };
-                monthLabels.push('{{ $month }}');
+                monthlyLabels.push('{{ $month }}');
                 
+                // Calculate total revenue for this month (sum of rental and sale)
+                let totalRevenue = 0;
                 @foreach($revenues as $revenue)
-                    monthlyData['{{ $month }}']['{{ $revenue['type'] }}'] += parseFloat({{ $revenue['revenue'] }});
-                    monthlyData['{{ $month }}']['total'] += parseFloat({{ $revenue['revenue'] }});
+                    totalRevenue += {{ $revenue["revenue"] }};
                 @endforeach
+                
+                monthlyTotalData.push(totalRevenue);
             @endforeach
         @else
+            console.log('No monthly revenue data available');
             // Default month if no data
             const currentMonth = moment().format('YYYY-MM');
-            monthlyData[currentMonth] = {
-                rental: 0,
-                sale: 0,
-                total: 0
-            };
-            monthLabels.push(currentMonth);
+            monthlyLabels.push(currentMonth);
+            monthlyTotalData.push(0);
         @endif
         
-        const rentalData = monthLabels.map(month => monthlyData[month].rental);
-        const saleData = monthLabels.map(month => monthlyData[month].sale);
-        const totalData = monthLabels.map(month => monthlyData[month].total);
+        console.log('Monthly labels:', monthlyLabels);
+        console.log('Monthly total data:', monthlyTotalData);
         
         const monthlyRevenueCtx = document.getElementById('monthlyRevenueChart');
         if (monthlyRevenueCtx) {
             new Chart(monthlyRevenueCtx, {
                 type: 'bar',
                 data: {
-                    labels: monthLabels.map(month => {
-                        const [year, monthNum] = month.split('-');
+                    labels: monthlyLabels.map(month => {
                         return moment(month + '-01').format('MMM YYYY');
                     }),
-                    datasets: [
-                        {
-                            label: '{{ __("Rental Revenue") }}',
-                            data: rentalData,
-                            backgroundColor: 'rgba(54, 185, 204, 0.7)',
-                            borderColor: colors.info,
-                            borderWidth: 1,
-                            hoverBackgroundColor: 'rgba(54, 185, 204, 0.9)',
-                            hoverBorderColor: colors.info
-                        },
-                        {
-                            label: '{{ __("Sales Revenue") }}',
-                            data: saleData,
-                            backgroundColor: 'rgba(78, 115, 223, 0.7)',
-                            borderColor: colors.primary,
-                            borderWidth: 1,
-                            hoverBackgroundColor: 'rgba(78, 115, 223, 0.9)',
-                            hoverBorderColor: colors.primary
-                        },
-                        {
-                            label: '{{ __("Total Revenue") }}',
-                            data: totalData,
-                            type: 'line',
-                            backgroundColor: 'transparent',
-                            borderColor: colors.success,
-                            borderWidth: 2,
-                            pointBackgroundColor: colors.success,
-                            pointBorderColor: '#fff',
-                            pointRadius: 4,
-                            tension: 0.3
-                        }
-                    ]
+                    datasets: [{
+                        label: '{{ __("Monthly Revenue") }}',
+                        data: monthlyTotalData,
+                        backgroundColor: 'rgba(54, 185, 204, 0.7)',
+                        borderColor: colors.info,
+                        borderWidth: 1,
+                        hoverBackgroundColor: 'rgba(54, 185, 204, 0.9)',
+                        hoverBorderColor: colors.info,
+                        barPercentage: 0.7,
+                        categoryPercentage: 0.8
+                    }]
                 },
                 options: {
                     ...defaultOptions,
@@ -922,83 +897,55 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('monthlyRevenueLoader').style.display = 'none';
     }
 
-    // Yearly Revenue Chart - immediate display
+    // Yearly Revenue Chart - update to match weekly revenue chart format
     try {
-        // Process yearly data for chart
-        const yearlyData = {};
-        const yearLabels = [];
+        console.log('Processing yearly revenue data');
+        const yearlyLabels = [];
+        const yearlyTotalData = [];
         
         @if(isset($yearlyRevenue) && !empty($yearlyRevenue))
+            console.log('Yearly revenue data exists:', @json($yearlyRevenue));
+            
+            // Process data to get total revenue per year
             @foreach($yearlyRevenue as $year => $revenues)
-                yearlyData['{{ $year }}'] = {
-                    rental: 0,
-                    sale: 0,
-                    total: 0
-                };
-                yearLabels.push('{{ $year }}');
+                yearlyLabels.push('{{ $year }}');
                 
+                // Calculate total revenue for this year (sum of rental and sale)
+                let totalRevenue = 0;
                 @foreach($revenues as $revenue)
-                    yearlyData['{{ $year }}']['{{ $revenue['type'] }}'] += parseFloat({{ $revenue['revenue'] }});
-                    yearlyData['{{ $year }}']['total'] += parseFloat({{ $revenue['revenue'] }});
+                    totalRevenue += {{ $revenue["revenue"] }};
                 @endforeach
+                
+                yearlyTotalData.push(totalRevenue);
             @endforeach
         @else
+            console.log('No yearly revenue data available');
             // Default year if no data
             const currentYear = moment().format('YYYY');
-            yearlyData[currentYear] = {
-                rental: 0,
-                sale: 0,
-                total: 0
-            };
-            yearLabels.push(currentYear);
+            yearlyLabels.push(currentYear);
+            yearlyTotalData.push(0);
         @endif
         
-        const yearlyRentalData = yearLabels.map(year => yearlyData[year].rental);
-        const yearlySaleData = yearLabels.map(year => yearlyData[year].sale);
-        const yearlyTotalData = yearLabels.map(year => yearlyData[year].total);
+        console.log('Yearly labels:', yearlyLabels);
+        console.log('Yearly total data:', yearlyTotalData);
         
         const yearlyRevenueCtx = document.getElementById('yearlyRevenueChart');
         if (yearlyRevenueCtx) {
             new Chart(yearlyRevenueCtx, {
                 type: 'bar',
                 data: {
-                    labels: yearLabels,
-                    datasets: [
-                        {
-                            label: '{{ __("Rental Revenue") }}',
-                            data: yearlyRentalData,
-                            backgroundColor: 'rgba(54, 185, 204, 0.7)',
-                            borderColor: colors.info,
-                            borderWidth: 1,
-                            hoverBackgroundColor: 'rgba(54, 185, 204, 0.9)',
-                            hoverBorderColor: colors.info,
-                            barPercentage: 0.7,
-                            categoryPercentage: 0.8
-                        },
-                        {
-                            label: '{{ __("Sales Revenue") }}',
-                            data: yearlySaleData,
-                            backgroundColor: 'rgba(78, 115, 223, 0.7)',
-                            borderColor: colors.primary,
-                            borderWidth: 1,
-                            hoverBackgroundColor: 'rgba(78, 115, 223, 0.9)',
-                            hoverBorderColor: colors.primary,
-                            barPercentage: 0.7,
-                            categoryPercentage: 0.8
-                        },
-                        {
-                            label: '{{ __("Total Revenue") }}',
-                            data: yearlyTotalData,
-                            type: 'line',
-                            backgroundColor: 'transparent',
-                            borderColor: colors.success,
-                            borderWidth: 2,
-                            pointBackgroundColor: colors.success,
-                            pointBorderColor: '#fff',
-                            pointRadius: 4,
-                            tension: 0.3
-                        }
-                    ]
+                    labels: yearlyLabels,
+                    datasets: [{
+                        label: '{{ __("Yearly Revenue") }}',
+                        data: yearlyTotalData,
+                        backgroundColor: 'rgba(28, 200, 138, 0.7)',
+                        borderColor: colors.success,
+                        borderWidth: 1,
+                        hoverBackgroundColor: 'rgba(28, 200, 138, 0.9)',
+                        hoverBorderColor: colors.success,
+                        barPercentage: 0.7,
+                        categoryPercentage: 0.8
+                    }]
                 },
                 options: {
                     ...defaultOptions,

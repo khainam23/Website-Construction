@@ -235,8 +235,8 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link {{ request()->routeIs('admin.products.index') ? 'active' : '' }}"
-                                href="{{ route('admin.products.index') }}">
+                            <a class="nav-link {{ request()->routeIs('sale.products.index') ? 'active' : '' }}"
+                                href="{{ route('sale.products.index') }}">
                                 <i class="fas fa-boxes"></i> {{ __('Product Management') }}
                             </a>
                         </li>
@@ -244,12 +244,6 @@
                             <a class="nav-link {{ request()->routeIs('sale.sales.revenue') ? 'active' : '' }}"
                                 href="{{ route('sale.sales.revenue') }}">
                                 <i class="fas fa-chart-line"></i> {{ __('Revenue Statistics') }}
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link {{ request()->routeIs('sale.sales.productSales') ? 'active' : '' }}"
-                                href="{{ route('sale.sales.productSales') }}">
-                                <i class="fas fa-boxes"></i> {{ __('Product Sales') }}
                             </a>
                         </li>
                         <!-- Add more sidebar items here -->

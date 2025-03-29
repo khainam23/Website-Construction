@@ -224,6 +224,12 @@
     <!-- Add product to cart -->
     <script>
         function addCart() {
+            @if(!Auth::check())
+                // Redirect to login page if user is not authenticated
+                window.location.href = "{{ route('web.login') }}";
+                return;
+            @endif
+
             Swal.fire({
                 title: "{{ __('Confirm Payment') }}",
                 html: `

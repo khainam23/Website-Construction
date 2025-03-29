@@ -4,35 +4,42 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use App\Models\Image;
+use App\Models\Category;
 use Illuminate\Http\Request;
 
 class AssetController extends Controller
 {
     public function loadProduct($page = 1)
     {
-        $products = Product::with(['category', 'productInventories'])->orderBy("id")->get();
-        return view('admin.products.index', compact('products', "page"));
+        $products = Product::with(['category', 'productInventories'])->get();
+        $categories = Category::all();
+        
+        // Determine which view to render based on user role
+        $role = session('user')['role'];
+        $view = $role == 'sale' ? 'sale.products.index' : 'admin.products.index';
+        
+        return view($view, compact('products', 'categories', 'page'));
     }
 
-    public function edit($id)
+    public function edit(Request $request, $id)
     {
-        $product = Product::with(['category', 'images', 'productDescriptions', 'productInventories'])
-            ->where('id', $id)
-            ->first();
-        // Đảm bảo sản phẩm tồn tại
-        if (!$product) {
-            abort(404); // Trả về lỗi 404 nếu sản phẩm không tồn tại
-        }
-
-        // Nếu có productDescriptions, gộp vào thuộc tính chính của product
+        $product = Product::with(['category', 'images', 'productInventories', 'productDescriptions'])
+            ->where('id', $id)->first();
+        
+        // Fill in product features from descriptions
         if ($product->productDescriptions) {
             $product->info = $product->productDescriptions->infomations;
             $product->features = $product->productDescriptions->features;
             $product->applications = $product->productDescriptions->applications;
-            unset($product->productDescriptions);
         }
-
-        return view('admin.products.edit', compact('product'));
+        
+        $categories = Category::all();
+        
+        // Determine which view to render based on user role
+        $role = session('user')['role'];
+        $view = $role == 'sale' ? 'sale.products.edit' : 'admin.products.edit';
+        
+        return view($view, compact('product', 'categories'));
     }
 
     public function deleteImage($idImage)
@@ -56,7 +63,6 @@ class AssetController extends Controller
         return response()->json(['success' => true, 'message' => 'Ảnh đã được xóa thành công!']);
     }
 
-    // In uploadImages method
     public function uploadImages(Request $request)
     {
         $request->validate([

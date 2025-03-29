@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Queue;
 use App\Models\Product; // Added for product name lookup
 use Illuminate\Support\Facades\Log; // Added for logging
+use App\Models\User; // Added for user email lookup
 
 class PaymentContronller extends Controller
 {
@@ -121,6 +122,44 @@ class PaymentContronller extends Controller
     {
         $userId = session('user')['id'];
 
+        // Validate quantities against inventory before processing
+        $invalidItems = [];
+        foreach ($items as $item) {
+            $itemId = $item['id'] ?? null;
+            $productId = $item['product_id'] ?? $item['productId'] ?? null;
+            $quantity = (int)($item['quantity'] ?? 0);
+            
+            if ($productId && $quantity > 0) {
+                $type = empty($item['end']) ? 'sale' : 'rental';
+                $inventory = ProductInventory::where([
+                    'product_id' => $productId,
+                    'type' => $type
+                ])->first();
+                
+                if ($inventory && $quantity > $inventory->quantity) {
+                    $product = Product::find($productId);
+                    $invalidItems[] = [
+                        'name' => $product ? $product->name : "Product #$productId",
+                        'requested' => $quantity,
+                        'available' => $inventory->quantity
+                    ];
+                }
+            }
+        }
+        
+        // Return error if any item exceeds inventory
+        if (count($invalidItems) > 0) {
+            $errorMessage = "The following products have insufficient inventory:\n";
+            foreach ($invalidItems as $item) {
+                $errorMessage .= "- {$item['name']}: Requested: {$item['requested']}, Available: {$item['available']}\n";
+            }
+            
+            return response()->json([
+                'success' => false,
+                'message' => $errorMessage
+            ], 400);
+        }
+
         // Tạo đơn hàng
         $order = Order::create([
             'type' => 'normal',
@@ -133,9 +172,10 @@ class PaymentContronller extends Controller
 
         $totalAmount = 0; // Tổng tiền đơn hàng
         $processedCartIds = []; // Track cart IDs to delete later
+        $orderItems = []; // Store order details for invoice email
 
         // Xử lý từng sản phẩm trong giỏ hàng
-        collect($items)->each(function ($item) use ($order, &$totalAmount, $userId, &$processedCartIds) {
+        collect($items)->each(function ($item) use ($order, &$totalAmount, $userId, &$processedCartIds, &$orderItems) {
             $cart = null;
             $itemId = $item['id'] ?? null;
             $productId = $item['product_id'] ?? $item['productId'] ?? null;
@@ -161,6 +201,19 @@ class PaymentContronller extends Controller
                 if (!isset($item['start'])) $item['start'] = $cart->rental_start_date;
                 if (!isset($item['end'])) $item['end'] = $cart->rental_end_date;
             }
+
+            // Get product details for the invoice
+            $product = Product::find($productId);
+
+            // Store order item details for the invoice email
+            $orderItems[] = [
+                'product' => $product,
+                'quantity' => $item['quantity'],
+                'cost' => $item['cost'],
+                'rental_start_date' => $item['start'] ?? null,
+                'rental_end_date' => $item['end'] ?? null,
+                'is_rental' => !empty($item['end']),
+            ];
 
             // Tạo OrderDetail
             OrderDetail::create([
@@ -208,6 +261,9 @@ class PaymentContronller extends Controller
             'status' => $type
         ]);
 
+        // Send invoice email to user
+        $this->sendInvoiceEmail($userId, $order, $orderItems, $paymentInfo);
+
         return response()->json([
             'success' => true,
             'message' => 'Đơn hàng đã được tạo thành công!',
@@ -240,6 +296,47 @@ class PaymentContronller extends Controller
             Log::info("Low inventory email sent successfully");
         } catch (\Exception $e) {
             Log::error("Failed to send low inventory email: " . $e->getMessage());
+        }
+    }
+
+    /**
+     * Send invoice email to user
+     * 
+     * @param int $userId User ID
+     * @param Order $order Order object
+     * @param array $orderItems Order items with product details
+     * @param array $paymentInfo Payment information
+     * @return void
+     */
+    private function sendInvoiceEmail($userId, $order, $orderItems, $paymentInfo)
+    {
+        try {
+            $user = User::find($userId);
+            
+            if (!$user || !$user->email) {
+                Log::warning("Cannot send invoice email: user not found or no email address. User ID: $userId");
+                return;
+            }
+
+            $paymentMethod = session()->has('type-payment') ? session('type-payment') : 'direct';
+
+            Log::info("Sending invoice email to user: {$user->email} for order: {$order->id}");
+            
+            Mail::send('frontend.emails.invoice', [
+                'user' => $user,
+                'order' => $order,
+                'orderItems' => $orderItems,
+                'paymentInfo' => $paymentInfo,
+                'paymentMethod' => $paymentMethod,
+                'date' => now()->format('d/m/Y H:i:s')
+            ], function ($message) use ($user, $order) {
+                $message->to($user->email)
+                    ->subject("Hóa đơn mua hàng #{$order->id} - BookStore");
+            });
+            
+            Log::info("Invoice email sent successfully to: {$user->email}");
+        } catch (\Exception $e) {
+            Log::error("Failed to send invoice email: " . $e->getMessage());
         }
     }
 }

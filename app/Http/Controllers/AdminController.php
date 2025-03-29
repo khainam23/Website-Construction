@@ -18,18 +18,22 @@ class AdminController extends Controller
         $totalUsers = User::count();
         $totalOrders = Order::count();
         
-        // Get total revenue
-        $totalRevenue = OrderDetail::sum(DB::raw('cost * quantity'));
+        // Get total revenue - only for orders with delivery status
+        $totalRevenue = OrderDetail::join('orders', 'order_details.order_id', '=', 'orders.id')
+            ->where('orders.status', 'delivery')
+            ->sum(DB::raw('order_details.cost * order_details.quantity'));
         
-        // Get monthly revenue for current year
-        $monthlyRevenue = OrderDetail::select(
-            DB::raw("DATE_FORMAT(created_at, '%m') as month"),
-            DB::raw('SUM(cost * quantity) as revenue')
-        )
-        ->whereYear('created_at', date('Y'))
-        ->groupBy('month')
-        ->orderBy('month')
-        ->get();
+        // Get monthly revenue for current year - only for orders with delivery status
+        $monthlyRevenue = OrderDetail::join('orders', 'order_details.order_id', '=', 'orders.id')
+            ->where('orders.status', 'delivery')
+            ->select(
+                DB::raw("DATE_FORMAT(order_details.created_at, '%m') as month"),
+                DB::raw('SUM(order_details.cost * order_details.quantity) as revenue')
+            )
+            ->whereYear('order_details.created_at', date('Y'))
+            ->groupBy('month')
+            ->orderBy('month')
+            ->get();
 
         return view('admin.dashboard', compact(
             'totalProducts', 

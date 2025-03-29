@@ -50,6 +50,7 @@
                     <thead>
                         <tr>
                             <th>{{ __('Order ID') }}</th>
+                            <th>{{ __('Products') }}</th>
                             <th>{{ __('Total') }}</th>
                             <th>{{ __('Status') }}</th>
                             <th>{{ __('Created At') }}</th>
@@ -59,6 +60,17 @@
                         @foreach ($recentOrders as $order)
                             <tr>
                                 <td>{{ $order->id }}</td>
+                                <td>
+                                    @if($order->details->count() > 0)
+                                        <ul class="list-unstyled mb-0">
+                                            @foreach($order->details as $detail)
+                                                <li>{{ $detail->product->name }} (x{{ $detail->quantity }})</li>
+                                            @endforeach
+                                        </ul>
+                                    @else
+                                        <em>{{ __('No products') }}</em>
+                                    @endif
+                                </td>
                                 <td>{{ number_format($order->calculated_total, 0, ',', '.') }} đ</td>
                                 <td>
                                     @php

@@ -29,13 +29,13 @@
                                         </a>
                                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                             <a class="dropdown-item"
-                                                href="{{route('web.language', ['lang' => 'vi'])}}">{{ __('Vietnamese') }}</a>
+                                                href="{{route('web.language', ['lang' => 'vi'])}}" onclick="return switchLanguage('vi')">{{ __('Vietnamese') }}</a>
                                             <a class="dropdown-item"
-                                                href="{{route('web.language', ['lang' => 'en'])}}">{{ __('English') }}</a>
+                                                href="{{route('web.language', ['lang' => 'en'])}}" onclick="return switchLanguage('en')">{{ __('English') }}</a>
                                             <a class="dropdown-item" 
-                                                href="{{route('web.language', ['lang' => 'lo'])}}">{{ __('Laos') }}</a>
+                                                href="{{route('web.language', ['lang' => 'lo'])}}" onclick="return switchLanguage('lo')">{{ __('Laos') }}</a>
                                             <a class="dropdown-item"
-                                                href="{{route('web.language', ['lang' => 'my'])}}">{{ __('Myanmarr') }}</a>
+                                                href="{{route('web.language', ['lang' => 'my'])}}" onclick="return switchLanguage('my')">{{ __('Myanmarr') }}</a>
                                         </div>
                                     </li>
                                 </ul>
