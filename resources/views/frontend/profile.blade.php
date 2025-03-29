@@ -72,54 +72,55 @@
                     <i class="bi bi-trash"></i> {{ __('Delete Selected') }}
                 </button>
             </div>
-            <table>
-                <thead>
-                    <tr>
-                        <th><input type="checkbox" id="selectAll"></th>
-                        <th>{{ __('Type') }}</th>
-                        <th>{{ __('Product ID') }}</th>
-                        <th>{{ __('Product') }}</th>
-                        <th>{{ __('Price') }}</th>
-                        <th>{{ __('Quantity') }}</th>
-                        <th>{{ __('Rental Date') }}</th>
-                        <th>{{ __('Return Date') }}</th>
-                        <th>{{ __('Actions') }}</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach($cartItems as $item)
-                    <tr>
-                        <td>
-                            <input type="checkbox" class="selectItem" data-max-quantity="{{ $item->max_quantity }}" value="{{ $item->id }}">
-                        </td>
-                        <td>
-                            <span class="badge {{ $item->rental_end_date ? 'badge-primary' : 'badge-success' }}">
-                                {{ $item->rental_end_date ? __('Rent') : __('Buy') }}
-                            </span>
-                        </td>
-                        <td>{{ $item->product->id }}</td>
-                        <td>{{ $item->product->name }}</td>
-                        <td>{{ number_format($item->cost, 0, ',', '.') }} đ</td>
-                        <td>{{ $item->quantity }}</td>
-                        <td>{{ $item->rental_start_date ? \Carbon\Carbon::parse($item->rental_start_date)->format('d/m/Y') : '-' }}
-                        </td>
-                        <td>{{ $item->rental_end_date ? \Carbon\Carbon::parse($item->rental_end_date)->format('d/m/Y') : '-' }}
-                        </td>
-                        <td>
-                            <div class="btn-group">
-                                <button class="btn btn-success payment-btn">
-                                    <i class="bi bi-credit-card"></i> {{ __('Payment') }}
-                                </button>
-                                <button class="btn btn-danger delete-btn" data-id="{{ $item->id }}">
-                                    <i class="bi bi-trash"></i> {{ __('Delete') }}
-                                </button>
-                            </div>
-                        </td>
-                    </tr>
-                    @endforeach
-                </tbody>
-            </table>
-
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th><input type="checkbox" id="selectAll"></th>
+                            <th>{{ __('Type') }}</th>
+                            <th>{{ __('Product ID') }}</th>
+                            <th>{{ __('Product') }}</th>
+                            <th>{{ __('Price') }}</th>
+                            <th>{{ __('Quantity') }}</th>
+                            <th>{{ __('Rental Date') }}</th>
+                            <th>{{ __('Return Date') }}</th>
+                            <th>{{ __('Actions') }}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($cartItems as $item)
+                        <tr>
+                            <td>
+                                <input type="checkbox" class="selectItem" data-max-quantity="{{ $item->max_quantity }}" value="{{ $item->id }}">
+                            </td>
+                            <td>
+                                <span class="badge {{ $item->rental_end_date ? 'badge-primary' : 'badge-success' }}">
+                                    {{ $item->rental_end_date ? __('Rent') : __('Buy') }}
+                                </span>
+                            </td>
+                            <td>{{ $item->product->id }}</td>
+                            <td>{{ $item->product->name }}</td>
+                            <td>{{ number_format($item->cost, 0, ',', '.') }} đ</td>
+                            <td>{{ $item->quantity }}</td>
+                            <td>{{ $item->rental_start_date ? \Carbon\Carbon::parse($item->rental_start_date)->format('d/m/Y') : '-' }}
+                            </td>
+                            <td>{{ $item->rental_end_date ? \Carbon\Carbon::parse($item->rental_end_date)->format('d/m/Y') : '-' }}
+                            </td>
+                            <td>
+                                <div class="btn-group">
+                                    <button class="btn btn-success payment-btn">
+                                        <i class="bi bi-credit-card"></i> {{ __('Payment') }}
+                                    </button>
+                                    <button class="btn btn-danger delete-btn" data-id="{{ $item->id }}">
+                                        <i class="bi bi-trash"></i> {{ __('Delete') }}
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
             <div class="cart-actions mt-3">
                 <button id="bulkPaymentBtn" class="btn btn-primary">
                     <i class="bi bi-cash"></i> {{ __('Pay for selected products') }}
@@ -132,68 +133,70 @@
         <div id="orders" class="content-section">
             <h2>{{ __('Orders') }}</h2>
             @if(count($orders) != 0)
-            <table>
-                <thead>
-                    <tr>
-                        <th>{{ __('Order ID') }}</th>
-                        <th>{{ __('Total Price') }}</th>
-                        <th>{{ __('Status') }}</th>
-                        <th>{{ __('Address') }}</th>
-                        <th>{{ __('Phone Number') }}</th>
-                        <th>{{ __('Details') }}</th>
-                        <th>{{ __('Actions') }}</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach($orders as $order)
-                    <tr>
-                        <td>{{ $order['id'] }}</td>
-                        <td>{{ number_format($order['total'], 0, ',', '.') }} đ</td>
-                        <td>
-                            @php
-                            $statusClasses = [
-                            'pending' => 'badge bg-secondary', // Chờ xử lý (màu xám)
-                            'confirm' => 'badge bg-primary', // Đã xác nhận (xanh dương)
-                            'ship' => 'badge bg-warning text-dark', // Đang giao hàng (vàng cam)
-                            'delivery' => 'badge bg-success', // Đã giao hàng (xanh lá)
-                            'return' => 'badge bg-info text-dark', // Trả hàng (xanh nhạt)
-                            'cancel' => 'badge bg-danger', // Đã hủy (đỏ)
-                            ];
-                            $statusClass = $statusClasses[$order['status']] ?? 'badge bg-dark'; // Mặc định nếu trạng thái không hợp lệ
-                            @endphp
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>{{ __('Order ID') }}</th>
+                            <th>{{ __('Total Price') }}</th>
+                            <th>{{ __('Status') }}</th>
+                            <th>{{ __('Address') }}</th>
+                            <th>{{ __('Phone Number') }}</th>
+                            <th>{{ __('Details') }}</th>
+                            <th>{{ __('Actions') }}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($orders as $order)
+                        <tr>
+                            <td>{{ $order['id'] }}</td>
+                            <td>{{ number_format($order['total'], 0, ',', '.') }} đ</td>
+                            <td>
+                                @php
+                                $statusClasses = [
+                                'pending' => 'badge bg-secondary', // Chờ xử lý (màu xám)
+                                'confirm' => 'badge bg-primary', // Đã xác nhận (xanh dương)
+                                'ship' => 'badge bg-warning text-dark', // Đang giao hàng (vàng cam)
+                                'delivery' => 'badge bg-success', // Đã giao hàng (xanh lá)
+                                'return' => 'badge bg-info text-dark', // Trả hàng (xanh nhạt)
+                                'cancel' => 'badge bg-danger', // Đã hủy (đỏ)
+                                ];
+                                $statusClass = $statusClasses[$order['status']] ?? 'badge bg-dark'; // Mặc định nếu trạng thái không hợp lệ
+                                @endphp
 
-                            <span class="{{ $statusClass }}">
-                                {{ ucfirst($order['status']) }}
-                            </span>
-                        </td>
+                                <span class="{{ $statusClass }}">
+                                    {{ ucfirst($order['status']) }}
+                                </span>
+                            </td>
 
-                        <td>{{ $order['address'] }}</td>
-                        <td>{{ $order['phone'] }}</td>
-                        <td>
-                            <ul>
-                                @foreach($order['details'] as $detail)
-                                <li>
-                                    {{ $detail['product']['name'] }} - {{ $detail['quantity'] }} x
-                                    {{ number_format($detail['product']['price'], 0, ',', '.') }} đ
-                                    @if(!empty($detail['rental_end_date']))
-                                    - {{ __('Rental Date') }}: {{ $detail['rental_start_date'] }}
-                                    {{ __('and Return Date') }}:
-                                    {{ $detail['rental_end_date'] }}
-                                    @endif
-                                </li>
-                                @endforeach
-                            </ul>
-                        </td>
-                        <td>
-                            <button id="cancel" class="btn {{ $order['status']=='confirm' ? 'btn-danger' : 'btn-secondary' }}"
-                                {{ $order['status']=='confirm' ? '' : 'disabled' }}>
-                                {{ __('Cancel') }}
-                            </button>
-                        </td>
-                    </tr>
-                    @endforeach
-                </tbody>
-            </table>
+                            <td>{{ $order['address'] }}</td>
+                            <td>{{ $order['phone'] }}</td>
+                            <td>
+                                <ul>
+                                    @foreach($order['details'] as $detail)
+                                    <li>
+                                        {{ $detail['product']['name'] }} - {{ $detail['quantity'] }} x
+                                        {{ number_format($detail['product']['price'], 0, ',', '.') }} đ
+                                        @if(!empty($detail['rental_end_date']))
+                                        - {{ __('Rental Date') }}: {{ $detail['rental_start_date'] }}
+                                        {{ __('and Return Date') }}:
+                                        {{ $detail['rental_end_date'] }}
+                                        @endif
+                                    </li>
+                                    @endforeach
+                                </ul>
+                            </td>
+                            <td>
+                                <button id="cancel" class="btn {{ $order['status']=='confirm' ? 'btn-danger' : 'btn-secondary' }}"
+                                    {{ $order['status']=='confirm' ? '' : 'disabled' }}>
+                                    {{ __('Cancel') }}
+                                </button>
+                            </td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
             @else
             <span>{{ __('No successful orders yet') }}</span>
             @endif
@@ -237,6 +240,12 @@
 
                     document.querySelectorAll('.content-section').forEach(section => section.classList.remove('active'));
                     document.getElementById(hash).classList.add('active');
+                    
+                    // Scroll to the top of the page smoothly
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                    });
                 }
             }
         }
@@ -255,6 +264,12 @@
 
                 document.querySelectorAll('.content-section').forEach(section => section.classList.remove('active'));
                 document.getElementById(target).classList.add('active');
+                
+                // Scroll to the top of the page smoothly
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
             });
         });
 

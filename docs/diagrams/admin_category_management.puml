@@ -1,0 +1,169 @@
+@startuml Admin Category Management
+
+title Quy Trình Quản Lý Danh Mục
+
+actor "Admin" as Admin
+participant "Giao Diện\nQuản Lý Danh Mục" as CategoryUI
+participant "CategoryController" as CategoryCtrl
+database "Database" as DB
+participant "Category Model" as CategoryModel
+
+== Xem Danh Sách Danh Mục ==
+
+Admin -> CategoryUI: Truy cập trang quản lý danh mục
+activate CategoryUI
+
+CategoryUI -> CategoryCtrl: index()
+activate CategoryCtrl
+
+CategoryCtrl -> CategoryModel: get all categories with search
+activate CategoryModel
+CategoryModel -> DB: SELECT * FROM categories WHERE name LIKE %search%
+DB --> CategoryModel: Danh sách danh mục
+deactivate CategoryModel
+
+CategoryCtrl --> CategoryUI: Trả về view với danh mục
+deactivate CategoryCtrl
+
+CategoryUI --> Admin: Hiển thị danh sách danh mục
+deactivate CategoryUI
+
+== Tìm Kiếm Danh Mục ==
+
+Admin -> CategoryUI: Nhập từ khóa tìm kiếm
+activate CategoryUI
+
+CategoryUI -> CategoryCtrl: index(search)
+activate CategoryCtrl
+
+CategoryCtrl -> CategoryModel: search(keyword)
+activate CategoryModel
+CategoryModel -> DB: SELECT * FROM categories WHERE name LIKE %keyword%
+DB --> CategoryModel: Kết quả tìm kiếm
+deactivate CategoryModel
+
+CategoryCtrl --> CategoryUI: Trả về view với kết quả
+deactivate CategoryCtrl
+
+CategoryUI --> Admin: Hiển thị danh mục tìm thấy
+deactivate CategoryUI
+
+== Thêm Danh Mục Mới ==
+
+Admin -> CategoryUI: Truy cập form thêm danh mục
+activate CategoryUI
+
+CategoryUI -> CategoryCtrl: create()
+activate CategoryCtrl
+
+CategoryCtrl -> CategoryModel: get all categories
+activate CategoryModel
+CategoryModel -> DB: SELECT * FROM categories
+DB --> CategoryModel: Danh sách danh mục
+deactivate CategoryModel
+
+CategoryCtrl --> CategoryUI: Trả về view với form
+deactivate CategoryCtrl
+
+CategoryUI --> Admin: Hiển thị form thêm danh mục
+deactivate CategoryUI
+
+Admin -> CategoryUI: Điền thông tin và nhấn "Create"
+activate CategoryUI
+
+CategoryUI -> CategoryCtrl: store(request)
+activate CategoryCtrl
+
+CategoryCtrl -> CategoryModel: create(category data)
+activate CategoryModel
+CategoryModel -> DB: INSERT INTO categories
+DB --> CategoryModel: Category ID
+deactivate CategoryModel
+
+CategoryCtrl --> CategoryUI: Redirect to index
+deactivate CategoryCtrl
+
+CategoryUI --> Admin: Thông báo thêm thành công và chuyển trang
+deactivate CategoryUI
+
+== Chỉnh Sửa Danh Mục ==
+
+Admin -> CategoryUI: Nhấn "Edit" cho danh mục
+activate CategoryUI
+
+CategoryUI -> CategoryCtrl: edit(categoryId)
+activate CategoryCtrl
+
+CategoryCtrl -> CategoryModel: find(categoryId)
+activate CategoryModel
+CategoryModel -> DB: SELECT * FROM categories WHERE id = categoryId
+DB --> CategoryModel: Thông tin danh mục
+deactivate CategoryModel
+
+CategoryCtrl -> CategoryModel: get all other categories
+activate CategoryModel
+CategoryModel -> DB: SELECT * FROM categories WHERE id != categoryId
+DB --> CategoryModel: Danh sách danh mục khác
+deactivate CategoryModel
+
+CategoryCtrl --> CategoryUI: Trả về form edit với dữ liệu
+deactivate CategoryCtrl
+
+CategoryUI --> Admin: Hiển thị form chỉnh sửa
+deactivate CategoryUI
+
+Admin -> CategoryUI: Cập nhật thông tin và nhấn "Update"
+activate CategoryUI
+
+CategoryUI -> CategoryCtrl: update(request, categoryId)
+activate CategoryCtrl
+
+CategoryCtrl -> CategoryModel: find(categoryId)
+activate CategoryModel
+CategoryModel -> DB: SELECT * FROM categories WHERE id = categoryId
+DB --> CategoryModel: Thông tin danh mục
+deactivate CategoryModel
+
+CategoryCtrl -> CategoryModel: update(category data)
+activate CategoryModel
+CategoryModel -> DB: UPDATE categories SET ... WHERE id = categoryId
+DB --> CategoryModel: Xác nhận cập nhật
+deactivate CategoryModel
+
+CategoryCtrl --> CategoryUI: Redirect to index
+deactivate CategoryCtrl
+
+CategoryUI --> Admin: Thông báo cập nhật thành công
+deactivate CategoryUI
+
+== Xóa Danh Mục ==
+
+Admin -> CategoryUI: Nhấn "Delete" cho danh mục
+activate CategoryUI
+
+CategoryUI -> CategoryUI: Hiển thị xác nhận xóa
+CategoryUI --> Admin: Yêu cầu xác nhận xóa
+
+Admin -> CategoryUI: Xác nhận xóa
+CategoryUI -> CategoryCtrl: delete(categoryId)
+activate CategoryCtrl
+
+CategoryCtrl -> CategoryModel: find(categoryId)
+activate CategoryModel
+CategoryModel -> DB: SELECT * FROM categories WHERE id = categoryId
+DB --> CategoryModel: Thông tin danh mục
+deactivate CategoryModel
+
+CategoryCtrl -> CategoryModel: delete()
+activate CategoryModel
+CategoryModel -> DB: DELETE FROM categories WHERE id = categoryId
+DB --> CategoryModel: Xác nhận xóa
+deactivate CategoryModel
+
+CategoryCtrl --> CategoryUI: Redirect to index with message
+deactivate CategoryCtrl
+
+CategoryUI --> Admin: Thông báo xóa thành công
+deactivate CategoryUI
+
+@enduml

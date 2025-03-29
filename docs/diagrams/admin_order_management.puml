@@ -1,0 +1,112 @@
+@startuml Admin Order Management
+
+title Quy Trình Quản Lý Đơn Hàng
+
+actor "Admin" as Admin
+participant "Giao Diện\nQuản Lý Đơn Hàng" as OrderUI
+participant "OrderController" as OrderCtrl
+participant "AJAX Request" as Ajax
+database "Database" as DB
+participant "Order Model" as OrderModel
+participant "OrderDetail Model" as OrderDetailModel
+participant "User Model" as UserModel
+
+== Xem Danh Sách Đơn Hàng ==
+
+Admin -> OrderUI: Truy cập trang quản lý đơn hàng
+activate OrderUI
+
+OrderUI -> OrderCtrl: index()
+activate OrderCtrl
+
+OrderCtrl -> OrderModel: get all orders with pagination
+activate OrderModel
+OrderModel -> DB: SELECT * FROM orders ORDER BY created_at DESC
+DB --> OrderModel: Danh sách đơn hàng
+deactivate OrderModel
+
+OrderCtrl -> OrderModel: getStatuses()
+activate OrderModel
+OrderModel --> OrderCtrl: Danh sách trạng thái
+deactivate OrderModel
+
+OrderCtrl --> OrderUI: Trả về view với đơn hàng và trạng thái
+deactivate OrderCtrl
+
+OrderUI --> Admin: Hiển thị danh sách đơn hàng
+deactivate OrderUI
+
+== Tìm Kiếm và Lọc Đơn Hàng ==
+
+Admin -> OrderUI: Nhập từ khóa tìm kiếm/chọn trạng thái
+activate OrderUI
+OrderUI -> OrderUI: Lọc client-side với JavaScript
+OrderUI --> Admin: Hiển thị kết quả lọc
+deactivate OrderUI
+
+== Xem Chi Tiết Đơn Hàng ==
+
+Admin -> OrderUI: Nhấn vào "View" của đơn hàng
+activate OrderUI
+
+OrderUI -> OrderCtrl: show(orderId)
+activate OrderCtrl
+
+OrderCtrl -> OrderModel: findOrFail(orderId) with details
+activate OrderModel
+OrderModel -> DB: SELECT * FROM orders WHERE id = orderId
+DB --> OrderModel: Thông tin đơn hàng
+OrderModel -> OrderDetailModel: get details for order
+activate OrderDetailModel
+OrderDetailModel -> DB: SELECT * FROM order_details WHERE order_id = orderId
+DB --> OrderDetailModel: Chi tiết đơn hàng
+deactivate OrderDetailModel
+OrderModel -> UserModel: get user for order
+activate UserModel
+UserModel -> DB: SELECT * FROM users WHERE id = userId
+DB --> UserModel: Thông tin người dùng
+deactivate UserModel
+deactivate OrderModel
+
+OrderCtrl --> OrderUI: Trả về view với chi tiết đơn hàng
+deactivate OrderCtrl
+
+OrderUI --> Admin: Hiển thị chi tiết đơn hàng
+deactivate OrderUI
+
+== Cập Nhật Trạng Thái Đơn Hàng ==
+
+Admin -> OrderUI: Thay đổi trạng thái đơn hàng
+activate OrderUI
+
+OrderUI -> OrderUI: Hiển thị modal xác nhận
+OrderUI -> Ajax: POST request tới admin.api.order.update.status
+activate Ajax
+
+Ajax -> OrderCtrl: updateStatus(request)
+activate OrderCtrl
+
+OrderCtrl -> OrderCtrl: Validate trạng thái mới
+OrderCtrl -> OrderModel: find(orderId)
+activate OrderModel
+OrderModel -> DB: SELECT * FROM orders WHERE id = orderId
+DB --> OrderModel: Thông tin đơn hàng
+deactivate OrderModel
+
+OrderCtrl -> OrderModel: update status
+activate OrderModel
+OrderModel -> DB: UPDATE orders SET status = ? WHERE id = orderId
+DB --> OrderModel: Xác nhận cập nhật
+deactivate OrderModel
+
+OrderCtrl --> Ajax: JSON response thành công
+deactivate OrderCtrl
+
+Ajax --> OrderUI: Phản hồi thành công
+deactivate Ajax
+
+OrderUI -> OrderUI: Cập nhật UI với trạng thái mới
+OrderUI --> Admin: Thông báo cập nhật thành công
+deactivate OrderUI
+
+@enduml

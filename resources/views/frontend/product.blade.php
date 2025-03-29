@@ -25,21 +25,33 @@
         <!-- Search and Filter Section -->
         <div class="search-filter-container">
             <form action="{{ url()->current() }}" method="GET" class="search-filter-form">
-                <div class="search-container">
-                    <input type="text" name="search" placeholder="{{ __('Search products...') }}" value="{{ request('search') }}" class="search-input">
-                    <button type="submit" class="search-button">
-                        <i class="fa fa-search"></i> {{ __('Search') }}
-                    </button>
+                <div class="search-category-row">
+                    <div class="search-container">
+                        <input type="text" name="search" placeholder="{{ __('Search products...') }}" value="{{ request('search') }}" class="search-input">
+                        <button type="submit" class="search-button">
+                            <i class="fa fa-search"></i> {{ __('Search') }}
+                        </button>
+                    </div>
+                    <div class="category-filter">
+                        <select name="category" class="filter-select" onchange="this.form.submit()">
+                            <option value="">{{ __('All Categories') }}</option>
+                            @foreach($categories as $category)
+                                <option value="{{ $category->id }}" {{ request('category') == $category->id ? 'selected' : '' }}>
+                                    {{ $category->name }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
                 </div>
-                <div class="filter-container">
-                    <select name="category" class="filter-select" onchange="this.form.submit()">
-                        <option value="">{{ __('All Categories') }}</option>
-                        @foreach($categories as $category)
-                            <option value="{{ $category->id }}" {{ request('category') == $category->id ? 'selected' : '' }}>
-                                {{ $category->name }}
-                            </option>
-                        @endforeach
-                    </select>
+                
+                <div class="price-range-filter">
+                    <label>{{ __('Price Range') }}:</label>
+                    <div class="price-inputs">
+                        <input type="number" name="min_price" placeholder="{{ __('Min') }}" value="{{ request('min_price') }}" class="price-input">
+                        <span>-</span>
+                        <input type="number" name="max_price" placeholder="{{ __('Max') }}" value="{{ request('max_price') }}" class="price-input">
+                        <button type="submit" class="filter-price-button">{{ __('Filter') }}</button>
+                    </div>
                 </div>
             </form>
         </div>

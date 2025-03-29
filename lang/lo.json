@@ -1072,5 +1072,9 @@
   "Order canceled!": "အော်ဒါကို ဖျက်ပြီးပါပြီ!",
   "The order has been canceled.": "အော်ဒါကို ဖျက်ပြီးပါပြီ။",
   "An error occurred while canceling the order.": "အော်ဒါကို ဖျက်နေစဉ် အမှားတစ်ခု ဖြစ်ပွားခဲ့ပါသည်။",
-  "Unit Price": "ລາຄາຕົ້ນສະບັບ"
+  "Unit Price": "ລາຄາຕົ້ນສະບັບ",
+  "Min": "ຕໍ່າສຸດ",
+  "Max": "ສູງສຸດ",
+  "Filter":"ກວດກາ",
+  "Price Range": "ລາຄາ"
 }

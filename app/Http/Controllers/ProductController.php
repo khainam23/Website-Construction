@@ -33,6 +33,15 @@ class ProductController extends Controller
             $query->where('category_id', $request->category);
         }
         
+        // Filter by price range
+        if ($request->has('min_price') && is_numeric($request->min_price)) {
+            $query->where('price', '>=', $request->min_price);
+        }
+        
+        if ($request->has('max_price') && is_numeric($request->max_price)) {
+            $query->where('price', '<=', $request->max_price);
+        }
+        
         $products = $query->get();
         $categories = Category::all();
 

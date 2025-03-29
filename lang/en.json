@@ -1001,5 +1001,9 @@
     "Order canceled!": "Order canceled!",
     "The order has been canceled.": "The order has been canceled.",
     "An error occurred while canceling the order.": "An error occurred while canceling the order.",
-    "Unit Price": "Unit Price"
+    "Unit Price": "Unit Price",
+    "Min": "Min",
+    "Max": "Max",
+    "Filter":"Filter",
+    "Price Range": "Price Range"
 }

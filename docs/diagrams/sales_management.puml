@@ -1,0 +1,57 @@
+@startuml Sales Management
+
+title Quy Trình Quản Lý Bán Hàng
+
+actor "Sale Staff" as SaleStaff
+participant "Giao Diện\nSales Management" as SalesUI
+participant "SalesController" as SalesCtrl
+database "Database" as DB
+participant "Order Model" as OrderModel
+participant "OrderDetail Model" as OrderDetailModel
+participant "Product Model" as ProductModel
+participant "Category Model" as CategoryModel
+
+== Xem Trang Quản Lý Bán Hàng ==
+
+SaleStaff -> SalesUI: Truy cập trang quản lý bán hàng
+activate SalesUI
+
+SalesUI -> SalesCtrl: index()
+activate SalesCtrl
+
+SalesCtrl -> OrderModel: Tính tổng doanh thu
+activate OrderModel
+OrderModel -> DB: SELECT SUM(order_details.cost * order_details.quantity) \nFROM orders JOIN order_details \nWHERE orders.status = 'delivery'
+DB --> OrderModel: Tổng doanh thu
+OrderModel --> SalesCtrl: Tổng doanh thu
+deactivate OrderModel
+
+SalesCtrl -> OrderModel: Tính tổng số đơn hàng
+activate OrderModel
+OrderModel -> DB: SELECT COUNT(*) \nFROM orders \nWHERE status = 'delivery'
+DB --> OrderModel: Tổng số đơn hàng
+OrderModel --> SalesCtrl: Tổng số đơn hàng
+deactivate OrderModel
+
+SalesCtrl -> SalesCtrl: Tính giá trị đơn hàng trung bình
+note right: totalRevenue / totalOrders
+
+SalesCtrl -> OrderModel: Lấy danh sách đơn hàng gần đây
+activate OrderModel
+OrderModel -> DB: SELECT orders.*, \nSUM(order_details.cost * order_details.quantity) as calculated_total \nFROM orders \nJOIN order_details \nGROUP BY orders.id \nORDER BY orders.created_at DESC \nLIMIT 5
+DB --> OrderModel: Danh sách đơn hàng gần đây
+OrderModel --> SalesCtrl: Danh sách đơn hàng gần đây
+deactivate OrderModel
+
+SalesCtrl -> DB: Lấy doanh thu theo danh mục sản phẩm
+activate DB
+DB --> SalesCtrl: Doanh thu theo danh mục
+deactivate DB
+
+SalesCtrl --> SalesUI: Trả về view với dữ liệu thống kê
+deactivate SalesCtrl
+
+SalesUI --> SaleStaff: Hiển thị trang quản lý bán hàng
+deactivate SalesUI
+
+@enduml

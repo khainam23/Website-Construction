@@ -1,0 +1,84 @@
+@startuml Export Revenue Report
+
+title Quy Trình Xuất Báo Cáo Doanh Thu
+
+actor "Sale Staff" as SaleStaff
+participant "Giao Diện\nRevenue Statistics" as RevenueUI
+participant "RevenueController" as RevenueCtrl
+database "Database" as DB
+participant "OrderDetail Model" as OrderDetailModel
+participant "PhpSpreadsheet" as Spreadsheet
+participant "Dompdf" as PDF
+
+== Xuất Báo Cáo Doanh Thu ==
+
+SaleStaff -> RevenueUI: Chọn xuất báo cáo
+activate RevenueUI
+
+RevenueUI -> SaleStaff: Chọn định dạng báo cáo (Excel/PDF)
+activate SaleStaff
+
+SaleStaff -> RevenueUI: Chọn định dạng và gửi yêu cầu
+deactivate SaleStaff
+
+RevenueUI -> RevenueCtrl: exportRevenue(Request $request, $type)
+activate RevenueCtrl
+
+RevenueCtrl -> RevenueCtrl: Xác định khoảng thời gian
+note right: Từ request hoặc mặc định
+
+RevenueCtrl -> RevenueCtrl: getDailyRevenue()
+RevenueCtrl -> RevenueCtrl: getWeeklyRevenue()
+RevenueCtrl -> RevenueCtrl: getCombinedMonthlyRevenue()
+RevenueCtrl -> RevenueCtrl: getCombinedYearlyRevenue()
+RevenueCtrl -> RevenueCtrl: getSummaryStatistics()
+RevenueCtrl -> RevenueCtrl: getTopSellingProducts()
+
+alt Xuất Excel
+    RevenueCtrl -> RevenueCtrl: exportToExcel()
+    activate RevenueCtrl
+    
+    RevenueCtrl -> Spreadsheet: new Spreadsheet()
+    activate Spreadsheet
+    
+    RevenueCtrl -> Spreadsheet: Thiết lập thông tin tài liệu
+    RevenueCtrl -> Spreadsheet: Tạo sheet "Summary"
+    RevenueCtrl -> Spreadsheet: Tạo sheet "Daily Revenue"
+    RevenueCtrl -> Spreadsheet: Tạo sheet "Weekly Revenue"
+    RevenueCtrl -> Spreadsheet: Tạo sheet "Monthly Revenue"
+    RevenueCtrl -> Spreadsheet: Tạo sheet "Yearly Revenue"
+    
+    Spreadsheet --> RevenueCtrl: Đối tượng spreadsheet đã hoàn thiện
+    
+    RevenueCtrl -> Spreadsheet: Lưu tệp Excel vào output stream
+    Spreadsheet --> RevenueCtrl: Tệp Excel
+    deactivate Spreadsheet
+    
+    RevenueCtrl --> SaleStaff: Tải xuống tệp Excel
+    deactivate RevenueCtrl
+else Xuất PDF
+    RevenueCtrl -> RevenueCtrl: exportToPDF()
+    activate RevenueCtrl
+    
+    RevenueCtrl -> PDF: new Dompdf($options)
+    activate PDF
+    
+    RevenueCtrl -> RevenueCtrl: Tạo nội dung HTML cho báo cáo
+    RevenueCtrl -> PDF: loadHtml($html)
+    RevenueCtrl -> PDF: setPaper('A4', 'portrait')
+    RevenueCtrl -> PDF: render()
+    
+    PDF --> RevenueCtrl: Tệp PDF đã được render
+    
+    RevenueCtrl -> PDF: stream($fileName, ['Attachment' => true])
+    PDF --> RevenueCtrl: Tệp PDF
+    deactivate PDF
+    
+    RevenueCtrl --> SaleStaff: Tải xuống tệp PDF
+    deactivate RevenueCtrl
+end
+
+deactivate RevenueCtrl
+deactivate RevenueUI
+
+@enduml
