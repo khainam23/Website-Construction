@@ -50,8 +50,6 @@ class CartController extends Controller
                 ->whereIn('id', $itemIds)
                 ->delete();
             
-            Log::info("User {$userId} deleted cart items: " . implode(', ', $itemIds));
-            
             return response()->json([
                 'success' => true,
                 'message' => $deleted > 0 
@@ -62,7 +60,6 @@ class CartController extends Controller
                 'deleted_count' => $deleted
             ]);
         } catch (\Exception $e) {
-            Log::error("Error deleting cart items: " . $e->getMessage());
             
             return response()->json([
                 'success' => false,

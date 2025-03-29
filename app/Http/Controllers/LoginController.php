@@ -14,48 +14,43 @@ class LoginController extends Controller
             'password' => 'required|min:6'
         ]);
 
-        $credentials = $request->only('email', 'password');
+        // Kiểm tra email có tồn tại trong hệ thống không
+        $user = User::where('email', $request->email)->first();
+        if (!$user) {
+            return response()->json(__('Email không tồn tại trong hệ thống'), 404);
+        }
+
+        // Kiểm tra email đã xác thực chưa (nếu có cột email_verified_at)
+        if (!$user->email_verified_at) {
+            return response()->json(__('Vui lòng xác thực email trước khi đăng nhập'), 403);
+        }
 
         // Thử đăng nhập
-        if (Auth::attempt(array_merge($credentials, ['is_active' => 1]))) {
-            // Đăng nhập thành công
+        if (Auth::attempt(['email' => $request->email, 'password' => $request->password, 'is_active' => 1])) {
             $request->session()->regenerate();
 
-            // Lưu thông tin người dùng vào session (nếu cần)
-            $user = Auth::user();
             session([
                 'user' => [
-                    'id'=> $user->id,
+                    'id' => $user->id,
                     'email' => $user->email,
                     'name' => $user->last_name,
                     'role' => $user->role
                 ]
             ]);
 
-            if($user->role == 'admin') {
-                return response()->json([
-                    'message' => __('Redirecting to admin page'),
-                    'url' => route('admin.dashboard')
-                ], 200);
-            } else if($user->role == 'sale'){
-                return response()->json([
-                    'message' => __('Redirecting to sales page'),
-                    'url' => route('sale.dashboard')
-                ], 200);
-            } else if($user->role == 'warehouse'){
-                return response()->json([
-                    'message' => __('Redirecting to warehouse page'),
-                    'url' => route('warehouse.dashboard')
-                ], 200);
-            } else {
-                return response()->json([
-                    'message' => __('Login successful'),
-                    'url' => route('web.index')
-                ], 200);
-            }
+            // Điều hướng theo vai trò
+            $redirectRoutes = [
+                'admin' => 'admin.dashboard',
+                'sale' => 'sale.dashboard',
+                'warehouse' => 'warehouse.dashboard'
+            ];
+
+            return response()->json([
+                'message' => __('Login successful'),
+                'url' => route($redirectRoutes[$user->role] ?? 'web.index')
+            ], 200);
         }
 
-        // Đăng nhập thất bại
-        return response()->json(__('Invalid login credentials'), 403);
+        return response()->json(__('Mật khẩu không đúng'), 403);
     }
 }

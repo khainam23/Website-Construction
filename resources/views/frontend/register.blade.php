@@ -13,14 +13,12 @@
                 @csrf
                 <div class="mb-3">
                     <label class="form-label">{{ __('First Name') }}</label>
-                    <input type="text" class="form-control" name="first_name" 
-                        pattern="[A-Za-z\s]+" maxlength="20" 
+                    <input type="text" class="form-control" name="first_name" pattern="[A-Za-z\s]+" maxlength="20"
                         placeholder="{{ __('First Name') }}" required>
                 </div>
                 <div class="mb-3">
                     <label class="form-label">{{ __('Last Name') }}</label>
-                    <input type="text" class="form-control" name="last_name" 
-                        pattern="[A-Za-z\s]+" maxlength="20" 
+                    <input type="text" class="form-control" name="last_name" pattern="[A-Za-z\s]+" maxlength="20"
                         placeholder="{{ __('Last Name') }}" required>
                 </div>
                 <div class="mb-3">
@@ -33,14 +31,12 @@
                 </div>
                 <div class="mb-3">
                     <label class="form-label">{{ __('Password') }}</label>
-                    <input type="password" class="form-control" name="password" 
-                        maxlength="20" minlength="6"
+                    <input type="password" class="form-control" name="password" maxlength="20" minlength="6"
                         placeholder="{{ __('Password') }}" required>
                 </div>
                 <div class="mb-3">
                     <label class="form-label">{{ __('Confirm Password') }}</label>
-                    <input type="password" class="form-control" name="password_confirmation" 
-                        maxlength="20" minlength="6"
+                    <input type="password" class="form-control" name="password_confirmation" maxlength="20" minlength="6"
                         placeholder="{{ __('Confirm Password') }}" required>
                 </div>
                 <div class="mb-3">
@@ -61,17 +57,19 @@
                 </div>
                 <div class="mb-3">
                     <label class="form-label">{{ __('Avatar') }}</label>
-<input type="file" class="form-control" name="avatar">
+                    <input type="file" class="form-control" name="avatar">
                 </div>
                 <div class="mb-3 form-check">
                     <input type="checkbox" class="form-check-input" id="terms" required>
                     <label class="form-check-label" for="terms">
-                        {{ __('I agree to the') }} <a href="#">{{ __('Terms of Service') }}</a> {{ __('and') }} <a href="#">{{ __('Privacy Policy') }}</a>
+                        {{ __('I agree to the') }} <a href="#">{{ __('Terms of Service') }}</a> {{ __('and') }} <a
+                            href="#">{{ __('Privacy Policy') }}</a>
                     </label>
                 </div>
                 <button type="submit" class="btn btn-primary w-100">{{ __('Register Now') }}</button>
                 <div class="text-center mt-3">
-                    <span>{{ __('Already have an account?') }}</span> <a href="{{ route('web.login') }}">{{ __('Login to continue') }}</a>
+                    <span>{{ __('Already have an account?') }}</span> <a
+                        href="{{ route('web.login') }}">{{ __('Login to continue') }}</a>
                 </div>
             </form>
         </div>

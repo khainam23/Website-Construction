@@ -59,7 +59,7 @@
                         <p>{{ __('No products found matching your criteria.') }}</p>
                     </div>
                 @else
-                    @for($i = $page * 3 - 3; $i < $page * 3 && $i < count($categories); $i++)
+                        @for($i = $page * 3 - 3; $i < $page * 3 && $i < count($categories); $i++)
                                 @php
                                     $category = $categories[$i];
                                     $categoryProducts = $products->where('category_id', $category->id);
@@ -102,38 +102,36 @@
                                         </div>
                                     </div>
                                 @endif
-                    @endfor
-                    <nav>
-                        <ul class="pagination">
-                            @php
-                                $totalPages = ceil(count($categories) / 3);
-                            @endphp
-
-                            {{-- Nút Previous --}}
-                            <li class="page-item {{ ($page == 1) ? 'disabled' : '' }}">
-                                <a class="page-link"
-                                    href="{{ route('web.product', ['type' => $type, 'page' => max(1, $page - 1)]) }}"
-                                    tabindex="-1">
-                                    <</a>
-                            </li>
-
-                            {{-- Các số trang --}}
-                            @for ($i = 1; $i <= $totalPages; $i++)
-                                <li class="page-item {{ ($page == $i) ? 'active' : '' }}">
-                                    <a class="page-link"
-                                        href="{{ route('web.product', ['type' => $type, 'page' => $i]) }}">{{ $i }}</a>
-                                </li>
-                            @endfor
-
-                            {{-- Nút Next --}}
-                            <li class="page-item {{ ($page == $totalPages) ? 'disabled' : '' }}">
-                                <a class="page-link"
-                                    href="{{ route('web.product', ['type' => $type, 'page' => min($totalPages, $page + 1)]) }}">></a>
-                            </li>
-                        </ul>
-                    </nav>
+                        @endfor
                 @endif
             </div>
+            <nav>
+                <ul class="pagination">
+                    @php
+                        $totalPages = ceil(count($categories) / 3);
+                    @endphp
+
+                    {{-- Nút Previous --}}
+                    <li class="page-item {{ ($page == 1) ? 'disabled' : '' }}">
+                        <a class="page-link"
+                            href="{{ route('web.product', ['type' => $type, 'page' => max(1, $page - 1)]) }}" tabindex="-1">
+                            <</a>
+                    </li>
+
+                    {{-- Các số trang --}}
+                    @for ($i = 1; $i <= $totalPages; $i++)
+                        <li class="page-item {{ ($page == $i) ? 'active' : '' }}">
+                            <a class="page-link" href="{{ route('web.product', ['type' => $type, 'page' => $i]) }}">{{ $i }}</a>
+                        </li>
+                    @endfor
+
+                    {{-- Nút Next --}}
+                    <li class="page-item {{ ($page == $totalPages) ? 'disabled' : '' }}">
+                        <a class="page-link"
+                            href="{{ route('web.product', ['type' => $type, 'page' => min($totalPages, $page + 1)]) }}">></a>
+                    </li>
+                </ul>
+            </nav>
         </div>
     </div>
 @endsection
