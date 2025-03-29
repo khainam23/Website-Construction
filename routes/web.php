@@ -68,6 +68,9 @@ Route::middleware([LanguageMiddleware::class])->group(function () {
         Route::post('/cart/delete', [CartController::class, 'delete'])->name('api.cart.delete');
         Route::get('/payment/vnpay/return', [PaymentContronller::class, 'vnpayReturn'])->name('api.payment.vnpay.return');
         Route::post('/order/cancel', [OrderController::class, 'cancel'])->name('api.order.cancel');
+
+        // Cart API routes
+        Route::post('/api/cart/delete', [CartController::class, 'delete'])->name('api.cart.delete');
     });
 
     // Dành cho việc điều hành sản phẩm

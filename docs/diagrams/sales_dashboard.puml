@@ -1,0 +1,56 @@
+@startuml Sales Dashboard
+
+title Quy Trình Xem Dashboard Bán Hàng
+
+actor "Sale Staff" as SaleStaff
+participant "Giao Diện\nDashboard" as DashboardUI
+participant "SalesController" as SalesCtrl
+database "Database" as DB
+participant "Order Model" as OrderModel
+participant "OrderDetail Model" as OrderDetailModel
+participant "Chart.js" as ChartJS
+
+== Xem Dashboard Bán Hàng ==
+
+SaleStaff -> DashboardUI: Truy cập trang dashboard
+activate DashboardUI
+
+DashboardUI -> SalesCtrl: dashboard()
+activate SalesCtrl
+
+SalesCtrl -> OrderModel: whereDate('orders.created_at', Carbon::today())
+activate OrderModel
+OrderModel -> DB: SELECT SUM(order_details.cost * order_details.quantity) \nFROM orders JOIN order_details \nWHERE DATE(orders.created_at) = CURDATE() \nAND orders.status = 'delivery'
+DB --> OrderModel: Doanh thu hôm nay
+deactivate OrderModel
+
+SalesCtrl -> OrderModel: whereBetween('orders.created_at', [Carbon::now()->startOfWeek(), Carbon::now()])
+activate OrderModel
+OrderModel -> DB: SELECT SUM(order_details.cost * order_details.quantity) \nFROM orders JOIN order_details \nWHERE orders.created_at BETWEEN [start_of_week] AND [now] \nAND orders.status = 'delivery'
+DB --> OrderModel: Doanh thu tuần này
+deactivate OrderModel
+
+SalesCtrl -> OrderModel: whereYear, whereMonth
+activate OrderModel
+OrderModel -> DB: SELECT SUM(order_details.cost * order_details.quantity) \nFROM orders JOIN order_details \nWHERE YEAR(orders.created_at) = YEAR(CURDATE()) \nAND MONTH(orders.created_at) = MONTH(CURDATE()) \nAND orders.status = 'delivery'
+DB --> OrderModel: Doanh thu tháng này
+deactivate OrderModel
+
+SalesCtrl -> OrderModel: whereYear
+activate OrderModel
+OrderModel -> DB: SELECT SUM(order_details.cost * order_details.quantity) \nFROM orders JOIN order_details \nWHERE YEAR(orders.created_at) = YEAR(CURDATE()) \nAND orders.status = 'delivery'
+DB --> OrderModel: Doanh thu năm này
+deactivate OrderModel
+
+SalesCtrl --> DashboardUI: Trả về view với dữ liệu thống kê
+deactivate SalesCtrl
+
+DashboardUI -> ChartJS: Khởi tạo biểu đồ doanh thu
+activate ChartJS
+ChartJS --> DashboardUI: Hiển thị biểu đồ
+deactivate ChartJS
+
+DashboardUI --> SaleStaff: Hiển thị dashboard với số liệu thống kê
+deactivate DashboardUI
+
+@enduml

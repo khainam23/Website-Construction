@@ -143,6 +143,11 @@
                                     <p class="content-product-1">
                                         {!! Str::limit(strip_tags($relateProduct->description), 80, '...') !!}
                                     </p>
+                                    <div class="related-product-price">
+                                        <i class="fas fa-tag"></i>
+                                        <span class="price-value">{{ number_format($relateProduct->price, 0, ',', '.') }} đ</span>
+                                        <span class="price-type">{{ $relateProduct->type == 'sale' ? __('Sale') : __('Rental') }}</span>
+                                    </div>
                                 </a>
                             </div>
                         @endforeach

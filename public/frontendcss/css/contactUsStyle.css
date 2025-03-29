@@ -1,173 +1,229 @@
 .contact-us-container {
-    gap: 30px;
-}
-.content-container {
-    gap: 20px;
-}
-.contact-us {
-    gap: 30px;
-    padding-bottom: 50px;
-}
-.content-container .frame-content .section-title-left .text-wrapper {
-    color: var(--primary, #295bae);
-    font-size: 23.8px;
-    font-style: normal;
-    font-weight: 700;
-    line-height: normal;
-}
-.content-container
-    .frame-content
-    .section-title-left
-    .infor-wrapper
-    .info
-    .label-info {
-    color: var(--body, #333);
-    /* body */
-    font-size: 14px;
-    font-style: normal;
-    font-weight: 700;
-    line-height: 150%; /* 21px */
-}
-.content-container
-    .frame-content
-    .section-title-left
-    .infor-wrapper
-    .info
-    .value-info {
-    color: var(--body, #333);
-    /* body */
-    font-size: 14px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: 150%;
-}
-.content-container .frame-content .section-title-right {
-}
-.content-container
-    .frame-content
-    .section-title-right
-    .text-wrapper
-    .label-help {
-    color: var(--body, #333);
-    font-size: 16px;
-    font-style: normal;
-    font-weight: 700;
-    line-height: 150%; /* 24px */
+    gap: 40px;
+    margin-bottom: 20px;
 }
 
-.content-container
-    .frame-content
-    .section-title-right
-    .text-wrapper
-    .value-help {
-    color: var(--body, #333);
-    font-size: 16px;
+.content-container {
+    gap: 30px;
+}
+
+.contact-us {
+    gap: 40px;
+    padding-bottom: 70px;
+}
+
+.banner-contact-us img {
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    margin-bottom: 30px;
+}
+
+.frame-content {
+    margin-top: 20px;
+}
+
+/* Left Column Styling */
+.content-container .frame-content .section-title-left .text-wrapper {
+    color: var(--primary, #295bae);
+    font-size: 24px;
     font-style: normal;
-    font-weight: 400;
+    font-weight: 700;
+    line-height: 1.3;
+    margin-bottom: 20px;
+    border-left: 4px solid #295bae;
+    padding-left: 15px;
+}
+
+.content-container .frame-content .section-title-left .infor-wrapper {
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid rgba(180, 180, 180, 0.2);
+}
+
+.content-container .frame-content .section-title-left .infor-wrapper .info {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.content-container .frame-content .section-title-left .infor-wrapper .info .label-info {
+    color: var(--body, #333);
+    font-size: 15px;
+    font-weight: 700;
     line-height: 150%;
 }
+
+.content-container .frame-content .section-title-left .infor-wrapper .info .value-info {
+    color: var(--body, #333);
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 150%;
+    word-wrap: break-word;
+}
+
+.infor-wrapper-bottom {
+    margin-top: 20px;
+}
+
+/* Right Column Styling - Form */
 .submit-form-contact-us {
-    gap: 10px;
+    gap: 15px;
     background: var(--secondary, #fff100);
     width: 100%;
-    padding: 40px 20px;
-    gap: 10px;
+    padding: 40px 30px;
+    border-radius: 10px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
 }
+
+.submit-form-contact-us:hover {
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+    transform: translateY(-3px);
+}
+
+.content-container .frame-content .section-title-right .text-wrapper {
+    margin-bottom: 15px;
+}
+
+.content-container .frame-content .section-title-right .text-wrapper .label-help {
+    color: var(--body, #333);
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 150%;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.content-container .frame-content .section-title-right .text-wrapper .value-help {
+    color: var(--body, #333);
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 150%;
+    opacity: 0.9;
+}
+
+/* Form inputs styling */
 .content-container .frame-content .section-title-right input {
     display: flex;
-    padding: 10px 20px;
+    padding: 14px 20px;
     align-items: center;
     gap: 10px;
     align-self: stretch;
-    border: 1px solid var(--gray, #b4b4b4);
+    border: 1px solid #d4d4d4;
+    border-radius: 6px;
     background: #fff;
+    font-size: 15px;
+    transition: all 0.3s ease;
 }
+
+.content-container .frame-content .section-title-right input:focus {
+    border-color: #295bae;
+    box-shadow: 0 0 0 3px rgba(41, 91, 174, 0.1);
+    outline: none;
+}
+
 .content-container .frame-content .section-title-right .description {
     display: flex;
     height: 180px;
-    padding: 10px 20px;
+    padding: 14px 20px;
     align-items: flex-start;
     gap: 10px;
     align-self: stretch;
-    border: 1px solid var(--gray, #b4b4b4);
+    border: 1px solid #d4d4d4;
+    border-radius: 6px;
     background: #fff;
+    font-size: 15px;
+    transition: all 0.3s ease;
+    resize: vertical;
 }
+
+.content-container .frame-content .section-title-right .description:focus {
+    border-color: #295bae;
+    box-shadow: 0 0 0 3px rgba(41, 91, 174, 0.1);
+    outline: none;
+}
+
+/* Submit button styling */
 .button-click {
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 10px 20px;
+    padding: 14px 25px;
     background: var(--primary, #295bae);
     color: var(--white, #fff);
-    font-size: 100%;
-    font-weight: 400;
+    font-size: 16px;
+    font-weight: 600;
     cursor: pointer;
-}
-
-.re-captcha {
-    display: flex;
-    align-items: center;
-    gap: 10px;
+    border: none;
+    border-radius: 6px;
+    transition: all 0.3s ease;
     margin-top: 10px;
 }
 
-#captchaCanvas {
-    border: 2px solid #000;
-    background: #fff;
-    border-radius: 5px;
+.button-click:hover {
+    background: #1e4585;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(41, 91, 174, 0.3);
 }
 
-#captchaInput {
-    width: 100%;
-    padding: 10px;
-    font-size: 16px;
-    border: 2px solid #000;
-    border-radius: 5px;
-    margin-top: 5px;
+.button-click:active {
+    transform: translateY(0);
 }
 
-#captchaError {
-    color: red;
+/* Google reCAPTCHA styling */
+.g-recaptcha {
+    margin: 15px 0;
+}
+
+#recaptcha-error {
+    color: #dc3545;
+    margin: 5px 0 10px;
     font-size: 14px;
+    font-weight: 500;
+}
+
+/* Toast notification styling */
+.toast-contact-us-success {
+    background-color: rgba(40, 167, 69, 0.9);
+    color: white;
+    border-left: 5px solid #1e7e34;
+    padding: 15px;
+    border-radius: 6px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    font-weight: 500;
+}
+
+.toast-contact-us-error {
+    background-color: rgba(220, 53, 69, 0.9);
+    color: white;
+    border-left: 5px solid #bd2130;
+    padding: 15px;
+    border-radius: 6px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    font-weight: 500;
+}
+
+/* Form validation error styling */
+.parsley-required {
+    color: #dc3545;
+    font-size: 13px;
     margin-top: 5px;
+    font-weight: 500;
 }
 
-.refresh-captcha {
-    background: none;
-    border: none;
-    cursor: pointer;
-    font-size: 20px;
-    padding: 5px;
-}
-
-.refresh-captcha:hover {
-    transform: rotate(180deg);
-    transition: 0.3s;
-}
-.toast-contact-us-success {
-    background-color: #28a745; /* Màu xanh đậm hơn */
-    color: #fff; /* Chữ trắng trên nền tối */
-    border: 2px solid #1e7e34; /* Viền đậm */
-    padding: 10px;
-    border-radius: 5px;
-}
-
-.toast-contact-us-error {
-    background-color: #dc3545; /* Màu đỏ đậm */
-    color: #fff;
-    border: 2px solid #bd2130;
-    padding: 10px;
-    border-radius: 5px;
-}
-
-.toast-contact-us-success {
-    background-color: rgba(1, 255, 111, 0.8); /* Giảm độ trong suốt */
-    color: #000; /* Chữ đen dễ đọc hơn */
-    border: 2px solid rgb(48, 255, 1);
-}
-
-.toast-contact-us-error {
-    background-color: rgba(255, 1, 1, 0.8);
-    color: #000;
-    border: 2px solid rgb(255, 158, 1);
+/* Responsive adjustments */
+@media (max-width: 767px) {
+    .submit-form-contact-us {
+        padding: 30px 20px;
+    }
+    
+    .content-container .frame-content .section-title-left .text-wrapper {
+        font-size: 20px;
+    }
+    
+    .content-container .frame-content .section-title-right .text-wrapper .label-help {
+        font-size: 16px;
+    }
 }

@@ -1,95 +1,481 @@
+/* General Styles */
 body {
-    background-color: #f8f9fa;
+    background-color: #f5f8fa;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
+/* Main Container */
 .profile-container {
     display: flex;
-    flex-wrap: wrap;
-    /* Giúp xuống dòng khi không đủ chỗ */
-    max-width: 1200px;
-    margin: 50px auto;
+    max-width: 1400px; /* Increased from 1200px */
+    margin: 30px auto;
     background: white;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
     overflow: hidden;
+    min-height: 80vh; /* Ensure minimum height for container */
 }
 
+/* Sidebar Styles */
 .sidebar {
-    width: 30%;
-    background: #007bff;
-    padding: 20px;
+    width: 20%; /* Reduced from 25% to give more space to content */
+    background: linear-gradient(135deg, #4e73df 0%, #224abe 100%);
+    padding: 30px 20px;
     color: white;
+    height: auto; /* Allow sidebar to expand with content */
+    position: relative; /* For positioning purposes */
+}
+
+.sidebar h3 {
+    font-size: 1.4rem;
+    font-weight: 600;
+    margin-bottom: 25px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .sidebar .nav-item {
-    padding: 10px;
+    padding: 12px 15px;
+    margin-bottom: 8px;
     cursor: pointer;
-    border-radius: 5px;
-    transition: background 0.3s;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
 }
 
-.sidebar .nav-item:hover,
+.sidebar .nav-item:before {
+    content: ">";
+    margin-right: 10px;
+    font-size: 12px;
+    opacity: 0;
+    transition: all 0.3s ease;
+}
+
+.sidebar .nav-item:hover {
+    background: rgba(255, 255, 255, 0.15);
+    transform: translateX(5px);
+}
+
+.sidebar .nav-item:hover:before {
+    opacity: 1;
+}
+
 .sidebar .nav-item.active {
     background: rgba(255, 255, 255, 0.2);
+    font-weight: bold;
+    transform: translateX(5px);
 }
 
+.sidebar .nav-item.active:before {
+    opacity: 1;
+}
+
+/* Content Area */
 .content {
-    width: 70%;
-    padding: 20px;
-    overflow-x: auto; /* Add horizontal scroll when needed */
+    width: 80%; /* Increased from 75% */
+    padding: 30px;
+    overflow-y: auto; /* Add vertical scroll if needed */
+    max-height: 100%; /* Ensure it takes full height */
+    position: relative; /* For positioning content */
 }
 
 .content-section {
     display: none;
-    width: 100%;
+    animation: fadeIn 0.5s ease;
+    width: 100%; /* Ensure full width */
 }
 
 .content-section.active {
     display: block;
+    height: auto; /* Allow content to expand */
 }
 
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.content-section h2 {
+    color: #333;
+    margin-bottom: 25px;
+    font-weight: 600;
+    position: relative;
+    padding-bottom: 10px;
+}
+
+.content-section h2:after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 50px;
+    height: 3px;
+    background: #4e73df;
+}
+
+/* Form Styling */
 .form-group {
-    margin-bottom: 15px;
+    margin-bottom: 20px;
+    width: 100%; /* Ensure full width */
 }
 
-/* Enhanced table styling */
+.form-group label {
+    font-weight: 500;
+    color: #555;
+    margin-bottom: 8px;
+    display: block;
+}
+
+.form-control {
+    border-radius: 6px;
+    border: 1px solid #dce1e9;
+    padding: 10px 15px;
+    transition: all 0.3s ease;
+    width: 100%; /* Ensure full width */
+}
+
+.form-control:focus {
+    box-shadow: 0 0 0 3px rgba(78, 115, 223, 0.15);
+    border-color: #4e73df;
+}
+
+/* Avatar Preview */
+#avatar-preview {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 5px solid white;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    margin: 10px auto;
+    transition: transform 0.3s ease;
+    display: block; /* Ensure proper centering */
+}
+
+#avatar-preview:hover {
+    transform: scale(1.05);
+}
+
+/* Table Container - Make it full width without horizontal scroll */
+.table-container {
+    width: 100%;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    overflow: visible; /* Don't clip overflow content */
+}
+
+/* Table Styling */
 table {
     width: 100%;
-    border-collapse: collapse;
-    min-width: 800px; /* Ensure minimum width to prevent excessive squeezing */
+    border-collapse: separate;
+    border-spacing: 0;
+    min-width: auto; /* Remove minimum width constraint */
+    table-layout: auto; /* Let table size according to content */
 }
 
-table,
-th,
-td {
-    border: 1px solid #ddd;
-    padding: 10px;
+thead {
+    background-color: #f8f9fc;
+    position: sticky; /* Keep header visible when scrolling */
+    top: 0;
+    z-index: 10;
+}
+
+th {
+    padding: 12px 10px; /* Slightly reduced padding */
     text-align: left;
+    font-weight: 600;
+    color: #4e73df;
+    border-bottom: 2px solid #e3e6f0;
+    white-space: nowrap; /* Keep headers on single line */
 }
 
-/* Make cart actions more visible */
+td {
+    padding: 12px 10px; /* Slightly reduced padding */
+    border-bottom: 1px solid #e3e6f0;
+    vertical-align: middle;
+    white-space: normal; /* Allow text wrapping */
+}
+
+tbody tr:hover {
+    background-color: #f8f9fd;
+}
+
+tbody tr:last-child td {
+    border-bottom: none;
+}
+
+/* Make "Actions" column with buttons narrower */
+th:last-child, td:last-child {
+    width: 1%; /* Make as narrow as possible */
+    white-space: nowrap; /* Keep buttons on one line */
+}
+
+/* Make "Type" column narrower */
+th:nth-child(2), td:nth-child(2) {
+    width: 1%; /* Make as narrow as possible */
+    white-space: nowrap;
+}
+
+/* Make "Product ID" column narrower */
+th:nth-child(3), td:nth-child(3) {
+    width: 1%; /* Make as narrow as possible */
+    white-space: nowrap;
+}
+
+/* Make checkboxes column narrower */
+th:first-child, td:first-child {
+    width: 1%;
+}
+
+/* Make "Price" and "Quantity" columns narrower */
+th:nth-child(5), td:nth-child(5),
+th:nth-child(6), td:nth-child(6) {
+    width: 1%;
+    white-space: nowrap;
+}
+
+/* Make buttons more compact */
+.btn {
+    padding: 8px 15px; /* Reduced padding */
+    margin: 0 2px;
+    white-space: nowrap;
+}
+
+.btn-group {
+    display: flex;
+    flex-wrap: nowrap; /* Keep buttons on same line */
+    gap: 5px; /* Reduced gap */
+}
+
+/* Ensure details content wraps properly */
+td ul {
+    margin: 0;
+    padding-left: 15px;
+}
+
+td li {
+    white-space: normal;
+    word-break: break-word;
+}
+
+/* Order details column can be wider */
+th:nth-child(6), td:nth-child(6) {
+    max-width: 30%;
+}
+
+/* Regular product name column should have reasonable width */
+th:nth-child(4), td:nth-child(4) {
+    max-width: 25%;
+}
+
+/* Order Details - Better list styling */
+.order-details ul {
+    padding-left: 15px;
+    margin: 0;
+    list-style-type: none;
+}
+
+.order-details li {
+    position: relative;
+    padding: 5px 0;
+    line-height: 1.4;
+}
+
+.order-details li:before {
+    content: "•";
+    position: absolute;
+    left: -15px;
+    color: #4e73df;
+}
+
+/* Buttons Styling */
+.btn-primary {
+    background: #4e73df;
+    border-color: #4e73df;
+}
+
+.btn-primary:hover {
+    background: #3a5fd7;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 10px rgba(0,0,0,0.15);
+}
+
+.btn-danger {
+    background: #e74a3b;
+    border-color: #e74a3b;
+}
+
+.btn-danger:hover {
+    background: #d52a1a;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 10px rgba(0,0,0,0.15);
+}
+
+.btn-success {
+    background: #1cc88a;
+    border-color: #1cc88a;
+}
+
+.btn-success:hover {
+    background: #15a87a;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 10px rgba(0,0,0,0.15);
+}
+
+/* Status Badges */
+.badge {
+    padding: 6px 12px;
+    border-radius: 30px;
+    font-weight: 500;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+    display: inline-block; /* Ensure proper rendering */
+}
+
+/* Cart Actions */
 .cart-actions {
-    margin: 15px 0;
+    margin: 20px 0;
     display: flex;
     gap: 10px;
+    flex-wrap: wrap; /* Allow wrapping on small screens */
 }
 
-/* Improve table row hover effect */
-table tbody tr:hover {
-    background-color: #f5f5f5;
-}
-
-/* Better styling for buttons in table */
+/* Button Groups in Tables */
 .btn-group {
     display: flex;
     flex-wrap: wrap;
-    gap: 5px;
+    gap: 8px;
 }
 
-/* Responsive */
+/* Checkbox Styling */
+input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    accent-color: #4e73df;
+    cursor: pointer;
+}
+
+/* Wrap all tables with a scrollable container */
+#cart .content-section, #orders .content-section {
+    overflow: visible; /* Override any hidden overflow */
+}
+
+#cart table, #orders table {
+    table-layout: auto; /* Let columns size themselves based on content */
+}
+
+/* Fix for long content in tables */
+table td {
+    max-width: 250px; /* Maximum width for table cells */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: normal; /* Allow text to wrap */
+    word-break: break-word; /* Break long words if needed */
+}
+
+/* Better display for order details */
+ul li {
+    margin-bottom: 5px;
+}
+
+/* Column width adjustments for Orders table */
+/* Address column - make narrower (about 20%) */
+#orders table th:nth-child(4), 
+#orders table td:nth-child(4) {
+    width: 20%;
+    max-width: 20%;
+    white-space: normal;
+    word-break: break-word;
+}
+
+/* Details column - make wider */
+#orders table th:nth-child(6), 
+#orders table td:nth-child(6) {
+    width: 35%;
+    max-width: 35%;
+    white-space: normal;
+}
+
+/* Better styling for details content */
+#orders table td:nth-child(6) ul {
+    padding-left: 20px;
+    margin: 0;
+    list-style-type: disc;
+}
+
+#orders table td:nth-child(6) li {
+    margin-bottom: 8px;
+    line-height: 1.4;
+}
+
+/* Keep phone numbers compact */
+#orders table th:nth-child(5), 
+#orders table td:nth-child(5) {
+    width: 15%;
+    max-width: 15%;
+    white-space: nowrap;
+}
+
+/* Keep IDs compact */
+#orders table th:nth-child(1), 
+#orders table td:nth-child(1) {
+    width: 8%;
+    max-width: 8%;
+    white-space: nowrap;
+}
+
+/* Keep prices compact */
+#orders table th:nth-child(2), 
+#orders table td:nth-child(2) {
+    width: 12%;
+    max-width: 12%;
+    white-space: nowrap;
+}
+
+/* Status column - keep compact */
+#orders table th:nth-child(3), 
+#orders table td:nth-child(3) {
+    width: 10%;
+    max-width: 10%;
+    white-space: nowrap;
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+    .profile-container {
+        max-width: 98%; /* Almost full width on smaller screens */
+    }
+    
+    /* Allow table to stretch to container width */
+    table {
+        width: 100%;
+    }
+    
+    /* Make all cells wrap text as needed */
+    table td, table th {
+        white-space: normal;
+    }
+}
+
 @media (max-width: 992px) {
     .profile-container {
-        max-width: 95%;
+        max-width: 98%;
+        margin: 20px auto;
+    }
+    
+    /* Allow horizontal scroll only when absolutely necessary */
+    .table-container {
+        overflow-x: auto;
+    }
+    
+    /* Ensure minimum width for smaller screens */
+    table {
+        min-width: 800px; /* Add minimum width back for very small screens */
     }
 }
 
@@ -97,38 +483,106 @@ table tbody tr:hover {
     .profile-container {
         flex-direction: column;
     }
-
+    
     .sidebar {
         width: 100%;
-        text-align: center;
-    }
-
-    .content {
-        width: 100%;
-        padding: 15px;
+        padding: 20px;
     }
     
-    /* Ensure table can be scrolled horizontally on small screens */
-    .content-section {
+    .content {
+        width: 100%;
+        padding: 20px;
+        overflow-x: hidden; /* Hide horizontal overflow */
+    }
+    
+    .sidebar .nav-item {
+        display: inline-block;
+        margin-right: 5px;
+        font-size: 0.9rem;
+        padding: 8px 15px;
+    }
+    
+    .sidebar .nav-item:before {
+        display: none;
+    }
+    
+    .sidebar h3 {
+        text-align: center;
+    }
+    
+    /* Make tables scrollable horizontally */
+    .table-container {
         overflow-x: auto;
+    }
+    
+    /* Wrap the tables with a container class to enable horizontal scrolling */
+    #cart table, #orders table {
+        min-width: 100%; /* Ensure table fills container */
+        max-width: none; /* Remove max-width constraint */
+    }
+    
+    /* Ensure table cells can wrap content on small screens */
+    table td {
+        max-width: 150px;
+        white-space: normal;
     }
 }
 
 @media (max-width: 480px) {
     .sidebar .nav-item {
-        font-size: 14px;
-        padding: 8px;
+        font-size: 0.8rem;
+        padding: 6px 10px;
+        margin-bottom: 5px;
+        width: calc(50% - 10px); /* Make buttons fill half width minus margins */
+        text-align: center;
     }
-
-    table,
-    th,
-    td {
-        font-size: 12px;
-        padding: 5px;
+    
+    .content {
+        padding: 15px;
+    }
+    
+    .content-section h2 {
+        font-size: 1.5rem;
     }
     
     .btn {
-        padding: 0.25rem 0.5rem;
-        font-size: 0.75rem;
+        padding: 8px 12px;
+        font-size: 0.9rem;
+        margin-bottom: 5px;
     }
+    
+    .form-group label {
+        font-size: 0.9rem;
+    }
+    
+    #avatar-preview {
+        width: 120px;
+        height: 120px;
+    }
+    
+    th, td {
+        padding: 8px 10px;
+        font-size: 0.85rem;
+    }
+    
+    /* Ensure table cells can wrap content on very small screens */
+    table td {
+        max-width: 100px;
+    }
+    
+    /* Simplify the button groups on very small screens */
+    .btn-group {
+        flex-direction: column;
+    }
+    
+    .btn-group .btn {
+        margin: 3px 0;
+    }
+}
+
+/* Fix for nested tables inside order details */
+.content-section .order-details table {
+    width: 100%;
+    margin: 10px 0;
+    box-shadow: none;
 }

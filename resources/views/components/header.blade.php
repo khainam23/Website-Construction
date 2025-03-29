@@ -98,7 +98,7 @@
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" href="{{ route('api.logout') }}">
-                                        {{ __('Logout') }}
+                                        {{ __('Log Out') }}
                                     </a>
                                 </li>
                             @else

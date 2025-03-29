@@ -1082,5 +1082,9 @@
     "Order canceled!": "အော်ဒါကို ဖျက်ပြီးပါပြီ!",
     "The order has been canceled.": "အော်ဒါကို ဖျက်ပြီးပါပြီ။",
     "An error occurred while canceling the order.": "အော်ဒါကို ဖျက်နေစဉ် အမှားတစ်ခု ဖြစ်ပွားခဲ့ပါသည်။",
-     "Unit Price": "ယူနစ်စုစုပေါင်း"
+     "Unit Price": "ယူနစ်စုစုပေါင်း",
+     "Min": "အနည်းဆုံး",
+     "Max": "အများဆုံး",
+     "Filter":"စစ်ထုတ်ခြင်း",
+     "Price Range": "ဈေးနှုန်းအကွာအဝေး"
 }

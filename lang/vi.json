@@ -1057,5 +1057,9 @@
     "Order canceled!": "Đơn hàng đã bị hủy!",
     "The order has been canceled.": "Đơn hàng đã bị hủy.",
     "An error occurred while canceling the order.": "Đã xảy ra lỗi khi hủy đơn hàng.",
-    "Unit Price": "Đơn Giá"
+    "Unit Price": "Đơn Giá",
+    "Min": "Tối thiểu",
+    "Max": "Tối đa",
+    "Filter":"Lọc",
+    "Price Range": "Khoảng Giá"
 }

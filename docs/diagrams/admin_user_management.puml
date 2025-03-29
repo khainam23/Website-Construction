@@ -1,0 +1,98 @@
+@startuml Admin User Management
+
+title Quy Trình Quản Lý Người Dùng
+
+actor "Admin" as Admin
+participant "Giao Diện\nQuản Lý Users" as UserUI
+participant "AccountController" as AccountCtrl
+participant "AJAX Request" as Ajax
+database "Database" as DB
+participant "User Model" as UserModel
+
+== Xem Danh Sách Người Dùng ==
+
+Admin -> UserUI: Truy cập trang quản lý người dùng
+activate UserUI
+
+UserUI -> AccountCtrl: loadAccount()
+activate AccountCtrl
+
+AccountCtrl -> UserModel: User::all()
+activate UserModel
+UserModel -> DB: SELECT * FROM users
+DB --> UserModel: Dữ liệu người dùng
+deactivate UserModel
+
+AccountCtrl --> UserUI: Trả về view với danh sách users
+deactivate AccountCtrl
+
+UserUI --> Admin: Hiển thị danh sách người dùng
+deactivate UserUI
+
+== Tìm Kiếm và Lọc Người Dùng ==
+
+Admin -> UserUI: Nhập từ khóa tìm kiếm/chọn vai trò
+activate UserUI
+UserUI -> UserUI: Lọc client-side với JavaScript
+UserUI --> Admin: Hiển thị kết quả lọc
+deactivate UserUI
+
+== Xem Chi Tiết Người Dùng ==
+
+Admin -> UserUI: Nhấn nút "Edit" cho người dùng
+activate UserUI
+
+UserUI -> Ajax: POST request tới admin.api.user.show
+activate Ajax
+
+Ajax -> AccountCtrl: show(request)
+activate AccountCtrl
+
+AccountCtrl -> UserModel: findOrFail(userId)
+activate UserModel
+UserModel -> DB: SELECT * FROM users WHERE id = userId
+DB --> UserModel: Thông tin người dùng
+deactivate UserModel
+
+AccountCtrl --> Ajax: JSON response chứa thông tin user
+deactivate AccountCtrl
+
+Ajax --> UserUI: Dữ liệu người dùng
+deactivate Ajax
+
+UserUI --> Admin: Hiển thị modal với thông tin user
+deactivate UserUI
+
+== Cập Nhật Thông Tin Người Dùng ==
+
+Admin -> UserUI: Thay đổi vai trò/trạng thái và nhấn "Lưu"
+activate UserUI
+
+UserUI -> Ajax: POST request tới admin.api.user.update
+activate Ajax
+
+Ajax -> AccountCtrl: update(request)
+activate AccountCtrl
+
+AccountCtrl -> UserModel: find(userId)
+activate UserModel
+UserModel -> DB: SELECT * FROM users WHERE id = userId
+DB --> UserModel: Thông tin người dùng
+deactivate UserModel
+
+AccountCtrl -> UserModel: update vai trò và trạng thái
+activate UserModel
+UserModel -> DB: UPDATE users SET role = ?, is_active = ? WHERE id = userId
+DB --> UserModel: Xác nhận cập nhật
+deactivate UserModel
+
+AccountCtrl --> Ajax: JSON response thành công
+deactivate AccountCtrl
+
+Ajax --> UserUI: Phản hồi thành công
+deactivate Ajax
+
+UserUI --> Admin: Thông báo cập nhật thành công và reload
+deactivate UserUI
+
+@enduml

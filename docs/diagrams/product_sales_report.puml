@@ -1,0 +1,41 @@
+@startuml Product Sales Report
+
+title Quy Trình Xem Báo Cáo Bán Hàng Theo Sản Phẩm
+
+actor "Sale Staff" as SaleStaff
+participant "Giao Diện\nProduct Sales" as ProductSalesUI
+participant "SalesController" as SalesCtrl
+database "Database" as DB
+participant "Order Model" as OrderModel
+participant "OrderDetail Model" as OrderDetailModel
+participant "Product Model" as ProductModel
+
+== Xem Báo Cáo Bán Hàng Theo Sản Phẩm ==
+
+SaleStaff -> ProductSalesUI: Truy cập trang báo cáo bán hàng theo sản phẩm
+activate ProductSalesUI
+
+ProductSalesUI -> SalesCtrl: productSales()
+activate SalesCtrl
+
+SalesCtrl -> OrderDetailModel: Lấy danh sách sản phẩm bán chạy
+activate OrderDetailModel
+OrderDetailModel -> DB: SELECT products.name as product_name,\nSUM(order_details.quantity) as total_quantity,\nSUM(order_details.cost * order_details.quantity) as total_revenue\nFROM order_details\nJOIN orders ON order_details.order_id = orders.id\nJOIN products ON order_details.product_id = products.id\nWHERE orders.status = 'delivery'\nGROUP BY products.name\nORDER BY total_quantity DESC\nLIMIT 10
+DB --> OrderDetailModel: Danh sách sản phẩm bán chạy
+OrderDetailModel --> SalesCtrl: Dữ liệu sản phẩm bán chạy
+deactivate OrderDetailModel
+
+SalesCtrl -> OrderDetailModel: Lấy danh sách sản phẩm bán gần đây
+activate OrderDetailModel
+OrderDetailModel -> DB: SELECT products.name as product_name,\norder_details.created_at,\norder_details.quantity,\norder_details.cost,\norder_details.cost * order_details.quantity as total_cost\nFROM order_details\nJOIN orders ON order_details.order_id = orders.id\nJOIN products ON order_details.product_id = products.id\nWHERE orders.status = 'delivery'\nORDER BY order_details.created_at DESC\nLIMIT 5
+DB --> OrderDetailModel: Danh sách sản phẩm bán gần đây
+OrderDetailModel --> SalesCtrl: Dữ liệu sản phẩm bán gần đây
+deactivate OrderDetailModel
+
+SalesCtrl --> ProductSalesUI: Trả về view với dữ liệu báo cáo
+deactivate SalesCtrl
+
+ProductSalesUI --> SaleStaff: Hiển thị báo cáo bán hàng theo sản phẩm
+deactivate ProductSalesUI
+
+@enduml
