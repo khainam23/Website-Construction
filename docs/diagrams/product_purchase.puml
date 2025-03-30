@@ -1,0 +1,220 @@
+@startuml Product Purchase Process
+
+title Quy Trình Mua Sản Phẩm
+
+actor "Customer" as Customer
+participant "Trang Chủ\n(Homepage)" as Homepage
+participant "Trang Danh Sách\nSản Phẩm" as ProductList
+participant "Trang Chi Tiết\nSản Phẩm" as ProductDetail
+participant "ProductController" as ProductCtrl
+participant "ProfileController" as ProfileCtrl
+participant "PaymentController" as PaymentCtrl
+database "Database" as DB
+participant "Product Model" as ProductModel
+participant "Cart Model" as CartModel
+participant "Order Model" as OrderModel
+participant "ProductInventory Model" as InventoryModel
+
+== Duyệt và Tìm Kiếm Sản Phẩm ==
+
+Customer -> Homepage: Truy cập trang chủ
+activate Homepage
+
+Homepage -> Customer: Hiển thị danh sách sản phẩm nổi bật
+deactivate Homepage
+
+Customer -> ProductList: Xem danh sách sản phẩm
+activate ProductList
+
+ProductList -> ProductCtrl: viewAll(request, type, page)
+activate ProductCtrl
+
+ProductCtrl -> ProductModel: query()
+activate ProductModel
+ProductModel -> DB: SELECT * FROM products WHERE...
+DB --> ProductModel: Danh sách sản phẩm
+ProductModel --> ProductCtrl: Danh sách sản phẩm
+deactivate ProductModel
+
+ProductCtrl -> ProductList: Trả về view với sản phẩm
+deactivate ProductCtrl
+
+ProductList --> Customer: Hiển thị danh sách sản phẩm
+deactivate ProductList
+
+Customer -> ProductList: Áp dụng bộ lọc (danh mục, giá...)
+activate ProductList
+
+ProductList -> ProductCtrl: viewAll(request với filters)
+activate ProductCtrl
+
+ProductCtrl -> ProductModel: query() với điều kiện lọc
+activate ProductModel
+ProductModel -> DB: SELECT * FROM products WHERE [filter conditions]
+DB --> ProductModel: Danh sách sản phẩm đã lọc
+ProductModel --> ProductCtrl: Danh sách sản phẩm đã lọc
+deactivate ProductModel
+
+ProductCtrl --> ProductList: Trả về view với sản phẩm đã lọc
+deactivate ProductCtrl
+
+ProductList --> Customer: Hiển thị kết quả lọc
+deactivate ProductList
+
+== Xem Chi Tiết Sản Phẩm ==
+
+Customer -> ProductList: Chọn sản phẩm
+activate ProductList
+
+ProductList -> ProductDetail: Chuyển hướng đến chi tiết sản phẩm
+deactivate ProductList
+activate ProductDetail
+
+ProductDetail -> ProductCtrl: show(request với product_id)
+activate ProductCtrl
+
+ProductCtrl -> ProductModel: with(['category', 'images',...]).where('id', id).first()
+activate ProductModel
+ProductModel -> DB: SELECT * FROM products WHERE id = ?\nJOIN các bảng liên quan
+DB --> ProductModel: Thông tin sản phẩm và dữ liệu liên quan
+ProductModel --> ProductCtrl: Thông tin chi tiết sản phẩm
+deactivate ProductModel
+
+ProductCtrl -> ProductModel: Lấy sản phẩm liên quan (cùng danh mục)
+activate ProductModel
+ProductModel -> DB: SELECT * FROM products WHERE category_id = ? AND id != ?
+DB --> ProductModel: Danh sách sản phẩm liên quan
+ProductModel --> ProductCtrl: Danh sách sản phẩm liên quan
+deactivate ProductModel
+
+ProductCtrl -> ProductDetail: Trả về view với thông tin chi tiết
+deactivate ProductCtrl
+
+ProductDetail --> Customer: Hiển thị trang chi tiết sản phẩm
+deactivate ProductDetail
+
+== Thêm Sản Phẩm Vào Giỏ Hàng ==
+
+Customer -> ProductDetail: Nhấn nút "Thêm vào giỏ hàng"
+activate ProductDetail
+
+ProductDetail --> Customer: Hiển thị hộp thoại xác nhận với số lượng
+Customer -> ProductDetail: Xác nhận số lượng và submit
+ProductDetail -> CartModel: Gửi request API thêm vào giỏ hàng
+activate CartModel
+
+CartModel -> DB: INSERT INTO carts (user_id, product_id, quantity, cost...)
+DB --> CartModel: Kết quả thêm vào giỏ hàng
+CartModel --> ProductDetail: Trả về kết quả thành công
+deactivate CartModel
+
+ProductDetail --> Customer: Thông báo thành công và chuyển hướng đến trang Profile
+deactivate ProductDetail
+
+== Quản Lý Giỏ Hàng và Thanh Toán ==
+
+Customer -> ProfileController: Truy cập trang profile (tab giỏ hàng)
+activate ProfileController
+
+ProfileController -> CartModel: Lấy sản phẩm trong giỏ hàng
+activate CartModel
+CartModel -> DB: SELECT * FROM carts WHERE user_id = ?
+DB --> CartModel: Danh sách sản phẩm trong giỏ
+CartModel --> ProfileController: Danh sách sản phẩm trong giỏ
+deactivate CartModel
+
+ProfileController --> Customer: Hiển thị giỏ hàng với các sản phẩm
+deactivate ProfileController
+
+Customer -> ProfileController: Xác nhận mua hàng (checkout)
+activate ProfileController
+
+Customer --> ProfileController: Nhập thông tin giao hàng
+ProfileController -> PaymentCtrl: Gửi request API all(request)
+deactivate ProfileController
+activate PaymentCtrl
+
+PaymentCtrl -> PaymentCtrl: Kiểm tra phương thức thanh toán
+alt Thanh toán qua VNPay
+    PaymentCtrl -> PaymentCtrl: Tạo URL thanh toán VNPay
+    PaymentCtrl --> Customer: Chuyển hướng đến cổng thanh toán VNPay
+    
+    Customer -> PaymentCtrl: Hoàn thành thanh toán và quay lại (vnpayReturn)
+    PaymentCtrl -> PaymentCtrl: Xác minh thanh toán thành công
+    
+    alt Thanh toán thành công
+        PaymentCtrl -> PaymentCtrl: payment(items, paymentInfo)
+    else Thanh toán thất bại
+        PaymentCtrl --> Customer: Thông báo lỗi và chuyển về giỏ hàng
+    end
+else Thanh toán trực tiếp
+    PaymentCtrl -> PaymentCtrl: payment(items, paymentInfo)
+end
+
+note right of PaymentCtrl
+    Xử lý đặt hàng chung cho cả hai 
+    phương thức thanh toán
+end note
+
+PaymentCtrl -> InventoryModel: Kiểm tra tồn kho
+activate InventoryModel
+InventoryModel -> DB: SELECT quantity FROM product_inventories WHERE product_id = ?
+DB --> InventoryModel: Số lượng tồn kho
+InventoryModel --> PaymentCtrl: Số lượng tồn kho
+deactivate InventoryModel
+
+alt Sản phẩm đủ tồn kho
+    PaymentCtrl -> OrderModel: create() tạo đơn hàng mới
+    activate OrderModel
+    OrderModel -> DB: INSERT INTO orders (user_id, address, phone, status, total...)
+    DB --> OrderModel: Order ID
+    OrderModel --> PaymentCtrl: Đơn hàng đã tạo
+    deactivate OrderModel
+    
+    loop Cho từng sản phẩm trong giỏ hàng
+        PaymentCtrl -> DB: INSERT INTO order_details (order_id, product_id, quantity, cost...)
+        PaymentCtrl -> InventoryModel: update() - Giảm số lượng tồn kho
+        activate InventoryModel
+        InventoryModel -> DB: UPDATE product_inventories SET quantity = quantity - ? WHERE product_id = ?
+        DB --> InventoryModel: Kết quả cập nhật
+        InventoryModel --> PaymentCtrl: Inventory đã cập nhật
+        deactivate InventoryModel
+        
+        alt Tồn kho thấp (< 3)
+            PaymentCtrl -> PaymentCtrl: sendLowInventoryAlert()
+            PaymentCtrl -> DB: Gửi email cảnh báo tồn kho thấp
+        end
+    end
+    
+    PaymentCtrl -> CartModel: Xóa các sản phẩm đã mua khỏi giỏ hàng
+    activate CartModel
+    CartModel -> DB: DELETE FROM carts WHERE id IN (...)
+    DB --> CartModel: Kết quả xóa
+    CartModel --> PaymentCtrl: Giỏ hàng đã cập nhật
+    deactivate CartModel
+    
+    PaymentCtrl -> PaymentCtrl: sendInvoiceEmail() - Gửi email hóa đơn
+    PaymentCtrl -> DB: Gửi email hóa đơn cho khách hàng
+    
+    PaymentCtrl --> Customer: Thông báo đặt hàng thành công
+else Sản phẩm không đủ tồn kho
+    PaymentCtrl --> Customer: Thông báo lỗi tồn kho không đủ
+end
+deactivate PaymentCtrl
+
+== Theo Dõi Đơn Hàng ==
+
+Customer -> ProfileController: Xem đơn hàng (tab orders)
+activate ProfileController
+
+ProfileController -> OrderModel: Lấy thông tin đơn hàng
+activate OrderModel
+OrderModel -> DB: SELECT * FROM orders WHERE user_id = ?
+DB --> OrderModel: Danh sách đơn hàng
+OrderModel --> ProfileController: Danh sách đơn hàng
+deactivate OrderModel
+
+ProfileController --> Customer: Hiển thị danh sách đơn hàng
+deactivate ProfileController
+
+@enduml

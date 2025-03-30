@@ -1,0 +1,103 @@
+@startuml Thanh_Toan
+
+title Sequence Diagram: Quy trình thanh toán chi tiết
+
+actor "User" as User
+participant "Giao Diện\nThanh Toán" as Browser
+participant "ProfileController" as ProfileCtrl
+participant "PaymentController" as PaymentCtrl
+participant "VNPay" as VNPay
+participant "Order Model" as OrderModel
+participant "Cart Model" as CartModel
+participant "ProductInventory Model" as InventoryModel
+database "Database" as DB
+
+User -> Browser: Xác nhận thanh toán (từ giỏ hàng hoặc trang đơn hàng)
+activate Browser
+
+Browser -> ProfileCtrl: POST /payment/checkout
+activate ProfileCtrl
+
+ProfileCtrl -> ProfileCtrl: Lấy thông tin người dùng từ session
+ProfileCtrl -> Browser: Yêu cầu thông tin giao hàng (Địa chỉ, SĐT)
+deactivate ProfileCtrl
+
+Browser -> User: Hiển thị form thông tin giao hàng
+User -> Browser: Nhập thông tin giao hàng
+Browser -> PaymentCtrl: Gửi thông tin thanh toán và giao hàng
+activate PaymentCtrl
+
+PaymentCtrl -> PaymentCtrl: Kiểm tra phương thức thanh toán (VNPay/Trực tiếp)
+
+alt Thanh toán qua VNPay
+    PaymentCtrl -> VNPay: Tạo yêu cầu thanh toán
+    activate VNPay
+    VNPay -> DB: Lưu thông tin giao dịch tạm thời
+    DB --> VNPay: Xác nhận lưu
+    VNPay --> PaymentCtrl: Trả về URL thanh toán
+    deactivate VNPay
+    PaymentCtrl -> Browser: Chuyển hướng đến trang thanh toán VNPay
+    deactivate PaymentCtrl
+
+    User -> VNPay: Thực hiện thanh toán
+    activate VNPay
+    VNPay -> PaymentCtrl: Gửi thông báo kết quả thanh toán (callback)
+    deactivate VNPay
+    activate PaymentCtrl
+
+    PaymentCtrl -> PaymentCtrl: Xác minh kết quả thanh toán từ VNPay
+    alt Thanh toán thành công
+        PaymentCtrl -> PaymentCtrl: Xử lý thanh toán thành công
+    else Thanh toán thất bại
+        PaymentCtrl -> Browser: Hiển thị thông báo lỗi thanh toán
+        deactivate PaymentCtrl
+    end
+else Thanh toán trực tiếp
+    PaymentCtrl -> PaymentCtrl: Xử lý thanh toán trực tiếp
+end
+
+PaymentCtrl -> InventoryModel: Kiểm tra tồn kho sản phẩm
+activate InventoryModel
+InventoryModel -> DB: SELECT quantity FROM product_inventories WHERE product_id IN (...)
+DB --> InventoryModel: Trả về số lượng tồn kho
+deactivate InventoryModel
+
+alt Đủ tồn kho
+    PaymentCtrl -> OrderModel: Tạo đơn hàng mới
+    activate OrderModel
+    OrderModel -> DB: INSERT INTO orders (user_id, address, phone, status, total, payment_method...)
+    DB --> OrderModel: Trả về ID đơn hàng
+    deactivate OrderModel
+
+    loop Với mỗi sản phẩm trong giỏ hàng
+        PaymentCtrl -> DB: INSERT INTO order_details (order_id, product_id, quantity, price...)
+        PaymentCtrl -> InventoryModel: Cập nhật số lượng tồn kho
+        activate InventoryModel
+        InventoryModel -> DB: UPDATE product_inventories SET quantity = quantity - ? WHERE product_id = ?
+        DB --> InventoryModel: Xác nhận cập nhật
+        deactivate InventoryModel
+
+        alt Tồn kho thấp (< 3)
+            PaymentCtrl -> PaymentCtrl: Gửi cảnh báo tồn kho thấp
+            PaymentCtrl -> DB: Gửi email cảnh báo
+        end
+    end
+
+    PaymentCtrl -> CartModel: Xóa sản phẩm khỏi giỏ hàng
+    activate CartModel
+    CartModel -> DB: DELETE FROM carts WHERE user_id = ?
+    DB --> CartModel: Xác nhận xóa
+    deactivate CartModel
+
+    PaymentCtrl -> PaymentCtrl: Gửi email hóa đơn cho người dùng
+    PaymentCtrl -> Browser: Hiển thị thông báo thanh toán thành công
+    deactivate PaymentCtrl
+else Không đủ tồn kho
+    PaymentCtrl -> Browser: Hiển thị thông báo lỗi không đủ tồn kho
+    deactivate PaymentCtrl
+end
+
+Browser -> User: Hiển thị thông báo kết quả thanh toán
+deactivate Browser
+
+@enduml

@@ -1,0 +1,38 @@
+@startuml Contact Form Submission
+
+title Sequence Diagram: Contact Form Submission
+
+actor User
+participant "Giao Diện\nLiên Hệ" as Browser
+participant "ContactController" as Controller
+participant "Mail" as Mail
+participant "SMTP Server" as SMTP
+
+User -> Browser: Nhập thông tin liên hệ và gửi form
+activate Browser
+
+Browser -> Controller: POST /contact
+activate Controller
+
+Controller -> Controller: Validate dữ liệu
+alt Dữ liệu không hợp lệ
+    Controller --> Browser: Trả về lỗi
+    deactivate Controller
+    Browser --> User: Hiển thị lỗi
+    deactivate Browser
+else Dữ liệu hợp lệ
+    Controller -> Mail: Gửi email thông báo
+    activate Mail
+    Mail -> SMTP: Gửi email
+    activate SMTP
+    SMTP --> Mail: Xác nhận gửi thành công
+    deactivate SMTP
+    Mail --> Controller: Xác nhận gửi thành công
+    deactivate Mail
+    Controller --> Browser: Trả về thông báo thành công
+    deactivate Controller
+    Browser --> User: Hiển thị thông báo thành công
+    deactivate Browser
+end
+
+@enduml

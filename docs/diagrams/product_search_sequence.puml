@@ -1,0 +1,31 @@
+@startuml Product Search
+
+title Sequence Diagram: Product Search
+
+actor User
+participant "Giao Diện\nTìm Kiếm Sản Phẩm" as Browser
+participant "ProductController" as Controller
+participant "Product Model" as ProductModel
+database "Database" as DB
+
+User -> Browser: Nhập từ khóa tìm kiếm và gửi form
+activate Browser
+
+Browser -> Controller: GET /products?search={keyword}
+activate Controller
+
+Controller -> ProductModel: where('name', 'LIKE', '%{keyword}%')\n or where('description', 'LIKE', '%{keyword}%')\n.get()
+activate ProductModel
+
+ProductModel -> DB: SELECT * FROM products WHERE name LIKE ? OR description LIKE ?
+DB --> ProductModel: Danh sách sản phẩm phù hợp
+ProductModel --> Controller: Danh sách sản phẩm
+deactivate ProductModel
+
+Controller -> Browser: Trả về view sản phẩm với kết quả tìm kiếm
+deactivate Controller
+
+Browser -> User: Hiển thị kết quả tìm kiếm
+deactivate Browser
+
+@enduml

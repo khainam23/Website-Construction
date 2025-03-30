@@ -1,0 +1,231 @@
+@startuml Product Management
+
+title Quy Trình Quản Lý Sản Phẩm
+
+actor "Sale Staff" as SaleStaff
+participant "Giao Diện\nProducts Management" as ProductsUI
+participant "ProductController" as ProductCtrl
+database "Database" as DB
+participant "Product Model" as ProductModel
+participant "Category Model" as CategoryModel
+participant "ProductInventory Model" as InventoryModel
+participant "ProductImage Model" as ImageModel
+
+== Xem Danh Sách Sản Phẩm ==
+
+SaleStaff -> ProductsUI: Truy cập trang quản lý sản phẩm
+activate ProductsUI
+
+ProductsUI -> ProductCtrl: index(request, page)
+activate ProductCtrl
+
+ProductCtrl -> ProductModel: all()
+activate ProductModel
+ProductModel -> DB: SELECT * FROM products
+DB --> ProductModel: Danh sách sản phẩm
+ProductModel --> ProductCtrl: Danh sách sản phẩm
+deactivate ProductModel
+
+ProductCtrl -> CategoryModel: all()
+activate CategoryModel
+CategoryModel -> DB: SELECT * FROM categories
+DB --> CategoryModel: Danh sách danh mục
+CategoryModel --> ProductCtrl: Danh sách danh mục
+deactivate CategoryModel
+
+ProductCtrl --> ProductsUI: Trả về view với danh sách sản phẩm và danh mục
+deactivate ProductCtrl
+
+ProductsUI --> SaleStaff: Hiển thị trang danh sách sản phẩm
+deactivate ProductsUI
+
+== Tìm Kiếm & Lọc Sản Phẩm ==
+
+SaleStaff -> ProductsUI: Nhập từ khóa tìm kiếm/chọn danh mục
+activate ProductsUI
+
+ProductsUI -> ProductsUI: Xử lý JavaScript (applyFilters())
+note right: Lọc client-side các sản phẩm trên bảng
+
+ProductsUI --> SaleStaff: Hiển thị kết quả lọc
+deactivate ProductsUI
+
+== Thêm Sản Phẩm Mới ==
+
+SaleStaff -> ProductsUI: Nhấn "Add Product"
+activate ProductsUI
+
+ProductsUI -> ProductCtrl: create()
+activate ProductCtrl
+
+ProductCtrl -> CategoryModel: all()
+activate CategoryModel
+CategoryModel -> DB: SELECT * FROM categories
+DB --> CategoryModel: Danh sách danh mục
+CategoryModel --> ProductCtrl: Danh sách danh mục
+deactivate CategoryModel
+
+ProductCtrl --> ProductsUI: Trả về form thêm sản phẩm
+deactivate ProductCtrl
+
+ProductsUI --> SaleStaff: Hiển thị form thêm sản phẩm
+deactivate ProductsUI
+
+SaleStaff -> ProductsUI: Nhập thông tin và submit form
+activate ProductsUI
+
+ProductsUI -> ProductCtrl: store(Request)
+activate ProductCtrl
+
+ProductCtrl -> ProductModel: create()
+activate ProductModel
+ProductModel -> DB: INSERT INTO products
+DB --> ProductModel: Product ID
+ProductModel --> ProductCtrl: Sản phẩm đã tạo
+deactivate ProductModel
+
+ProductCtrl -> InventoryModel: create()
+activate InventoryModel
+InventoryModel -> DB: INSERT INTO product_inventories
+DB --> InventoryModel: Success
+InventoryModel --> ProductCtrl: Inventory đã tạo
+deactivate InventoryModel
+
+alt Có hình ảnh sản phẩm
+    ProductCtrl -> ImageModel: create()
+    activate ImageModel
+    ImageModel -> DB: INSERT INTO product_images
+    DB --> ImageModel: Success
+    ImageModel --> ProductCtrl: Images đã tạo
+    deactivate ImageModel
+end
+
+ProductCtrl --> ProductsUI: Trả về thông báo thành công
+deactivate ProductCtrl
+
+ProductsUI --> SaleStaff: Hiển thị thông báo thành công và chuyển hướng
+deactivate ProductsUI
+
+== Chỉnh Sửa Sản Phẩm ==
+
+SaleStaff -> ProductsUI: Nhấn "Edit" trên sản phẩm
+activate ProductsUI
+
+ProductsUI -> ProductCtrl: edit(id)
+activate ProductCtrl
+
+ProductCtrl -> ProductModel: find(id)
+activate ProductModel
+ProductModel -> DB: SELECT * FROM products WHERE id = ?
+DB --> ProductModel: Thông tin sản phẩm
+ProductModel --> ProductCtrl: Thông tin sản phẩm
+deactivate ProductModel
+
+ProductCtrl -> CategoryModel: all()
+activate CategoryModel
+CategoryModel -> DB: SELECT * FROM categories
+DB --> CategoryModel: Danh sách danh mục
+CategoryModel --> ProductCtrl: Danh sách danh mục
+deactivate CategoryModel
+
+ProductCtrl --> ProductsUI: Trả về form chỉnh sửa
+deactivate ProductCtrl
+
+ProductsUI --> SaleStaff: Hiển thị form chỉnh sửa
+deactivate ProductsUI
+
+SaleStaff -> ProductsUI: Cập nhật thông tin và submit form
+activate ProductsUI
+
+ProductsUI -> ProductCtrl: update(Request, id)
+activate ProductCtrl
+
+ProductCtrl -> ProductModel: update()
+activate ProductModel
+ProductModel -> DB: UPDATE products WHERE id = ?
+DB --> ProductModel: Success
+ProductModel --> ProductCtrl: Sản phẩm đã cập nhật
+deactivate ProductModel
+
+ProductCtrl -> InventoryModel: update()
+activate InventoryModel
+InventoryModel -> DB: UPDATE product_inventories WHERE product_id = ?
+DB --> InventoryModel: Success
+InventoryModel --> ProductCtrl: Inventory đã cập nhật
+deactivate InventoryModel
+
+alt Có hình ảnh sản phẩm mới
+    ProductCtrl -> ImageModel: create()
+    activate ImageModel
+    ImageModel -> DB: INSERT INTO product_images
+    DB --> ImageModel: Success
+    ImageModel --> ProductCtrl: Images đã tạo
+    deactivate ImageModel
+end
+
+ProductCtrl --> ProductsUI: Trả về thông báo thành công
+deactivate ProductCtrl
+
+ProductsUI --> SaleStaff: Hiển thị thông báo thành công và cập nhật trang
+deactivate ProductsUI
+
+== Xóa Sản Phẩm ==
+
+SaleStaff -> ProductsUI: Nhấn "Delete" trên sản phẩm
+activate ProductsUI
+
+ProductsUI -> SaleStaff: Hiển thị hộp thoại xác nhận
+SaleStaff --> ProductsUI: Xác nhận xóa
+
+ProductsUI -> ProductCtrl: destroy(id)
+activate ProductCtrl
+
+ProductCtrl -> ProductModel: delete(id)
+activate ProductModel
+ProductModel -> DB: DELETE FROM products WHERE id = ?
+DB --> ProductModel: Success
+ProductModel --> ProductCtrl: Kết quả xóa
+deactivate ProductModel
+
+ProductCtrl --> ProductsUI: Trả về thông báo thành công
+deactivate ProductCtrl
+
+ProductsUI --> SaleStaff: Hiển thị thông báo thành công và cập nhật danh sách
+deactivate ProductsUI
+
+== Xuất Dữ Liệu Excel ==
+
+SaleStaff -> ProductsUI: Nhấn "Export File"
+activate ProductsUI
+
+ProductsUI -> ProductsUI: Xử lý JavaScript (exportExcel())
+note right: Chuyển đổi dữ liệu sản phẩm sang file Excel
+
+ProductsUI --> SaleStaff: Tải xuống file Excel
+deactivate ProductsUI
+
+== Xóa Hình Ảnh Sản Phẩm ==
+
+SaleStaff -> ProductsUI: Nhấn nút xóa trên hình ảnh sản phẩm
+activate ProductsUI
+
+ProductsUI -> ProductsUI: Hiển thị hộp thoại xác nhận
+SaleStaff --> ProductsUI: Xác nhận xóa
+
+ProductsUI -> ProductCtrl: deleteImage(id)
+activate ProductCtrl
+
+ProductCtrl -> ImageModel: delete(id)
+activate ImageModel
+ImageModel -> DB: DELETE FROM product_images WHERE id = ?
+DB --> ImageModel: Success
+ImageModel --> ProductCtrl: Kết quả xóa
+deactivate ImageModel
+
+ProductCtrl --> ProductsUI: Trả về thông báo thành công
+deactivate ProductCtrl
+
+ProductsUI --> SaleStaff: Xóa hình ảnh khỏi giao diện và hiển thị thông báo
+deactivate ProductsUI
+
+@enduml

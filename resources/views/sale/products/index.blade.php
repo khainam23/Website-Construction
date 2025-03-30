@@ -2,6 +2,11 @@
 
 @section('title', __('Product Management'))
 
+@section('styles')
+    <!-- Add SweetAlert2 CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.32/dist/sweetalert2.min.css">
+@endsection
+
 @section('content')
     <div class="container">
         <h1>{{ __('Product Management') }}</h1>
@@ -105,6 +110,8 @@
 @endsection
 
 @section('scripts')
+    <!-- Add SweetAlert2 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.32/dist/sweetalert2.all.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <script>
         function exportExcel() {
