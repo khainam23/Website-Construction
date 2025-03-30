@@ -44,11 +44,25 @@
                                 <img id="mainImage" src="{{asset($product->avatar)}}" class="img-fluid" alt="Main Image">
                             </div>
                             <div class="col-12 mt-3">
-                                <div class="d-flex justify-content">
-                                    @foreach ($product->images as $image)
-                                        <img src="{{asset($image->path)}}" class="thumb-img " width="70"
-                                            onclick="changeImage(this)">
-                                    @endforeach
+                                <div class="image-playlist-container">
+                                    <button class="playlist-nav prev-btn" id="prevImage"><i class="fas fa-chevron-left"></i></button>
+                                    <div class="image-playlist-wrapper">
+                                        <div class="image-playlist">
+                                            <!-- Main product image as first thumbnail -->
+                                            <img src="{{asset($product->avatar)}}" class="thumb-img active" width="70"
+                                                onclick="changeImage(this)" data-index="0">
+                                            
+                                            <!-- Additional product images -->
+                                            @foreach ($product->images as $index => $image)
+                                                <img src="{{asset($image->path)}}" class="thumb-img" width="70"
+                                                    onclick="changeImage(this)" data-index="{{ $index + 1 }}">
+                                            @endforeach
+                                        </div>
+                                    </div>
+                                    <button class="playlist-nav next-btn" id="nextImage"><i class="fas fa-chevron-right"></i></button>
+                                </div>
+                                <div class="image-counter">
+                                    <span id="currentImage">1</span> / <span id="totalImages">{{ count($product->images) + 1 }}</span>
                                 </div>
                             </div>
                             <div class="col-12 mt-3">
@@ -167,32 +181,111 @@
     <!-- Thay đổi hình ảnh -->
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-            // === Thay đổi ảnh chính khi click vào thumbnail ===
-            function changeImage(element) {
+            // === Image gallery functionality ===
+            const imagePlaylist = document.querySelector('.image-playlist');
+            const prevBtn = document.getElementById('prevImage');
+            const nextBtn = document.getElementById('nextImage');
+            const thumbImages = document.querySelectorAll('.thumb-img');
+            const currentImageSpan = document.getElementById('currentImage');
+            const totalImagesSpan = document.getElementById('totalImages');
+            
+            let currentIndex = 0;
+            const totalImages = thumbImages.length;
+            const visibleThumbs = 5; // Number of visible thumbnails
+            const thumbWidth = 86; // Width of each thumbnail including margin
+            
+            // Initialize totalImages display
+            if (totalImagesSpan) {
+                totalImagesSpan.textContent = totalImages;
+            }
+            
+            // Function to navigate through thumbnails
+            function navigatePlaylist(direction) {
+                if (direction === 'next' && currentIndex < totalImages - 1) {
+                    currentIndex++;
+                } else if (direction === 'prev' && currentIndex > 0) {
+                    currentIndex--;
+                }
+                
+                // Update current image counter
+                if (currentImageSpan) {
+                    currentImageSpan.textContent = currentIndex + 1;
+                }
+                
+                // Update active thumbnail
+                thumbImages.forEach((img, index) => {
+                    img.classList.toggle('active', index === currentIndex);
+                });
+                
+                // Select the active thumbnail
+                const activeThumb = document.querySelector('.thumb-img.active');
+                if (activeThumb) {
+                    // Update main image
+                    let mainImage = document.getElementById("mainImage");
+                    mainImage.style.opacity = 0;
+                    setTimeout(() => {
+                        mainImage.src = activeThumb.src;
+                        mainImage.style.opacity = 1;
+                    }, 200);
+                    
+                    // Scroll thumbnail into view
+                    const scrollPosition = currentIndex * thumbWidth - 
+                        (document.querySelector('.image-playlist-wrapper').offsetWidth - thumbWidth) / 2;
+                    
+                    imagePlaylist.style.transform = `translateX(${-Math.min(
+                        Math.max(0, scrollPosition),
+                        thumbWidth * totalImages - document.querySelector('.image-playlist-wrapper').offsetWidth
+                    )}px)`;
+                }
+            }
+            
+            // Set up event listeners for navigation buttons
+            if (prevBtn && nextBtn) {
+                prevBtn.addEventListener('click', () => navigatePlaylist('prev'));
+                nextBtn.addEventListener('click', () => navigatePlaylist('next'));
+            }
+            
+            // Function to change the main image when clicking on a thumbnail
+            window.changeImage = function(element) {
                 let mainImage = document.getElementById("mainImage");
-
-                // Hiệu ứng mờ trước khi đổi ảnh
+                
+                // Fade effect before changing image
                 mainImage.style.opacity = 0;
                 setTimeout(() => {
                     mainImage.src = element.src;
                     mainImage.style.opacity = 1;
                 }, 200);
-
-                // Xóa trạng thái active khỏi tất cả ảnh thumbnail
-                document.querySelectorAll(".thumb-img").forEach(img => img.classList.remove("active"));
-                element.classList.add("active");
-            }
-
-            // Gán sự kiện cho tất cả ảnh thumbnail
-            document.querySelectorAll(".thumb-img").forEach(img => {
-                img.addEventListener("click", function () {
-                    changeImage(this);
+                
+                // Update active state and current index
+                thumbImages.forEach((img, index) => {
+                    img.classList.remove("active");
+                    if (img === element) {
+                        currentIndex = index;
+                        if (currentImageSpan) {
+                            currentImageSpan.textContent = currentIndex + 1;
+                        }
+                    }
                 });
-            });
-
-            // === Khởi tạo Swiper cho slider 1 ===
+                element.classList.add("active");
+                
+                // Scroll the thumbnail into view
+                const scrollPosition = currentIndex * thumbWidth - 
+                    (document.querySelector('.image-playlist-wrapper').offsetWidth - thumbWidth) / 2;
+                
+                imagePlaylist.style.transform = `translateX(${-Math.min(
+                    Math.max(0, scrollPosition),
+                    thumbWidth * totalImages - document.querySelector('.image-playlist-wrapper').offsetWidth
+                )}px)`;
+            }
+            
+            // Make the first thumbnail active by default
+            if (thumbImages.length > 0) {
+                thumbImages[0].classList.add('active');
+            }
+            
+            // === Existing Swiper Initialization === 
             var swiper1 = new Swiper(".mySwiper1", {
-                slidesPerView: 3, // Hiển thị 3 ảnh mặc định
+                slidesPerView: 3,
                 spaceBetween: 20,
                 loop: true,
                 navigation: {
