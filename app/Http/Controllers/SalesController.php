@@ -56,9 +56,11 @@ class SalesController extends Controller
         // Calculate average order value
         $averageOrderValue = $totalOrders > 0 ? $totalRevenue / $totalOrders : 0;
 
-        // Get recent orders with calculated total
+        // Get recent orders with calculated total and product details
         $recentOrders = Order::select('orders.*', DB::raw('SUM(order_details.cost * order_details.quantity) as calculated_total'))
+            ->with(['details.product']) // Include product information
             ->join('order_details', 'orders.id', '=', 'order_details.order_id')
+            ->where('orders.status', 'delivery') // Add this line to filter by delivery status
             ->groupBy('orders.id')
             ->latest('orders.created_at')
             ->take(5)

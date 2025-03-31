@@ -1,4 +1,4 @@
-@extends('admin.layouts.master')
+@extends('sale.layouts.master')
 
 @section('title', __('Edit Product'))
 
@@ -229,7 +229,7 @@
                     </div>
 
                     <div class="d-flex justify-content-between mt-4">
-                        <a href="{{ route('admin.products.index') }}" class="btn btn-secondary">{{ __('Cancel') }}</a>
+                        <a href="{{ route('sale.products.index') }}" class="btn btn-secondary">{{ __('Cancel') }}</a>
                         <button type="submit" class="btn btn-primary">{{ __('Update Product') }}</button>
                     </div>
                 </form>
@@ -238,7 +238,7 @@
     </div>
 @endsection
 
-@section('js')
+@section('scripts')
     <!-- Add SweetAlert2 JS -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.32/dist/sweetalert2.all.min.js"></script>
     
@@ -385,7 +385,7 @@
                 }
             });
             
-            // Update form submission
+            // Combined form submission handler
             $('#updateForm').submit(function (e) {
                 e.preventDefault();
 
@@ -425,6 +425,11 @@
                         }
                     },
                     error: function (xhr) {
+                        let errorMsg = "Lỗi khi cập nhật sản phẩm. Vui lòng thử lại.";
+                        if (xhr.responseJSON && xhr.responseJSON.errors) {
+                            errorMsg = Object.values(xhr.responseJSON.errors).flat().join('<br>');
+                        }
+                        Swal.fire("Lỗi!", errorMsg, "error");
                         console.log(xhr);
                     }
                 });

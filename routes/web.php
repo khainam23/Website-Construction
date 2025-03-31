@@ -87,6 +87,7 @@ Route::middleware([LanguageMiddleware::class])->group(function () {
         Route::post('/admin/product/add/image', [AssetController::class, 'uploadImages'])->name('admin.api.product.upload.images');
         Route::delete('/admin.product/delete/image/{id}', [AssetController::class, 'deleteImage'])->name('admin.api.product.delete.image');
         Route::get('/admin/product/search/{name}', [AssetController::class, 'search'])->name('admin.api.product.search');
+        Route::post('/admin/product/set/avatar', [AssetController::class, 'setAvatar'])->name('admin.api.product.set.avatar');
 
         // Shared revenue route for admin and sale
         Route::get('/admin/sales/revenue', [RevenueController::class, 'index'])->name('admin.sales.revenue');
@@ -125,6 +126,13 @@ Route::middleware([LanguageMiddleware::class])->group(function () {
         Route::get('/sale/dashboard', [SalesController::class, 'dashboard'])->name('sale.dashboard');
         Route::get('/sale/sales/product-sales', [SalesController::class, 'productSales'])->name('sale.sales.productSales');
         Route::get('/sale/sales', [SalesController::class, 'index'])->name('sale.sales.index');
+        
+        // Sale-specific product management routes
+        Route::middleware([CategoryMiddleware::class])->group(function () {
+            Route::get('/sale/products/{page?}', [AssetController::class, 'loadProduct'])->name('sale.products.index');
+            Route::get('/sale/products/{product}/edit', [AssetController::class, 'edit'])->name('sale.products.edit');
+            Route::view('/sale/product/create', 'sale.products.create')->name('sale.products.create');
+        });
     });
 
     // Dành cho rental

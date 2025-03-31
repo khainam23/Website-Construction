@@ -74,18 +74,25 @@ class RevenueController extends Controller
     // Get summary statistics for immediate display
     private function getSummaryStatistics($startDate, $endDate)
     {
-        $totalRevenue = OrderDetail::whereBetween('created_at', [$startDate->toDateTimeString(), $endDate->toDateTimeString()])
+        $totalRevenue = OrderDetail::join('orders', 'order_details.order_id', '=', 'orders.id')
+            ->where('orders.status', 'delivery')
+            ->whereBetween('order_details.created_at', [$startDate->toDateTimeString(), $endDate->toDateTimeString()])
             ->sum(DB::raw('cost * quantity'));
             
-        $totalOrders = Order::whereBetween('created_at', [$startDate->toDateTimeString(), $endDate->toDateTimeString()])
+        $totalOrders = Order::where('status', 'delivery')
+            ->whereBetween('created_at', [$startDate->toDateTimeString(), $endDate->toDateTimeString()])
             ->count();
             
-        $totalSalesRevenue = OrderDetail::whereBetween('created_at', [$startDate->toDateTimeString(), $endDate->toDateTimeString()])
+        $totalSalesRevenue = OrderDetail::join('orders', 'order_details.order_id', '=', 'orders.id')
+            ->where('orders.status', 'delivery')
             ->whereNull('rental_start_date')
+            ->whereBetween('order_details.created_at', [$startDate->toDateTimeString(), $endDate->toDateTimeString()])
             ->sum(DB::raw('cost * quantity'));
             
-        $totalRentalRevenue = OrderDetail::whereBetween('created_at', [$startDate->toDateTimeString(), $endDate->toDateTimeString()])
+        $totalRentalRevenue = OrderDetail::join('orders', 'order_details.order_id', '=', 'orders.id')
+            ->where('orders.status', 'delivery')
             ->whereNotNull('rental_start_date')
+            ->whereBetween('order_details.created_at', [$startDate->toDateTimeString(), $endDate->toDateTimeString()])
             ->sum(DB::raw('cost * quantity'));
             
         $averageOrderValue = $totalOrders > 0 ? $totalRevenue / $totalOrders : 0;
@@ -93,25 +100,33 @@ class RevenueController extends Controller
         // Get today's revenue - use current time
         $today = Carbon::today();
         $todayEnd = Carbon::today()->endOfDay();
-        $todayRevenue = OrderDetail::whereBetween('created_at', [$today->toDateTimeString(), $todayEnd->toDateTimeString()])
+        $todayRevenue = OrderDetail::join('orders', 'order_details.order_id', '=', 'orders.id')
+            ->where('orders.status', 'delivery')
+            ->whereBetween('order_details.created_at', [$today->toDateTimeString(), $todayEnd->toDateTimeString()])
             ->sum(DB::raw('cost * quantity'));
             
         // Get this week's revenue - use current time
         $startOfWeek = Carbon::now()->startOfWeek();
         $endOfWeek = Carbon::now(); // Current time, not end of week
-        $thisWeekRevenue = OrderDetail::whereBetween('created_at', [$startOfWeek->toDateTimeString(), $endOfWeek->toDateTimeString()])
+        $thisWeekRevenue = OrderDetail::join('orders', 'order_details.order_id', '=', 'orders.id')
+            ->where('orders.status', 'delivery')
+            ->whereBetween('order_details.created_at', [$startOfWeek->toDateTimeString(), $endOfWeek->toDateTimeString()])
             ->sum(DB::raw('cost * quantity'));
             
         // Get this month's revenue - use current time
         $startOfMonth = Carbon::now()->startOfMonth();
         $endOfMonth = Carbon::now(); // Current time, not end of month
-        $thisMonthRevenue = OrderDetail::whereBetween('created_at', [$startOfMonth->toDateTimeString(), $endOfMonth->toDateTimeString()])
+        $thisMonthRevenue = OrderDetail::join('orders', 'order_details.order_id', '=', 'orders.id')
+            ->where('orders.status', 'delivery')
+            ->whereBetween('order_details.created_at', [$startOfMonth->toDateTimeString(), $endOfMonth->toDateTimeString()])
             ->sum(DB::raw('cost * quantity'));
             
         // Get this year's revenue - use current time
         $startOfYear = Carbon::now()->startOfYear();
         $endOfYear = Carbon::now(); // Current time, not end of year
-        $thisYearRevenue = OrderDetail::whereBetween('created_at', [$startOfYear->toDateTimeString(), $endOfYear->toDateTimeString()])
+        $thisYearRevenue = OrderDetail::join('orders', 'order_details.order_id', '=', 'orders.id')
+            ->where('orders.status', 'delivery')
+            ->whereBetween('order_details.created_at', [$startOfYear->toDateTimeString(), $endOfYear->toDateTimeString()])
             ->sum(DB::raw('cost * quantity'));
             
         return [
@@ -130,7 +145,9 @@ class RevenueController extends Controller
     // Get top selling products for immediate display
     private function getTopSellingProducts($limit = 5)
     {
-        return OrderDetail::join('products', 'order_details.product_id', '=', 'products.id')
+        return OrderDetail::join('orders', 'order_details.order_id', '=', 'orders.id')
+            ->where('orders.status', 'delivery')
+            ->join('products', 'order_details.product_id', '=', 'products.id')
             ->select(
                 'products.id',
                 'products.name',
@@ -146,7 +163,9 @@ class RevenueController extends Controller
     // Get revenue by category for immediate display
     private function getRevenueByCategory($startDate, $endDate)
     {
-        return OrderDetail::whereBetween('order_details.created_at', [$startDate->toDateTimeString(), $endDate->toDateTimeString()])
+        return OrderDetail::join('orders', 'order_details.order_id', '=', 'orders.id')
+            ->where('orders.status', 'delivery')
+            ->whereBetween('order_details.created_at', [$startDate->toDateTimeString(), $endDate->toDateTimeString()])
             ->join('products', 'order_details.product_id', '=', 'products.id')
             ->join('categories', 'products.category_id', '=', 'categories.id')
             ->select(
@@ -166,10 +185,14 @@ class RevenueController extends Controller
         $previousStartDate = (clone $startDate)->subDays($daysDifference + 1);
         $previousEndDate = (clone $startDate)->subDay()->endOfDay(); // Add endOfDay()
         
-        $currentPeriodRevenue = OrderDetail::whereBetween('created_at', [$startDate->toDateTimeString(), $endDate->toDateTimeString()])
+        $currentPeriodRevenue = OrderDetail::join('orders', 'order_details.order_id', '=', 'orders.id')
+            ->where('orders.status', 'delivery')
+            ->whereBetween('order_details.created_at', [$startDate->toDateTimeString(), $endDate->toDateTimeString()])
             ->sum(DB::raw('cost * quantity'));
             
-        $previousPeriodRevenue = OrderDetail::whereBetween('created_at', [$previousStartDate->toDateTimeString(), $previousEndDate->toDateTimeString()])
+        $previousPeriodRevenue = OrderDetail::join('orders', 'order_details.order_id', '=', 'orders.id')
+            ->where('orders.status', 'delivery')
+            ->whereBetween('order_details.created_at', [$previousStartDate->toDateTimeString(), $previousEndDate->toDateTimeString()])
             ->sum(DB::raw('cost * quantity'));
             
         $percentageChange = 0;
@@ -191,9 +214,11 @@ class RevenueController extends Controller
     public function getDailyRevenue($startDate, $endDate)
     {
         try {
-            $result = OrderDetail::whereBetween('created_at', [$startDate->toDateTimeString(), $endDate->toDateTimeString()])
+            $result = OrderDetail::join('orders', 'order_details.order_id', '=', 'orders.id')
+                ->where('orders.status', 'delivery')
+                ->whereBetween('order_details.created_at', [$startDate->toDateTimeString(), $endDate->toDateTimeString()])
                 ->select(
-                    DB::raw("DATE_FORMAT(created_at, '%Y-%m-%d') as date"),
+                    DB::raw("DATE_FORMAT(order_details.created_at, '%Y-%m-%d') as date"),
                     DB::raw('SUM(cost * quantity) as revenue')
                 )
                 ->groupBy('date')
@@ -217,15 +242,17 @@ class RevenueController extends Controller
 
     public function getWeeklyRevenue($startDate, $endDate)
     {
-        $result = OrderDetail::whereBetween('created_at', [$startDate->toDateTimeString(), $endDate->toDateTimeString()])
+        $result = OrderDetail::join('orders', 'order_details.order_id', '=', 'orders.id')
+            ->where('orders.status', 'delivery')
+            ->whereBetween('order_details.created_at', [$startDate->toDateTimeString(), $endDate->toDateTimeString()])
             ->select(
-                DB::raw("CONCAT(YEAR(created_at), '-', WEEK(created_at)) as week"), 
-                DB::raw("DATE_FORMAT(MIN(created_at), '%Y-%m-%d') as start_date"),
-                DB::raw("DATE_FORMAT(MAX(created_at), '%Y-%m-%d') as end_date"),
+                DB::raw("CONCAT(YEAR(order_details.created_at), '-', WEEK(order_details.created_at)) as week"), 
+                DB::raw("DATE_FORMAT(MIN(order_details.created_at), '%Y-%m-%d') as start_date"),
+                DB::raw("DATE_FORMAT(MAX(order_details.created_at), '%Y-%m-%d') as end_date"),
                 DB::raw('SUM(cost * quantity) as revenue')
             )
             ->groupBy('week')
-            ->orderBy(DB::raw('MIN(created_at)'))
+            ->orderBy(DB::raw('MIN(order_details.created_at)'))
             ->get();
             
         // Ensure numerical values are properly cast
@@ -239,55 +266,105 @@ class RevenueController extends Controller
     // Changed from private to public so AdminController can use it
     public function getCombinedMonthlyRevenue($startDate = null, $endDate = null)
     {
-        $query = OrderDetail::query();
+        $query = OrderDetail::join('orders', 'order_details.order_id', '=', 'orders.id')
+            ->where('orders.status', 'delivery');
         
         if ($startDate && $endDate) {
-            $query->whereBetween('created_at', [$startDate->toDateTimeString(), $endDate->toDateTimeString()]);
+            $query->whereBetween('order_details.created_at', [$startDate->toDateTimeString(), $endDate->toDateTimeString()]);
+        } else {
+            // Default to start of the current year to now if no dates provided
+            $defaultStart = Carbon::now()->startOfYear();
+            $defaultEnd = Carbon::now()->endOfDay();
+            $query->whereBetween('order_details.created_at', [$defaultStart->toDateTimeString(), $defaultEnd->toDateTimeString()]);
         }
         
         $rentalRevenue = $query->clone()->whereNotNull('rental_start_date')
             ->select(
-                DB::raw("DATE_FORMAT(created_at, '%Y-%m') as month"),
-                DB::raw('SUM(cost * quantity) as revenue')
+                DB::raw("DATE_FORMAT(order_details.created_at, '%Y-%m') as month"),
+                DB::raw('SUM(order_details.cost * order_details.quantity) as revenue')
             )
             ->groupBy('month')
             ->get();
 
         $productSalesRevenue = $query->clone()->whereNull('rental_start_date')
             ->select(
-                DB::raw("DATE_FORMAT(created_at, '%Y-%m') as month"),
-                DB::raw('SUM(cost * quantity) as revenue')
+                DB::raw("DATE_FORMAT(order_details.created_at, '%Y-%m') as month"),
+                DB::raw('SUM(order_details.cost * order_details.quantity) as revenue')
             )
             ->groupBy('month')
             ->get();
 
         $combinedRevenue = [];
+        $allMonths = [];
 
-        // Process rental revenue
+        // First, gather all unique months from both revenue types
         foreach ($rentalRevenue as $rental) {
-            $combinedRevenue[$rental['month']][] = [
-                'month' => $rental['month'],
-                'revenue' => (float) $rental['revenue'],
-                'type' => 'rental'
-            ];
+            $allMonths[$rental->month] = true;
         }
-
-        // Process product sales revenue
         foreach ($productSalesRevenue as $productSale) {
-            $combinedRevenue[$productSale['month']][] = [
-                'month' => $productSale['month'],
-                'revenue' => (float) $productSale['revenue'],
-                'type' => 'sale'
+            $allMonths[$productSale->month] = true;
+        }
+
+        // Create the basic structure with both types initialized to zero
+        foreach (array_keys($allMonths) as $month) {
+            $combinedRevenue[$month] = [
+                [
+                    'month' => $month,
+                    'revenue' => 0,
+                    'type' => 'rental'
+                ],
+                [
+                    'month' => $month,
+                    'revenue' => 0,
+                    'type' => 'sale'
+                ]
             ];
         }
 
-        // If there's no data at all, return an empty array
+        // Now fill in the actual rental revenue data
+        foreach ($rentalRevenue as $rental) {
+            // Find the rental entry for this month and update it
+            foreach ($combinedRevenue[$rental->month] as &$entry) {
+                if ($entry['type'] === 'rental') {
+                    $entry['revenue'] = (float) $rental->revenue;
+                    break;
+                }
+            }
+        }
+
+        // Now fill in the actual sales revenue data
+        foreach ($productSalesRevenue as $productSale) {
+            // Find the sale entry for this month and update it
+            foreach ($combinedRevenue[$productSale->month] as &$entry) {
+                if ($entry['type'] === 'sale') {
+                    $entry['revenue'] = (float) $productSale->revenue;
+                    break;
+                }
+            }
+        }
+
+        // If there's no data at all, generate placeholder data for current month
         if (empty($combinedRevenue)) {
-            return [];
+            $currentMonth = Carbon::now()->format('Y-m');
+            $combinedRevenue[$currentMonth] = [
+                [
+                    'month' => $currentMonth,
+                    'revenue' => 0,
+                    'type' => 'rental'
+                ],
+                [
+                    'month' => $currentMonth,
+                    'revenue' => 0,
+                    'type' => 'sale'
+                ]
+            ];
         }
 
         // Sort combined revenue by month
         ksort($combinedRevenue);
+        
+        // Log for debugging
+        \Log::info('Monthly Revenue Data:', ['data' => $combinedRevenue]);
 
         return $combinedRevenue;
     }
@@ -295,69 +372,136 @@ class RevenueController extends Controller
     // Changed from private to public so AdminController can use it
     public function getCombinedYearlyRevenue($startDate = null, $endDate = null)
     {
-        $query = OrderDetail::query();
+        $query = OrderDetail::join('orders', 'order_details.order_id', '=', 'orders.id')
+            ->where('orders.status', 'delivery');
         
         if ($startDate && $endDate) {
-            $query->whereBetween('created_at', [$startDate->toDateTimeString(), $endDate->toDateTimeString()]);
+            $query->whereBetween('order_details.created_at', [$startDate->toDateTimeString(), $endDate->toDateTimeString()]);
+        } else {
+            // Default to 5 years ago to now if no dates provided
+            $defaultStart = Carbon::now()->subYears(5)->startOfYear();
+            $defaultEnd = Carbon::now()->endOfDay();
+            $query->whereBetween('order_details.created_at', [$defaultStart->toDateTimeString(), $defaultEnd->toDateTimeString()]);
         }
         
         $rentalRevenue = $query->clone()->whereNotNull('rental_start_date')
             ->select(
-                DB::raw("DATE_FORMAT(created_at, '%Y') as year"),
-                DB::raw('SUM(cost * quantity) as revenue')
+                DB::raw("DATE_FORMAT(order_details.created_at, '%Y') as year"),
+                DB::raw('SUM(order_details.cost * order_details.quantity) as revenue')
             )
             ->groupBy('year')
-            ->get()
-            ->toArray();
+            ->get();
 
         $productSalesRevenue = $query->clone()->whereNull('rental_start_date')
             ->select(
-                DB::raw("DATE_FORMAT(created_at, '%Y') as year"),
-                DB::raw('SUM(cost * quantity) as revenue')
+                DB::raw("DATE_FORMAT(order_details.created_at, '%Y') as year"),
+                DB::raw('SUM(order_details.cost * order_details.quantity) as revenue')
             )
             ->groupBy('year')
-            ->get()
-            ->toArray();
+            ->get();
 
         $combinedRevenue = [];
+        $allYears = [];
 
-        // Process rental revenue
+        // First, gather all unique years from both revenue types
         foreach ($rentalRevenue as $rental) {
-            $combinedRevenue[$rental['year']][] = [
-                'year' => $rental['year'],
-                'revenue' => (float) $rental['revenue'],
-                'type' => 'rental'
+            $allYears[$rental->year] = true;
+        }
+        foreach ($productSalesRevenue as $productSale) {
+            $allYears[$productSale->year] = true;
+        }
+
+        // Create the basic structure with both types initialized to zero
+        foreach (array_keys($allYears) as $year) {
+            $combinedRevenue[$year] = [
+                [
+                    'year' => $year,
+                    'revenue' => 0,
+                    'type' => 'rental'
+                ],
+                [
+                    'year' => $year,
+                    'revenue' => 0,
+                    'type' => 'sale'
+                ]
             ];
         }
 
-        // Process product sales revenue
+        // Now fill in the actual rental revenue data
+        foreach ($rentalRevenue as $rental) {
+            // Find the rental entry for this year and update it
+            foreach ($combinedRevenue[$rental->year] as &$entry) {
+                if ($entry['type'] === 'rental') {
+                    $entry['revenue'] = (float) $rental->revenue;
+                    break;
+                }
+            }
+        }
+
+        // Now fill in the actual sales revenue data
         foreach ($productSalesRevenue as $productSale) {
-            $combinedRevenue[$productSale['year']][] = [
-                'year' => $productSale['year'],
-                'revenue' => (float) $productSale['revenue'],
-                'type' => 'sale'
+            // Find the sale entry for this year and update it
+            foreach ($combinedRevenue[$productSale->year] as &$entry) {
+                if ($entry['type'] === 'sale') {
+                    $entry['revenue'] = (float) $productSale->revenue;
+                    break;
+                }
+            }
+        }
+
+        // If there's no data at all, generate placeholder data for current year
+        if (empty($combinedRevenue)) {
+            $currentYear = Carbon::now()->format('Y');
+            $combinedRevenue[$currentYear] = [
+                [
+                    'year' => $currentYear,
+                    'revenue' => 0,
+                    'type' => 'rental'
+                ],
+                [
+                    'year' => $currentYear,
+                    'revenue' => 0,
+                    'type' => 'sale'
+                ]
             ];
         }
+
+        // Log the revenue types for debugging
+        $revenueTypes = [];
+        foreach ($combinedRevenue as $year => $entries) {
+            $revenueTypes[$year] = array_map(function($item) {
+                return $item['type'];
+            }, $entries);
+        }
+        \Log::info('Yearly Revenue Types:', ['types' => $revenueTypes]);
 
         // Sort combined revenue by year
         ksort($combinedRevenue);
+        
+        // Log for debugging
+        \Log::info('Yearly Revenue Data:', ['data' => $combinedRevenue]);
 
         return $combinedRevenue;
     }
 
-    // Changed from private to public so AdminController can use it
+    // Modified to also include date defaults
     public function getMonthlyProductRevenue($startDate = null, $endDate = null)
     {
-        $query = OrderDetail::query();
+        $query = OrderDetail::join('orders', 'order_details.order_id', '=', 'orders.id')
+            ->where('orders.status', 'delivery');
         
         if ($startDate && $endDate) {
             $query->whereBetween('order_details.created_at', [$startDate->toDateTimeString(), $endDate->toDateTimeString()]);
+        } else {
+            // Default to start of the current year to now if no dates provided
+            $defaultStart = Carbon::now()->startOfYear();
+            $defaultEnd = Carbon::now()->endOfDay();
+            $query->whereBetween('order_details.created_at', [$defaultStart->toDateTimeString(), $defaultEnd->toDateTimeString()]);
         }
         
         // Check if Product model exists
         try {
             $productSalesRevenue = $query->whereNull('rental_start_date')
-                ->join('orders', 'order_details.order_id', '=', 'orders.id')
                 ->join('products', 'order_details.product_id', '=', 'products.id')
                 ->where('orders.type', 'sales')
                 ->select(
@@ -386,11 +530,17 @@ class RevenueController extends Controller
         }
     }
 
-    // Changed from private to public so AdminController can use it
+    // Include default date range in yearly product revenue
     public function getYearlyProductRevenue()
     {
-        $productSalesRevenue = OrderDetail::whereNull('rental_start_date')
-            ->join('orders', 'order_details.order_id', '=', 'orders.id')
+        // Default to 5 years ago to now
+        $defaultStart = Carbon::now()->subYears(5)->startOfYear();
+        $defaultEnd = Carbon::now()->endOfDay();
+        
+        $productSalesRevenue = OrderDetail::join('orders', 'order_details.order_id', '=', 'orders.id')
+            ->where('orders.status', 'delivery')
+            ->whereNull('rental_start_date')
+            ->whereBetween('order_details.created_at', [$defaultStart->toDateTimeString(), $defaultEnd->toDateTimeString()])
             ->join('products', 'order_details.product_id', '=', 'products.id')
             ->where('orders.type', 'sales')
             ->select(

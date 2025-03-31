@@ -1,6 +1,11 @@
-@extends('admin.layouts.master')
+@extends('sale.layouts.master')
 
 @section('title', __('Add New Product'))
+
+@section('styles')
+    <!-- Add SweetAlert2 CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.32/dist/sweetalert2.min.css">
+@endsection
 
 @section('content')
     <div class="container">
@@ -62,13 +67,15 @@
             </div>
 
             <button type="submit" class="btn btn-primary">Thêm sản phẩm</button>
-            <a href="{{ route('admin.products.index') }}" class="btn btn-secondary">{{ __('Cancel') }}</a>
+            <a href="{{ route('sale.products.index') }}" class="btn btn-secondary">{{ __('Cancel') }}</a>
         </form>
     </div>
 @endsection
 
-@section('js')
-    <!-- Thêm sản phẩm -->
+@section('scripts')
+    <!-- Add SweetAlert2 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.32/dist/sweetalert2.all.min.js"></script>
+    
     <script>
         $(document).ready(function () {
             $('#createForm').on('submit', function (e) {
@@ -98,7 +105,7 @@
                             title: 'Thành công!',
                             text: 'Sản phẩm đã được thêm thành công!',
                         }).then(() => {
-                            window.location.href = '{{ route("admin.products.index") }}';
+                            window.location.href = '{{ route("sale.products.index") }}';
                         });
                     },
                     error: function (xhr) {

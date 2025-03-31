@@ -24,13 +24,13 @@ class HomeController extends Controller
                 ->groupBy('products.id')
                 ->having('order_count', '>', 0)
                 ->orderBy('order_count', 'desc')
-                ->limit(10)
+                ->limit(6)
                 ->get();
     
             // If popular products are less than 3, add more from regular products
             if ($popularProducts->count() < 3) {
                 $additionalProducts = Product::whereNotIn('id', $popularProducts->pluck('id'))
-                    ->limit(10 - $popularProducts->count())
+                    ->limit(6 - $popularProducts->count())
                     ->get();
                 
                 $products = $popularProducts->concat($additionalProducts);

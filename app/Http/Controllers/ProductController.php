@@ -43,7 +43,18 @@ class ProductController extends Controller
         }
         
         $products = $query->get();
-        $categories = Category::all();
+        $allCategories = Category::all();
+
+        // Filter out empty categories and create an array of categories with products
+        $nonEmptyCategories = collect();
+        foreach ($allCategories as $category) {
+            $categoryProducts = $products->where('category_id', $category->id);
+            if ($categoryProducts->count() > 0) {
+                $nonEmptyCategories->push($category);
+            }
+        }
+
+        $categories = $nonEmptyCategories;
 
         return view("frontend.product", compact("products", "categories", "page", "type"));
     }

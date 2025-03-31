@@ -44,11 +44,25 @@
                                 <img id="mainImage" src="{{asset($product->avatar)}}" class="img-fluid" alt="Main Image">
                             </div>
                             <div class="col-12 mt-3">
-                                <div class="d-flex justify-content">
-                                    @foreach ($product->images as $image)
-                                        <img src="{{asset($image->path)}}" class="thumb-img " width="70"
-                                            onclick="changeImage(this)">
-                                    @endforeach
+                                <div class="image-playlist-container">
+                                    <button class="playlist-nav prev-btn" id="prevImage"><i class="fas fa-chevron-left"></i></button>
+                                    <div class="image-playlist-wrapper">
+                                        <div class="image-playlist">
+                                            <!-- Main product image as first thumbnail -->
+                                            <img src="{{asset($product->avatar)}}" class="thumb-img active" width="70"
+                                                onclick="changeImage(this)" data-index="0">
+                                            
+                                            <!-- Additional product images -->
+                                            @foreach ($product->images as $index => $image)
+                                                <img src="{{asset($image->path)}}" class="thumb-img" width="70"
+                                                    onclick="changeImage(this)" data-index="{{ $index + 1 }}">
+                                            @endforeach
+                                        </div>
+                                    </div>
+                                    <button class="playlist-nav next-btn" id="nextImage"><i class="fas fa-chevron-right"></i></button>
+                                </div>
+                                <div class="image-counter">
+                                    <span id="currentImage">1</span> / <span id="totalImages">{{ count($product->images) + 1 }}</span>
                                 </div>
                             </div>
                             <div class="col-12 mt-3">
@@ -167,32 +181,111 @@
     <!-- Thay đổi hình ảnh -->
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-            // === Thay đổi ảnh chính khi click vào thumbnail ===
-            function changeImage(element) {
+            // === Image gallery functionality ===
+            const imagePlaylist = document.querySelector('.image-playlist');
+            const prevBtn = document.getElementById('prevImage');
+            const nextBtn = document.getElementById('nextImage');
+            const thumbImages = document.querySelectorAll('.thumb-img');
+            const currentImageSpan = document.getElementById('currentImage');
+            const totalImagesSpan = document.getElementById('totalImages');
+            
+            let currentIndex = 0;
+            const totalImages = thumbImages.length;
+            const visibleThumbs = 5; // Number of visible thumbnails
+            const thumbWidth = 86; // Width of each thumbnail including margin
+            
+            // Initialize totalImages display
+            if (totalImagesSpan) {
+                totalImagesSpan.textContent = totalImages;
+            }
+            
+            // Function to navigate through thumbnails
+            function navigatePlaylist(direction) {
+                if (direction === 'next' && currentIndex < totalImages - 1) {
+                    currentIndex++;
+                } else if (direction === 'prev' && currentIndex > 0) {
+                    currentIndex--;
+                }
+                
+                // Update current image counter
+                if (currentImageSpan) {
+                    currentImageSpan.textContent = currentIndex + 1;
+                }
+                
+                // Update active thumbnail
+                thumbImages.forEach((img, index) => {
+                    img.classList.toggle('active', index === currentIndex);
+                });
+                
+                // Select the active thumbnail
+                const activeThumb = document.querySelector('.thumb-img.active');
+                if (activeThumb) {
+                    // Update main image
+                    let mainImage = document.getElementById("mainImage");
+                    mainImage.style.opacity = 0;
+                    setTimeout(() => {
+                        mainImage.src = activeThumb.src;
+                        mainImage.style.opacity = 1;
+                    }, 200);
+                    
+                    // Scroll thumbnail into view
+                    const scrollPosition = currentIndex * thumbWidth - 
+                        (document.querySelector('.image-playlist-wrapper').offsetWidth - thumbWidth) / 2;
+                    
+                    imagePlaylist.style.transform = `translateX(${-Math.min(
+                        Math.max(0, scrollPosition),
+                        thumbWidth * totalImages - document.querySelector('.image-playlist-wrapper').offsetWidth
+                    )}px)`;
+                }
+            }
+            
+            // Set up event listeners for navigation buttons
+            if (prevBtn && nextBtn) {
+                prevBtn.addEventListener('click', () => navigatePlaylist('prev'));
+                nextBtn.addEventListener('click', () => navigatePlaylist('next'));
+            }
+            
+            // Function to change the main image when clicking on a thumbnail
+            window.changeImage = function(element) {
                 let mainImage = document.getElementById("mainImage");
-
-                // Hiệu ứng mờ trước khi đổi ảnh
+                
+                // Fade effect before changing image
                 mainImage.style.opacity = 0;
                 setTimeout(() => {
                     mainImage.src = element.src;
                     mainImage.style.opacity = 1;
                 }, 200);
-
-                // Xóa trạng thái active khỏi tất cả ảnh thumbnail
-                document.querySelectorAll(".thumb-img").forEach(img => img.classList.remove("active"));
-                element.classList.add("active");
-            }
-
-            // Gán sự kiện cho tất cả ảnh thumbnail
-            document.querySelectorAll(".thumb-img").forEach(img => {
-                img.addEventListener("click", function () {
-                    changeImage(this);
+                
+                // Update active state and current index
+                thumbImages.forEach((img, index) => {
+                    img.classList.remove("active");
+                    if (img === element) {
+                        currentIndex = index;
+                        if (currentImageSpan) {
+                            currentImageSpan.textContent = currentIndex + 1;
+                        }
+                    }
                 });
-            });
-
-            // === Khởi tạo Swiper cho slider 1 ===
+                element.classList.add("active");
+                
+                // Scroll the thumbnail into view
+                const scrollPosition = currentIndex * thumbWidth - 
+                    (document.querySelector('.image-playlist-wrapper').offsetWidth - thumbWidth) / 2;
+                
+                imagePlaylist.style.transform = `translateX(${-Math.min(
+                    Math.max(0, scrollPosition),
+                    thumbWidth * totalImages - document.querySelector('.image-playlist-wrapper').offsetWidth
+                )}px)`;
+            }
+            
+            // Make the first thumbnail active by default
+            if (thumbImages.length > 0) {
+                thumbImages[0].classList.add('active');
+            }
+            
+            // === Existing Swiper Initialization === 
             var swiper1 = new Swiper(".mySwiper1", {
-                slidesPerView: 3, // Hiển thị 3 ảnh mặc định
+                slidesPerView: 3,
                 spaceBetween: 20,
                 loop: true,
                 navigation: {
@@ -224,6 +317,12 @@
     <!-- Add product to cart -->
     <script>
         function addCart() {
+            @if(!Auth::check())
+                // Redirect to login page if user is not authenticated
+                window.location.href = "{{ route('web.login') }}";
+                return;
+            @endif
+
             Swal.fire({
                 title: "{{ __('Confirm Payment') }}",
                 html: `
@@ -246,6 +345,11 @@
 
                             <label class="fw-bold">{{ __('End Date:') }}</label>
                             <input type="date" id="rental_end" class="form-control mb-2" onchange="updateTotalPrice()">
+                            
+                            <!-- Add rental discount information display -->
+                            <div id="rental_discount" class="alert alert-info mb-2" style="display: none;">
+                                <i class="fas fa-tag"></i> <span id="discount_text"></span>
+                            </div>
                         @endif
 
                         <label class="fw-bold">{{ __('Total Price:') }}</label>
@@ -339,6 +443,7 @@
             let quantity = parseInt(quantityInput.value, 10);
             let maxQuantity = {{ $product->productInventories->quantity }};
             let price = {{ $product->price }}; // Get product price from PHP
+            let discountPercent = 0;
 
             // Ensure quantity is within valid range
             if (isNaN(quantity) || quantity < 1) {
@@ -352,7 +457,8 @@
             @if($product->type == 'rental')
                 let rentalStart = document.getElementById('rental_start').value;
                 let rentalEnd = document.getElementById('rental_end').value;
-
+                let discountElement = document.getElementById('rental_discount');
+                let discountText = document.getElementById('discount_text');
 
                 let startDate = new Date(rentalStart);
                 let endDate = new Date(rentalEnd);
@@ -360,12 +466,24 @@
                 let timeDiff = endDate - startDate; // Difference in milliseconds
                 let daysDiff = timeDiff / (1000 * 60 * 60 * 24); // Convert to days
 
+                // Reset discount display
+                discountElement.style.display = 'none';
+
                 if (daysDiff > 4 && daysDiff < 7) {
                     price *= 0.9; // 10% discount => multiply by 0.9
+                    discountPercent = 10;
                 } else if (daysDiff > 8 && daysDiff < 14) {
                     price *= 0.85; // 15% discount => multiply by 0.85
+                    discountPercent = 15;
                 } else if (daysDiff > 14) {
                     price *= 0.8; // 20% discount => multiply by 0.8
+                    discountPercent = 20;
+                }
+
+                // Display discount information if there is a discount
+                if (discountPercent > 0) {
+                    discountText.innerHTML = "{{ __('Discount') }}: " + discountPercent + "% {{ __('for rental duration') }} " + Math.ceil(daysDiff) + " {{ __('days') }}";
+                    discountElement.style.display = 'block';
                 }
             @endif
 

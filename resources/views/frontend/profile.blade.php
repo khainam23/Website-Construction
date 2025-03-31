@@ -231,6 +231,13 @@
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         function showTabFromHash() {
+            // First check if there's a saved tab in localStorage (from language switch)
+            let savedTab = localStorage.getItem('profileActiveTab');
+            if (savedTab) {
+                localStorage.removeItem('profileActiveTab'); // Clear it after use
+                window.location.hash = savedTab; // Set the hash in the URL
+            }
+            
             let hash = window.location.hash.substring(1); // Lấy phần sau dấu #
             if (hash) {
                 let targetTab = document.querySelector(`.nav-item[data-target="${hash}"]`);
@@ -497,13 +504,48 @@
         return Swal.fire({
             title: "{{ __('Enter purchase information') }}",
             html: `
-                    <input id="swal-phone" class="swal2-input" placeholder="{{ __('Phone number') }}" type="phone" value="${paymentInfo.phone}">
-                    <input id="swal-address" class="swal2-input" placeholder="{{ __('Address') }}" value="${paymentInfo.address}">
-                `,
+                <div class="payment-form-container">
+                    <div class="form-group text-left mb-3">
+                        <label for="swal-phone" class="form-label fw-bold">{{ __('Phone Number') }}:</label>
+                        <input id="swal-phone" class="form-control form-control-lg" placeholder="{{ __('Phone number') }}" type="tel" value="${paymentInfo.phone}">
+                    </div>
+                    <div class="form-group text-left">
+                        <label for="swal-address" class="form-label fw-bold">{{ __('Delivery Address') }}:</label>
+                        <textarea id="swal-address" class="form-control form-control-lg" placeholder="{{ __('Address') }}" rows="3">${paymentInfo.address}</textarea>
+                    </div>
+                </div>
+                <style>
+                    .payment-form-container {
+                        padding: 10px;
+                        max-width: 500px;
+                        margin: 0 auto;
+                    }
+                    .payment-form-container .form-control {
+                        border-radius: 8px;
+                        border: 1px solid #ced4da;
+                        padding: 10px 15px;
+                        transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+                    }
+                    .payment-form-container .form-control:focus {
+                        border-color: #80bdff;
+                        box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+                    }
+                    .payment-form-container .form-label {
+                        margin-bottom: 8px;
+                        color: #495057;
+                    }
+                </style>
+            `,
             focusConfirm: false,
             showCancelButton: true,
             confirmButtonText: "{{ __('Confirm') }}",
             cancelButtonText: "{{ __('Cancel') }}",
+            customClass: {
+                container: 'payment-modal-container',
+                popup: 'payment-modal-popup',
+                confirmButton: 'btn btn-primary btn-lg',
+                cancelButton: 'btn btn-outline-secondary btn-lg',
+            },
             preConfirm: () => {
                 return {
                     phone: document.getElementById("swal-phone").value,
@@ -613,22 +655,43 @@
             let selectedItems = $(".selectItem:checked").map((key, val) => {
                 let row = $(val).closest("tr");
                 let productId = row.find("td:nth-child(3)").text().trim();
+                let productName = row.find("td:nth-child(4)").text().trim();
                 let cost = row.find("td:nth-child(5)").text().trim();
-                let quantity = row.find("td:nth-child(6)").text().trim();
+                let quantity = parseInt(row.find("td:nth-child(6)").text().trim());
+                let maxQuantity = parseInt($(val).data('max-quantity'));
+                
                 return {
                     'id': val.value,
                     'productId': productId,
+                    'productName': productName,
                     'quantity': quantity,
+                    'maxQuantity': maxQuantity,
                     'cost': cost.substring(0, cost.length - 2).replace(/\./g, '').trim()
                 };
             }).get();
-
 
             if (selectedItems.length < 2) {
                 Swal.fire({
                     icon: "warning",
                     title: "{{ __('Select at least 2 products') }}",
                     text: "{{ __('You need to select at least 2 products to pay!') }}",
+                    confirmButtonText: "OK"
+                });
+                return;
+            }
+
+            // Check if any item exceeds available quantity
+            let invalidItems = selectedItems.filter(item => item.quantity > item.maxQuantity);
+            if (invalidItems.length > 0) {
+                let errorMessage = "{{ __('The following products have insufficient inventory:') }}\n";
+                invalidItems.forEach(item => {
+                    errorMessage += `- ${item.productName}: ${item.quantity} > ${item.maxQuantity}\n`;
+                });
+                
+                Swal.fire({
+                    icon: "error",
+                    title: "{{ __('Inventory Error') }}",
+                    text: errorMessage,
                     confirmButtonText: "OK"
                 });
                 return;
@@ -665,18 +728,33 @@
         }
 
         function showEditForm(items) {
-            let formHtml = `<form id="editPaymentForm">`;
+            let formHtml = `
+            <div class="payment-edit-container">
+                <form id="editPaymentForm">`;
+            
             items.forEach(item => {
                 formHtml += `
-                    <div class="payment-item d-flex flex-column">
-                        <h5>${item.name}</h5>
-                        <label>{{ __('Quantity') }}:</label>
-                        <input type="number" class="swal2-input" name="quantity_${item.id}" value="${item.quantity}" min="1" max="${item.maxQuantity}">
+                    <div class="payment-item mb-4">
+                        <h5 class="product-name">${item.name}</h5>
+                        <div class="form-group mb-3">
+                            <label class="form-label fw-bold">{{ __('Quantity') }}:</label>
+                            <input type="number" class="form-control form-control-lg quantity-input" name="quantity_${item.id}" 
+                                value="${item.quantity}" min="1" max="${item.maxQuantity}" 
+                                data-max="${item.maxQuantity}" data-product="${item.name}"
+                                oninput="validateQuantity(this)">
+                            <small class="text-muted">{{ __('Available') }}: ${item.maxQuantity}</small>
+                        </div>
                         ${item.end !== '-' ? `
-                            <label>{{ __('Rental Date') }}:</label>
-                            <input id="rental_start" type="date" class="swal2-input" name="start_${item.id}" value="${formatDateForInput(item.start)}">
-                            <label>{{ __('Return Date') }}:</label>
-                            <input id="rental_end" type="date" class="swal2-input" name="end_${item.id}" value="${formatDateForInput(item.end)}">
+                            <div class="rental-dates">
+                                <div class="form-group mb-3">
+                                    <label class="form-label fw-bold">{{ __('Rental Date') }}:</label>
+                                    <input id="rental_start" type="date" class="form-control form-control-lg" name="start_${item.id}" value="${formatDateForInput(item.start)}">
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label class="form-label fw-bold">{{ __('Return Date') }}:</label>
+                                    <input id="rental_end" type="date" class="form-control form-control-lg" name="end_${item.id}" value="${formatDateForInput(item.end)}">
+                                </div>
+                            </div>
                         ` : ""}
                         <input type="hidden" name="id_${item.id}" value="${item.id}">
                         <input type="hidden" name="old_quantity_${item.id}" value="${item.quantity}">
@@ -685,9 +763,52 @@
                             <input type="hidden" name="old_end_${item.id}" value="${formatDateForInput(item.end)}">
                         ` : ""}
                     </div>
-                    <hr>`;
+                    <hr class="my-4">`;
             });
-            formHtml += `</form>`;
+            
+            formHtml += `</form>
+            </div>
+            <style>
+                .payment-edit-container {
+                    max-width: 600px;
+                    margin: 0 auto;
+                    padding: 0 15px;
+                }
+                .payment-item {
+                    background-color: #f8f9fa;
+                    border-radius: 10px;
+                    padding: 20px;
+                }
+                .product-name {
+                    font-weight: 600;
+                    color: #343a40;
+                    margin-bottom: 15px;
+                    border-bottom: 1px solid #dee2e6;
+                    padding-bottom: 10px;
+                }
+                .rental-dates {
+                    display: grid;
+                    grid-template-columns: 1fr 1fr;
+                    gap: 15px;
+                }
+                @media (max-width: 576px) {
+                    .rental-dates {
+                        grid-template-columns: 1fr;
+                    }
+                }
+                .form-control {
+                    border-radius: 8px;
+                    border: 1px solid #ced4da;
+                }
+                .form-control:focus {
+                    border-color: #80bdff;
+                    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+                }
+                .form-label {
+                    margin-bottom: 8px;
+                    color: #495057;
+                }
+            </style>`;
 
             Swal.fire({
                 title: "{{ __('Edit information before payment') }}",
@@ -706,18 +827,45 @@
                         endInput.min = tomorrowDate;
                         endInput.value = tomorrowDate;
                     }
+                    
+                    // Add validation to all quantity inputs
+                    document.querySelectorAll('.quantity-input').forEach(input => {
+                        validateQuantity(input);
+                    });
                 },
                 showCancelButton: true,
                 confirmButtonText: "{{ __('Confirm') }}",
                 cancelButtonText: "{{ __('Cancel') }}",
+                customClass: {
+                    container: 'edit-payment-modal-container',
+                    popup: 'edit-payment-modal-popup',
+                    confirmButton: 'btn btn-primary btn-lg',
+                    cancelButton: 'btn btn-outline-secondary btn-lg',
+                },
+                width: '800px',
                 preConfirm: () => {
+                    // Validate all quantities before submission
+                    const quantityInputs = document.querySelectorAll('.quantity-input');
+                    let isValid = true;
+                    
+                    quantityInputs.forEach(input => {
+                        if (!validateQuantity(input)) {
+                            isValid = false;
+                        }
+                    });
+                    
+                    if (!isValid) {
+                        Swal.showValidationMessage("{{ __('Please correct the errors before proceeding.') }}");
+                        return false;
+                    }
+                    
                     let updatedItems = [];
                     items.forEach(item => {
-                        let newQuantity = $(`[name=quantity_${item.id}]`).val();
+                        let newQuantity = parseInt($(`[name=quantity_${item.id}]`).val());
                         let newStart = item.isRental ? formatDateForInput($(`[name=start_${item.id}]`).val()) : null;
                         let newEnd = item.isRental ? formatDateForInput($(`[name=end_${item.id}]`).val()) : null;
 
-                        let oldQuantity = $(`[name=old_quantity_${item.id}]`).val();
+                        let oldQuantity = parseInt($(`[name=old_quantity_${item.id}]`).val());
                         let oldStart = item.isRental ? formatDateForInput($(`[name=old_start_${item.id}]`).val()) : null;
                         let oldEnd = item.isRental ? formatDateForInput($(`[name=old_end_${item.id}]`).val()) : null;
 
@@ -768,11 +916,11 @@
             let row = $(this).closest("tr");
             let itemCheckbox = row.find(".selectItem");
             let itemId = itemCheckbox.val();
-            let maxQuantity = itemCheckbox.data('max-quantity');
+            let maxQuantity = parseInt(itemCheckbox.data('max-quantity'));
             let productId = row.find("td:nth-child(3)").text().trim();
             let productName = row.find("td:nth-child(4)").text().trim();
             let cost = row.find("td:nth-child(5)").text().trim();
-            let quantity = row.find("td:nth-child(6)").text().trim();
+            let quantity = parseInt(row.find("td:nth-child(6)").text().trim());
             let rentalStart = row.find("td:nth-child(7)").text().trim();
             let rentalEnd = row.find("td:nth-child(8)").text().trim();
             let isRental = rentalEnd !== "-"; // Kiểm tra có phải là thuê không
@@ -790,6 +938,38 @@
             }]);
         });
     });
+    
+    // Function to validate quantity input
+    function validateQuantity(input) {
+        const value = parseInt(input.value);
+        const max = parseInt(input.getAttribute('data-max'));
+        const productName = input.getAttribute('data-product');
+        
+        // Remove any existing feedback
+        const existingFeedback = input.parentNode.querySelector('.error-message');
+        if (existingFeedback) {
+            existingFeedback.remove();
+        }
+        
+        if (isNaN(value) || value < 1) {
+            const errorMsg = document.createElement('div');
+            errorMsg.className = 'error-message text-danger mt-1';
+            errorMsg.textContent = "{{ __('Quantity must be at least 1') }}";
+            input.parentNode.appendChild(errorMsg);
+            return false;
+        }
+        
+        if (value > max) {
+            const errorMsg = document.createElement('div');
+            errorMsg.className = 'error-message text-danger mt-1';
+            errorMsg.textContent = "{{ __('Maximum available quantity:') }} " + max;
+            input.parentNode.appendChild(errorMsg);
+            input.value = max; // Auto-correct to maximum value
+            return false;
+        }
+        
+        return true;
+    }
 </script>
 
 <!-- Xóa giỏ hàng -->
@@ -906,7 +1086,7 @@
 <!-- Hủy đơn hàng -->
 <script>
     $(document).ready(function() {
-        $("#cancel.btn-danger").on("click", function() {
+        $("#cancel.btn-danger").on("click", function() {}
             let row = $(this).closest("tr");
             let orderId = row.find("td:nth-child(1)").text().trim();
 
@@ -918,33 +1098,53 @@
                 confirmButtonColor: "#d33",
                 cancelButtonColor: "#3085d6",
                 confirmButtonText: "{{ __('Yes, cancel it!') }}"
-            }).then((result) => {
+            }).then((result) => {}
                 if (result.isConfirmed) {
                     $.ajax({
                         url: "{{ route('api.order.cancel') }}",
                         type: "POST",
-                        headers: {
+                        headers: {}
                             "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content")
                         },
                         contentType: "application/json",
-                        data: JSON.stringify({
+                        data: JSON.stringify({}
                             orderId: orderId
                         }),
-                        success: function(data) {
-                            Swal.fire({
-                                icon: "success",
-                                title: "{{ __('Order canceled!') }}",
-                                text: "{{ __('The order has been canceled.') }}",
-                                confirmButtonText: "OK"
-                            }).then(() => {
-                                window.location.reload();
+                        beforeSend: function() {
+                            Swal.fire({}
+                                title: "{{ __('Processing...') }}",
+                                text: "{{ __('Please wait a moment!') }}",
+                                allowOutsideClick: false,
+                                showConfirmButton: false,
+                                willOpen: () => {
+                                    Swal.showLoading();
+                                }
                             });
                         },
-                        error: function(xhr, status, error) {
+                        success: function(response) {
+                            if (response.success) {
+                                Swal.fire({}
+                                    icon: "success",
+                                    title: "{{ __('Order canceled!') }}",
+                                    text: response.message || "{{ __('The order has been canceled.') }}",
+                                    confirmButtonText: "OK"
+                                }).then(() => {
+                                    window.location.reload();
+                                });
+                            } else {
+                                Swal.fire({
+                                    icon: "error",
+                                    title: "{{ __('Error!') }}",
+                                    text: response.message || "{{ __('Failed to cancel the order.') }}",
+                                    confirmButtonText: "OK"
+                                });
+                            }
+                        },
+                        error: function(xhr, status, error) {}
                             Swal.fire({
                                 icon: "error",
                                 title: "{{ __('Error!') }}",
-                                text: "{{ __('An error occurred while canceling the order.') }}",
+                                text: xhr.responseJSON?.message || "{{ __('An error occurred while canceling the order.') }}",
                                 confirmButtonText: "OK"
                             });
                             console.error("Error:", xhr.responseText);

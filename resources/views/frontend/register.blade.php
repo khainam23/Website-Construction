@@ -13,7 +13,7 @@
                 @csrf
                 <div class="mb-3">
                     <label class="form-label">{{ __('First Name') }}</label>
-                    <input type="text" class="form-control" name="first_name" pattern="[A-Za-z\s]+" maxlength="20"
+                    <input type="text" class="form-control" name="first_name" maxlength="20"
                         placeholder="{{ __('First Name') }}" required>
                 </div>
                 <div class="mb-3">
