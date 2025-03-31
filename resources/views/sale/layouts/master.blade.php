@@ -327,7 +327,9 @@
                                               !currentPath.includes('productSales');
                                     break;
                                 case 'products':
-                                    isActive = currentPath.includes('products');
+                                    isActive = currentPath.includes('products') || 
+                                              currentPath.includes('/product/') ||
+                                              currentPath.includes('/product');
                                     break;
                                 case 'revenue':
                                     isActive = currentPath.includes('revenue');

@@ -87,6 +87,7 @@ Route::middleware([LanguageMiddleware::class])->group(function () {
         Route::post('/admin/product/add/image', [AssetController::class, 'uploadImages'])->name('admin.api.product.upload.images');
         Route::delete('/admin.product/delete/image/{id}', [AssetController::class, 'deleteImage'])->name('admin.api.product.delete.image');
         Route::get('/admin/product/search/{name}', [AssetController::class, 'search'])->name('admin.api.product.search');
+        Route::post('/admin/product/set/avatar', [AssetController::class, 'setAvatar'])->name('admin.api.product.set.avatar');
 
         // Shared revenue route for admin and sale
         Route::get('/admin/sales/revenue', [RevenueController::class, 'index'])->name('admin.sales.revenue');

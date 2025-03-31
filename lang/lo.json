@@ -1095,5 +1095,16 @@
   "Available": "ສົດໃໝ່",
   "for rental duration": "ສໍາລັບເວລາເຊົາ",
   "Discount": "ສໍາລະບັດ",
-  "days": "ມື້"
+  "days": "ມື້",
+  "Update Product": "ອັບເດດສິນຄ້າ",
+  "Add New Images": "ເພີ່ມຮູບໃໝ່",
+  "Current Product Images": "ຮູບພາບສິນຄ້າໃນປະຈຸບັນ",
+  "Set as Avatar": "ຕັ້ງເປັນຮູບແທນ",
+  "Do you want to set this image as the product avatar?": "ທ່ານຕ້ອງການຕັ້ງຮູບນີ້ເປັນຮູບແທນຂອງຜະລິດຕະພັນບໍ?",
+  "Yes, set as avatar": "ໂດຍ, ຕັ້ງເປັນຮູບແທນ",
+  "Avatar updated successfully": "ປັບປຸງຮູບແທນສຳເລັດ",
+  "Failed to update avatar": "ບໍ່ສາມາດປັບປຸງຮູບແທນໄດ້",
+  "The image does not belong to this product": "ຮູບນີ້ບໍ່ໄດ້ຂຶ້ນກັບຜະລິດຕະພັນນີ້",
+  "Avatar has been updated successfully": "ຮູບແທນໄດ້ຖືກປັບປຸງສຳເລັດ",
+  "Add New Product": "ເພີ່ມສິນຄ້າໃໝ່"
 }

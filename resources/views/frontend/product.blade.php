@@ -105,7 +105,7 @@
                                                             <span class="product-price">
                                                                 <i class="fas fa-tag"
                                                                     style="font-size: 14px; margin-right: 5px; opacity: 0.7;"></i>
-                                                                {{ $product->price }}<span
+                                                                {{ number_format($product->price, 0, ',', '.') }}<span
                                                                     class="product-price-currency">{{ __('Type pice') }}</span>
                                                             </span>
                                                         </div>

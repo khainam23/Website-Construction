@@ -1106,5 +1106,16 @@
     "Available": "ရရှိနိုင်ပါသည်",
     "for rental duration": "ငှားရမ်းမှုကာလအတွက်",
     "Discount": "လျှော့ဈေး",
-    "days": "ရက်"
+    "days": "ရက်",
+    "Update Product": "ကုန်ပစ္စည်းကို အပ်ဒိတ်လုပ်ပါ",
+    "Add New Images": "ပုံအသစ်များ ထည့်ပါ",
+    "Current Product Images": "လက်ရှိကုန်ပစ္စည်းပုံများ",
+    "Set as Avatar": "အပွဲဓာတ်ပုံအဖြစ်သတ်မှတ်မည်",
+    "Do you want to set this image as the product avatar?": "ဤပုံကိုထုတ်ကုန်၏အပွဲဓာတ်ပုံအဖြစ်သတ်မှတ်လိုပါသလား?",
+    "Yes, set as avatar": "ဟုတ်သည်၊ အပွဲဓာတ်ပုံအဖြစ်သတ်မှတ်မည်",
+    "Avatar updated successfully": "အပွဲဓာတ်ပုံကိုအောင်မြင်စွာအသစ်ပြုလုပ်လိုက်သည်",
+    "Failed to update avatar": "အပွဲဓာတ်ပုံအသစ်ပြုလုပ်ရန်မအောင်မြင်ပါ",
+    "The image does not belong to this product": "ဤပုံသည်ဤထုတ်ကုန်နှင့်သက်ဆိုင်မှုမရှိပါ",
+    "Avatar has been updated successfully": "အပွဲဓာတ်ပုံအသစ်ပြုလုပ်ပြီးပါပြီ",
+    "Add New Product": "ကုန်ပစ္စည်းအသစ်ထည့်ပါ"
 }

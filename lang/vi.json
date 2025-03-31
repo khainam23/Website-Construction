@@ -1080,5 +1080,16 @@
     "Available": "Có sẵn",
     "for rental duration": "cho thời gian thuê",
     "Discount": "Giảm giá",
-    "days": "ngày"
+    "days": "ngày",
+    "Update Product": "Cập nhật sản phẩm",
+    "Add New Images": "Thêm hình ảnh mới",
+    "Current Product Images": "Hình ảnh sản phẩm hiện tại",
+    "Set as Avatar": "Đặt làm ảnh đại diện",
+    "Do you want to set this image as the product avatar?": "Bạn có muốn đặt ảnh này làm ảnh đại diện cho sản phẩm?",
+    "Yes, set as avatar": "Có, đặt làm ảnh đại diện",
+    "Avatar updated successfully": "Cập nhật ảnh đại diện thành công",
+    "Failed to update avatar": "Không thể cập nhật ảnh đại diện",
+    "The image does not belong to this product": "Ảnh này không thuộc về sản phẩm này",
+    "Avatar has been updated successfully": "Ảnh đại diện đã được cập nhật thành công",
+    "Add New Product": "Thêm sản phẩm mới"
 }

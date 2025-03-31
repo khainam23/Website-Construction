@@ -51,6 +51,13 @@ class AssetController extends Controller
             return response()->json(['success' => false, 'message' => 'Ảnh không tồn tại!'], 404);
         }
 
+        // Get product before deleting image
+        $productId = $image->product_id;
+        $product = Product::find($productId);
+        
+        // Check if the deleted image is the avatar
+        $isAvatar = ($product->avatar == $image->path);
+        
         // Delete physical file
         $imagePath = public_path($image->path);
         if (file_exists($imagePath)) {
@@ -59,6 +66,23 @@ class AssetController extends Controller
 
         // Delete database record
         $image->delete();
+        
+        // Count remaining images after deletion
+        $remainingImages = Image::where('product_id', $productId)->get();
+        
+        // If we deleted the avatar or if there's only one image left
+        if ($isAvatar || $remainingImages->count() == 1) {
+            if ($remainingImages->count() > 0) {
+                // Set the first remaining image as the avatar
+                $lastImage = $remainingImages->first();
+                $product->avatar = $lastImage->path;
+                $product->save();
+            } else {
+                // No images left, clear the avatar
+                $product->avatar = null;
+                $product->save();
+            }
+        }
 
         return response()->json(['success' => true, 'message' => 'Ảnh đã được xóa thành công!']);
     }
@@ -110,7 +134,42 @@ class AssetController extends Controller
                 'application' => 'nullable|string',
                 'price' => 'required|numeric|min:0',
                 'stock' => 'required|integer|min:0',
+                'delete_images' => 'nullable|array',
+                'delete_images.*' => 'exists:images,id',
             ]);
+
+            // Xử lý xóa hình ảnh (nếu có)
+            if ($request->has('delete_images') && !empty($request->delete_images)) {
+                foreach ($request->delete_images as $imageId) {
+                    $image = Image::find($imageId);
+                    
+                    if ($image && $image->product_id == $product->id) {
+                        // Check if the deleted image is the avatar
+                        $isAvatar = ($product->avatar == $image->path);
+                        
+                        // Delete physical file
+                        $imagePath = public_path($image->path);
+                        if (file_exists($imagePath)) {
+                            unlink($imagePath);
+                        }
+                        
+                        // Delete database record
+                        $image->delete();
+                        
+                        // If we deleted the avatar or if there's only one image left, update avatar
+                        if ($isAvatar || Image::where('product_id', $product->id)->count() == 1) {
+                            $remainingImage = Image::where('product_id', $product->id)->first();
+                            if ($remainingImage) {
+                                $product->avatar = $remainingImage->path;
+                                $product->save();
+                            } else {
+                                $product->avatar = null;
+                                $product->save();
+                            }
+                        }
+                    }
+                }
+            }
 
             // Cập nhật thông tin sản phẩm
             $product->update([
@@ -240,5 +299,43 @@ class AssetController extends Controller
 
         // Trả về JSON nếu gọi bằng AJAX
         return response()->json($products);
+    }
+
+    /**
+     * Set an image as the product avatar
+     */
+    public function setAvatar(Request $request)
+    {
+        try {
+            $request->validate([
+                'image_id' => 'required|exists:images,id',
+                'product_id' => 'required|exists:products,id'
+            ]);
+
+            $image = Image::findOrFail($request->image_id);
+            $product = Product::findOrFail($request->product_id);
+
+            // Verify the image belongs to this product
+            if ($image->product_id != $product->id) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'The image does not belong to this product'
+                ], 403);
+            }
+
+            // Set as avatar
+            $product->avatar = $image->path;
+            $product->save();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Avatar has been updated successfully'
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage()
+            ], 500);
+        }
     }
 }

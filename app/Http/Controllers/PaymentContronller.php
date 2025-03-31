@@ -331,7 +331,7 @@ class PaymentContronller extends Controller
                 'date' => now()->format('d/m/Y H:i:s')
             ], function ($message) use ($user, $order) {
                 $message->to($user->email)
-                    ->subject("Hóa đơn mua hàng #{$order->id} - BookStore");
+                    ->subject("Hóa đơn mua hàng #{$order->id} - BMQ");
             });
             
             Log::info("Invoice email sent successfully to: {$user->email}");

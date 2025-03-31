@@ -1,10 +1,10 @@
 @extends('admin.layouts.master')
 
-@section('title', __('Edit Product'))
+@section('title', __('Add New Product'))
 
 @section('content')
     <div class="container">
-        <h1>{{ __('Edit Product') }}</h1>
+        <h1>{{ __('Add New Product') }}</h1>
 
         <form id="createForm" enctype="multipart/form-data">
             @csrf

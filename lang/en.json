@@ -1024,5 +1024,16 @@
     "Available": "Available",
     "for rental duration": "for rental duration",
     "Discount": "Discount",
-    "days": "days"
+    "days": "days",
+    "Update Product": "Update Product",
+    "Add New Images":"Add New Images",
+    "Current Product Images":"Current Product Images",
+    "Set as Avatar": "Set as Avatar",
+    "Do you want to set this image as the product avatar?": "Do you want to set this image as the product avatar?",
+    "Yes, set as avatar": "Yes, set as avatar",
+    "Avatar updated successfully": "Avatar updated successfully",
+    "Failed to update avatar": "Failed to update avatar",
+    "The image does not belong to this product": "The image does not belong to this product",
+    "Avatar has been updated successfully": "Avatar has been updated successfully",
+    "Add New Product": "Add New Product"
 }
