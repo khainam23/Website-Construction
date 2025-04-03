@@ -10,13 +10,13 @@ class ContactController extends Controller
     public function add(Request $request)
     {
         $lastName = $request->lastname;
-        $number = $request->number;
+        $phone = $request->contact_number;
         $description = $request->description;
 
         $email = env('MAIL_USERNAME');
 
         // Gửi email tới thông báo
-        Mail::to($email)->send(new ContactMail($lastName, $number, $description));
+        Mail::to($email)->send(new ContactMail($lastName, $phone, $description));
 
         return response()->json(['status' => 'success']);
     }
