@@ -26,6 +26,20 @@
                 </select>
             </div>
 
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label for="type_product">{{ __('Type') }}</label>
+                        <select name="type_product" id="type_product" class="form-control">
+                            <option value="sale" selected>
+                                {{ __('Sale') }}</option>
+                            <option value="rental">
+                                {{ __('Rental') }}</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
             <div class="form-group">
                 <label for="description">{{ __('Description') }}</label>
                 <textarea style="min-height: 130px;" name="description" id="description" class="form-control"></textarea>

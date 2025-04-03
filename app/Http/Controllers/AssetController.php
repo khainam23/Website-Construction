@@ -13,11 +13,11 @@ class AssetController extends Controller
     {
         $products = Product::with(['category', 'productInventories'])->get();
         $categories = Category::all();
-        
+
         // Determine which view to render based on user role
         $role = session('user')['role'];
         $view = $role == 'sale' ? 'sale.products.index' : 'admin.products.index';
-        
+
         return view($view, compact('products', 'categories', 'page'));
     }
 
@@ -25,20 +25,20 @@ class AssetController extends Controller
     {
         $product = Product::with(['category', 'images', 'productInventories', 'productDescriptions'])
             ->where('id', $id)->first();
-        
+
         // Fill in product features from descriptions
         if ($product->productDescriptions) {
             $product->info = $product->productDescriptions->infomations;
             $product->features = $product->productDescriptions->features;
             $product->applications = $product->productDescriptions->applications;
         }
-        
+
         $categories = Category::all();
-        
+
         // Determine which view to render based on user role
         $role = session('user')['role'];
         $view = $role == 'sale' ? 'sale.products.edit' : 'admin.products.edit';
-        
+
         return view($view, compact('product', 'categories'));
     }
 
@@ -54,10 +54,10 @@ class AssetController extends Controller
         // Get product before deleting image
         $productId = $image->product_id;
         $product = Product::find($productId);
-        
+
         // Check if the deleted image is the avatar
         $isAvatar = ($product->avatar == $image->path);
-        
+
         // Delete physical file
         $imagePath = public_path($image->path);
         if (file_exists($imagePath)) {
@@ -66,10 +66,10 @@ class AssetController extends Controller
 
         // Delete database record
         $image->delete();
-        
+
         // Count remaining images after deletion
         $remainingImages = Image::where('product_id', $productId)->get();
-        
+
         // If we deleted the avatar or if there's only one image left
         if ($isAvatar || $remainingImages->count() == 1) {
             if ($remainingImages->count() > 0) {
@@ -129,6 +129,7 @@ class AssetController extends Controller
                 'name' => 'required|string|max:255',
                 'category_id' => 'required|exists:categories,id',
                 'description' => 'nullable|string',
+                'type_product' => 'nullable|string',
                 'info' => 'nullable|string',
                 'feature' => 'nullable|string',
                 'application' => 'nullable|string',
@@ -142,20 +143,20 @@ class AssetController extends Controller
             if ($request->has('delete_images') && !empty($request->delete_images)) {
                 foreach ($request->delete_images as $imageId) {
                     $image = Image::find($imageId);
-                    
+
                     if ($image && $image->product_id == $product->id) {
                         // Check if the deleted image is the avatar
                         $isAvatar = ($product->avatar == $image->path);
-                        
+
                         // Delete physical file
                         $imagePath = public_path($image->path);
                         if (file_exists($imagePath)) {
                             unlink($imagePath);
                         }
-                        
+
                         // Delete database record
                         $image->delete();
-                        
+
                         // If we deleted the avatar or if there's only one image left, update avatar
                         if ($isAvatar || Image::where('product_id', $product->id)->count() == 1) {
                             $remainingImage = Image::where('product_id', $product->id)->first();
@@ -182,7 +183,10 @@ class AssetController extends Controller
             // Cập nhật số lượng tồn kho
             $product->productInventories()->updateOrCreate(
                 ['product_id' => $product->id],
-                ['quantity' => $request->stock]
+                [
+                    'quantity' => $request->stock,
+                    'type' => $request->type_product
+                ]
             );
 
             // Cập nhật thông tin mô tả sản phẩm
@@ -240,6 +244,7 @@ class AssetController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'category_id' => 'required|exists:categories,id',
+            'type_product' => 'nullable|string',
             'description' => 'nullable|string',
             'info' => 'nullable|string',
             'feature' => 'nullable|string',
@@ -283,7 +288,8 @@ class AssetController extends Controller
 
         // Xử lý lưu trữ 
         $product->productInventories()->create([
-            'quantity' => $request->stock
+            'quantity' => $request->stock,
+            'type' => $request->type_product
         ]);
 
         return response()->json([

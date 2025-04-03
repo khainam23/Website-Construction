@@ -169,6 +169,18 @@
                     </div>
 
                     <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="type_product">{{ __('Type') }}</label>
+                                <select name="type_product" id="type_product" class="form-control">
+                                    <option value="sale" {{ $product->productInventories->type == 'sale' ? 'selected' : '' }}>{{ __('Sale') }}</option>
+                                    <option value="rental" {{ $product->productInventories->type == 'rental' ? 'selected' : '' }}>{{ __('Rental') }}</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="price">{{ __('Price') }}</label>
