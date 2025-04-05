@@ -178,6 +178,7 @@ class AssetController extends Controller
                 'category_id' => $request->category_id,
                 'description' => $request->description,
                 'price' => $request->price,
+                'type' => $request->type_product
             ]);
 
             // Cập nhật số lượng tồn kho
@@ -260,6 +261,7 @@ class AssetController extends Controller
         $product->category_id = $request->category_id;
         $product->description = $request->description;
         $product->price = $request->price;
+        $product->type = $request->type_product;
         $product->save();
 
         if ($request->hasFile('images')) {
